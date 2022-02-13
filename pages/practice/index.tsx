@@ -1,41 +1,31 @@
 import type {NextPage} from "next"
-import {useCallback, useEffect, useMemo, useState} from "react"
+import {useCallback} from "react"
+import {useDispatch, useSelector} from "react-redux"
+import {testStore} from "store"
+import {RootState} from "store/reducers"
 import styled from "styled-components"
-import { ColorButton } from "./components/ColorButton/ColorButton"
 
-const PracticeContainer = styled.div`
+const TestContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-export type Color = "blue" | "red" | "green"
+const Test: NextPage = () => {
+  const count = useSelector((state: RootState) => state.test.count);
+  const dispatch = useDispatch();
 
-const Practice: NextPage = () => {
-  const [selectedColor, setSelectedColor] = useState<Color>("red")
-  const [changeCount, setChangeCount] = useState(0)
-
-  const onClickColorButton = useCallback((color: Color) => {
-    setSelectedColor(color)
-  },[])
-
-  useEffect(()=>{
-    setChangeCount(prev => prev + 1)
-  },[selectedColor])
-
-  const selectedColorLength = useMemo(()=>{
-    return selectedColor.length
-  },[selectedColor.length])
+  const handleButtonClick = useCallback(()=>{
+    dispatch(testStore.return__REPLACE({
+      replacement: count +1,
+      path: ["count"]
+    }));
+  },[dispatch, count])
 
   return (
-    <PracticeContainer>
-      <div>{`my favorite color is ${selectedColor}`}</div>
-      <div>{`change count: ${changeCount}`}</div>
-      <div>{`length of color text: ${selectedColorLength}`}</div>
-      {(["blue", "red", "green"] as Color[]).map(color => (
-        <ColorButton key={`color-button-${color}`} color={color} isSelected={selectedColor === color} onClick={onClickColorButton} />
-      ))}
-    </PracticeContainer>   
+    <TestContainer>
+      <button onClick={handleButtonClick}>{count}</button>
+    </TestContainer>   
   )
 }
 
-export default Practice
+export default Test
