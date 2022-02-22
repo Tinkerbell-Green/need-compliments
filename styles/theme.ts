@@ -10,18 +10,18 @@ const defaultTheme = {
 }
 
 export const themes = {
-  light: {
+  dark: {
     ...defaultTheme,
-    name: "light",
+    name: "dark",
     colors: {
       ...palette,
-      primary: palette["primary-500"],
-      text: palette["gray-900"],
-      textHint: palette["gray-700"],
-      textDisabled: palette["gray-400"],
-      textAlternative: palette["white"],
+      text: palette["white"],
+      textHint: palette["gray-400"],
+      textDisabled: palette["gray-600"],
+      textAlternative: palette["black"],
+      icon: palette["white"],
     },
   },
 }
 
-export type Theme = typeof themes.light
+export type Theme = typeof themes.dark
