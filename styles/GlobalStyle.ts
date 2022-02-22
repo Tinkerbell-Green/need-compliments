@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    color: #ffffff;
   }
 
   html {
@@ -18,5 +19,12 @@ export const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  button {
+    outline: none;
+    border: none;
+    background: none;
+    box-shadow: none;
   }
 `
