@@ -8,7 +8,7 @@ import {themes} from "styles/theme";
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <ReduxProvider store={store}>
-      <ThemeProvider theme={themes.light}>
+      <ThemeProvider theme={themes.dark}>
         <GlobalStyle/>
         <Component {...pageProps} />
       </ThemeProvider>
