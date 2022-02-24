@@ -79,7 +79,7 @@ export const Calender = () => {
         </S.Dates>
         <S.Days>
           {monthDays.map((v,i)=>{
-            if(v===NOT_THIS_MONTH) return <div></div>;
+            if(v===NOT_THIS_MONTH) return <div key={i}></div>;
             
             const curDay= v + viewDate.format("MMYYYY");
             return <Day key={i} day={curDay} isToday={curDay===TODAY.format("DDMMYYYY")}></Day>
