@@ -9,8 +9,13 @@ type DayProps = {
 export const Day = ({day,isToday}:DayProps) => {
   const [stickers,setStickers] = useState(["👾","🔑"]);
 
+  const handleDayClick = () => {
+    console.log(`clicked ${day}!`);
+  }
+
+
   return <>
-    <S.Day>
+    <S.Day onClick={handleDayClick}>
       <S.Today className={isToday ? "todayCircle" : ""}>
         <S.DayNumber>{day.slice(0,2)}</S.DayNumber>
       </S.Today>

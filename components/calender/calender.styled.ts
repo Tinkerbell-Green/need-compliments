@@ -54,6 +54,7 @@ export const Days = styled.ul`
 
 export const Day = styled.li`
   margin-bottom: 14px;
+  cursor: pointer;
 `
 
 export const Today = styled.div`
