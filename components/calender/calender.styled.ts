@@ -6,8 +6,10 @@ const EMOJI_SIZE=28;
 const DATE_SIZE=24;
 
 export const Container = styled.div`
-  height: 100%;
+  height: 100vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Header = styled.div`
@@ -35,9 +37,8 @@ export const Main = styled.main`
 export const Dates = styled.ul`
   width: 100%;
   flex-basis: 10%;
-	display: flex;
-	flex-direction: row;
-  align-items: center;
+	display: grid;
+  grid-template-columns: repeat(7,1fr);
 `;
 
 export const Date = styled.li`
@@ -47,39 +48,28 @@ export const Date = styled.li`
 
 export const Days = styled.ul`
   flex-basis: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-export const Week = styled.ul`
-  width: 100%;
-  display: flex;
-	flex-direction: row;
-  margin: 5px 0;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
 `;
 
 export const Day = styled.li`
-  flex-basis: ${DAY_WIDTH}%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  margin-bottom: 14px;
 `
 
 export const Today = styled.div`
-  text-align: center;
   height: ${TODAY_CIRCLE}rem;
   line-height: ${TODAY_CIRCLE}rem;
   
   &.highlight{
-  border-radius: 50%;
-  border: 1px solid;
-  width: ${TODAY_CIRCLE}rem;
-  }
+    justify-content: center;
+    position: sticky;
+    border-radius: 50%;
+    border: 1px solid;
+    width: ${TODAY_CIRCLE}rem;
+    }
 `;
-export const DayNumber = styled.div`
-  
-`;
+export const DayNumber = styled.div``;
+
 export const DayEmoji = styled.div`
   font-size: ${EMOJI_SIZE}px;
 `;
