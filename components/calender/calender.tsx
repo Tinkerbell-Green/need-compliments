@@ -72,19 +72,19 @@ export const Calender = () => {
         </S.Buttons>
       </S.Header>
       <S.Main>
-        <S.Dates>
-          {DATES.map((date,i) => (
-            <S.Date key={i}><span>{date}</span></S.Date>
-          ))}
-        </S.Dates>
         <S.Days>
+          {DATES.map((date,i) => (
+            <S.Day key={i}><span>{date}</span></S.Day>
+          ))}
+        </S.Days>
+        <S.Dates>
           {monthDays.map((v,i)=>{
             if(v===NOT_THIS_MONTH) return <div key={i}></div>;
             
             const curDay= v + viewDate.format("MMYYYY");
             return <Day key={i} day={curDay} isToday={curDay===TODAY.format("DDMMYYYY")}></Day>
           })}
-        </S.Days>
+        </S.Dates>
       </S.Main>
     </S.Container>
   )

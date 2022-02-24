@@ -34,25 +34,25 @@ export const Main = styled.main`
   padding: 10px;
 `;
 
-export const Dates = styled.ul`
+export const Days = styled.ul`
   width: 100%;
   flex-basis: 10%;
 	display: grid;
   grid-template-columns: repeat(7,1fr);
 `;
 
-export const Date = styled.li`
+export const Day = styled.li`
   flex-basis: ${DAY_WIDTH}%;
   font-size: ${DATE_SIZE}px;
 `;
 
-export const Days = styled.ul`
+export const Dates = styled.ul`
   flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
 `;
 
-export const Day = styled.li`
+export const Date = styled.li`
   margin-bottom: 14px;
   cursor: pointer;
 `
@@ -69,8 +69,8 @@ export const Today = styled.div`
     width: ${TODAY_CIRCLE}rem;
     }
 `;
-export const DayNumber = styled.div``;
+export const DateNumber = styled.div``;
 
-export const DayEmoji = styled.div`
+export const DateEmoji = styled.div`
   font-size: ${EMOJI_SIZE}px;
 `;

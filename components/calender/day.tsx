@@ -15,11 +15,11 @@ export const Day = ({day,isToday}:DayProps) => {
 
 
   return <>
-    <S.Day onClick={handleDayClick}>
+    <S.Date onClick={handleDayClick}>
       <S.Today className={isToday ? "todayCircle" : ""}>
-        <S.DayNumber>{day.slice(0,2)}</S.DayNumber>
+        <S.DateNumber>{day.slice(0,2)}</S.DateNumber>
       </S.Today>
-      <S.DayEmoji>{stickers.join("")}</S.DayEmoji>
-    </S.Day>
+      <S.DateEmoji>{stickers.join("")}</S.DateEmoji>
+    </S.Date>
   </>
 }
