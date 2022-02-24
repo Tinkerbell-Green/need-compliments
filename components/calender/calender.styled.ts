@@ -60,7 +60,7 @@ export const Today = styled.div`
   height: ${TODAY_CIRCLE}rem;
   line-height: ${TODAY_CIRCLE}rem;
   
-  &.highlight{
+  &.todayCircle{
     justify-content: center;
     position: sticky;
     border-radius: 50%;
