@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 const TODAY_CIRCLE = 1.8;
-const DAY_WIDTH = 100/7;
 const EMOJI_SIZE=28;
-const DATE_SIZE=24;
+const DATE_FONT=24;
 
 export const Container = styled.div`
   height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  color:black;
 `;
 
 export const Header = styled.div`
@@ -52,8 +52,7 @@ export const Days = styled.ul`
 `;
 
 export const Day = styled.li`
-  flex-basis: ${DAY_WIDTH}%;
-  font-size: ${DATE_SIZE}px;
+  font-size: ${DATE_FONT}px;
 `;
 
 export const Dates = styled.ul`
