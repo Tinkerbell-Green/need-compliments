@@ -21,10 +21,20 @@ export const Header = styled.div`
 	justify-content: space-between;
 `;
 
+export const Title = styled.div`
+
+`;
+
+
 export const Buttons = styled.div`
 	display: flex;
 	flex-direction: row;
 `;
+
+export const Button = styled.button`
+  cursor: pointer;
+  padding: 0 15px;
+`
 
 export const Main = styled.main`
   display: flex;

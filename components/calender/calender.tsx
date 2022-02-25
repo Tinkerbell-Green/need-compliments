@@ -6,13 +6,14 @@ import React,{useCallback, useEffect, useState} from "react"
 import * as S from "./calender.styled";
 import "dayjs/locale/ko";
 import {Day} from "./day";
+import {Header} from "./header";
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 dayjs.locale("ko");
 
 type DAY = dayjs.Dayjs;
-type MOVE = "+"|"-";
+export type MOVE = "+"|"-";
 
 const DATES:string[] = ["S","M","T","W","T","F","S"];
 const DAYJS:DAY = dayjs();
@@ -71,18 +72,14 @@ export const Calender = () => {
   return (
     <S.Container>
       <S.Header>
-        <div>
-          <div>{`${viewDate.format("YYYY/MM")}`}</div>
-        </div>
-        <S.Buttons>
-          <button onClick={()=>onMovetMonth("-")}>{"<"}</button>
-          <button onClick={()=>onMovetMonth("+")}>{">"}</button>
-        </S.Buttons>
+        <Header title={`${viewDate.format("YYYY/MM")}`} handleClick={onMovetMonth}></Header>
       </S.Header>
       <S.Main>
         <S.Days>
           {DATES.map((date,i) => (
-            <S.Day key={i}><span>{date}</span></S.Day>
+            <S.Day key={i}>
+              <span>{date}</span>
+            </S.Day>
           ))}
         </S.Days>
         <S.Dates>
