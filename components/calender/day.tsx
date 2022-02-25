@@ -1,23 +1,19 @@
-import React, {useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import * as S from "./calender.styled";
 
 type DayProps = {
-  day:string,
+  date:string,
   isToday:boolean
+  handleClick: (x:string)=>void,
 }
 
-export const Day = ({day,isToday}:DayProps) => {
+export const Day = ({date,isToday,handleClick}:DayProps) => {
   const [stickers,setStickers] = useState(["👾","🔑"]);
 
-  const handleDayClick = () => {
-    console.log(`clicked ${day}!`);
-  }
-
-
   return <>
-    <S.Date onClick={handleDayClick}>
+    <S.Date onClick={()=>handleClick(date)}>
       <S.Today className={isToday ? "todayCircle" : ""}>
-        <S.DateNumber>{day.slice(0,2)}</S.DateNumber>
+        <S.DateNumber>{date.slice(0,2)}</S.DateNumber>
       </S.Today>
       <S.DateEmoji>{stickers.join("")}</S.DateEmoji>
     </S.Date>

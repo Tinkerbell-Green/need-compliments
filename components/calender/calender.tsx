@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import weekOfYear from "dayjs/plugin/weekOfYear";
+import {useRouter} from "next/router";
 import React,{useCallback, useEffect, useState} from "react"
 import * as S from "./calender.styled";
 import "dayjs/locale/ko";
@@ -14,13 +15,20 @@ type DAY = dayjs.Dayjs;
 type MOVE = "+"|"-";
 
 const DATES:string[] = ["S","M","T","W","T","F","S"];
-const TODAY:DAY = dayjs();
+const DAYJS:DAY = dayjs();
 const MONTH = "month";
 const NOT_THIS_MONTH = "XX";
 
 export const Calender = () => {  
-  const [viewDate, setViewDate] = useState(TODAY);
+  const [viewDate, setViewDate] = useState(DAYJS);
   const [monthDays,setMonthDays] = useState([""]);
+  const [today, setToday] = useState(DAYJS.format("DDMMYYYY"));
+  const router = useRouter();
+
+  const handleClickDate = useCallback((date:string)=>{
+    router.push(`/?date=${date}`);
+  },[router]);
+
 
   const onMovetMonth = useCallback((move:MOVE) => {
     switch(move){
@@ -82,7 +90,7 @@ export const Calender = () => {
             if(v===NOT_THIS_MONTH) return <div key={i}></div>;
             
             const curDay= v + viewDate.format("MMYYYY");
-            return <Day key={i} day={curDay} isToday={curDay===TODAY.format("DDMMYYYY")}></Day>
+            return <Day key={i} date={curDay} isToday={curDay===today} handleClick={handleClickDate}></Day>
           })}
         </S.Dates>
       </S.Main>
