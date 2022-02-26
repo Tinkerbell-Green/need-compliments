@@ -2,7 +2,7 @@ import type {NextPage} from "next";
 import {Calender} from "components/calender"
 
 const Home: NextPage = () => {
-  return (<>
+  return (<>{/* TODO: add layout-main */}
     <div>Home</div>
     <Calender></Calender>
   </>

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-const TODAY_CIRCLE = 1.8;
+const TODAY_CIRCLE_SIZE = 1.8;
 const EMOJI_SIZE=28;
-const DATE_FONT=24;
+const DATE_FONT_SIZE=1.5;
 
 export const Container = styled.div`
   height: 100vh;
@@ -21,9 +21,7 @@ export const Header = styled.div`
 	justify-content: space-between;
 `;
 
-export const Title = styled.div`
-
-`;
+export const Title = styled.div``;
 
 
 export const Buttons = styled.div`
@@ -52,7 +50,7 @@ export const Days = styled.ul`
 `;
 
 export const Day = styled.li`
-  font-size: ${DATE_FONT}px;
+  font-size: ${DATE_FONT_SIZE}rem;
 `;
 
 export const Dates = styled.ul`
@@ -67,15 +65,15 @@ export const Date = styled.li`
 `
 
 export const Today = styled.div`
-  height: ${TODAY_CIRCLE}rem;
-  line-height: ${TODAY_CIRCLE}rem;
+  height: ${TODAY_CIRCLE_SIZE}rem;
+  line-height: ${TODAY_CIRCLE_SIZE}rem;
   
-  &.todayCircle{
+  &.todayHighligh{
     justify-content: center;
     position: sticky;
     border-radius: 50%;
     border: 1px solid;
-    width: ${TODAY_CIRCLE}rem;
+    width: ${TODAY_CIRCLE_SIZE}rem;
     }
 `;
 export const DateNumber = styled.div``;
