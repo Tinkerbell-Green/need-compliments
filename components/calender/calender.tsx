@@ -41,8 +41,7 @@ export const Calender = () => {
   useEffect(() => {
     const monthDays: string[] = [];
     const startWeek = dayjs.getStartWeek(viewDate);
-    const endWeek =
-			dayjs.getEndWeek(viewDate) === 1 ? 53 : dayjs.getEndWeek(viewDate);
+    const endWeek = dayjs.getEndWeek(viewDate) === 1 ? 53 : dayjs.getEndWeek(viewDate);
     let isThisMonth = false;
 
     for (let week = startWeek; week <= endWeek; week++) {
