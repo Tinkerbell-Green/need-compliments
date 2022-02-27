@@ -3,13 +3,14 @@ import styled from "styled-components";
 const TODAY_CIRCLE_SIZE = 1.8;
 const EMOJI_SIZE=28;
 const DATE_FONT_SIZE=1.5;
+const TITLE_FONT_SIZE=1;
 
 export const Container = styled.div`
   height: 100vh;
   width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
-  color:black;
 `;
 
 export const Header = styled.div`
@@ -21,7 +22,9 @@ export const Header = styled.div`
 	justify-content: space-between;
 `;
 
-export const Title = styled.div``;
+export const Title = styled.div`
+  font-size: ${TITLE_FONT_SIZE}rem;
+`;
 
 
 export const Buttons = styled.div`
