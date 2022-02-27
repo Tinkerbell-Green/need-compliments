@@ -1,10 +1,9 @@
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
-import Dayjs from "../../utils/dayjs";
+import {Dayjs} from "../../utils/dayjs";
 import * as S from "./calender.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
-const dayjs = new Dayjs();
 
 export type Direction = "next" | "previous";
 
@@ -26,27 +25,35 @@ export const Calender = () => {
   const handleMonthMove = useCallback(
     (direction: Direction) => {
       if (direction === "next") {
-        setViewDate(dayjs.moveToNextMonth(viewDate));
-        return;
+        setViewDate(Dayjs(viewDate).add(1, "month").toDate());
+      } else if (direction === "previous") {
+        setViewDate(Dayjs(viewDate).subtract(1, "month").toDate());
+      } else {
+        console.log(`invalid direction for month: ${direction}`);
       }
-      if (direction === "previous") {
-        setViewDate(dayjs.moveToPreviousMonth(viewDate));
-        return;
-      }
-      console.log(`invalid direction for month: ${direction}`);
     },
     [viewDate]
   );
 
   useEffect(() => {
     const monthDays: string[] = [];
-    const startWeek = dayjs.getStartWeek(viewDate);
-    const endWeek = dayjs.getEndWeek(viewDate) === 1 ? 53 : dayjs.getEndWeek(viewDate);
+    const startWeek = Dayjs(viewDate).startOf("month").week();
+    const endWeek =
+			Dayjs(viewDate).endOf("month").week() === 1
+			  ? 53
+			  : Dayjs(viewDate).endOf("month").week();
     let isThisMonth = false;
 
     for (let week = startWeek; week <= endWeek; week++) {
       for (let i = 0; i < 7; i++) {
-        const curDay = dayjs.format(dayjs.getDate(viewDate, week, i), "DD");
+        const curDay =
+					Dayjs(viewDate).format("MM") !== "12"
+					  ? Dayjs(viewDate).startOf("week").week(week).day(i).format("DD")
+					  : Dayjs(viewDate)
+					    .startOf("week")
+					    .week(week - 52)
+					    .day(i)
+					    .format("DD");
 
         if (curDay === "01") {
           if (isThisMonth) isThisMonth = false;
@@ -67,7 +74,7 @@ export const Calender = () => {
     <S.Container>
       <S.Header>
         <Header
-          title={dayjs.format(viewDate, "YYYY/MM")}
+          title={Dayjs(viewDate).format("YYYY/MM")}
           onClick={handleMonthMove}
         ></Header>
       </S.Header>
@@ -85,13 +92,13 @@ export const Calender = () => {
               return <div key={index}></div>;
             }
 
-            const curDay = dayjs.format(viewDate, `${value}MMYYYY`);
+            const curDay = Dayjs(viewDate).format(`${value}MMYYYY`);
 
             return (
               <DateComponent
                 key={index}
                 date={curDay}
-                isToday={curDay === dayjs.format(new Date(), "DDMMYYYY")}
+                isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
                 onClick={handleDateClick}
               ></DateComponent>
             );
