@@ -1,11 +1,14 @@
-import type {NextPage} from "next";
+import type { NextPage } from "next";
+import { Modal } from "components/modal";
 
 const Home: NextPage = () => {
   return (
-    <div>
-      Home
-    </div>
-  )
-}
+    // <div>
+    //   Home
+    // </div>
 
-export default Home
+    <Modal></Modal>
+  );
+};
+
+export default Home;
