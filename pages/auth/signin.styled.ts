@@ -24,6 +24,7 @@ export const LogoBtn = styled.button`
     min-width: 300px;
     max-height: 80px;
     border-radius: 5px;
+    margin-bottom: 0.8rem;
     cursor: pointer;
 
     > span{
@@ -32,14 +33,22 @@ export const LogoBtn = styled.button`
 `
 
 export const NaverBtn = styled(LogoBtn)`
-    background: #1BC74A;
+    background: #1BC64A;
 `
+
 export const KakaoBtn = styled(LogoBtn)`
-    background: #1BC74A;
+    background: #F9DE38;
+    
+    > span{
+        color: #3B1C1D;
+    }
 `
-export const GoogleBtn = styled(LogoBtn)`
-    background: #1BC74A;
-`
+
 export const AppleBtn = styled(LogoBtn)`
-    background: #1BC74A;
+    background: #000000;
+    border: 1px solid darkgray;
+`
+
+export const FacebookBtn = styled(LogoBtn)`
+    background: #197BED;
 `

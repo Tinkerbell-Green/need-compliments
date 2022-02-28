@@ -1,5 +1,8 @@
 import {InferGetServerSidePropsType} from "next";
 import {getProviders, signIn} from "next-auth/react";
+import appleLogo from "../../public/icons/apple-logo.jpg";
+import facebookLogo from "../../public/icons/facebook-logo.png";
+import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
 import * as S from "./signin.styled";
 
@@ -10,21 +13,36 @@ export default function SignIn({
     <S.Container>
       {providers
         ? Object.values(providers).map((provider) => {
-          if (provider.name === "Naver") {
+          if (provider.name === "Kakao") {
+            return (
+              <S.KakaoBtn key={provider.name} onClick={() => signIn(provider.id)}>
+                <S.StyledImage width={50} height={50} quality={100} src={kakaoLogo}></S.StyledImage>
+                <span>카카오톡으로 계속하기</span>
+              </S.KakaoBtn>
+            );
+          } else if (provider.name === "Naver") {
             return (
               <S.NaverBtn key={provider.name} onClick={() => signIn(provider.id)}>
                 <S.StyledImage width={50} height={50} quality={100} src={naverLogo}></S.StyledImage>
                 <span>네이버로 계속하기</span>
               </S.NaverBtn>
             );
-          } else if (provider.name === "Kakao") {
+          } else if (provider.name === "Apple") {
             return (
-              <div key={provider.name}>
-                <button onClick={() => signIn(provider.id)}>
-                    카카오톡으로 계속하기
-                </button>
-              </div>
+              <S.AppleBtn key={provider.name} onClick={() => signIn(provider.id)}>
+                <S.StyledImage width={50} height={50} quality={100} src={appleLogo}></S.StyledImage>
+                <span>Apple로 계속하기</span>
+              </S.AppleBtn>
             );
+          }else if (provider.name === "Facebook") {
+            return (
+              <S.FacebookBtn key={provider.name} onClick={() => signIn(provider.id)}>
+                <S.StyledImage width={50} height={50} quality={100} src={facebookLogo}></S.StyledImage>
+                <span>페이스북으로 계속하기</span>
+              </S.FacebookBtn>
+            );
+          } else{
+            throw new Error(`${provider.name}는 간편로그인 할 수 없는 provider입니다.`);
           }
         })
         : ""}
