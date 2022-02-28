@@ -1,22 +1,13 @@
-import type { NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import type {NextPage} from "next";
+import {signIn} from "next-auth/react";
+import {NextAuth} from "components/next-auth/";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user?.name} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
-  );
+  // 로그인하는 페이지 보여주기
+  // "/auth/signin"로 이동
+  signIn();
+
+  return <></>;
 };
 
 export default Home;
