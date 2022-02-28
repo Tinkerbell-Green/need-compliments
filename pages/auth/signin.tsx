@@ -1,5 +1,7 @@
 import {InferGetServerSidePropsType} from "next";
-import {getProviders, signIn} from "next-auth/react";
+import {getProviders, signIn, useSession} from "next-auth/react";
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 import appleLogo from "../../public/icons/apple-logo.jpg";
 import facebookLogo from "../../public/icons/facebook-logo.png";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
@@ -9,6 +11,15 @@ import * as S from "./signin.styled";
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const {data:session} = useSession();
+  const router = useRouter();
+
+  useEffect(()=>{
+    if(session){
+      router.push("/");
+    }
+  }, [session, router]);
+
   return (
     <S.Container>
       {providers
