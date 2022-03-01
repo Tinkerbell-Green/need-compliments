@@ -85,6 +85,13 @@ export type DeleteDocumentReturn = Promise<void>
 export type GetDocumentReturn<DocumentType> = Promise<DocumentSnapshot<DocumentType>>
 export type GetDocumentsReturn<DocumentType> = Promise<QuerySnapshot<DocumentType>>
 
+export type CreateDocumentData<DocumentType> = Awaited<CreateDocumentReturn<DocumentType>>
+export type UpdateDocumentData = Awaited<UpdateDocumentReturn>
+export type SetDocumentData = Awaited<SetDocumentReturn>
+export type DeleteDocumentData = Awaited<DeleteDocumentReturn>
+export type GetDocumentData<DocumentType> = Awaited<GetDocumentReturn<DocumentType>>
+export type GetDocumentsData<DocumentType> = Awaited<GetDocumentsReturn<DocumentType>>
+
 export type CreateDocumentArguments<DocumentType> = {
   path: string
   data: WithFieldValue<DocumentType>
