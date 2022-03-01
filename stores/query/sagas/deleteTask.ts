@@ -2,7 +2,7 @@
 import {call, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
-import {database} from "utils/firebase";
+import {repository} from "utils/firebase";
 import {DeleteDocumentReturn} from "utils/firebase";
 
 export function* deleteTask(action: actions.DELETE_TASK_Instance) {
@@ -17,7 +17,7 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
 
   try {
     const response: DeleteDocumentReturn = yield call(
-      database.deleteDocument,
+      repository.deleteDocument,
       {
         path: "tasks",
         pathSegments: payload.pathSegments

@@ -2,7 +2,7 @@
 import {call, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
-import {database} from "utils/firebase";
+import {repository} from "utils/firebase";
 import {CreateDocumentReturn} from "utils/firebase";
 
 export function* createTask(action: actions.CREATE_TASK_Instance) {
@@ -17,7 +17,7 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
 
   try {
     const response: CreateDocumentReturn<TaskData> = yield call(
-      database.createDocument,
+      repository.createDocument,
       {
         path: "tasks",
         data: payload.data

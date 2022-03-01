@@ -1,19 +1,16 @@
 // ref about general usage in 한글
-// https://kyounghwan01.github.io/blog/etc/firebase/#firestore-database-crud
+// https://kyounghwan01.github.io/blog/etc/firebase/#firestore-firestore-crud
 
 // ref about using TS with firestore
 // https://medium.com/swlh/using-firestore-with-typescript-65bd2a602945
+import {QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
+import {firestore} from "../firebase";
 
-import {FirebaseApp} from "@firebase/app";
-import {getFirestore, QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
-export class Database {
-  db: Firestore
-  
-  constructor(app?: FirebaseApp | undefined){
-    console.log("app: ", app); // TODO: remove
-    console.log("yo", this); // TODO: remove
-    
-    this.db = getFirestore(app)
+export class Repository {
+  firestore: Firestore
+
+  constructor(fireStore: Firestore){
+    this.firestore = fireStore
   }
 
   async createDocument<DocumentType>({
@@ -21,7 +18,7 @@ export class Database {
     data,
   }: CreateDocumentArguments<DocumentType>) {
     return await addDoc<DocumentType>(
-      collection(this.db, path) as CollectionReference<DocumentType>, 
+      collection(this.firestore, path) as CollectionReference<DocumentType>, 
       data, 
     );
   }
@@ -32,7 +29,7 @@ export class Database {
     data,
   }: UpdateDocumentArguments<DocumentType>) {
     return await updateDoc<DocumentType>(
-      doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>, 
+      doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data
     );
   }
@@ -44,7 +41,7 @@ export class Database {
     options,
   }: SetDocumentArguments<DocumentType>) {
     return await setDoc<DocumentType>(
-      doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>, 
+      doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data, 
       {merge: true, ...options}
     );
@@ -55,7 +52,7 @@ export class Database {
     pathSegments,
   }: DeleteDocumentArguments){
     return await deleteDoc(
-      doc(this.db, path, ...pathSegments)
+      doc(this.firestore, path, ...pathSegments)
     );
   }
 
@@ -64,7 +61,7 @@ export class Database {
     pathSegments,
   }: GetDocumentArguments){
     return await getDoc<DocumentType>(
-      doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>
+      doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>
     );
   }
 
@@ -72,12 +69,14 @@ export class Database {
     path,
     queryConstraints
   }: GetDocumentsArguments){
-    const columnRef = collection(this.db, path) as CollectionReference<DocumentType>
+    const columnRef = collection(this.firestore, path) as CollectionReference<DocumentType>
     const queryInstance = query(columnRef, ...queryConstraints)
 
     return await getDocs<DocumentType>(queryInstance)
   }
 }
+
+export const repository = new Repository(firestore)
 
 export type CreateDocumentReturn<DocumentType> = Promise<DocumentReference<DocumentType>>
 export type UpdateDocumentReturn = Promise<void>

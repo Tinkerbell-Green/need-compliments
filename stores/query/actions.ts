@@ -1,5 +1,5 @@
-import {CreateDocumentArguments, DeleteDocumentArguments} from "./../../utils/firebase/database/index";
 import {QueryName, QueryStatus, TaskData} from "./types";
+import {CreateDocumentArguments, DeleteDocumentArguments} from "utils/firebase";
 
 export const REPLACE = "query/REPLACE";
 type REPLACE_Payload = {
