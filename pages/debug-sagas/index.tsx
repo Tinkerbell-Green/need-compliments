@@ -1,6 +1,7 @@
 import type {NextPage} from "next"
-import React, {useCallback} from "react"
+import React, {useCallback, useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
+import {LayoutNavigation} from "components/layout-navigation/layout-navigation.styled";
 import {queryStore} from "stores";
 import {RootState} from "stores/reducers";
 
@@ -16,19 +17,22 @@ const DebugSagasPage: NextPage = () => {
     }))
   },[dispatch])
 
+  useEffect(()=>{
+    console.log("createTaskState: ", createTaskState); // TODO: remove 
+  },[createTaskState])
+
   const handleDelete = useCallback(()=>{
-    if (!createTaskState.response.)
-    dispatch(queryStore.return__DELETE_TASK({
-      pathSegments: []
-    }))
+    // dispatch(queryStore.return__DELETE_TASK({
+    //   pathSegments: []
+    // }))
   },[])
   
   return (
-    <div>
+    <LayoutNavigation>
       DebugSagas
       <button onClick={handleCreate}>create task</button>
-
-    </div>   
+      <button onClick={handleDelete}>delete task</button>
+    </LayoutNavigation>   
   )
 }
 

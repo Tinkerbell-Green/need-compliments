@@ -2,15 +2,15 @@ import {produce} from "immer";
 import {handleActions} from "redux-actions";
 import * as actions from "./actions";
 import {QueryName, QueryState, QueryStatus, TaskData} from "./types";
-import {CreateDocumentReturn, DeleteDocumentReturn} from "utils/firebase";
+import {CreateDocumentData, DeleteDocumentData} from "utils/firebase";
 import {putValueInNestedObject} from "utils/others/putValueInNestedObject";
 
 export type State = Record<QueryName, QueryState> & { // TODO: not sure so it needs check
   [QueryName.CREATE_TASK]: QueryState & {
-    response: CreateDocumentReturn<TaskData> | undefined
+    response: CreateDocumentData<TaskData> | undefined
   },
   [QueryName.DELETE_TASK]: QueryState & {
-    response: DeleteDocumentReturn | undefined
+    response: DeleteDocumentData | undefined
   }
 }
 
