@@ -10,6 +10,7 @@
     "ts-check": "tsc --project ./tsconfig.json"
   },
   "dependencies": {
+    "@styled-icons/entypo": "^10.34.0",
     "babel-plugin-styled-components": "^2.0.2",
     "dayjs": "^1.10.7",
     "immer": "^9.0.12",
