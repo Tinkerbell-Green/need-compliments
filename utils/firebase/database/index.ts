@@ -4,13 +4,41 @@
 // ref about using TS with firestore
 // https://medium.com/swlh/using-firestore-with-typescript-65bd2a602945
 
-import {getFirestore, QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference} from "firebase/firestore"
+import {getFirestore, QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc} from "firebase/firestore"
 
 export class Database {
   private db: Firestore
   
   constructor(){
     this.db = getFirestore()
+  }
+
+  async addDocument<DocumentType>({
+    path,
+    data,
+  }: {
+    path: string
+    data: DocumentType
+  }) {
+    return await addDoc(
+      collection(this.db, path), 
+      data, 
+    );
+  }
+
+  async updateDocument<DocumentType>({
+    path,
+    pathSegments,
+    data,
+  }: {
+    path: string
+    pathSegments:string[]
+    data: DocumentType
+  }) {
+    return await updateDoc(
+      doc(this.db, path, ...pathSegments), 
+      data
+    );
   }
 
   async setDocument<DocumentType>({
