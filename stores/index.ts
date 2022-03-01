@@ -21,3 +21,5 @@ export const makeStore = (context: Context) => {
 };
 
 export const wrapper = createWrapper<Store<RootState>>(makeStore, {debug: true})
+
+export * as queryStore from "./query"

@@ -49,5 +49,5 @@ export enum QueryName {
 
 export type QueryState = {
   status: QueryStatus
-  response: any
+  response: unknown
 }
