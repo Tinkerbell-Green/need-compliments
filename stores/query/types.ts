@@ -34,3 +34,5 @@ export type User = {
   followings: string[]
   createdAt: string
 }
+
+// types
