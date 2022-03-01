@@ -4,7 +4,7 @@
 // ref about using TS with firestore
 // https://medium.com/swlh/using-firestore-with-typescript-65bd2a602945
 
-import {getFirestore, QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc} from "firebase/firestore"
+import {getFirestore, QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
 
 export class Database {
   private db: Firestore
@@ -16,12 +16,9 @@ export class Database {
   async addDocument<DocumentType>({
     path,
     data,
-  }: {
-    path: string
-    data: DocumentType
-  }) {
-    return await addDoc(
-      collection(this.db, path), 
+  }: AddDocumentArguments<DocumentType>) {
+    return await addDoc<DocumentType>(
+      collection(this.db, path) as CollectionReference<DocumentType>, 
       data, 
     );
   }
@@ -30,13 +27,9 @@ export class Database {
     path,
     pathSegments,
     data,
-  }: {
-    path: string
-    pathSegments:string[]
-    data: DocumentType
-  }) {
-    return await updateDoc(
-      doc(this.db, path, ...pathSegments), 
+  }: UpdateDocumentArguments<DocumentType>) {
+    return await updateDoc<DocumentType>(
+      doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data
     );
   }
@@ -46,14 +39,9 @@ export class Database {
     pathSegments,
     data,
     options,
-  }: {
-    path: string
-    pathSegments:string[]
-    data: DocumentType
-    options?: SetOptions
-  }) {
-    return await setDoc(
-      doc(this.db, path, ...pathSegments), 
+  }: SetDocumentArguments<DocumentType>) {
+    return await setDoc<DocumentType>(
+      doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data, 
       {merge: true, ...options}
     );
@@ -62,10 +50,7 @@ export class Database {
   async deleteDocument({
     path,
     pathSegments,
-  }: {
-    path: string
-    pathSegments:string[]
-  }){
+  }: DeleteDocumentArguments){
     return await deleteDoc(
       doc(this.db, path, ...pathSegments)
     );
@@ -74,10 +59,7 @@ export class Database {
   async getDocument<DocumentType>({
     path,
     pathSegments,
-  }: {
-    path: string
-    pathSegments:string[]
-  }){
+  }: GetDocumentArguments){
     return await getDoc<DocumentType>(
       doc(this.db, path, ...pathSegments) as DocumentReference<DocumentType>
     );
@@ -86,10 +68,7 @@ export class Database {
   async getDocuments<DocumentType>({
     path,
     queryConstraints
-  }: {
-    path: string
-    queryConstraints: QueryConstraint[]
-  }){
+  }: GetDocumentsArguments){
     const columnRef = collection(this.db, path) as CollectionReference<DocumentType>
     const queryInstance = query(columnRef, ...queryConstraints)
 
@@ -98,3 +77,38 @@ export class Database {
 }
 
 export const database = new Database()
+
+export type AddDocumentReturn<DocumentType> = Promise<DocumentReference<DocumentType>>
+export type UpdateDocumentReturn = Promise<void>
+export type SetDocumentReturn = Promise<void>
+export type DeleteDocumentReturn = Promise<void>
+export type GetDocumentReturn<DocumentType> = Promise<DocumentSnapshot<DocumentType>>
+export type GetDocumentsReturn<DocumentType> = Promise<QuerySnapshot<DocumentType>>
+
+export type AddDocumentArguments<DocumentType> = {
+  path: string
+  data: WithFieldValue<DocumentType>
+}
+export type UpdateDocumentArguments<DocumentType> = {
+  path: string
+  pathSegments:string[]
+  data: UpdateData<DocumentType>
+}
+export type SetDocumentArguments<DocumentType> = {
+  path: string
+  pathSegments:string[]
+  data: PartialWithFieldValue<DocumentType>
+  options?: SetOptions
+}
+export type DeleteDocumentArguments = {
+  path: string
+  pathSegments:string[]
+}
+export type GetDocumentArguments = {
+  path: string
+  pathSegments:string[]
+}
+export type GetDocumentsArguments = {
+  path: string
+  queryConstraints: QueryConstraint[]
+}
