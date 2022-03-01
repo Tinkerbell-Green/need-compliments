@@ -13,10 +13,10 @@ export class Database {
     this.db = getFirestore()
   }
 
-  async addDocument<DocumentType>({
+  async createDocument<DocumentType>({
     path,
     data,
-  }: AddDocumentArguments<DocumentType>) {
+  }: CreateDocumentArguments<DocumentType>) {
     return await addDoc<DocumentType>(
       collection(this.db, path) as CollectionReference<DocumentType>, 
       data, 
@@ -78,14 +78,14 @@ export class Database {
 
 export const database = new Database()
 
-export type AddDocumentReturn<DocumentType> = Promise<DocumentReference<DocumentType>>
+export type CreateDocumentReturn<DocumentType> = Promise<DocumentReference<DocumentType>>
 export type UpdateDocumentReturn = Promise<void>
 export type SetDocumentReturn = Promise<void>
 export type DeleteDocumentReturn = Promise<void>
 export type GetDocumentReturn<DocumentType> = Promise<DocumentSnapshot<DocumentType>>
 export type GetDocumentsReturn<DocumentType> = Promise<QuerySnapshot<DocumentType>>
 
-export type AddDocumentArguments<DocumentType> = {
+export type CreateDocumentArguments<DocumentType> = {
   path: string
   data: WithFieldValue<DocumentType>
 }
