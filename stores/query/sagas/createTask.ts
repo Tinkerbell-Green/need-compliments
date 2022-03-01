@@ -1,9 +1,10 @@
 
 import {call, put, select} from "redux-saga/effects";
-import { database } from "utils/firebase";
-import {SagaStatus} from "../../../type";
 import {RootState} from "../../reducers";
 import * as actions from "../actions";
+import {TaskData} from "../types";
+import {AddDocumentReturn} from "./../../../utils/firebase/database/index";
+import {database} from "utils/firebase";
 
 export function* createTask(action: actions.CREATE_TASK_Instance) {
   const payload = action.payload
@@ -16,15 +17,15 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
   // );
 
   try {
-    const response = yield call(
-      database.setDocument,
+    const response: AddDocumentReturn<TaskData> = yield call(
+      database.addDocument,
       {
-        path: "tasks";
-        pathSegments: [""];
-        data: DocumentType;
-        options?: SetOptions | undefined;
+        path: "tasks",
+        data: payload.data
       }
     );
+
+    console.log("response: ", response); // TODO: remove
 
     // yield put(
     //   actions.return__REPLACE({

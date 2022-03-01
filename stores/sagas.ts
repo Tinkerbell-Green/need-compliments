@@ -8,5 +8,3 @@ export default function* rootSaga() {
     fork(querySaga),
   ]);
 }
-
-// https://redux-saga.js.org/docs/advanced/RootSaga.html

@@ -1,4 +1,4 @@
-export type Task = {
+export type TaskData = {
   id: string
   title: string
   category: string
@@ -9,7 +9,7 @@ export type Task = {
   updatedAt: string
 }
 
-export type Category = {
+export type CategoryData = {
   id: string
   name: string
   color: string
@@ -18,7 +18,7 @@ export type Category = {
   updatedAt: string
 }
 
-export type Compliment = {
+export type ComplimentData = {
   id: string
   emoji: string
   message: string
@@ -27,7 +27,7 @@ export type Compliment = {
   updatedAt: string
 }
 
-export type User = {
+export type UserData = {
   id: string
   name: string 
   followers: string[]
@@ -35,4 +35,18 @@ export type User = {
   createdAt: string
 }
 
-// types
+export enum QueryStatus {
+  IDLE = "idle",
+  LOADING = "loading",
+  FAILED = "failed",
+  SUCCEEDED = "succeeded"
+}
+
+export enum QueryName {
+  CREATE_TASK = "createTask"
+}
+
+export type QueryState = {
+  status: QueryStatus
+  response: any
+}
