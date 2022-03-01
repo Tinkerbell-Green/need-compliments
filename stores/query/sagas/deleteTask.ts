@@ -3,24 +3,24 @@ import {call, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
 import {database} from "utils/firebase";
-import {CreateDocumentReturn} from "utils/firebase";
+import {DeleteDocumentReturn} from "utils/firebase";
 
-export function* createTask(action: actions.CREATE_TASK_Instance) {
+export function* deleteTask(action: actions.DELETE_TASK_Instance) {
   const payload = action.payload
 
   yield put(
     actions.return__SET_QUERY_STATUS({
-      name: QueryName.CREATE_TASK,
+      name: QueryName.DELETE_TASK,
       status: QueryStatus.LOADING
     }),
   );
 
   try {
-    const response: CreateDocumentReturn<TaskData> = yield call(
-      database.createDocument,
+    const response: DeleteDocumentReturn = yield call(
+      database.deleteDocument,
       {
         path: "tasks",
-        data: payload.data
+        pathSegments: payload.pathSegments
       }
     );
 
@@ -28,14 +28,14 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
 
     yield put(
       actions.return__SET_QUERY_RESPONSE({
-        name: QueryName.CREATE_TASK,
+        name: QueryName.DELETE_TASK,
         response,
       }),
     );
 
     yield put(
       actions.return__SET_QUERY_STATUS({
-        name: QueryName.CREATE_TASK,
+        name: QueryName.DELETE_TASK,
         status: QueryStatus.SUCCEEDED
       }),
     );
@@ -45,7 +45,7 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
 
     yield put(
       actions.return__SET_QUERY_STATUS({
-        name: QueryName.CREATE_TASK,
+        name: QueryName.DELETE_TASK,
         status: QueryStatus.FAILED
       }),
     );
