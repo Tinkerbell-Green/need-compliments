@@ -1,16 +1,16 @@
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
-import {Dayjs} from "../../utils/dayjs";
-import * as S from "./calender.styled";
+import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
+import {Dayjs} from "utils/dayjs";
 
 export type Direction = "next" | "previous";
 
 const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 const NOT_THIS_MONTH = "";
 
-export const Calender = () => {
+export const Calendar = () => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
   const router = useRouter();

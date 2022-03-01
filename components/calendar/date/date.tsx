@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react"
-import * as S from "../calender.styled";
+import * as S from "../calendar.styled";
 
 type DateProps = {
   date:string,

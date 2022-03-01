@@ -1,13 +1,13 @@
 import type {NextPage} from "next";
 import React from "react"
-import {Calender} from "components/calender"
+import {Calendar} from "components/calendar"
 import {LayoutMain} from "components/layout-main"
 
 
 const Home: NextPage = () => {
   return (
     <LayoutMain>
-      <Calender></Calender>
+      <Calendar></Calendar>
     </LayoutMain>
     
   )

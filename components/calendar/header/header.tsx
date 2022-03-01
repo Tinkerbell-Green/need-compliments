@@ -1,6 +1,6 @@
 import React from "react"
-import {Direction} from "../calender";
-import * as S from "../calender.styled";
+import {Direction} from "../calendar";
+import * as S from "../calendar.styled";
 
 type HeaderProps = {
   title:string,
