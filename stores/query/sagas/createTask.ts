@@ -1,8 +1,8 @@
 
-import {call, put} from "redux-saga/effects";
+import {call, getContext, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
-import {repository} from "utils/firebase";
+import {Repository, CreateDocumentArguments} from "utils/firebase";
 import {CreateDocumentReturn} from "utils/firebase";
 
 export function* createTask(action: actions.CREATE_TASK_Instance) {
@@ -16,15 +16,22 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
   );
 
   try {
-    const response: CreateDocumentReturn<TaskData> = yield call(
-      repository.createDocument,
-      {
-        path: "tasks",
-        data: payload.data
+    const args: CreateDocumentArguments<TaskData> = {
+      path: "tasks",
+      data: {
+        ...payload.data,
+        id: "fdfdfdfdfefed",
+        updatedAt: new Date().toString(),
+        createdAt: new Date().toString(),
+        compliments: [],
       }
-    );
+    }
 
-    console.log("response: ", response); // TODO: remove
+    const repository: Repository = yield getContext("repository");
+    const response: CreateDocumentReturn<TaskData> = yield call(
+      [repository, repository.createDocument],
+      args
+    );
 
     yield put(
       actions.return__SET_QUERY_RESPONSE({

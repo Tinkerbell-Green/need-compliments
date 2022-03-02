@@ -1,8 +1,8 @@
 
-import {call, put} from "redux-saga/effects";
+import {call, getContext, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
-import {repository} from "utils/firebase";
+import {Repository, repository} from "utils/firebase";
 import {DeleteDocumentReturn} from "utils/firebase";
 
 export function* deleteTask(action: actions.DELETE_TASK_Instance) {
@@ -16,15 +16,14 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
   );
 
   try {
+    const repository: Repository = yield getContext("repository");
     const response: DeleteDocumentReturn = yield call(
-      repository.deleteDocument,
+      [repository, repository.deleteDocument],
       {
         path: "tasks",
         pathSegments: payload.pathSegments
       }
     );
-
-    console.log("response: ", response); // TODO: remove
 
     yield put(
       actions.return__SET_QUERY_RESPONSE({

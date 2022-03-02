@@ -4,75 +4,76 @@
 // ref about using TS with firestore
 // https://medium.com/swlh/using-firestore-with-typescript-65bd2a602945
 import {QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
-import {firestore} from "../firebase";
+import {firestore} from "../firebase"
 
 export class Repository {
   firestore: Firestore
 
   constructor(fireStore: Firestore){
+    console.log("constructor", fireStore)
     this.firestore = fireStore
   }
 
-  async createDocument<DocumentType>({
+  createDocument<DocumentType>({
     path,
     data,
   }: CreateDocumentArguments<DocumentType>) {
-    return await addDoc<DocumentType>(
+    return addDoc<DocumentType>(
       collection(this.firestore, path) as CollectionReference<DocumentType>, 
       data, 
     );
   }
 
-  async updateDocument<DocumentType>({
+  updateDocument<DocumentType>({
     path,
     pathSegments,
     data,
   }: UpdateDocumentArguments<DocumentType>) {
-    return await updateDoc<DocumentType>(
+    return updateDoc<DocumentType>(
       doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data
     );
   }
 
-  async setDocument<DocumentType>({
+  setDocument<DocumentType>({
     path,
     pathSegments,
     data,
     options,
   }: SetDocumentArguments<DocumentType>) {
-    return await setDoc<DocumentType>(
+    return setDoc<DocumentType>(
       doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>, 
       data, 
       {merge: true, ...options}
     );
   }
 
-  async deleteDocument({
+  deleteDocument({
     path,
     pathSegments,
   }: DeleteDocumentArguments){
-    return await deleteDoc(
+    return deleteDoc(
       doc(this.firestore, path, ...pathSegments)
     );
   }
 
-  async getDocument<DocumentType>({
+  getDocument<DocumentType>({
     path,
     pathSegments,
   }: GetDocumentArguments){
-    return await getDoc<DocumentType>(
+    return getDoc<DocumentType>(
       doc(this.firestore, path, ...pathSegments) as DocumentReference<DocumentType>
     );
   }
 
-  async getDocuments<DocumentType>({
+  getDocuments<DocumentType>({
     path,
     queryConstraints
   }: GetDocumentsArguments){
     const columnRef = collection(this.firestore, path) as CollectionReference<DocumentType>
     const queryInstance = query(columnRef, ...queryConstraints)
 
-    return await getDocs<DocumentType>(queryInstance)
+    return getDocs<DocumentType>(queryInstance)
   }
 }
 

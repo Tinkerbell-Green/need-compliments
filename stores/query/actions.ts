@@ -43,8 +43,9 @@ export type SET_QUERY_RESPONSE_Instance = ReturnType<typeof return__SET_QUERY_RE
 
 // tasks
 export const CREATE_TASK = "query/CREATE_TASK";
-type CREATE_TASK__Payload = Omit<CreateDocumentArguments<TaskData>, "path"> & {
-};
+type CREATE_TASK__Payload = Omit<CreateDocumentArguments<
+  Omit<TaskData, "id" | "createdAt" | "updatedAt" | "compliments">>, "path"
+> & {};
 export const return__CREATE_TASK = (payload: CREATE_TASK__Payload) => {
   return {
     type: CREATE_TASK,
