@@ -15,6 +15,7 @@
     "@styled-icons/fluentui-system-regular": "^10.35.0",
     "@styled-icons/heroicons-outline": "^10.36.0",
     "babel-plugin-styled-components": "^2.0.2",
+    "dayjs": "^1.10.7",
     "immer": "^9.0.12",
     "next": "12.0.10",
     "react": "17.0.2",
