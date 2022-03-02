@@ -1,37 +1,46 @@
+import { Pencil, TrashAlt } from "@styled-icons/boxicons-regular";
+import { ArrowClockwise } from "@styled-icons/fluentui-system-filled";
+import { CalendarRtl } from "@styled-icons/fluentui-system-regular";
+import { SwitchVertical } from "@styled-icons/heroicons-outline";
 import React from "react";
 import * as S from "./modal.styled";
 
 export const Modal = () => (
   <S.Container>
     <S.Content>
-      <h3>work out</h3>
-      <S.Buttons>
-        <ul>
-          <li>
-            <S.ModalBtn>수정</S.ModalBtn>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <button>오늘 또 하기</button>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <button>날짜 바꾸기</button>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <button>순서 변경</button>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <button>삭제</button>
-          </li>
-        </ul>
-      </S.Buttons>
+      <S.Title>work out</S.Title>
+      <S.StyledUl>
+        <S.StyledLi>
+          <S.ModalBtn>
+            <Pencil></Pencil>
+          </S.ModalBtn>
+          <span>수정</span>
+        </S.StyledLi>
+        <S.StyledLi>
+          <S.ModalBtn>
+            <ArrowClockwise></ArrowClockwise>
+          </S.ModalBtn>
+          <span>오늘 또 하기</span>
+        </S.StyledLi>
+        <S.StyledLi>
+          <S.ModalBtn>
+            <CalendarRtl></CalendarRtl>
+          </S.ModalBtn>
+          <span>날짜 바꾸기</span>
+        </S.StyledLi>
+        <S.StyledLi>
+          <S.ModalBtn>
+            <SwitchVertical></SwitchVertical>
+          </S.ModalBtn>
+          <span>순서 변경</span>
+        </S.StyledLi>
+        <S.StyledLi>
+          <S.ModalBtn>
+            <TrashAlt></TrashAlt>
+          </S.ModalBtn>
+          <span>삭제</span>
+        </S.StyledLi>
+      </S.StyledUl>
     </S.Content>
   </S.Container>
 );
