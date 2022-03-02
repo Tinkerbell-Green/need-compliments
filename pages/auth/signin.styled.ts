@@ -45,8 +45,11 @@ export const KakaoBtn = styled(LogoBtn)`
 `
 
 export const AppleBtn = styled(LogoBtn)`
-    background: #000000;
-    border: 1px solid darkgray;
+    background: #ffffff;
+
+    >span{
+        color:#000000;
+    }
 `
 
 export const FacebookBtn = styled(LogoBtn)`

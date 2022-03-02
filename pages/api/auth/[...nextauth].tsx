@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
-import AppleProvider from "next-auth/providers/apple";
 import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 
@@ -16,9 +16,9 @@ export default NextAuth({
       clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET || "",
     }),
 
-    AppleProvider({
-      clientId: process.env.NEXT_PUBLIC_APPLE_ID || "",
-      clientSecret: process.env.NEXT_PUBLIC_APPLE_SECRET || "",
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID || "",
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET || "",
     }),
 
     FacebookProvider({

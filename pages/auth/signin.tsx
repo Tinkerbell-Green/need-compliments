@@ -2,8 +2,8 @@ import {InferGetServerSidePropsType} from "next";
 import {getProviders, signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import appleLogo from "../../public/icons/apple-logo.jpg";
 import facebookLogo from "../../public/icons/facebook-logo.png";
+import googleLogo from "../../public/icons/google-logo.jpeg";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
 import * as S from "./signin.styled";
@@ -38,11 +38,11 @@ export default function SignIn({
                 <span>네이버로 계속하기</span>
               </S.NaverBtn>
             );
-          } else if (provider.name === "Apple") {
+          } else if (provider.name === "Google") {
             return (
               <S.AppleBtn key={provider.name} onClick={() => signIn(provider.id)}>
-                <S.StyledImage width={50} height={50} quality={100} src={appleLogo}></S.StyledImage>
-                <span>Apple로 계속하기</span>
+                <S.StyledImage width={50} height={50} quality={100} src={googleLogo}></S.StyledImage>
+                <span>구글로 계속하기</span>
               </S.AppleBtn>
             );
           }else if (provider.name === "Facebook") {
