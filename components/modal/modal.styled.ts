@@ -1,17 +1,15 @@
-import {TrashAlt} from "@styled-icons/fa-regular";
 import styled from "styled-components"
 
-export const Container = styled.section`
+export const OutsideModal = styled.section`
 width:100%;
 height:100vh;
 display: flex;
 justify-content: center;
 align-items: center;
 background-color: rgba(0,0,0,0.9);
-/* display: none; */
 `
 
-export const Content = styled.div`
+export const Modal = styled.div`
 width:34vw;
 height: 25vh;
 min-height: 350px;
@@ -49,7 +47,7 @@ margin: 0.5rem 0.6rem 0.8rem 0.6rem;
 }
 `
 
-export const ModalBtn = styled.button`
+export const Button = styled.button`
 width: 4rem;
 height: 4rem;
 background-color: #2F2F2F;
@@ -57,9 +55,4 @@ border-radius: 50%;
 padding:18%;
 margin-bottom: 1rem;
 cursor: pointer;
-`
-
-export const Icon = styled.div`
-width:100%;
-height: 100%;
 `
