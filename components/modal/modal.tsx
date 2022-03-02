@@ -8,21 +8,19 @@ import * as S from "./modal.styled";
 export const Modal = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(true);
 
-  const onModalOff = (e: MouseEvent) => {
+  const onModalOff = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const clicked: Element | null = (e.target! as Element).closest(
-      "innerModal"
+      ".innerModal"
     );
-    console.log(e.target, clicked);
     if (clicked) return;
     setModalOpen(false);
   };
 
   return (
     <>
-      <button>Modal Open!</button>
       {isModalOpen && (
         <S.Container
-          onClick={(e: any) => {
+          onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             onModalOff(e);
           }}
         >
