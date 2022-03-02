@@ -1,4 +1,4 @@
-import { TrashAlt } from "@styled-icons/fa-regular";
+import {TrashAlt} from "@styled-icons/fa-regular";
 import styled from "styled-components"
 
 export const Container = styled.section`
@@ -8,6 +8,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color: rgba(0,0,0,0.9);
+/* display: none; */
 `
 
 export const Content = styled.div`
