@@ -1,6 +1,6 @@
 import React from "react";
-import {UserInfo} from "../sidebar";
 import * as S from "../sidebar.styled";
+import {UserInfo} from "pages";
 
 type ProfileProps = UserInfo & {
   onFriendClick : () => void;

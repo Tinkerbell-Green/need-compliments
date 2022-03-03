@@ -1,17 +1,6 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-const ICON_SIZE = 32;
-
-export const LayoutMain = styled.div`
-  background-color: ${props => props.theme.colors.black};
-  min-width: 100%;
-  min-height: 100%;
-`
-
-export const Contents = styled.div`
-  width: 100%;
-  margin: 20px;
-`;
+const ICON_SIZE = 28;
 
 export const IconList = styled.ul`
   position: absolute;
@@ -27,6 +16,7 @@ export const Icon = styled.div`
   width:${ICON_SIZE}px;
   height:${ICON_SIZE}px;
   padding:2px;
+  margin: 0 8px;
   cursor: pointer;
 `;
 

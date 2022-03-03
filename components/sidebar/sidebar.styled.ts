@@ -2,23 +2,13 @@ import styled from "styled-components";
 
 const ICON_SIZE = 32;
 
-export const IconList = styled.ul`
-  position: absolute;
-  top:0;
-  left:100%;
-  transform: translateX(-100%);
-  padding: 10px;
-  display: flex;
-  justify-content: flex-end;
-`;
-
 export const Icon = styled.div`
   width:${ICON_SIZE}px;
   height:${ICON_SIZE}px;
   padding:2px;
   cursor: pointer;
 `;
-export const MenuIcon = styled(Icon)``;
+
 export const SettingIcon = styled(Icon)`
   position: relative;
   top:0;
@@ -30,15 +20,20 @@ export const SettingIcon = styled(Icon)`
 export const MenuOverlay = styled.div`
   z-index: 10;
   position: fixed;
-  visibility: visible;
   top:0;
   left: 0;
   width:100%;
   height:100%;
   background-color: rgba(0,0,0,0.5);
-
+  transition: all 0.2s ease-in-out;
+  
+  &.show{
+    opacity: 1;
+    visibility: visible;
+  }
   &.hidden{
     visibility: hidden;
+    opacity: 0;
   }
 `;
 
@@ -70,13 +65,27 @@ export const Profile = styled.div`
   padding: 0 20px;
 `;
 
-export const Title = styled.div`
+export const GoalList = styled.ul`
+  padding: 0 20px;
+`;
+
+export const GoalListTitle = styled.div`
   justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;
   padding: 20px 0;
   border-top: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
+`;
+
+export const GoalListItem = styled.li`
+  width:fit-content;
+  background-color: rgba(255,255,255,0.05);
+  padding: 11px;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
 `;
 
 export const Name = styled.div`
@@ -98,18 +107,4 @@ export const FriendList = styled.div`
 export const Friend = styled.div`
   font-size: 1rem;
   margin-right: 10px;
-`;
-
-export const CategoryList = styled.ul`
-  padding: 0 20px;
-`;
-
-export const Category = styled.li`
-  width:fit-content;
-  background-color: rgba(255,255,255,0.05);
-  padding: 11px;
-  border-radius: 5px;
-  margin-top: 5px;
-  font-size: 0.8rem;
-  font-weight: 500;
 `;
