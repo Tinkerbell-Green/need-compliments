@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const OutsideModal = styled.section`
+export const Background = styled.section`
 width:100%;
 height:100vh;
 display: flex;
@@ -27,14 +27,14 @@ font-size: 1.2rem;
 padding: 1.5rem 0 1.5rem 0;
 `
 
-export const StyledUl = styled.ul`
+export const ActionContainer = styled.ul`
 display: flex;
 flex-wrap: wrap;
 width:100%;
 height: 100%;
 `
 
-export const StyledLi = styled.li`
+export const ActionList = styled.li`
 display: flex;
 flex-direction: column;
 align-items: center;
