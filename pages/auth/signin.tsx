@@ -53,7 +53,7 @@ export default function SignIn({
               </S.FacebookBtn>
             );
           } else{
-            throw new Error(`${provider.name}는 간편로그인 할 수 없는 provider입니다.`);
+            console.error(`${provider.name}는 간편로그인 할 수 없는 provider입니다.`);
           }
         })
         : ""}
