@@ -60,10 +60,12 @@ export const Profile = styled.div`
 `;
 
 export const Title = styled.div`
+  justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;
-  padding: 15px 0 10px 0;
+  padding: 20px 0 15px 0;
   border-top: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
 `;
 
 export const Name = styled.div`
