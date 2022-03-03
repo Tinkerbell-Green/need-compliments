@@ -1,8 +1,9 @@
-import {Settings, User} from "@styled-icons/feather";
+import {Settings,ChevronRight} from "@styled-icons/feather";
 import {useRouter} from "next/router";
 import React, {useState} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
+import {ListItemGoal} from "components/list-item-goal";
 import {UserInfo} from "pages";
 
 type SidebarProps = UserInfo & {
@@ -40,20 +41,22 @@ export const Sidebar = ({
       className={isMenuOpen ? "show":"hidden"}>
       <S.MenuContents className={isMenuOpen ? "show": "hidden"}>
         <S.SettingIcon>
-          <Settings onClick={handleSettingClick}/>
+          <Settings onClick={handleSettingClick} size={24}/>
         </S.SettingIcon>
         <Profile
           name={name}
           email={email} 
           follwer={follwer} 
           follwing={follwing}
-          onFriendClick={handleFriendClick} />
+          onFriendClick={handleFriendClick}/>
         <S.GoalList>
-          <S.GoalListTitle onClick={()=>handleGoalListTitleClick()}>목표
-            <span>{">"}</span>
-          </S.GoalListTitle>
+          <S.Title onClick={()=>handleGoalListTitleClick()}>목표
+            <S.Icon><ChevronRight size={20}/></S.Icon>
+          </S.Title>
           {goalList.map((value,index)=>(
-            <S.GoalListItem key={index}>{value}</S.GoalListItem>
+            <ListItemGoal key={index} textColor={"violet"}>
+              {value}
+            </ListItemGoal>
           ))}
         </S.GoalList>
       </S.MenuContents>
