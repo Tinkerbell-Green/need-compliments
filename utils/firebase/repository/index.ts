@@ -10,7 +10,6 @@ export class Repository {
   firestore: Firestore
 
   constructor(fireStore: Firestore){
-    console.log("constructor", fireStore)
     this.firestore = fireStore
   }
 
