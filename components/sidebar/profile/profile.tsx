@@ -1,19 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
+import {UserInfo} from "../sidebar";
 import * as S from "../sidebar.styled";
 
-type ProfileProps = {
-	name: string;
-	email: string;
-	follwer: number;
-	follwing: number;
+type ProfileProps = UserInfo & {
+  onFriendClick : () => void;
 };
 
-export const Profile = ({name, email, follwer, follwing}: ProfileProps) => {
+export const Profile = ({name, email, follwer, follwing, onFriendClick}: ProfileProps) => {
   return (
     <S.Profile>
       <S.Name>{name}</S.Name>
       <S.Email>{email}</S.Email>
-      <S.FriendList>
+      <S.FriendList onClick={()=>onFriendClick()}>
         <S.Friend>{`${follwer} 팔로워`}</S.Friend>
         <S.Friend>{`${follwing} 팔로워`}</S.Friend>
       </S.FriendList>

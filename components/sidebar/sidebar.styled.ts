@@ -18,11 +18,9 @@ export const Icon = styled.div`
   padding:2px;
   cursor: pointer;
 `;
-
 export const MenuIcon = styled(Icon)``;
-
 export const SettingIcon = styled(Icon)`
-  position: fixed;
+  position: relative;
   top:0;
   left:100%;
   transform: translateX(-100%);
@@ -31,39 +29,52 @@ export const SettingIcon = styled(Icon)`
 
 export const MenuOverlay = styled.div`
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  visibility: visible;
   top:0;
   left: 0;
   width:100%;
   height:100%;
   background-color: rgba(0,0,0,0.5);
-  visibility: ${props => props.hidden ? "hidden" : "visible"};
+
+  &.hidden{
+    visibility: hidden;
+  }
 `;
 
 export const MenuContents = styled.section`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   top:0;
   left:100%;
-  transform: translateX(-100%);
   width: 280px;
   height:100%;
-  padding:20px;
   background-color: ${props => props.theme.colors["gray-800"]};
+  transition: all 0.2s ease-in-out;
+  
+  &.show{
+    visibility: visible;
+    transform:translateX(-100%);
+  }
+  &.hidden{
+    visibility: hidden;
+    transform: translateX(0%);
+  }
 `;
 
 export const Profile = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 `;
 
 export const Title = styled.div`
   justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;
-  padding: 20px 0 15px 0;
+  padding: 20px 0;
   border-top: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
 `;
@@ -81,6 +92,7 @@ export const Email = styled.div`
 
 export const FriendList = styled.div`
   margin: 20px 0;
+  cursor: pointer;
 `;
 
 export const Friend = styled.div`
@@ -88,11 +100,13 @@ export const Friend = styled.div`
   margin-right: 10px;
 `;
 
-export const CategoryList = styled.ul``;
+export const CategoryList = styled.ul`
+  padding: 0 20px;
+`;
 
 export const Category = styled.li`
   width:fit-content;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255,0.05);
   padding: 11px;
   border-radius: 5px;
   margin-top: 5px;

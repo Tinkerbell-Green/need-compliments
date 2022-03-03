@@ -3,12 +3,13 @@ import * as S from "../sidebar.styled";
 
 type CategoryListProps = {
   categories: string[];
+  onTitleClick: ()=>void;
 }
 
-export const CategoryList = ({categories}:CategoryListProps)=>{
+export const CategoryList = ({onTitleClick,categories}:CategoryListProps)=>{
   return (
     <S.CategoryList>
-      <S.Title>목표
+      <S.Title onClick={()=>onTitleClick()}>목표
         <span>{">"}</span>
       </S.Title>
       {categories.map((value,index)=>(
