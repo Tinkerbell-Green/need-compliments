@@ -1,8 +1,3 @@
-// ref about general usage in 한글
-// https://kyounghwan01.github.io/blog/etc/firebase/#firestore-firestore-crud
-
-// ref about using TS with firestore
-// https://medium.com/swlh/using-firestore-with-typescript-65bd2a602945
 import {QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
 import {firestore} from "../firebase"
 
