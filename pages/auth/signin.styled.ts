@@ -1,6 +1,13 @@
 import Image from "next/image";
 import styled from "styled-components"
 
+const NAVER_BACKGROUND_COLOR = "#1BC64A";
+const KAKAO_BACKGROUND_COLOR = "#F9DE38";
+const KAKAO_FONT_COLOR = "#3B1C1D";
+const GOOGLE_BACKGROUND_COLOR = "#ffffff";
+const GOOGLE_FONT_COLOR = "#000000";
+const FACEBOOK_BACKGROUND_COLOR = "#197BED";
+
 export const Container = styled.div`
     background-color: ${props => props.theme.colors.black};
     min-width: 100vw;
@@ -33,25 +40,25 @@ export const LogoBtn = styled.button`
 `
 
 export const NaverBtn = styled(LogoBtn)`
-    background: #1BC64A;
+    background: ${NAVER_BACKGROUND_COLOR};
 `
 
 export const KakaoBtn = styled(LogoBtn)`
-    background: #F9DE38;
+    background: ${KAKAO_BACKGROUND_COLOR};
     
     > span{
-        color: #3B1C1D;
+        color: ${KAKAO_FONT_COLOR};
     }
 `
 
-export const AppleBtn = styled(LogoBtn)`
-    background: #ffffff;
+export const GoogleBtn = styled(LogoBtn)`
+    background: ${GOOGLE_BACKGROUND_COLOR};
 
     >span{
-        color:#000000;
+        color:${GOOGLE_FONT_COLOR};
     }
 `
 
 export const FacebookBtn = styled(LogoBtn)`
-    background: #197BED;
+    background: ${FACEBOOK_BACKGROUND_COLOR};
 `
