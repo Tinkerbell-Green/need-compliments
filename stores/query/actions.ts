@@ -1,5 +1,5 @@
 import {QueryName, QueryStatus, TaskData} from "./types";
-import {CreateDocumentArguments, DeleteDocumentArguments} from "utils/firebase";
+import {CreateDocumentArguments, DeleteDocumentArguments, GetDocumentArguments} from "utils/firebase";
 
 export const REPLACE = "query/REPLACE";
 type REPLACE_Payload = {
@@ -64,3 +64,14 @@ export const return__DELETE_TASK = (payload: DELETE_TASK__Payload) => {
   };
 };
 export type DELETE_TASK_Instance = ReturnType<typeof return__DELETE_TASK>;
+
+export const GET_TASK = "query/GET_TASK";
+type GET_TASK__Payload = Omit<GetDocumentArguments, "path"> & {
+};
+export const return__GET_TASK = (payload: GET_TASK__Payload) => {
+  return {
+    type: GET_TASK,
+    payload: payload,
+  };
+};
+export type GET_TASK_Instance = ReturnType<typeof return__GET_TASK>;

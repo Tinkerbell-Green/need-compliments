@@ -5,12 +5,12 @@ import {QueryName, QueryStatus} from "../types";
 import {Repository} from "utils/firebase";
 import {DeleteDocumentReturn} from "utils/firebase";
 
-export function* deleteTask(action: actions.DELETE_TASK_Instance) {
+export function* getTask(action: actions.GET_TASK_Instance) {
   const payload = action.payload
 
   yield put(
     actions.return__SET_QUERY_STATUS({
-      name: QueryName.DELETE_TASK,
+      name: QueryName.GET_TASK,
       status: QueryStatus.LOADING
     }),
   );
@@ -18,7 +18,7 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
   try {
     const repository: Repository = yield getContext("repository");
     const response: DeleteDocumentReturn = yield call(
-      [repository, repository.deleteDocument],
+      [repository, repository.getDocument],
       {
         path: "tasks",
         pathSegments: payload.pathSegments
@@ -27,14 +27,14 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
 
     yield put(
       actions.return__SET_QUERY_RESPONSE({
-        name: QueryName.DELETE_TASK,
+        name: QueryName.GET_TASK,
         response,
       }),
     );
 
     yield put(
       actions.return__SET_QUERY_STATUS({
-        name: QueryName.DELETE_TASK,
+        name: QueryName.GET_TASK,
         status: QueryStatus.SUCCEEDED
       }),
     );
@@ -44,7 +44,7 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
 
     yield put(
       actions.return__SET_QUERY_STATUS({
-        name: QueryName.DELETE_TASK,
+        name: QueryName.GET_TASK,
         status: QueryStatus.FAILED
       }),
     );

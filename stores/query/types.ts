@@ -44,7 +44,8 @@ export enum QueryStatus {
 
 export enum QueryName {
   CREATE_TASK = "createTask",
-  DELETE_TASK = "deleteTask"
+  DELETE_TASK = "deleteTask",
+  GET_TASK = "getTask",
 }
 
 export type QueryState = {
