@@ -6,53 +6,53 @@ import React, { useState } from "react";
 import * as S from "./modal.styled";
 
 export const Modal = () => {
-  const [isModalOpenBtnClick, setModalOpenBtnClick] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   const onBackgroundClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const isModalClicked =
       e.target instanceof Element && e.target.closest(".modal") !== null;
     if (isModalClicked) return;
-    setModalOpenBtnClick(false);
+    setIsModalOpen(false);
   };
 
   return (
     <>
-      {isModalOpenBtnClick && (
+      {isModalOpen && (
         <S.Background onClick={onBackgroundClick}>
           <S.Modal className="modal">
             <S.Title>work out</S.Title>
-            <S.ActionContainer>
-              <S.ActionList>
+            <S.ActionList>
+              <S.Action>
                 <S.Button>
                   <Pencil></Pencil>
                 </S.Button>
                 <span>수정</span>
-              </S.ActionList>
-              <S.ActionList>
+              </S.Action>
+              <S.Action>
                 <S.Button>
                   <ArrowClockwise></ArrowClockwise>
                 </S.Button>
                 <span>오늘 또 하기</span>
-              </S.ActionList>
-              <S.ActionList>
+              </S.Action>
+              <S.Action>
                 <S.Button>
                   <CalendarRtl></CalendarRtl>
                 </S.Button>
                 <span>날짜 바꾸기</span>
-              </S.ActionList>
-              <S.ActionList>
+              </S.Action>
+              <S.Action>
                 <S.Button>
                   <SwitchVertical></SwitchVertical>
                 </S.Button>
                 <span>순서 변경</span>
-              </S.ActionList>
-              <S.ActionList>
+              </S.Action>
+              <S.Action>
                 <S.Button>
                   <TrashAlt></TrashAlt>
                 </S.Button>
                 <span>삭제</span>
-              </S.ActionList>
-            </S.ActionContainer>
+              </S.Action>
+            </S.ActionList>
           </S.Modal>
         </S.Background>
       )}
