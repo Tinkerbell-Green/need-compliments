@@ -27,14 +27,14 @@ font-size: 1.2rem;
 padding: 1.5rem 0 1.5rem 0;
 `
 
-export const ActionContainer = styled.ul`
+export const ActionList = styled.ul`
 display: flex;
 flex-wrap: wrap;
 width:100%;
 height: 100%;
 `
 
-export const ActionList = styled.li`
+export const Action = styled.li`
 display: flex;
 flex-direction: column;
 align-items: center;
