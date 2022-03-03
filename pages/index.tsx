@@ -1,3 +1,4 @@
+
 import type {NextPage} from "next";
 import React from "react"
 import {Calendar} from "components/calendar"
@@ -13,4 +14,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;
