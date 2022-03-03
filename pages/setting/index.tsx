@@ -11,6 +11,7 @@ const SettingPage: NextPage = () => {
       설정
     </LayoutNavigation>   
   )
+  
 }
 
 export default SettingPage
