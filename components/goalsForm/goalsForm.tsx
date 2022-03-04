@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import InputColor from "react-input-color";
+import { SketchPicker, CirclePicker } from "react-color";
+import { HexColorPicker } from "react-colorful";
 import * as S from "./goalsForm.styled";
 import { LayoutNavigation } from "components/layout-navigation";
 
@@ -11,6 +12,8 @@ export const GoalsForm = () => {
   const [goalColorUserSelected, setGoalColorUserSelected] = useState<Color>({
     rgba: "#000000",
   });
+
+  const [color, setColor] = useState("#aabbcc");
 
   return (
     <LayoutNavigation title="목표" rightButtonText="확인">
@@ -28,19 +31,9 @@ export const GoalsForm = () => {
       </div>
       <S.SubHeading>색상</S.SubHeading>
 
-      <InputColor
-        initialValue="#5e72e4"
-        onChange={setGoalColorUserSelected}
-        placement="bottom"
-      />
-      <div
-        style={{
-          width: 50,
-          height: 50,
-          marginTop: 20,
-          backgroundColor: goalColorUserSelected.rgba,
-        }}
-      ></div>
+      <S.ColorBox>
+        <HexColorPicker color={color} onChange={setColor} />
+      </S.ColorBox>
 
       <S.DeleteButton>
         <span>삭제</span>
