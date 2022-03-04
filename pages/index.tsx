@@ -43,7 +43,7 @@ const Home: NextPage = () => {
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onMenuClick={handleHiddenMenu}
-        goalList={goalList}
+        goalList={goalList} //TODO: 객체를 전달하는 방식말고.. 일반화한 gray-box컴포넌트를 여기서 만들어서 children으로 전달?
       ></Sidebar>
     </LayoutMain>
   );
