@@ -46,8 +46,7 @@ const Home: NextPage = () => {
         goalList={goalList}
       ></Sidebar>
     </LayoutMain>
-    
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
