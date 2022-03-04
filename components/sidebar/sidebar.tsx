@@ -7,7 +7,7 @@ import {ListItemGoal} from "components/list-item-goal";
 import {UserInfo} from "pages";
 
 type SidebarProps = UserInfo & {
-  onMenuClick: React.MouseEventHandler;
+  onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
   goalList: string[];
 }
@@ -17,7 +17,7 @@ export const Sidebar = ({
   email,
   follwer,
   follwing,
-  onMenuClick,
+  onCloseMenu,
   isMenuOpen,
   goalList
 }:SidebarProps) => {
@@ -37,12 +37,14 @@ export const Sidebar = ({
 
   return (
     <S.MenuOverlay
-      onClick={onMenuClick} 
-      className={isMenuOpen ? "show":"hidden"}>
-      <S.MenuContents className={isMenuOpen ? "show": "hidden"}>
-        <S.SettingIcon>
-          <Settings onClick={handleSettingClick} size={24}/>
-        </S.SettingIcon>
+      onClick={onCloseMenu} 
+      className={`menuClose ${isMenuOpen ? "show" : "hidden"}`}>
+      <S.MenuContents className={`modalClose ${isMenuOpen ? "show" : "hidden"}`}>
+        <S.Header>
+          <S.SettingIcon>
+            <Settings onClick={handleSettingClick}/>
+          </S.SettingIcon>
+        </S.Header>
         <Profile
           name={name}
           email={email} 

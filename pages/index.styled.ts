@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+const MEDIUM_ICON_SIZE = 28;
+const SMALL_ICON_SIZE = 18;
+
 export const IconList = styled.ul`
   position: absolute;
   top:0;
@@ -10,8 +13,20 @@ export const IconList = styled.ul`
   justify-content: flex-end;
 `;
 
-export const Icon = styled.div``;
-export const IconPointer = styled.div`
+export const MenuIcon = styled.div`
+  width:${MEDIUM_ICON_SIZE}px;
+  height:${MEDIUM_ICON_SIZE}px;
+  padding:2px;
+  margin: 0 8px;
+  cursor: pointer;
+`;
+
+export const PublicScopeIcon = styled.div`
+  width:${SMALL_ICON_SIZE}px;
+  height:${SMALL_ICON_SIZE}px;
+`;
+
+export const AddIcon = styled(PublicScopeIcon)`
   cursor: pointer;
 `;
 
@@ -24,11 +39,11 @@ export const Container = styled.div`
 
 export const Profile = styled.div`
   flex-direction: column;
-  margin-bottom: 30px;
+  margin: 30px 0;
 `;
 
 export const Name = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 14px;
 `;
@@ -39,8 +54,8 @@ export const SubName = styled.div`
 export const Feed = styled.div`
   flex-direction: column;
   > span {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 15px;
   }
 `;

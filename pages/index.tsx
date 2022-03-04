@@ -24,17 +24,22 @@ const Home: NextPage = () => {
   });
   const [goalList,setGoalList] = useState(["Algorithm","Personal"]);
 
-  const handleHiddenMenu:React.MouseEventHandler = useCallback((event) => {
-    if (event.target !== event.currentTarget) return;
+  const handleOpenMenu:React.MouseEventHandler = useCallback((event) => {
     setIsMenuOpen(!isMenuOpen);
+  },[isMenuOpen]);
+
+  const handleCloseMenu:React.MouseEventHandler = useCallback((event) => {
+    if((event.target as HTMLElement).classList.contains("menuClose")){
+      setIsMenuOpen(!isMenuOpen);
+    }
   },[isMenuOpen]);
 
   return (
     <LayoutMain>
       <S.IconList>
-        <S.IconPointer>
-          <Menu onClick={handleHiddenMenu} size={28}/>
-        </S.IconPointer>
+        <S.MenuIcon onClick={handleOpenMenu}>
+          <Menu />
+        </S.MenuIcon>
       </S.IconList>
       <Calendar></Calendar>
       <Sidebar
@@ -43,7 +48,7 @@ const Home: NextPage = () => {
         follwer={userInfo.follwer} 
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
-        onMenuClick={handleHiddenMenu}
+        onCloseMenu={handleCloseMenu}
         goalList={goalList} //TODO: 객체를 전달하는 방식말고.. 일반화한 gray-box컴포넌트를 여기서 만들어서 children으로 전달?
       ></Sidebar>
       <S.Container>
@@ -55,9 +60,9 @@ const Home: NextPage = () => {
           <span>Feed</span>
           {goalList.map((value,index)=>(
             <ListItemGoal key={index} textColor={"violet"}>
-              <S.Icon><BookOpen size={18}/></S.Icon>
+              <S.PublicScopeIcon><BookOpen/></S.PublicScopeIcon>
               {value}
-              <S.IconPointer><PlusCircle size={18}/></S.IconPointer>
+              <S.AddIcon><PlusCircle/></S.AddIcon>
             </ListItemGoal>))}
         </S.Feed>
       </S.Container>
