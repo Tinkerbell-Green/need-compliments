@@ -37,4 +37,6 @@ export const Title = styled.span`
 
 export const Content = styled.div`
   margin-top: ${HEAHER_HEIGHT}px;
+  display: flex;
+  justify-content: center;
 `
