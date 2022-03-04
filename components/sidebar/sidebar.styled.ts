@@ -65,7 +65,7 @@ export const GoalList = styled.ul`
   padding: 0 20px;
 `;
 
-export const Title = styled.div`
+export const GoalListTitle = styled.div`
   justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;

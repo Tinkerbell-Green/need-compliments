@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import {Settings,ChevronRight} from "@styled-icons/feather";
-=======
 import {Settings} from "@styled-icons/feather";
->>>>>>> b0621cc2e63dc26bf5687e0cfa69138744b8c10d
 import {useRouter} from "next/router";
 import React, {useCallback} from "react";
 import {Profile} from "./profile"
