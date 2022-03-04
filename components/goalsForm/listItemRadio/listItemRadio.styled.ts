@@ -5,6 +5,14 @@ width: 100%;
 height: 2rem;
 display: flex;
 align-items: center;
+margin-bottom: 1rem;
+`
+
+export const RadioIconAndLabel = styled.div`
+    width:100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 `
 
 export const LeftIconContainer = styled.div`

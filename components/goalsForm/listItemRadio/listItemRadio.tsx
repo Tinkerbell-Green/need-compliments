@@ -28,10 +28,12 @@ export const ListItemRadio = ({id, title, leftIcon}: ListItemRadioProps) => {
 
   return (
     <S.RadioContainer>
-      {leftIcon && (
-        <S.LeftIconContainer>{getLeftIcon(leftIcon)}</S.LeftIconContainer>
-      )}
-      <S.Label htmlFor="quit">{title}</S.Label>
+      <S.RadioIconAndLabel>
+        {leftIcon && (
+          <S.LeftIconContainer>{getLeftIcon(leftIcon)}</S.LeftIconContainer>
+        )}
+        <S.Label htmlFor="quit">{title}</S.Label>
+      </S.RadioIconAndLabel>
       <S.Input type="radio" id="quit" name="publicSetting" value={title} />
     </S.RadioContainer>
   );

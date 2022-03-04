@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { HexColorPicker } from "react-colorful";
+import React, {useState} from "react";
+import {HexColorPicker} from "react-colorful";
 import * as S from "./goalsForm.styled";
-import { ListItemRadioProps } from "./listItemRadio";
-import { ListRadio } from "./listRadio";
-import { LayoutNavigation } from "components/layout-navigation";
+import {ListItemRadioProps} from "./listItemRadio";
+import {ListRadio} from "./listRadio";
+import {LayoutNavigation} from "components/layout-navigation";
 
 export const GoalsForm = () => {
   const [goalColorUserSelected, setGoalColorUserSelected] =
