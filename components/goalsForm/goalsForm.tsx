@@ -1,9 +1,9 @@
-import React, {useState} from "react";
-import {HexColorPicker} from "react-colorful";
+import React, { useState } from "react";
+import { HexColorPicker } from "react-colorful";
 import * as S from "./goalsForm.styled";
-import {ListItemRadioProps} from "./listItemRadio";
-import {ListRadio} from "./listRadio";
-import {LayoutNavigation} from "components/layout-navigation";
+import { ListItemRadioProps } from "./listItemRadio";
+import { ListRadio } from "./listRadio";
+import { LayoutNavigation } from "components/layout-navigation";
 
 export const GoalsForm = () => {
   const [goalColorUserSelected, setGoalColorUserSelected] =
@@ -43,28 +43,31 @@ export const GoalsForm = () => {
   ]);
 
   return (
-    <LayoutNavigation title="목표" rightButtonText="확인">
-      <S.SubHeading>제목</S.SubHeading>
-      <S.GoalTitle color={goalColorUserSelected}></S.GoalTitle>
+    <>
+      <LayoutNavigation title="목표" rightButtonText="확인">
+        <S.SubHeading>제목</S.SubHeading>
+        <S.GoalTitle color={goalColorUserSelected}></S.GoalTitle>
 
-      <S.SubHeading>공개설정</S.SubHeading>
-      <ListRadio data={publicSettingOptions}></ListRadio>
+        <S.SubHeading>공개설정</S.SubHeading>
+        <ListRadio data={publicSettingOptions}></ListRadio>
 
-      <S.SubHeading>진행 상황</S.SubHeading>
-      <ListRadio data={running}></ListRadio>
+        <S.SubHeading>진행 상황</S.SubHeading>
+        <ListRadio data={running}></ListRadio>
 
-      <S.SubHeading>색상</S.SubHeading>
+        <S.SubHeading>색상</S.SubHeading>
+        <S.ColorBox>
+          <HexColorPicker
+            color={goalColorUserSelected}
+            onChange={setGoalColorUserSelected}
+          />
+        </S.ColorBox>
+      </LayoutNavigation>
 
-      <S.ColorBox>
-        <HexColorPicker
-          color={goalColorUserSelected}
-          onChange={setGoalColorUserSelected}
-        />
-      </S.ColorBox>
-
-      <S.DeleteButton>
-        <span>삭제</span>
-      </S.DeleteButton>
-    </LayoutNavigation>
+      <S.DeleteButtonContainer>
+        <S.DeleteButton>
+          <span>삭제</span>
+        </S.DeleteButton>
+      </S.DeleteButtonContainer>
+    </>
   );
 };
