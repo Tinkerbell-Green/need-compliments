@@ -8,10 +8,7 @@ import { LayoutNavigation } from "components/layout-navigation";
 const Home: NextPage = () => {
   return (
     <LayoutMain>
-      {/* <Calendar></Calendar> */}
-      <LayoutNavigation title="목표" rightButtonText="확인">
-        여기에 폼이 들어와요
-      </LayoutNavigation>
+      <Calendar></Calendar>
     </LayoutMain>
   );
 };
