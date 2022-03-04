@@ -1,7 +1,4 @@
-import { Color } from "@styled-icons/fluentui-system-filled";
 import styled from "styled-components";
-import { LayoutMain } from './../layout-main/layout-main';
-
 
 export const DeleteButton = styled.button`
 position: fixed;
@@ -30,6 +27,7 @@ font-size: 0.9rem;
 border: none;
 outline: none;
 color: ${props => props.color};
+background: transparent;
 
 &:focus{
     border-bottom: 1.9px solid ${props => props.color};

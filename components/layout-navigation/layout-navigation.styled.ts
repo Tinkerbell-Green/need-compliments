@@ -41,6 +41,5 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width:70%;
-  background-color: white; //TODO: 지우기
+  width: 70%;
 `

@@ -1,22 +1,36 @@
-import React, { useState } from "react";
-import { SketchPicker, CirclePicker } from "react-color";
-import { HexColorPicker } from "react-colorful";
+import React, {useState} from "react";
+import {HexColorPicker} from "react-colorful";
 import * as S from "./goalsForm.styled";
-import { LayoutNavigation } from "components/layout-navigation";
+import {ListItemRadioProps} from "./listItemRadio";
+import {ListRadio} from "./listRadio";
+import {LayoutNavigation} from "components/layout-navigation";
 
 export const GoalsForm = () => {
   const [goalColorUserSelected, setGoalColorUserSelected] =
-    useState<string>("#aabbcc");
+    useState<string>("#000000");
+
+  const [publicSettingOptions, setPublicSettingOptions] = useState<
+    ListItemRadioProps[]
+  >([
+    {
+      id: 0,
+      title: "전체공개",
+      leftIcon: "",
+    },
+    {
+      id: 1,
+      title: "일부공개",
+      leftIcon: "",
+    },
+  ]);
 
   return (
     <LayoutNavigation title="목표" rightButtonText="확인">
       <S.SubHeading>제목</S.SubHeading>
       <S.GoalTitle color={goalColorUserSelected}></S.GoalTitle>
       <S.SubHeading>공개설정</S.SubHeading>
-      <div>
-        <label htmlFor="quit">전체공개</label>
-        <input type="radio" id="quit" name="" value="huey" />
-      </div>
+      <ListRadio data={publicSettingOptions}></ListRadio>
+
       <S.SubHeading>진행 상황</S.SubHeading>
       <div>
         <label htmlFor="quit">종료하기</label>
