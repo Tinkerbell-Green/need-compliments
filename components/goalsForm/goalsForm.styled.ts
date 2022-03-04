@@ -1,3 +1,4 @@
+import { Color } from "@styled-icons/fluentui-system-filled";
 import styled from "styled-components";
 import { LayoutMain } from './../layout-main/layout-main';
 
@@ -28,10 +29,10 @@ padding: 0.6rem 0 0.6rem 0;
 font-size: 0.9rem;
 border: none;
 outline: none;
-color: #D7B84B;
+color: ${props => props.color};
 
 &:focus{
-    border-bottom: 1.9px solid #D7B84B;
+    border-bottom: 1.9px solid ${props => props.color};
 }
 `
 
