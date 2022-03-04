@@ -9,10 +9,10 @@ margin-bottom: 1rem;
 `
 
 export const RadioIconAndLabel = styled.div`
-    width:100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
+width:100%;
+height: 100%;
+display: flex;
+align-items: center;
 `
 
 export const LeftIconContainer = styled.div`
@@ -26,19 +26,16 @@ padding-bottom: 0.1rem;
 `
 
 export const Input = styled.input`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-
-  border: 1px solid #999;
-  margin-right: 5px;
-
-  &:checked{
-    border: 2px solid #999;
-    background-color: white;
-  }
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+border-radius: 50%;
+width: 16px;
+height: 16px;
+border: 1px solid ${props => props.theme.colors["gray-400"]};;
+margin-right: 5px;
+&:checked{
+  border: 2px solid ${props => props.theme.colors["gray-400"]};;
+  background-color: white;
+}
 `

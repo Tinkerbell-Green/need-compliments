@@ -21,7 +21,7 @@ border-radius: 5px;
 `
 
 export const SubHeading = styled.span`
-color: #363636;
+color: ${props => props.theme.colors["gray-400"]};
 padding: 0.8rem 0 0.8rem 0;
 font-size: 0.8rem;
 `
@@ -30,11 +30,12 @@ export const GoalTitle = styled.input`
 width: 100%;
 height: 2rem;
 padding: 0.6rem 0 0.6rem 0;
-font-size: 0.9rem;
+font-size: 1rem;
 border: none;
 outline: none;
 color: ${props => props.color};
 background: transparent;
+margin-bottom: 0.7rem;
 
 &:focus{
     border-bottom: 1.9px solid ${props => props.color};

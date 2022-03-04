@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import {HexColorPicker} from "react-colorful";
+import React, { useState } from "react";
+import { HexColorPicker } from "react-colorful";
 import * as S from "./goalsForm.styled";
-import {ListItemRadioProps} from "./listItemRadio";
-import {ListRadio} from "./listRadio";
-import {LayoutNavigation} from "components/layout-navigation";
+import { ListItemRadioProps } from "./listItemRadio";
+import { ListRadio } from "./listRadio";
+import { LayoutNavigation } from "components/layout-navigation";
 
 export const GoalsForm = () => {
   const [goalColorUserSelected, setGoalColorUserSelected] =
-    useState<string>("#000000");
+    useState<string>("#ffffff");
 
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
@@ -46,7 +46,10 @@ export const GoalsForm = () => {
     <>
       <LayoutNavigation title="목표" rightButtonText="확인">
         <S.SubHeading>제목</S.SubHeading>
-        <S.GoalTitle color={goalColorUserSelected}></S.GoalTitle>
+        <S.GoalTitle
+          color={goalColorUserSelected}
+          placeholder="나는 알고리즘을 정복하겠다!"
+        ></S.GoalTitle>
 
         <S.SubHeading>공개설정</S.SubHeading>
         <ListRadio data={publicSettingOptions}></ListRadio>
