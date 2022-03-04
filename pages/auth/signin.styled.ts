@@ -8,22 +8,22 @@ const GOOGLE_FONT_COLOR = "#000000";
 const FACEBOOK_BACKGROUND_COLOR = "#197BED";
 
 
-export const LogoBtn = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 18vw;
-    height:4rem;
-    min-width: 300px;
-    max-height: 80px;
-    border-radius: 5px;
-    margin-bottom: 0.8rem;
-    cursor: pointer;
+// export const LogoBtn = styled.button`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 18vw;
+//     height:4rem;
+//     min-width: 300px;
+//     max-height: 80px;
+//     border-radius: 5px;
+//     margin-bottom: 0.8rem;
+//     cursor: pointer;
 
-    > span{
-        font-size: 1rem;
-    }
-`
+//     > span{
+//         font-size: 1rem;
+//     }
+// `
 
 export const NaverBtn = styled(LogoBtn)`
     background: ${NAVER_BACKGROUND_COLOR};
