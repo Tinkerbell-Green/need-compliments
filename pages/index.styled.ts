@@ -24,6 +24,7 @@ export const MenuIcon = styled.div`
 export const PublicScopeIcon = styled.div`
   width:${SMALL_ICON_SIZE}px;
   height:${SMALL_ICON_SIZE}px;
+  color:red;
 `;
 
 export const AddIcon = styled(PublicScopeIcon)`
@@ -45,7 +46,7 @@ export const Profile = styled.div`
 export const Name = styled.div`
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 `;
 export const SubName = styled.div`
   font-size: 0.9rem;

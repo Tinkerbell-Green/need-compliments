@@ -1,4 +1,5 @@
 import {Menu, BookOpen,PlusCircle} from "@styled-icons/feather";
+//TODO: icon별로 출처와 이미지 노션에 공유하기. 겹치는거는 통일하고, 더 적절한거 상의.
 import type {NextPage} from "next";
 import React, {useCallback, useState} from "react"
 import * as S from "./index.styled";
@@ -59,10 +60,13 @@ const Home: NextPage = () => {
         <S.Feed>
           <span>Feed</span>
           {goalList.map((value,index)=>(
-            <ListItemGoal key={index} textColor={"violet"}>
-              <S.PublicScopeIcon><BookOpen/></S.PublicScopeIcon>
+            <ListItemGoal 
+              key={index}
+              color="orange"
+              leftComponent={<S.PublicScopeIcon><BookOpen/></S.PublicScopeIcon>}
+              rightComponent={<S.AddIcon><PlusCircle/></S.AddIcon>}
+            >
               {value}
-              <S.AddIcon><PlusCircle/></S.AddIcon>
             </ListItemGoal>))}
         </S.Feed>
       </S.Container>

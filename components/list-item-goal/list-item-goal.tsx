@@ -3,16 +3,22 @@ import * as S from "./list-item-goal.styled";
 
 type ListItemGoal = {
   children: React.ReactNode;
-  textColor?:string;
+  color?:string;
+  leftComponent?: React.ReactNode,
+  rightComponent?: React.ReactNode,
 }
 
 export const ListItemGoal = ({
   children,
-  textColor
+  color,
+  leftComponent,
+  rightComponent
 }:ListItemGoal) => {
   return (
-    <S.ListItem color={textColor}>
+    <S.ListItem color={color}>
+      <S.Left>{leftComponent}</S.Left>
       {children}
+      <S.Right>{rightComponent}</S.Right>
     </S.ListItem>
   )
 }

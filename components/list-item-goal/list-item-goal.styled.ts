@@ -11,8 +11,12 @@ export const ListItem = styled.li`
   color:${props => props.color && props.color};
   font-size: 0.8rem;
   font-weight: 500;
-  > * {
-    display: block;
-    margin: 0 5px;
-  }
+`;
+
+export const Left = styled.div`
+  margin-right:8px;
+`;
+
+export const Right = styled.div`
+  margin-left:8px;
 `;
