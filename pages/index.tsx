@@ -1,6 +1,6 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
-import React, {useState} from "react"
+import React, {useCallback, useState} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
 import {LayoutMain} from "components/layout-main"
@@ -23,10 +23,10 @@ const Home: NextPage = () => {
   });
   const [goalList,setGoalList] = useState(["Algorithm","Personal"]);
 
-  const handleHiddenMenu:React.MouseEventHandler = (event) => {
+  const handleHiddenMenu:React.MouseEventHandler = useCallback((event) => {
     if (event.target !== event.currentTarget) return;
     setIsMenuOpen(!isMenuOpen);
-  };
+  },[isMenuOpen]);
 
   return (
     <LayoutMain>
