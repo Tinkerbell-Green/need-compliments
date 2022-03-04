@@ -15,12 +15,30 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "전체공개",
-      leftIcon: "",
+      leftIcon: "open",
     },
     {
       id: 1,
       title: "일부공개",
-      leftIcon: "",
+      leftIcon: "open",
+    },
+    {
+      id: 2,
+      title: "나만보기",
+      leftIcon: "open",
+    },
+    {
+      id: 3,
+      title: "숨기기",
+      leftIcon: "close",
+    },
+  ]);
+
+  const [running, setRunning] = useState<ListItemRadioProps[]>([
+    {
+      id: 0,
+      title: "종료하기",
+      leftIcon: null,
     },
   ]);
 
@@ -28,14 +46,13 @@ export const GoalsForm = () => {
     <LayoutNavigation title="목표" rightButtonText="확인">
       <S.SubHeading>제목</S.SubHeading>
       <S.GoalTitle color={goalColorUserSelected}></S.GoalTitle>
+
       <S.SubHeading>공개설정</S.SubHeading>
       <ListRadio data={publicSettingOptions}></ListRadio>
 
       <S.SubHeading>진행 상황</S.SubHeading>
-      <div>
-        <label htmlFor="quit">종료하기</label>
-        <input type="radio" id="quit" name="" value="huey" />
-      </div>
+      <ListRadio data={running}></ListRadio>
+
       <S.SubHeading>색상</S.SubHeading>
 
       <S.ColorBox>
