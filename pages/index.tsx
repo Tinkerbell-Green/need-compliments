@@ -1,6 +1,6 @@
 import {Menu, BookOpen,PlusCircle} from "@styled-icons/feather";
 import type {NextPage} from "next";
-import React, {useState} from "react"
+import React, {useCallback, useState} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
 import {LayoutMain} from "components/layout-main"
@@ -24,10 +24,10 @@ const Home: NextPage = () => {
   });
   const [goalList,setGoalList] = useState(["Algorithm","Personal"]);
 
-  const handleHiddenMenu:React.MouseEventHandler = (event) => {
+  const handleHiddenMenu:React.MouseEventHandler = useCallback((event) => {
     if (event.target !== event.currentTarget) return;
     setIsMenuOpen(!isMenuOpen);
-  };
+  },[isMenuOpen]);
 
   return (
     <LayoutMain>
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onMenuClick={handleHiddenMenu}
-        goalList={goalList}
+        goalList={goalList} //TODO: 객체를 전달하는 방식말고.. 일반화한 gray-box컴포넌트를 여기서 만들어서 children으로 전달?
       ></Sidebar>
       <S.Container>
         <S.Profile>
@@ -62,8 +62,7 @@ const Home: NextPage = () => {
         </S.Feed>
       </S.Container>
     </LayoutMain>
-    
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

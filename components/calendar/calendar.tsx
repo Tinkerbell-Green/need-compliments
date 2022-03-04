@@ -29,7 +29,7 @@ export const Calendar = () => {
       } else if (direction === "previous") {
         setViewDate(Dayjs(viewDate).subtract(1, "month").toDate());
       } else {
-        console.log(`invalid direction for month: ${direction}`);
+        console.error(`invalid direction for month: ${direction}`);
       }
     },
     [viewDate]
