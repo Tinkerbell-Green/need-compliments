@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ICON_SIZE = 32;
+const ICON_SIZE = 28;
 
 export const Icon = styled.div`
   width:${ICON_SIZE}px;
@@ -9,12 +9,12 @@ export const Icon = styled.div`
   cursor: pointer;
 `;
 
+export const Header = styled.div`
+  justify-content: flex-end;
+`;
+
 export const SettingIcon = styled(Icon)`
-  position: relative;
-  top:0;
-  left:100%;
-  transform: translateX(-100%);
-  padding: 10px 10px 0 0;
+  margin: 10px;
 `;
 
 export const MenuOverlay = styled.div`
