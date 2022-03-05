@@ -1,13 +1,34 @@
-import type {NextPage} from "next"
-import React from "react"
+import type {NextPage} from "next";
+import {useRouter} from "next/router";
+import React from "react";
+import * as S from "../../../components/goalsForm/goalsForm.styled";
+import {GoalsForm} from "components/goalsForm";
+import {LayoutNavigation} from "components/layout-navigation";
 
 const GoalsFormPage: NextPage = () => {
+  const router = useRouter();
+
+  const onLeftButtonClick = () => {
+    router.push("/goals");
+  };
 
   return (
-    <div>
-      GoalsForm
-    </div>   
-  )
-}
+    <>
+      <LayoutNavigation
+        title="목표"
+        rightButtonText="확인"
+        onLeftButtonClick={onLeftButtonClick}
+      >
+        <GoalsForm></GoalsForm>
+      </LayoutNavigation>
 
-export default GoalsFormPage
+      <S.DeleteButtonContainer>
+        <S.DeleteButton>
+          <span>삭제</span>
+        </S.DeleteButton>
+      </S.DeleteButtonContainer>
+    </>
+  );
+};
+
+export default GoalsFormPage;

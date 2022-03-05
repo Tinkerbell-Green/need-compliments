@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-const MEDIUM_ICON_SIZE = 28;
-const SMALL_ICON_SIZE = 18;
+const ICON_SIZE = 28;
 
 export const IconList = styled.ul`
   position: absolute;
@@ -14,25 +13,15 @@ export const IconList = styled.ul`
 `;
 
 export const MenuIcon = styled.div`
-  width:${MEDIUM_ICON_SIZE}px;
-  height:${MEDIUM_ICON_SIZE}px;
+  width:${ICON_SIZE}px;
+  height:${ICON_SIZE}px;
   padding:2px;
   margin: 0 8px;
   cursor: pointer;
 `;
 
-export const PublicScopeIcon = styled.div`
-  width:${SMALL_ICON_SIZE}px;
-  height:${SMALL_ICON_SIZE}px;
-  color:red;
-`;
-
-export const AddIcon = styled(PublicScopeIcon)`
-  cursor: pointer;
-`;
-
 export const Container = styled.div`
-  max-width: 280px;
+  min-width: 380px;
   flex-direction: column;
   align-content: center;
   margin: 50px 10px;
@@ -48,7 +37,7 @@ export const Name = styled.div`
   font-weight: 600;
   margin-bottom: 10px;
 `;
-export const SubName = styled.div`
+export const SecondaryName = styled.div`
   font-size: 0.9rem;
 `;
 

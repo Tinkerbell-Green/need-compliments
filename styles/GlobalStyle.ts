@@ -1,4 +1,4 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
 export const GlobalStyle = createGlobalStyle`
@@ -23,5 +23,6 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     background: none;
     box-shadow: none;
+    cursor: pointer;
   }
 `

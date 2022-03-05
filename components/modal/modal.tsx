@@ -1,8 +1,8 @@
-import { Pencil, TrashAlt } from "@styled-icons/boxicons-regular";
-import { ArrowClockwise } from "@styled-icons/fluentui-system-filled";
-import { CalendarRtl } from "@styled-icons/fluentui-system-regular";
-import { SwitchVertical } from "@styled-icons/heroicons-outline";
-import React, { useState } from "react";
+import {Pencil, TrashAlt} from "@styled-icons/boxicons-regular";
+import {ArrowClockwise} from "@styled-icons/fluentui-system-filled";
+import {CalendarRtl} from "@styled-icons/fluentui-system-regular";
+import {SwitchVertical} from "@styled-icons/heroicons-outline";
+import React, {useState} from "react";
 import * as S from "./modal.styled";
 
 export const Modal = () => {

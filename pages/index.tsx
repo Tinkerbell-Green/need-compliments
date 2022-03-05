@@ -1,13 +1,16 @@
-import {Menu, BookOpen,Plus} from "@styled-icons/feather";
+import {Menu, BookOpen} from "@styled-icons/feather";
 //TODO: icon별로 출처와 이미지 노션에 공유하기. 겹치는거는 통일하고, 더 적절한거 상의.
 import type {NextPage} from "next";
-import React, {useCallback, useState} from "react"
+import {signIn, useSession} from "next-auth/react";
+import React, {useCallback, useState,useEffect} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
+import {Chip} from "components/chip";
 import {LayoutMain} from "components/layout-main"
-import {ListItemGoal} from "components/list-item-goal";
 import {Sidebar} from "components/sidebar";
 
+//TODO: stores/query/types 에 있는 UserData 타입으로 수정
+// (followers 는 해당 유저를 팔로우하는 사용자 아이디의 배열)
 export type UserInfo = {
   name : string,
   email : string,
@@ -16,6 +19,15 @@ export type UserInfo = {
 }
 
 const Home: NextPage = () => {
+  const {data: session} = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      signIn();
+    }
+    if(session) console.log(session.user?.name,session.user?.email);
+  }, [session]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name : "HongBeen Lee",
@@ -35,7 +47,7 @@ const Home: NextPage = () => {
     }
   },[isMenuOpen]);
 
-  return (
+  return !session ? null : (
     <LayoutMain>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
@@ -50,24 +62,24 @@ const Home: NextPage = () => {
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onCloseMenu={handleCloseMenu}
-        goalList={goalList} //TODO: 객체를 전달하는 방식말고.. 일반화한 gray-box컴포넌트를 여기서 만들어서 children으로 전달?
+        goalList={goalList}
       ></Sidebar>
       <S.Container>
         <S.Profile>
           <S.Name>{userInfo.name}</S.Name>
-          <S.SubName>{userInfo.email}</S.SubName>
+          <S.SecondaryName>{userInfo.email}</S.SecondaryName>
         </S.Profile>
         <S.Feed>
           <span>Feed</span>
           {goalList.map((value,index)=>(
-            <ListItemGoal 
+            <Chip
               key={index}
+              label={value}
               color="orange"
-              leftComponent={<S.PublicScopeIcon><BookOpen/></S.PublicScopeIcon>}
-              rightComponent={<S.AddIcon><Plus/></S.AddIcon>}
+              icon={<BookOpen/>}
+              onAdd={()=>console.log("chip clicked")}
             >
-              {value}
-            </ListItemGoal>))}
+            </Chip>))}
         </S.Feed>
       </S.Container>
     </LayoutMain>
