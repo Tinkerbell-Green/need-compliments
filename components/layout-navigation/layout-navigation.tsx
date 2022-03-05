@@ -1,4 +1,4 @@
-import { KeyboardArrowLeft } from "@styled-icons/material-twotone";
+import {KeyboardArrowLeft} from "@styled-icons/material-twotone";
 import React from "react";
 import * as S from "./layout-navigation.styled";
 

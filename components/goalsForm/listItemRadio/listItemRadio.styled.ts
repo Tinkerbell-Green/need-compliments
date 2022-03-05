@@ -15,7 +15,7 @@ display: flex;
 align-items: center;
 `
 
-export const LeftIconContainer = styled.div`
+export const PublicEyeIconContainer = styled.div`
 width: 2rem;
 margin-right: 0.5rem;
 `

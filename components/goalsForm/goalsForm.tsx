@@ -1,9 +1,9 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as S from "./goalsForm.styled";
 import { ListItemRadioProps } from "./listItemRadio";
 import { ListRadio } from "./listRadio";
 import { LayoutNavigation } from "components/layout-navigation";
-import { useRouter } from "next/router";
 
 export const GoalsForm = () => {
   const router = useRouter();
@@ -21,22 +21,22 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "전체공개",
-      leftIcon: "open",
+      publicEyeIcon: "open",
     },
     {
       id: 1,
       title: "일부공개",
-      leftIcon: "open",
+      publicEyeIcon: "open",
     },
     {
       id: 2,
       title: "나만보기",
-      leftIcon: "open",
+      publicEyeIcon: "open",
     },
     {
       id: 3,
       title: "숨기기",
-      leftIcon: "close",
+      publicEyeIcon: "close",
     },
   ]);
 
@@ -44,7 +44,7 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "종료하기",
-      leftIcon: null,
+      publicEyeIcon: null,
     },
   ]);
 

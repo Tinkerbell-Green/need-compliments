@@ -1,11 +1,11 @@
-import type { NextPage } from "next";
-import React, { useEffect } from "react";
-import { Calendar } from "components/calendar";
-import { LayoutMain } from "components/layout-main";
-import { signIn, signOut, useSession } from "next-auth/react";
+import type {NextPage} from "next";
+import {signIn, signOut, useSession} from "next-auth/react";
+import React, {useEffect} from "react";
+import {Calendar} from "components/calendar";
+import {LayoutMain} from "components/layout-main";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  const {data: session} = useSession();
 
   useEffect(() => {
     if (!session) {
