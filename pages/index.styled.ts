@@ -36,19 +36,29 @@ export const Name = styled.div`
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 10px;
+  color: ${props => props.theme.colors["gray-200"]};
 `;
+
 export const SecondaryName = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: ${props => props.theme.colors["gray-200"]};
 `;
 
 export const Feed = styled.div`
   flex-direction: column;
-  > span {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-  }
 `;
 
+export const Header = styled.div`
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+`;
 
+export const FeedContents = styled.ul`
+  flex-direction: column;
+  > * {
+    margin-bottom: 20px;
+  }
+`;
 

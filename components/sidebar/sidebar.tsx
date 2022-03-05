@@ -1,4 +1,5 @@
 import {Settings} from "@styled-icons/feather";
+import {KeyboardArrowRight} from "@styled-icons/material-twotone";
 import {useRouter} from "next/router";
 import React, {useCallback} from "react";
 import {Profile} from "./profile"
@@ -10,6 +11,7 @@ type SidebarProps = UserInfo & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
   goalList: string[];
+  goalListColor: string[];
 }
 
 export const Sidebar = ({
@@ -19,7 +21,8 @@ export const Sidebar = ({
   follwing,
   onCloseMenu,
   isMenuOpen,
-  goalList
+  goalList,
+  goalListColor
 }:SidebarProps) => {
   const router = useRouter();
   
@@ -51,15 +54,20 @@ export const Sidebar = ({
           follwer={follwer} 
           follwing={follwing}
           onFriendClick={handleFriendClick}/>
-        <S.GoalList>
-          <S.GoalListTitle onClick={handleGoalListTitleClick}>목표
-            <span>{">"}</span>
-          </S.GoalListTitle>
-          {goalList.map((value,index)=>(
-            <Chip key={index} label={value} color={"violet"}>
-            </Chip>
-          ))}
-        </S.GoalList>
+        <S.Goals>
+          <S.GoalsTitle onClick={handleGoalListTitleClick}>목표
+            <S.ArrowIcon><KeyboardArrowRight/></S.ArrowIcon>
+          </S.GoalsTitle>
+          <S.GoalsContents>
+            {goalList.map((value,index)=>(
+              <Chip 
+                key={index}
+                label={value}
+                color={goalListColor[index]}>
+              </Chip>
+            ))}
+          </S.GoalsContents>
+        </S.Goals>
       </S.MenuContents>
     </S.MenuOverlay>
   );

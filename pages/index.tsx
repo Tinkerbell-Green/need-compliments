@@ -1,5 +1,5 @@
-import {Menu, BookOpen} from "@styled-icons/feather";
-//TODO: icon별로 출처와 이미지 노션에 공유하기. 겹치는거는 통일하고, 더 적절한거 상의.
+import {Menu} from "@styled-icons/feather";
+import {Eye} from "@styled-icons/heroicons-outline/Eye";
 import type {NextPage} from "next";
 import {signIn, useSession} from "next-auth/react";
 import React, {useCallback, useState,useEffect} from "react"
@@ -9,8 +9,7 @@ import {Chip} from "components/chip";
 import {LayoutMain} from "components/layout-main"
 import {Sidebar} from "components/sidebar";
 
-//TODO: stores/query/types 에 있는 UserData 타입으로 수정
-// (followers 는 해당 유저를 팔로우하는 사용자 아이디의 배열)
+//TODO: stores/query/types 에 있는 UserData,CategoryData,TaskData 타입참고해서 수정
 export type UserInfo = {
   name : string,
   email : string,
@@ -36,8 +35,9 @@ const Home: NextPage = () => {
     follwing :30
   });
   const [goalList,setGoalList] = useState(["Algorithm","Personal"]);
+  const [goalListColor,setGoalListColor] = useState(["orange","blueviolet"]);
 
-  const handleOpenMenu:React.MouseEventHandler = useCallback((event) => {
+  const handleOpenMenu:React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
   },[isMenuOpen]);
 
@@ -57,12 +57,13 @@ const Home: NextPage = () => {
       <Calendar></Calendar>
       <Sidebar
         name={userInfo.name} 
-        email={userInfo.email} 
-        follwer={userInfo.follwer} 
+        email={userInfo.email}
+        follwer={userInfo.follwer}
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onCloseMenu={handleCloseMenu}
         goalList={goalList}
+        goalListColor={goalListColor}
       ></Sidebar>
       <S.Container>
         <S.Profile>
@@ -70,16 +71,18 @@ const Home: NextPage = () => {
           <S.SecondaryName>{userInfo.email}</S.SecondaryName>
         </S.Profile>
         <S.Feed>
-          <span>Feed</span>
-          {goalList.map((value,index)=>(
-            <Chip
-              key={index}
-              label={value}
-              color="orange"
-              icon={<BookOpen/>}
-              onAdd={()=>console.log("chip clicked")}
-            >
-            </Chip>))}
+          <S.Header>Feed</S.Header>
+          <S.FeedContents>
+            {goalList.map((value,index)=>(
+              <Chip
+                key={index}
+                label={value}
+                color={goalListColor[index]}
+                icon={<Eye/>}
+                onAdd={()=>console.log(`${value} clicked`)}
+              >
+              </Chip>))}
+          </S.FeedContents>
         </S.Feed>
       </S.Container>
     </LayoutMain>

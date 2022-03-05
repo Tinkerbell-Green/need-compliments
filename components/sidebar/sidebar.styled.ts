@@ -1,20 +1,15 @@
 import styled from "styled-components";
 
-const ICON_SIZE = 28;
-
-export const Icon = styled.div`
-  width:${ICON_SIZE}px;
-  height:${ICON_SIZE}px;
-  padding:2px;
-  cursor: pointer;
-`;
-
 export const Header = styled.div`
   justify-content: flex-end;
 `;
 
-export const SettingIcon = styled(Icon)`
+export const SettingIcon = styled.div`
+  width:28px;
+  height:28px;
+  padding:2px;
   margin: 10px;
+  cursor: pointer;
 `;
 
 export const MenuOverlay = styled.div`
@@ -65,16 +60,29 @@ export const Profile = styled.div`
   padding: 0 20px;
 `;
 
-export const GoalList = styled.ul`
+export const Goals = styled.div`
+  flex-direction: column;
   padding: 0 20px;
 `;
 
-export const GoalListTitle = styled.div`
+export const GoalsTitle = styled.div`
   justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;
   padding: 20px 0;
   border-top: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+`;
+
+export const GoalsContents = styled.ul`
+  > * {
+    margin-bottom: 10px;
+  }
+`;
+
+export const ArrowIcon=styled.div`
+  width:20px;
+  height:20px;
   cursor: pointer;
 `;
 
