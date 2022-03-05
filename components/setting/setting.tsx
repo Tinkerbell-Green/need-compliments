@@ -5,10 +5,10 @@ import { SliderSwitch } from "./sliderSwitch";
 export const Setting = () => {
   return (
     <S.infoList>
-      <S.infoListItem>
+      <S.infoListItemEmail>
         <S.SubHeading>연동된 이메일</S.SubHeading>
         <S.email>ghdqlsdl9633@gmail.com</S.email>
-      </S.infoListItem>
+      </S.infoListItemEmail>
 
       <S.infoListItem>
         <S.SubHeading>프로필</S.SubHeading>
@@ -35,6 +35,7 @@ export const Setting = () => {
 
       <S.infoListItem>
         <S.SubHeading>둘러보기에 나타나기</S.SubHeading>
+        <SliderSwitch />
       </S.infoListItem>
 
       <S.infoListItem>
@@ -42,7 +43,7 @@ export const Setting = () => {
       </S.infoListItem>
 
       <S.infoListItem>
-        <S.SubHeading>계정 삭제하기</S.SubHeading>
+        <S.DeleteAccount>계정 삭제하기</S.DeleteAccount>
       </S.infoListItem>
     </S.infoList>
   );
