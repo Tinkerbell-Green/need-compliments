@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { HexColorPicker } from "react-colorful";
 import * as S from "./goalsForm.styled";
 import { ListItemRadioProps } from "./listItemRadio";
 import { ListRadio } from "./listRadio";
@@ -42,6 +41,39 @@ export const GoalsForm = () => {
     },
   ]);
 
+  const colorList = [
+    "#808080",
+    "#292F56",
+    "#222F92",
+    "#3456A4",
+    "#3274F6",
+    "#4FA4E5",
+    "#AD69ED",
+    "#735DAF",
+    "#6911A4",
+    "#7A7EEE",
+    "#4518F4",
+    "#5C38F5",
+    "#4E9198",
+    "#5E9E68",
+    "#446E74",
+    "#99C355",
+    "#60D155",
+    "#828A53",
+    "#ED9F8D",
+    "#ED76BF",
+    "#EA449B",
+    "#DC7B82",
+    "#E25B62",
+    "#BB3D4D",
+    "#F3D055",
+    "#F19739",
+    "#DB723D",
+    "#D39E3E",
+    "#987A5B",
+    "#6E472A",
+  ];
+
   return (
     <>
       <LayoutNavigation title="목표" rightButtonText="확인">
@@ -58,12 +90,11 @@ export const GoalsForm = () => {
         <ListRadio data={running}></ListRadio>
 
         <S.SubHeading>색상</S.SubHeading>
-        <S.ColorBox>
-          <HexColorPicker
-            color={goalColorUserSelected}
-            onChange={setGoalColorUserSelected}
-          />
-        </S.ColorBox>
+        <S.ColorPalette>
+          {colorList.map((color) => (
+            <S.OneColcor key={color} color={color}></S.OneColcor>
+          ))}
+        </S.ColorPalette>
       </LayoutNavigation>
 
       <S.DeleteButtonContainer>

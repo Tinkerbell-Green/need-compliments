@@ -42,6 +42,18 @@ margin-bottom: 0.7rem;
 }
 `
 
-export const ColorBox = styled.div`
-width: 1000px; // TODO: 지우기 default 사이즈에서 안 바뀌는 거 같음
+export const ColorPalette = styled.div`
+width: 100%;
+height: 100%;
+display: grid;
+grid-template: repeat(2, 3rem) / repeat(6, 19.2%);
+`
+
+export const OneColcor = styled.div`
+width: 1.5rem;
+height: 1.5rem;
+border-radius: 50%;
+border: 1px solid ${props => props.theme.colors.black};
+margin: 0 0rem 1rem 0;
+background: ${props => props.color};
 `
