@@ -10,8 +10,8 @@ import {UserInfo} from "pages";
 type SidebarProps = UserInfo & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
-  goalList: string[];
-  goalListColor: string[];
+  goals: string[];
+  goalsColor: string[];
 }
 
 export const Sidebar = ({
@@ -21,12 +21,12 @@ export const Sidebar = ({
   follwing,
   onCloseMenu,
   isMenuOpen,
-  goalList,
-  goalListColor
+  goals,
+  goalsColor
 }:SidebarProps) => {
   const router = useRouter();
   
-  const handleGoalListTitleClick = useCallback(()=>{
+  const handleGoalsTitleClick = useCallback(()=>{
     router.push("/goal");
   },[router]);
   
@@ -55,15 +55,15 @@ export const Sidebar = ({
           follwing={follwing}
           onFriendClick={handleFriendClick}/>
         <S.Goals>
-          <S.GoalsTitle onClick={handleGoalListTitleClick}>목표
+          <S.GoalsTitle onClick={handleGoalsTitleClick}>목표
             <S.ArrowIcon><KeyboardArrowRight/></S.ArrowIcon>
           </S.GoalsTitle>
           <S.GoalsContents>
-            {goalList.map((value,index)=>(
+            {goals.map((value,index)=>(
               <Chip 
                 key={index}
                 label={value}
-                color={goalListColor[index]}>
+                color={goalsColor[index]}>
               </Chip>
             ))}
           </S.GoalsContents>

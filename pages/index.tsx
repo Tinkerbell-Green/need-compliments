@@ -34,8 +34,8 @@ const Home: NextPage = () => {
     follwer: 40,
     follwing :30
   });
-  const [goalList,setGoalList] = useState(["Algorithm","Personal"]);
-  const [goalListColor,setGoalListColor] = useState(["orange","blueviolet"]);
+  const [goals,setGoals] = useState(["Algorithm","Personal"]);
+  const [goalsColor,setGoalsColor] = useState(["orange","blueviolet"]);
 
   const handleOpenMenu:React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
@@ -62,8 +62,8 @@ const Home: NextPage = () => {
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onCloseMenu={handleCloseMenu}
-        goalList={goalList}
-        goalListColor={goalListColor}
+        goals={goals}
+        goalsColor={goalsColor}
       ></Sidebar>
       <S.Container>
         <S.Profile>
@@ -73,11 +73,11 @@ const Home: NextPage = () => {
         <S.Feed>
           <S.Header>Feed</S.Header>
           <S.FeedContents>
-            {goalList.map((value,index)=>(
+            {goals.map((value,index)=>(
               <Chip
                 key={index}
                 label={value}
-                color={goalListColor[index]}
+                color={goalsColor[index]}
                 icon={<Eye/>}
                 onAdd={()=>console.log(`${value} clicked`)}
               >
