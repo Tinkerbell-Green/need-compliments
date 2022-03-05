@@ -1,13 +1,14 @@
 
 import {call, getContext, put} from "redux-saga/effects";
-import {actionCreators, ActionInstance, ActionType} from "../actions";
+import {actionCreators, ActionInstance, ActionType} from "../../query/actions";
 import {SagaStatus, TaskDocument} from "../types";
 import {getQuerySagaKey} from "../utils";
-import {GetDocumentReturn, Repository} from "utils/firebase";
+import {Repository, UpdateDocumentArguments} from "utils/firebase";
+import {UpdateDocumentReturn} from "utils/firebase";
 
-export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
+export function* updateTask(action: ActionInstance<ActionType.UPDATE_TASK>) {
   const payload = action.payload
-  const queryActionType = ActionType.GET_TASK
+  const queryActionType = ActionType.UPDATE_TASK
 
   const queryKey = getQuerySagaKey(action)
 
@@ -20,13 +21,20 @@ export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
   );
 
   try {
-    const repository: Repository = yield getContext("repository");
-    const response: GetDocumentReturn<TaskDocument> = yield call(
-      [repository, repository.getDocument],
-      {
-        path: "tasks",
-        pathSegments: payload.pathSegments
+    const args: UpdateDocumentArguments<TaskDocument> = {
+      path: "tasks",
+      pathSegments: payload.pathSegments,
+      data: {
+        ...payload.data,
+        updatedAt: new Date().toString(),
+        compliments: [],
       }
+    }
+
+    const repository: Repository = yield getContext("repository");
+    const response: UpdateDocumentReturn = yield call(
+      [repository, repository.updateDocument],
+      args
     );
 
     yield put(
@@ -43,7 +51,7 @@ export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
         key: queryKey,
         status: SagaStatus.SUCCEEDED
       })
-    );
+    );  
   } catch (error) {
     console.error(error);
 

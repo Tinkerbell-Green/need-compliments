@@ -1,7 +1,7 @@
 import {takeEvery} from "redux-saga/effects";
 import {ActionType} from "../actions"
-import {prepareUserData} from "./prepareUserData"
+import {getLoggedInUserData} from "./getLoggedInUserData"
 
 export function* dataSaga() {
-  yield takeEvery(ActionType.PRERARE_USER_DATA, prepareUserData)
+  yield takeEvery(ActionType.GET_LOGGED_IN_USER_DATA, getLoggedInUserData)
 }

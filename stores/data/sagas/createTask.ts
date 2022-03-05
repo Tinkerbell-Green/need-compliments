@@ -1,7 +1,7 @@
 
 import {call, getContext, put} from "redux-saga/effects";
 import {SagaStatus, TaskDocument} from "../types";
-import {actionCreators, ActionInstance} from "./../actions";
+import {actionCreators, ActionInstance} from "../../query/actions";
 import {getQuerySagaKey} from "./../utils";
 import {ActionType} from "stores/query";
 import {Repository, CreateDocumentArguments} from "utils/firebase";

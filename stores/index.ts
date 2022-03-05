@@ -38,7 +38,5 @@ export const makeStore = (context: Context) => {
 
 export const wrapper = createWrapper<Store<RootState>>(makeStore, {debug: true})
 
-
-export * as queryStore from "./query"
 export * as dataStore from "./data"
 export * as navigationStore from "./navigation"

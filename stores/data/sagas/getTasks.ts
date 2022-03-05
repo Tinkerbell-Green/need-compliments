@@ -1,7 +1,7 @@
 
 import {DocumentData} from "firebase/firestore";
 import {call, getContext, put} from "redux-saga/effects";
-import {actionCreators, ActionInstance, ActionType} from "../actions";
+import {actionCreators, ActionInstance, ActionType} from "../../query/actions";
 import {SagaStatus} from "../types";
 import {getQuerySagaKey} from "../utils";
 import {GetDocumentsReturn, Repository} from "utils/firebase";

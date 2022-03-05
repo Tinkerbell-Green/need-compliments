@@ -40,9 +40,10 @@ export default NextAuth({
         ...params.session,
         user: {
           ...params.session.user,
-          id: params.user.id
+          id: params.token?.sub || ""
         }
       }
+      console.log("params: ", params); // TODO: remove
 
       return Promise.resolve(newSession);
     }

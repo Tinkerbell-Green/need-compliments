@@ -1,36 +1,48 @@
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators, ActionPayload, ActionType, SagaActionType} from "./actions";
 import {RootState} from "stores/reducers";
 
 export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
   actionType: SagaActionType,
-  authorId?: string
+  keys: (keyof ActionPayload[SagaActionTypeT])[]
 ) => { 
-  const dispatch = useDispatch() 
-  const hostingUserId = useSelector((state: RootState)=>state.navigation.hostingUserId)
-  
-  const decidedAuthorId = useMemo(()=>{
-    return authorId || hostingUserId 
-  },[authorId, hostingUserId])
+  const dispatch = useDispatch()
 
-  const state = useSelector((state: RootState) => decidedAuthorId ? state["data"][actionType][decidedAuthorId] as RootState["data"][SagaActionTypeT][string] : undefined)
+  const [memoizedKeys, setMemoizedKeys] = useState(keys)
+
+  const key = generateKey(keys as string[])
+
+  useEffect(()=>{
+    const isEqual = [...keys].sort().join() === [...memoizedKeys].sort().join()
+    if (!isEqual){
+      setMemoizedKeys(keys)
+    }
+  },[keys, memoizedKeys])
   
-  const run = useCallback((payload: ActionPayload[SagaActionTypeT])=>{
-    if (actionType === ActionType.PRERARE_LOGGED_IN_USER_DATA) {
-      dispatch(actionCreators[actionType](payload as any)) // TODO: check about any warning
+  const state = useSelector((state: RootState) => {
+    const value = state["data"][actionType][key]
+    if (value) {
+      return value as RootState["data"][SagaActionTypeT][string]
+    } else {
+      return undefined
     }
-    else if (decidedAuthorId){
-      dispatch(actionCreators[actionType]({
-        ...payload,
-        authorId: decidedAuthorId,
-      }))
-    }
-  },[actionType, decidedAuthorId, dispatch])  
+  })
+  
+  const fetch = useCallback((payload: Omit<ActionPayload[SagaActionTypeT], "keys">)=>{
+    dispatch(actionCreators[actionType]({
+      ...payload,
+      keys: memoizedKeys,
+    } as any)) // TODO: check about any warning
+  },[actionType, dispatch, memoizedKeys])  
 
   return ({
-    authorId: decidedAuthorId,
-    run,
-    state
+    key,
+    fetch,
+    state,
+    data: state?.data,
+    status: state?.status
   }) 
 }
+
+export const generateKey = (keys: string[]) => keys.join("-")

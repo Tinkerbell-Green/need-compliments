@@ -1,14 +1,14 @@
 
 import {call, getContext, put} from "redux-saga/effects";
-import {actionCreators, ActionInstance, ActionType} from "../actions";
-import {SagaStatus, TaskDocument} from "../types";
+import {actionCreators, ActionInstance,  ActionType} from "../../query/actions";
+import {SagaStatus} from "../types";
 import {getQuerySagaKey} from "../utils";
-import {Repository, UpdateDocumentArguments} from "utils/firebase";
-import {UpdateDocumentReturn} from "utils/firebase";
+import {Repository} from "utils/firebase";
+import {DeleteDocumentReturn} from "utils/firebase";
 
-export function* updateTask(action: ActionInstance<ActionType.UPDATE_TASK>) {
+export function* deleteTask(action: ActionInstance<ActionType.DELETE_TASK>) {
   const payload = action.payload
-  const queryActionType = ActionType.UPDATE_TASK
+  const queryActionType = ActionType.DELETE_TASK
 
   const queryKey = getQuerySagaKey(action)
 
@@ -19,22 +19,15 @@ export function* updateTask(action: ActionInstance<ActionType.UPDATE_TASK>) {
       status: SagaStatus.LOADING
     })
   );
-
+  
   try {
-    const args: UpdateDocumentArguments<TaskDocument> = {
-      path: "tasks",
-      pathSegments: payload.pathSegments,
-      data: {
-        ...payload.data,
-        updatedAt: new Date().toString(),
-        compliments: [],
-      }
-    }
-
     const repository: Repository = yield getContext("repository");
-    const response: UpdateDocumentReturn = yield call(
-      [repository, repository.updateDocument],
-      args
+    const response: DeleteDocumentReturn = yield call(
+      [repository, repository.deleteDocument],
+      {
+        path: "tasks",
+        pathSegments: payload.pathSegments
+      }
     );
 
     yield put(
@@ -51,9 +44,9 @@ export function* updateTask(action: ActionInstance<ActionType.UPDATE_TASK>) {
         key: queryKey,
         status: SagaStatus.SUCCEEDED
       })
-    );  
+    );
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     yield put(
       actionCreators[ActionType.SET_QUERY_STATUS]({
