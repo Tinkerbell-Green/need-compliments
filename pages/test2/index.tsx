@@ -17,11 +17,6 @@ const TestPage: NextPage = () => {
     })
   },[fetch])
 
-  useEffect(()=>{
-    console.log("state: ", state); // TODO: remove 
-  },[state])
-
-
   return (
     <LayoutNavigation
       title="test"

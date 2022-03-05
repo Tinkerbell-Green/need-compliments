@@ -11,15 +11,10 @@ export const UserProvider = ({
   children
 }: UserProviderProps) => {
   const {data: session, status} = useSession()
-  const {fetch, data} = useDataSaga(dataStore.ActionType.GET_LOGGED_IN_USER_DATA, [])
+  const {fetch} = useDataSaga(dataStore.ActionType.GET_LOGGED_IN_USER_DATA, [])
 
   useEffect(()=>{
-    console.log("status: ", status); // TODO: remove 
-  },[status])
-  
-  useEffect(()=>{
     const sessionUserId = ((session?.user || {}) as any).id
-    console.log("sessionUserId: ", sessionUserId); // TODO: remove
 
     if (status === "authenticated" && sessionUserId){
       fetch({
@@ -30,10 +25,6 @@ export const UserProvider = ({
       })
     }
   },[fetch, session?.user, status])
-
-  useEffect(()=>{
-    console.log("data: ", data); // TODO: remove 
-  },[data])
 
   return (<>
     {children}

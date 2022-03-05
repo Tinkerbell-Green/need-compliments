@@ -43,7 +43,6 @@ export default NextAuth({
           id: params.token?.sub || ""
         }
       }
-      console.log("params: ", params); // TODO: remove
 
       return Promise.resolve(newSession);
     }
