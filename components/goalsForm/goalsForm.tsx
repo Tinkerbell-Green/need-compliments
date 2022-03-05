@@ -1,17 +1,9 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as S from "./goalsForm.styled";
 import { ListItemRadioProps } from "./listItemRadio";
 import { ListRadio } from "./listRadio";
-import { LayoutNavigation } from "components/layout-navigation";
 
 export const GoalsForm = () => {
-  const router = useRouter();
-
-  const onLeftButtonClick = () => {
-    router.push("/goals");
-  };
-
   const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
 
   const [publicSettingOptions, setPublicSettingOptions] = useState<
@@ -86,42 +78,30 @@ export const GoalsForm = () => {
 
   return (
     <>
-      <LayoutNavigation
-        title="목표"
-        rightButtonText="확인"
-        onLeftButtonClick={onLeftButtonClick}
-      >
-        <S.SubHeading>제목</S.SubHeading>
-        <S.GoalTitle
-          color={selectedGoalColor}
-          placeholder="나는 알고리즘을 정복하겠다!"
-        ></S.GoalTitle>
+      <S.SubHeading>제목</S.SubHeading>
+      <S.GoalTitle
+        color={selectedGoalColor}
+        placeholder="나는 알고리즘을 정복하겠다!"
+      ></S.GoalTitle>
 
-        <S.SubHeading>공개설정</S.SubHeading>
-        <ListRadio data={publicSettingOptions}></ListRadio>
+      <S.SubHeading>공개설정</S.SubHeading>
+      <ListRadio data={publicSettingOptions}></ListRadio>
 
-        <S.SubHeading>진행 상황</S.SubHeading>
-        <ListRadio data={runningOptions}></ListRadio>
+      <S.SubHeading>진행 상황</S.SubHeading>
+      <ListRadio data={runningOptions}></ListRadio>
 
-        <S.SubHeading>색상</S.SubHeading>
-        <S.ColorPalette>
-          {goalColorList.map((color) => (
-            <S.OneColcor
-              key={color}
-              color={color}
-              onClick={() => {
-                setSelectedGoalColor(color);
-              }}
-            ></S.OneColcor>
-          ))}
-        </S.ColorPalette>
-      </LayoutNavigation>
-
-      <S.DeleteButtonContainer>
-        <S.DeleteButton>
-          <span>삭제</span>
-        </S.DeleteButton>
-      </S.DeleteButtonContainer>
+      <S.SubHeading>색상</S.SubHeading>
+      <S.ColorPalette>
+        {goalColorList.map((color) => (
+          <S.OneColcor
+            key={color}
+            color={color}
+            onClick={() => {
+              setSelectedGoalColor(color);
+            }}
+          ></S.OneColcor>
+        ))}
+      </S.ColorPalette>
     </>
   );
 };
