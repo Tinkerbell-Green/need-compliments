@@ -2,17 +2,23 @@
 import {call, getContext, put} from "redux-saga/effects";
 import * as actions from "../actions";
 import {QueryName, QueryStatus, TaskData} from "../types";
+import {actionCreators, ActionInstance} from "./../actions";
+import {getQueryKey} from "./../utils";
+import {ActionType} from "stores/query";
 import {Repository, CreateDocumentArguments} from "utils/firebase";
 import {CreateDocumentReturn} from "utils/firebase";
 
-export function* createTask(action: actions.CREATE_TASK_Instance) {
+export function* createTask(action: ActionInstance<ActionType.CREATE_TASK>) {
   const payload = action.payload
 
+  const queryKey = getQueryKey(action)
+
   yield put(
-    actions.return__SET_QUERY_STATUS({
-      name: QueryName.CREATE_TASK,
+    actionCreators[ActionType.SET_QUERY_STATUS]({
+      type: ActionType.CREATE_TASK,
+      key: queryKey,
       status: QueryStatus.LOADING
-    }),
+    })
   );
 
   try {
@@ -34,27 +40,29 @@ export function* createTask(action: actions.CREATE_TASK_Instance) {
     );
 
     yield put(
-      actions.return__SET_QUERY_RESPONSE({
-        name: QueryName.CREATE_TASK,
-        response,
-      }),
-    );
+      actionCreators[ActionType.SET_QUERY_RESPONSE]({
+        type: ActionType.CREATE_TASK,
+        key: queryKey,
+        response
+      })
+    ); 
 
     yield put(
-      actions.return__SET_QUERY_STATUS({
-        name: QueryName.CREATE_TASK,
+      actionCreators[ActionType.SET_QUERY_STATUS]({
+        type: ActionType.CREATE_TASK,
+        key: queryKey,
         status: QueryStatus.SUCCEEDED
-      }),
-    );
-    
+      })
+    );  
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     yield put(
-      actions.return__SET_QUERY_STATUS({
-        name: QueryName.CREATE_TASK,
+      actionCreators[ActionType.SET_QUERY_STATUS]({
+        type: ActionType.CREATE_TASK,
+        key: queryKey,
         status: QueryStatus.FAILED
-      }),
+      })
     );
   }
 }

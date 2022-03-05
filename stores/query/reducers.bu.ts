@@ -6,28 +6,29 @@ import {QueryState, TaskData} from "./types";
 import {CreateDocumentData, DeleteDocumentData, GetDocumentData} from "utils/firebase";
 import {putValueInNestedObject} from "utils/others/putValueInNestedObject";
 
+export type State = {
+  [ActionType.CREATE_TASK]: Record<string, 
+    QueryState & {
+      response: CreateDocumentData<TaskData> | undefined
+    }
+  >,
+  [ActionType.DELETE_TASK]: Record<string, 
+    QueryState & {
+      response: DeleteDocumentData | undefined
+    }
+  >,
+  [ActionType.GET_TASK]: Record<string, 
+    QueryState & {
+      response: GetDocumentData<TaskData> | undefined
+    }
+  >,
+}
 
-
-// {
-//   [ActionType.CREATE_TASK]: Record<string, 
-//     QueryState & {
-//       response: CreateDocumentData<TaskData> | undefined
-//     }
-//   >,
-//   [ActionType.DELETE_TASK]: Record<string, 
-//     QueryState & {
-//       response: DeleteDocumentData | undefined
-//     }
-//   >,
-//   [ActionType.GET_TASK]: Record<string, 
-//     QueryState & {
-//       response: GetDocumentData<TaskData> | undefined
-//     }
-//   >,
-// }
-export type State = Record<string, QueryState>
-
-const initialState: State = {};
+const initialState: State = {
+  [ActionType.CREATE_TASK]: {},
+  [ActionType.DELETE_TASK]: {},
+  [ActionType.GET_TASK]: {},
+};
 
 export const queryReducer = handleActions<State, any>(
   {
@@ -49,18 +50,24 @@ export const queryReducer = handleActions<State, any>(
     [ActionType.SET_QUERY_STATUS]: (previousState, action: Action<ActionPayload[ActionType.SET_QUERY_STATUS]>) => {
       return ({
         ...previousState,
-        [action.payload.key]: {
-          ...previousState[action.payload.key as QueryActionType],
-          status: action.payload.status
+        [action.type]: {
+          ...previousState[action.type as QueryActionType],
+          [action.payload.key]: {
+            ...previousState[action.type as QueryActionType][action.payload.key],
+            status: action.payload.status
+          }
         }
       })
     },
     [ActionType.SET_QUERY_RESPONSE]: (previousState, action: Action<ActionPayload[ActionType.SET_QUERY_RESPONSE]>) => {
       return ({
         ...previousState,
-        [action.payload.key]: {
-          ...previousState[action.payload.key as QueryActionType],
-          response: action.payload.response
+        [action.type]: {
+          ...previousState[action.type as QueryActionType],
+          [action.payload.key]: {
+            ...previousState[action.type as QueryActionType][action.payload.key],
+            response: action.payload.response
+          }
         }
       })
     },

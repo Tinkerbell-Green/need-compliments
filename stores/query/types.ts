@@ -1,3 +1,5 @@
+import {ActionType} from "./actions"
+
 export type TaskData = {
   id: string
   title: string
@@ -49,6 +51,7 @@ export enum QueryName {
 }
 
 export type QueryState = {
+  type: ActionType
   status: QueryStatus
   response: unknown
 }

@@ -1,5 +1,6 @@
 import {createWrapper, Context} from "next-redux-wrapper";
 import {applyMiddleware, createStore, Middleware, Store} from "redux";
+import {createLogger} from "redux-logger"
 import createSagaMiddleware, {Task} from "redux-saga";
 
 import rootReducer, {RootState} from "./reducers";
@@ -20,13 +21,15 @@ const bindMiddleware = (middlewares: Middleware<any, any, any>[]) => {
   return applyMiddleware(...middlewares)
 }
 
+const logger = createLogger();
+
 export const makeStore = (context: Context) => {
   const sagaMiddleware = createSagaMiddleware({
     context: {
       repository,
     }
   })
-  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware])) as SagaStore
+  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware, logger])) as SagaStore
 
   store.sagaTask = sagaMiddleware.run(rootSaga)
 
