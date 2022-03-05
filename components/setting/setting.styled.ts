@@ -11,20 +11,20 @@ export const DeleteAccount = styled(SubHeading)`
 color: ${props => props.theme.colors["rose-500"]};
 `
 
-export const infoList = styled.ul`
+export const InfoList = styled.ul`
 display: flex;
 flex-direction: column;
 justify-content: center;
 `
 
-export const infoListItem = styled.div`
+export const InfoListItem = styled.div`
 list-style: none;
 display: flex;
 justify-content: space-between;
 margin: 0.6rem 0 0.6rem 0;
 `
 
-export const infoListItemEmail = styled(infoListItem)`
+export const InfoListItemEmail = styled(InfoListItem)`
 display: block;
 
 > p{
