@@ -1,6 +1,7 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
-import React, {useCallback, useState} from "react"
+import {signIn, useSession} from "next-auth/react";
+import React, {useCallback, useState,useEffect} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
 import {LayoutMain} from "components/layout-main"
@@ -16,6 +17,15 @@ export type UserInfo = {
 }
 
 const Home: NextPage = () => {
+  const {data: session} = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      signIn();
+    }
+    if(session) console.log(session.user?.name,session.user?.email);
+  }, [session]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name : "HongBeen Lee",
@@ -35,7 +45,7 @@ const Home: NextPage = () => {
     }
   },[isMenuOpen]);
 
-  return (
+  return !session ? null : (
     <LayoutMain>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
