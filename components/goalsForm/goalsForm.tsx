@@ -72,7 +72,7 @@ export const GoalsForm = () => {
     "#6E472A",
   ];
 
-  const onGoalColorClick = (color: string) => {
+  const onColorClick = (color: string) => {
     setSelectedGoalColor(color);
   };
 
@@ -96,9 +96,7 @@ export const GoalsForm = () => {
           <S.OneColcor
             key={color}
             color={color}
-            onClick={() => {
-              setSelectedGoalColor(color);
-            }}
+            onClick={() => onColorClick(color)}
           ></S.OneColcor>
         ))}
       </S.ColorPalette>
