@@ -1,9 +1,9 @@
-import type {NextPage} from "next";
-import {useRouter} from "next/router";
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import React from "react";
 import * as S from "../../../components/goalsForm/goalsForm.styled";
-import {GoalsForm} from "components/goalsForm";
-import {LayoutNavigation} from "components/layout-navigation";
+import { GoalsForm } from "components/goalsForm";
+import { LayoutNavigation } from "components/layout-navigation";
 
 const GoalsFormPage: NextPage = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const GoalsFormPage: NextPage = () => {
         rightButtonText="확인"
         onLeftButtonClick={onLeftButtonClick}
       >
-        <GoalsForm></GoalsForm>;
+        <GoalsForm></GoalsForm>
       </LayoutNavigation>
 
       <S.DeleteButtonContainer>
