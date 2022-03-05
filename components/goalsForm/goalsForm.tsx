@@ -41,7 +41,7 @@ export const GoalsForm = () => {
     },
   ]);
 
-  const colorList = [
+  const goalColorList = [
     "#808080",
     "#292F56",
     "#222F92",
@@ -91,7 +91,7 @@ export const GoalsForm = () => {
 
         <S.SubHeading>색상</S.SubHeading>
         <S.ColorPalette>
-          {colorList.map((color) => (
+          {goalColorList.map((color) => (
             <S.OneColcor key={color} color={color}></S.OneColcor>
           ))}
         </S.ColorPalette>

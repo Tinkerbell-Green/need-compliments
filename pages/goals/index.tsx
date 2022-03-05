@@ -1,13 +1,15 @@
-import type {NextPage} from "next"
-import React from "react"
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import React from "react";
 
 const GoalsPage: NextPage = () => {
+  const router = useRouter();
 
-  return (
-    <div>
-      Goals
-    </div>   
-  )
-}
+  const onClick = () => {
+    router.push("/");
+  };
 
-export default GoalsPage
+  return <button onClick={onClick}>home으로 가요</button>;
+};
+
+export default GoalsPage;
