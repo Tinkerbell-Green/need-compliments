@@ -54,7 +54,6 @@ export const Sidebar = ({
           <S.GoalListTitle onClick={handleGoalListTitleClick}>목표
             <span>{">"}</span>
           </S.GoalListTitle>
-          {/* TODO: item 하나를 grayBox로 일반화 - 텍스트 기준 left,right 위치에 버튼추가할수있게 */}
           {goalList.map((value,index)=>(
             <S.GoalListItem key={index}>{value}</S.GoalListItem>
           ))}

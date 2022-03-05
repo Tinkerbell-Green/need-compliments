@@ -6,6 +6,8 @@ import {Calendar} from "components/calendar"
 import {LayoutMain} from "components/layout-main"
 import {Sidebar} from "components/sidebar";
 
+//TODO: stores/query/types 에 있는 UserData 타입으로 수정
+// (followers 는 해당 유저를 팔로우하는 사용자 아이디의 배열)
 export type UserInfo = {
   name : string,
   email : string,
@@ -48,7 +50,7 @@ const Home: NextPage = () => {
         follwing={userInfo.follwing}
         isMenuOpen={isMenuOpen}
         onCloseMenu={handleCloseMenu}
-        goalList={goalList} //TODO: 객체를 전달하는 방식말고.. 일반화한 gray-box컴포넌트를 여기서 만들어서 children으로 전달?
+        goalList={goalList}
       ></Sidebar>
     </LayoutMain>
   );
