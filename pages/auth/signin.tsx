@@ -9,7 +9,6 @@ import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
 import * as S from "./signin.styled";
 import { LayoutCenter } from "components/layout-center";
-import { SocialLoginButton } from "components/socialLoginButton";
 
 export default function SignIn({
   providers,
@@ -29,20 +28,19 @@ export default function SignIn({
         ? Object.values(providers).map((provider) => {
             if (provider.name === "Kakao") {
               return (
-                // <S.KakaoBtn
-                //   key={provider.name}
-                //   onClick={() => signIn(provider.id)}
-                // >
-                //   <Image
-                //     width={50}
-                //     height={50}
-                //     quality={100}
-                //     src={kakaoLogo}
-                //     alt=""
-                //   ></Image>
-                //   <span>카카오톡으로 계속하기</span>
-                // </S.KakaoBtn>
-                <SocialLoginButton provider={provider} />
+                <S.KakaoBtn
+                  key={provider.name}
+                  onClick={() => signIn(provider.id)}
+                >
+                  <Image
+                    width={50}
+                    height={50}
+                    quality={100}
+                    src={kakaoLogo}
+                    alt=""
+                  ></Image>
+                  <span>카카오톡으로 계속하기</span>
+                </S.KakaoBtn>
               );
             } else if (provider.name === "Naver") {
               return (
