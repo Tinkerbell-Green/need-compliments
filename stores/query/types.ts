@@ -27,7 +27,9 @@ export type ComplimentDocument = {
 }
 
 export type UserDocument = {
-  name: string 
+  email: string
+  name: string
+  image: string
   followers: string[]
   followings: string[]
   createdAt: string

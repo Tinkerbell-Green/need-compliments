@@ -1,29 +1,36 @@
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {actionCreators, ActionPayload, SagaActionType} from "./actions";
-import {getDataSagaKey} from "./utils";
+import {actionCreators, ActionPayload, ActionType, SagaActionType} from "./actions";
 import {RootState} from "stores/reducers";
 
 export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
-  actionType: SagaActionType
+  actionType: SagaActionType,
+  authorId?: string
 ) => { 
   const dispatch = useDispatch() 
-
-  const [key, setKey] = useState<string>();
-
-  const state = useSelector((state: RootState) => key ? state["data"][actionType][key] as RootState["data"][SagaActionTypeT][string] : undefined)
+  const hostingUserId = useSelector((state: RootState)=>state.navigation.hostingUserId)
   
-  const fetch = useCallback((payload: ActionPayload[SagaActionTypeT])=>{
-    dispatch(actionCreators[actionType](payload as any))
-    setKey(getDataSagaKey({
-      type: actionType,
-      payload: payload as any,
-    }));
-  },[actionType, dispatch])  
+  const decidedAuthorId = useMemo(()=>{
+    return authorId || hostingUserId 
+  },[authorId, hostingUserId])
+
+  const state = useSelector((state: RootState) => decidedAuthorId ? state["data"][actionType][decidedAuthorId] as RootState["data"][SagaActionTypeT][string] : undefined)
+  
+  const run = useCallback((payload: ActionPayload[SagaActionTypeT])=>{
+    if (actionType === ActionType.PRERARE_LOGGED_IN_USER_DATA) {
+      dispatch(actionCreators[actionType](payload as any)) // TODO: check about any warning
+    }
+    else if (decidedAuthorId){
+      dispatch(actionCreators[actionType]({
+        ...payload,
+        authorId: decidedAuthorId,
+      }))
+    }
+  },[actionType, decidedAuthorId, dispatch])  
 
   return ({
-    key,
-    fetch,
+    authorId: decidedAuthorId,
+    run,
     state
   }) 
 }

@@ -7,6 +7,7 @@ export const LayoutNavigation = styled.div`
   min-width: 100vw;
   min-height: 100vh;
   flex-direction: column;
+  align-items: center;
 `
 
 export const Header = styled.header`
@@ -37,4 +38,8 @@ export const Title = styled.span`
 
 export const Content = styled.div`
   margin-top: ${HEAHER_HEIGHT}px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
 `

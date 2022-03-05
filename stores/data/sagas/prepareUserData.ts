@@ -1,10 +1,9 @@
-import { UserDocument } from './../../query copy/types';
-
 import {call, getContext, put} from "redux-saga/effects";
 import {actionCreators, ActionInstance, ActionType} from "../actions";
 import {DataSagaStatus} from "../types";
 import {getDataSagaKey} from "../utils";
-import {GetDocumentReturn, Repository} from "utils/firebase";
+import {UserDocument} from "stores/query";
+import {GetDocumentData, Repository} from "utils/firebase";
 
 export function* prepareUserData(action: ActionInstance<ActionType.PRERARE_USER_DATA>) {
   const payload = action.payload
@@ -14,34 +13,34 @@ export function* prepareUserData(action: ActionInstance<ActionType.PRERARE_USER_
 
   yield put(
     actionCreators[ActionType.SET_DATA_STATUS]({
+      authorId: payload.authorId,
       type: queryActionType,
-      key: queryKey,
       status: DataSagaStatus.LOADING
     })
   );
 
   try {
     const repository: Repository = yield getContext("repository");
-    const response: GetDocumentReturn<UserDocument> = yield call(
+    const response: GetDocumentData<UserDocument> = yield call(
       [repository, repository.getDocument],
       {
-        path: "tasks",
-        pathSegments: [payload.userId]
+        path: "users",
+        pathSegments: [payload.authorId]
       }
     );
 
     yield put(
       actionCreators[ActionType.SET_DATA_DATA]({
+        authorId: payload.authorId,
         type: queryActionType,
-        key: queryKey,
-        data: response.
+        data: response.data()
       })
     ); 
 
     yield put(
       actionCreators[ActionType.SET_DATA_STATUS]({
+        authorId: payload.authorId,
         type: queryActionType,
-        key: queryKey,
         status: DataSagaStatus.SUCCEEDED
       })
     );
@@ -49,10 +48,10 @@ export function* prepareUserData(action: ActionInstance<ActionType.PRERARE_USER_
     console.error(error);
 
     yield put(
-      actionCreators[ActionType.SET_QUERY_STATUS]({
+      actionCreators[ActionType.SET_DATA_STATUS]({
+        authorId: payload.authorId,
         type: queryActionType,
-        key: queryKey,
-        status: SagaStatus.FAILED
+        status: DataSagaStatus.FAILED
       })
     );
   }

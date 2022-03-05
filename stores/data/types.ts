@@ -23,8 +23,11 @@ export enum DataSagaStatus {
   SUCCEEDED = "succeeded"
 }
 
-export type QuerySagaState = {
+export type DataSagaState = {
+  authorId: string
   type: ActionType
   status: DataSagaStatus
-  response: unknown
+  data: unknown
 }
+
+export const LOGGED_IN_USER_ID = "loggedIn"
