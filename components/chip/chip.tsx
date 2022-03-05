@@ -13,7 +13,7 @@ type ChipProps = {
 export const Chip = ({
   children,
   label,
-  color,
+  color="#ffffff",
   icon,
   onAdd
 }:ChipProps) => {

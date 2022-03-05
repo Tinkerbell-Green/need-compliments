@@ -54,37 +54,41 @@ const Home: NextPage = () => {
           <Menu />
         </S.MenuIcon>
       </S.IconList>
-      <Calendar></Calendar>
-      <Sidebar
-        name={userInfo.name} 
-        email={userInfo.email}
-        follwer={userInfo.follwer}
-        follwing={userInfo.follwing}
-        isMenuOpen={isMenuOpen}
-        onCloseMenu={handleCloseMenu}
-        goals={goals}
-        goalsColor={goalsColor}
-      ></Sidebar>
-      <S.Container>
-        <S.Profile>
-          <S.Name>{userInfo.name}</S.Name>
-          <S.SecondaryName>{userInfo.email}</S.SecondaryName>
-        </S.Profile>
-        <S.Feed>
-          <S.Header>Feed</S.Header>
-          <S.FeedContents>
-            {goals.map((value,index)=>(
-              <Chip
-                key={index}
-                label={value}
-                color={goalsColor[index]}
-                icon={<Eye/>}
-                onAdd={()=>console.log(`${value} clicked`)}
-              >
-              </Chip>))}
-          </S.FeedContents>
-        </S.Feed>
-      </S.Container>
+      <div className="visible">
+        <Calendar></Calendar>
+        <S.Container>
+          <S.Profile>
+            <S.Name>{userInfo.name}</S.Name>
+            <S.SecondaryName>{userInfo.email}</S.SecondaryName>
+          </S.Profile>
+          <S.Feed>
+            <S.Header>Feed</S.Header>
+            <S.FeedContents>
+              {goals.map((value,index)=>(
+                <Chip
+                  key={index}
+                  label={value}
+                  color={goalsColor[index]}
+                  icon={<Eye/>}
+                  onAdd={()=>console.log(`${value} clicked`)}
+                >
+                </Chip>))}
+            </S.FeedContents>
+          </S.Feed>
+        </S.Container>
+      </div>
+      <div className="invisible">
+        <Sidebar
+          name={userInfo.name} 
+          email={userInfo.email}
+          follwer={userInfo.follwer}
+          follwing={userInfo.follwing}
+          isMenuOpen={isMenuOpen}
+          onCloseMenu={handleCloseMenu}
+          goals={goals}
+          goalsColor={goalsColor}
+        ></Sidebar>
+      </div>
     </LayoutMain>
   );
 };

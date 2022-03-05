@@ -9,4 +9,5 @@ export const LayoutMain = styled.div`
 
 export const Contents = styled.div`
   width: 100%;
+  flex-direction: column;
 `;
