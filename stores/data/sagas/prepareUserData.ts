@@ -1,47 +1,48 @@
+import { UserDocument } from './../../query copy/types';
 
 import {call, getContext, put} from "redux-saga/effects";
 import {actionCreators, ActionInstance, ActionType} from "../actions";
-import {SagaStatus, TaskDocument} from "../types";
-import {getQuerySagaKey} from "../utils";
+import {DataSagaStatus} from "../types";
+import {getDataSagaKey} from "../utils";
 import {GetDocumentReturn, Repository} from "utils/firebase";
 
-export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
+export function* prepareUserData(action: ActionInstance<ActionType.PRERARE_USER_DATA>) {
   const payload = action.payload
-  const queryActionType = ActionType.GET_TASK
+  const queryActionType = ActionType.PRERARE_USER_DATA
 
-  const queryKey = getQuerySagaKey(action)
+  const queryKey = getDataSagaKey(action)
 
   yield put(
-    actionCreators[ActionType.SET_QUERY_STATUS]({
+    actionCreators[ActionType.SET_DATA_STATUS]({
       type: queryActionType,
       key: queryKey,
-      status: SagaStatus.LOADING
+      status: DataSagaStatus.LOADING
     })
   );
 
   try {
     const repository: Repository = yield getContext("repository");
-    const response: GetDocumentReturn<TaskDocument> = yield call(
+    const response: GetDocumentReturn<UserDocument> = yield call(
       [repository, repository.getDocument],
       {
         path: "tasks",
-        pathSegments: payload.pathSegments
+        pathSegments: [payload.userId]
       }
     );
 
     yield put(
-      actionCreators[ActionType.SET_QUERY_RESPONSE]({
+      actionCreators[ActionType.SET_DATA_DATA]({
         type: queryActionType,
         key: queryKey,
-        response
+        data: response.
       })
     ); 
 
     yield put(
-      actionCreators[ActionType.SET_QUERY_STATUS]({
+      actionCreators[ActionType.SET_DATA_STATUS]({
         type: queryActionType,
         key: queryKey,
-        status: SagaStatus.SUCCEEDED
+        status: DataSagaStatus.SUCCEEDED
       })
     );
   } catch (error) {

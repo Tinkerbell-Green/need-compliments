@@ -1,13 +1,14 @@
 
+import {DocumentData} from "firebase/firestore";
 import {call, getContext, put} from "redux-saga/effects";
 import {actionCreators, ActionInstance, ActionType} from "../actions";
-import {SagaStatus, TaskDocument} from "../types";
+import {SagaStatus} from "../types";
 import {getQuerySagaKey} from "../utils";
-import {GetDocumentReturn, Repository} from "utils/firebase";
+import {GetDocumentsReturn, Repository} from "utils/firebase";
 
-export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
+export function* getTasks(action: ActionInstance<ActionType.GET_TASKS>) {
   const payload = action.payload
-  const queryActionType = ActionType.GET_TASK
+  const queryActionType = ActionType.GET_TASKS
 
   const queryKey = getQuerySagaKey(action)
 
@@ -21,11 +22,11 @@ export function* getTask(action: ActionInstance<ActionType.GET_TASK>) {
 
   try {
     const repository: Repository = yield getContext("repository");
-    const response: GetDocumentReturn<TaskDocument> = yield call(
-      [repository, repository.getDocument],
+    const response: GetDocumentsReturn<DocumentData> = yield call(
+      [repository, repository.getDocuments],
       {
         path: "tasks",
-        pathSegments: payload.pathSegments
+        queryConstraints: payload.queryConstraints
       }
     );
 

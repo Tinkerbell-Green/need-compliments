@@ -1,7 +1,6 @@
 import {ActionType} from "./actions"
 
-export type TaskData = {
-  id: string
+export type TaskDocument = {
   title: string
   category: string
   compliments: string[]
@@ -11,8 +10,7 @@ export type TaskData = {
   updatedAt: string
 }
 
-export type CategoryData = {
-  id: string
+export type GoalDocument = {
   name: string
   color: string
   author: string
@@ -20,8 +18,7 @@ export type CategoryData = {
   updatedAt: string
 }
 
-export type ComplimentData = {
-  id: string
+export type ComplimentDocument = {
   emoji: string
   message: string
   author: string
@@ -29,29 +26,21 @@ export type ComplimentData = {
   updatedAt: string
 }
 
-export type UserData = {
-  id: string
+export type UserDocument = {
   name: string 
   followers: string[]
   followings: string[]
   createdAt: string
 }
 
-export enum QueryStatus {
-  IDLE = "idle",
+export enum SagaStatus {
   LOADING = "loading",
   FAILED = "failed",
   SUCCEEDED = "succeeded"
 }
 
-export enum QueryName {
-  CREATE_TASK = "createTask",
-  DELETE_TASK = "deleteTask",
-  GET_TASK = "getTask",
-}
-
-export type QueryState = {
+export type QuerySagaState = {
   type: ActionType
-  status: QueryStatus
+  status: SagaStatus
   response: unknown
 }

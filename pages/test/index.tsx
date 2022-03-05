@@ -3,8 +3,8 @@ import React, {useCallback, useEffect, useMemo, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {LayoutNavigation} from "components/layout-navigation/layout-navigation.styled";
 import {queryStore} from "stores";
+import {SagaStatus} from "stores/query/types";
 import {RootState} from "stores/reducers";
-import { QueryStatus } from "stores/query/types";
 
 const TestPage: NextPage = () => {
   const dispatch = useDispatch()
@@ -45,7 +45,7 @@ const TestPage: NextPage = () => {
 
   useEffect(()=>{
     if (!createdDocId) return;
-    if (deleteTaskState.status === QueryStatus.SUCCEEDED){
+    if (deleteTaskState.status === SagaStatus.SUCCEEDED){
       dispatch(queryStore.return__GET_TASK({
         pathSegments: [createdDocId]
       }))

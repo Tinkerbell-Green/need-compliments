@@ -1,20 +1,25 @@
 
 import {call, getContext, put} from "redux-saga/effects";
-import * as actions from "../actions";
-import {QueryName, QueryStatus} from "../types";
+import {actionCreators, ActionInstance,  ActionType} from "../actions";
+import {SagaStatus} from "../types";
+import {getQuerySagaKey} from "../utils";
 import {Repository} from "utils/firebase";
 import {DeleteDocumentReturn} from "utils/firebase";
 
-export function* deleteTask(action: actions.DELETE_TASK_Instance) {
+export function* deleteTask(action: ActionInstance<ActionType.DELETE_TASK>) {
   const payload = action.payload
+  const queryActionType = ActionType.DELETE_TASK
+
+  const queryKey = getQuerySagaKey(action)
 
   yield put(
-    actions.return__SET_QUERY_STATUS({
-      name: QueryName.DELETE_TASK,
-      status: QueryStatus.LOADING
-    }),
+    actionCreators[ActionType.SET_QUERY_STATUS]({
+      type: queryActionType,
+      key: queryKey,
+      status: SagaStatus.LOADING
+    })
   );
-
+  
   try {
     const repository: Repository = yield getContext("repository");
     const response: DeleteDocumentReturn = yield call(
@@ -26,27 +31,29 @@ export function* deleteTask(action: actions.DELETE_TASK_Instance) {
     );
 
     yield put(
-      actions.return__SET_QUERY_RESPONSE({
-        name: QueryName.DELETE_TASK,
-        response,
-      }),
-    );
+      actionCreators[ActionType.SET_QUERY_RESPONSE]({
+        type: queryActionType,
+        key: queryKey,
+        response
+      })
+    ); 
 
     yield put(
-      actions.return__SET_QUERY_STATUS({
-        name: QueryName.DELETE_TASK,
-        status: QueryStatus.SUCCEEDED
-      }),
+      actionCreators[ActionType.SET_QUERY_STATUS]({
+        type: queryActionType,
+        key: queryKey,
+        status: SagaStatus.SUCCEEDED
+      })
     );
-    
   } catch (error) {
     console.log(error);
 
     yield put(
-      actions.return__SET_QUERY_STATUS({
-        name: QueryName.DELETE_TASK,
-        status: QueryStatus.FAILED
-      }),
+      actionCreators[ActionType.SET_QUERY_STATUS]({
+        type: queryActionType,
+        key: queryKey,
+        status: SagaStatus.FAILED
+      })
     );
   }
 }
