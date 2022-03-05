@@ -3,8 +3,15 @@ import * as S from "./goalsForm.styled";
 import { ListItemRadioProps } from "./listItemRadio";
 import { ListRadio } from "./listRadio";
 import { LayoutNavigation } from "components/layout-navigation";
+import { useRouter } from "next/router";
 
 export const GoalsForm = () => {
+  const router = useRouter();
+
+  const onLeftButtonClick = () => {
+    router.push("/goals");
+  };
+
   const [goalColorUserSelected, setGoalColorUserSelected] =
     useState<string>("#ffffff");
 
@@ -76,7 +83,11 @@ export const GoalsForm = () => {
 
   return (
     <>
-      <LayoutNavigation title="목표" rightButtonText="확인">
+      <LayoutNavigation
+        title="목표"
+        rightButtonText="확인"
+        onLeftButtonClick={onLeftButtonClick}
+      >
         <S.SubHeading>제목</S.SubHeading>
         <S.GoalTitle
           color={goalColorUserSelected}
