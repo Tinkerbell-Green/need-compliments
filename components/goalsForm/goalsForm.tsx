@@ -12,8 +12,7 @@ export const GoalsForm = () => {
     router.push("/goals");
   };
 
-  const [goalColorUserSelected, setGoalColorUserSelected] =
-    useState<string>("#ffffff");
+  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
 
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
@@ -40,7 +39,7 @@ export const GoalsForm = () => {
     },
   ]);
 
-  const [running, setRunning] = useState<ListItemRadioProps[]>([
+  const [runningOptions, setRunningOptions] = useState<ListItemRadioProps[]>([
     {
       id: 0,
       title: "종료하기",
@@ -81,6 +80,10 @@ export const GoalsForm = () => {
     "#6E472A",
   ];
 
+  const onGoalColorClick = (color: string) => {
+    setSelectedGoalColor(color);
+  };
+
   return (
     <>
       <LayoutNavigation
@@ -90,7 +93,7 @@ export const GoalsForm = () => {
       >
         <S.SubHeading>제목</S.SubHeading>
         <S.GoalTitle
-          color={goalColorUserSelected}
+          color={selectedGoalColor}
           placeholder="나는 알고리즘을 정복하겠다!"
         ></S.GoalTitle>
 
@@ -98,12 +101,18 @@ export const GoalsForm = () => {
         <ListRadio data={publicSettingOptions}></ListRadio>
 
         <S.SubHeading>진행 상황</S.SubHeading>
-        <ListRadio data={running}></ListRadio>
+        <ListRadio data={runningOptions}></ListRadio>
 
         <S.SubHeading>색상</S.SubHeading>
         <S.ColorPalette>
           {goalColorList.map((color) => (
-            <S.OneColcor key={color} color={color}></S.OneColcor>
+            <S.OneColcor
+              key={color}
+              color={color}
+              onClick={() => {
+                setSelectedGoalColor(color);
+              }}
+            ></S.OneColcor>
           ))}
         </S.ColorPalette>
       </LayoutNavigation>

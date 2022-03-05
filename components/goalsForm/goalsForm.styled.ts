@@ -49,7 +49,7 @@ display: grid;
 grid-template: repeat(2, 3rem) / repeat(6, 19.2%);
 `
 
-export const OneColcor = styled.div`
+export const OneColcor = styled.button`
 width: 1.5rem;
 height: 1.5rem;
 border-radius: 50%;
