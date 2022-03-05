@@ -10,6 +10,7 @@
     "ts-check": "tsc --project ./tsconfig.json"
   },
   "dependencies": {
+    "@styled-icons/feather": "^10.34.0",
     "@styled-icons/boxicons-regular": "^10.38.0",
     "@styled-icons/fluentui-system-filled": "^10.35.0",
     "@styled-icons/fluentui-system-regular": "^10.35.0",
