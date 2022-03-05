@@ -1,8 +1,10 @@
 import {SessionProvider} from "next-auth/react";
 import type {AppProps} from "next/app";
 import {ThemeProvider} from "styled-components";
+import {wrapper} from "stores";
 import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
+import "utils/firebase";
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
@@ -15,4 +17,4 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
