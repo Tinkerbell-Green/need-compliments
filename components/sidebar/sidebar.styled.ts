@@ -1,20 +1,15 @@
 import styled from "styled-components";
 
-const ICON_SIZE = 28;
-
-export const Icon = styled.div`
-  width:${ICON_SIZE}px;
-  height:${ICON_SIZE}px;
-  padding:2px;
-  cursor: pointer;
-`;
-
 export const Header = styled.div`
   justify-content: flex-end;
 `;
 
-export const SettingIcon = styled(Icon)`
+export const SettingIcon = styled.div`
+  width:28px;
+  height:28px;
+  padding:2px;
   margin: 10px;
+  cursor: pointer;
 `;
 
 export const MenuOverlay = styled.div`
@@ -32,8 +27,8 @@ export const MenuOverlay = styled.div`
     visibility: visible;
   }
   &.hidden{
-    visibility: hidden;
     opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -65,11 +60,12 @@ export const Profile = styled.div`
   padding: 0 20px;
 `;
 
-export const GoalList = styled.ul`
+export const Goals = styled.div`
+  flex-direction: column;
   padding: 0 20px;
 `;
 
-export const GoalListTitle = styled.div`
+export const GoalsTitle = styled.div`
   justify-content: space-between;
   font-size: 1rem;
   font-weight: 500;
@@ -78,14 +74,16 @@ export const GoalListTitle = styled.div`
   cursor: pointer;
 `;
 
-export const GoalListItem = styled.li`
-  width:fit-content;
-  background-color: rgba(255,255,255,0.05);
-  padding: 11px;
-  border-radius: 5px;
-  margin-top: 5px;
-  font-size: 0.8rem;
-  font-weight: 500;
+export const GoalsContents = styled.ul`
+  > * {
+    margin-bottom: 10px;
+  }
+`;
+
+export const ArrowIcon=styled.div`
+  width:20px;
+  height:20px;
+  cursor: pointer;
 `;
 
 export const Name = styled.div`
