@@ -2,7 +2,7 @@ import {DataActionType} from "./actions"
 
 export type TaskDocument = {
   title: string
-  category: string
+  goal: string
   compliments: string[]
   author: string
   doneAt: number

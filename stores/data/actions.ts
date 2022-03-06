@@ -1,4 +1,5 @@
-import {DataSagaStatus} from "./types";
+import {DataSagaStatus, TaskDocument} from "./types";
+import {CreateDocumentArguments, DeleteDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
@@ -6,11 +7,15 @@ export enum DataActionType {
   // sagas
   GET_LOGGED_IN_USER_DATA = "data/GET_LOGGED_IN_USER_DATA",
   GET_TASKS_BY_DAYS = "data/GET_TASKS_BY_DAYS",
+  CREATE_TASK = "data/CREATE_TASK",
+  DELETE_TASK = "data/DELETE_TASK",
 }
 
 export type DataSagaActionType = (
   DataActionType.GET_LOGGED_IN_USER_DATA |
-  DataActionType.GET_TASKS_BY_DAYS
+  DataActionType.GET_TASKS_BY_DAYS |
+  DataActionType.CREATE_TASK |
+  DataActionType.DELETE_TASK
 )
 
 export type DataActionPayload = {
@@ -35,6 +40,12 @@ export type DataActionPayload = {
     startDay: Date
     endDay: Date
   }
+  [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
+    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "compliments">>, "path"> & {
+    }
+  [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & 
+    Omit<DeleteDocumentArguments, "path"> & {
+    }
 }
 
 export type SagaDataActionDefaultPayload = {
@@ -48,6 +59,8 @@ export const dataActionCreators = {
   // sagas
   [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
   [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
+  [DataActionType.CREATE_TASK]: (payload: DataActionPayload[DataActionType.CREATE_TASK]) => ({type: DataActionType.CREATE_TASK, payload}),
+  [DataActionType.DELETE_TASK]: (payload: DataActionPayload[DataActionType.DELETE_TASK]) => ({type: DataActionType.DELETE_TASK, payload}),
 }
 
 export type DataActionInstance<DataActionTypeT extends DataActionType> = ReturnType<typeof dataActionCreators[DataActionTypeT]>
