@@ -27,7 +27,7 @@ export const Sidebar = ({
   const router = useRouter();
   
   const handleGoalsTitleClick = useCallback(()=>{
-    router.push("/goal");
+    router.push("/goals");
   },[router]);
   
   const handleFriendClick = useCallback(()=>{
