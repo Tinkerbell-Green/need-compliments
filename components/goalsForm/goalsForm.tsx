@@ -12,22 +12,22 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "전체공개",
-      publicEyeIcon: "open",
+      publicEyeIcon: "public",
     },
     {
       id: 1,
       title: "일부공개",
-      publicEyeIcon: "open",
+      publicEyeIcon: "protected",
     },
     {
       id: 2,
       title: "나만보기",
-      publicEyeIcon: "open",
+      publicEyeIcon: "private",
     },
     {
       id: 3,
       title: "숨기기",
-      publicEyeIcon: "close",
+      publicEyeIcon: "private",
     },
   ]);
 
