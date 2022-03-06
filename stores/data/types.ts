@@ -1,4 +1,4 @@
-import {ActionType} from "./actions"
+import {DataActionType} from "./actions"
 
 export type TaskDocument = {
   title: string
@@ -57,7 +57,7 @@ export enum DataSagaStatus {
 export type DataSagaState = {
   authorId: string
   userId: string
-  type: ActionType
+  type: DataActionType
   status: DataSagaStatus
   data: unknown
 }

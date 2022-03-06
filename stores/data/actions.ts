@@ -1,6 +1,6 @@
 import {DataSagaStatus} from "./types";
 
-export enum ActionType {
+export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
   SET_DATA_DATA = "query/SET_DATA_DATA",
   // sagas
@@ -8,46 +8,46 @@ export enum ActionType {
   GET_TASKS_BY_DAYS = "data/GET_TASKS_BY_DAYS",
 }
 
-export type SagaActionType = (
-  ActionType.GET_LOGGED_IN_USER_DATA |
-  ActionType.GET_TASKS_BY_DAYS
+export type DataSagaActionType = (
+  DataActionType.GET_LOGGED_IN_USER_DATA |
+  DataActionType.GET_TASKS_BY_DAYS
 )
 
-export type ActionPayload = {
-  [ActionType.SET_DATA_STATUS]: {
-    type: SagaActionType,
+export type DataActionPayload = {
+  [DataActionType.SET_DATA_STATUS]: {
+    type: DataSagaActionType,
     key: string,
     status: DataSagaStatus
   }
-  [ActionType.SET_DATA_DATA]: {
-    type: SagaActionType,
+  [DataActionType.SET_DATA_DATA]: {
+    type: DataSagaActionType,
     key: string,
     data: any
   }
   // sagas
-  [ActionType.GET_LOGGED_IN_USER_DATA]: DefaultSagaActionPayload & {
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: SagaDataActionDefaultPayload & {
     id: string
     email: string | undefined
     name: string | undefined
     image: string | undefined
   }
-  [ActionType.GET_TASKS_BY_DAYS]: DefaultSagaActionPayload & {
+  [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
   }
 }
 
-export type DefaultSagaActionPayload = {
+export type SagaDataActionDefaultPayload = {
   key: string
   author: string
 }
 
-export const actionCreators = {
-  [ActionType.SET_DATA_STATUS]: (payload: ActionPayload[ActionType.SET_DATA_STATUS]) => ({type: ActionType.SET_DATA_STATUS, payload}),
-  [ActionType.SET_DATA_DATA]: (payload: ActionPayload[ActionType.SET_DATA_DATA]) => ({type: ActionType.SET_DATA_DATA, payload}),
+export const dataActionCreators = {
+  [DataActionType.SET_DATA_STATUS]: (payload: DataActionPayload[DataActionType.SET_DATA_STATUS]) => ({type: DataActionType.SET_DATA_STATUS, payload}),
+  [DataActionType.SET_DATA_DATA]: (payload: DataActionPayload[DataActionType.SET_DATA_DATA]) => ({type: DataActionType.SET_DATA_DATA, payload}),
   // sagas
-  [ActionType.GET_LOGGED_IN_USER_DATA]: (payload: ActionPayload[ActionType.GET_LOGGED_IN_USER_DATA]) => ({type: ActionType.GET_LOGGED_IN_USER_DATA, payload}), 
-  [ActionType.GET_TASKS_BY_DAYS]: (payload: ActionPayload[ActionType.GET_TASKS_BY_DAYS]) => ({type: ActionType.GET_TASKS_BY_DAYS, payload}),
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
+  [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
 }
 
-export type ActionInstance<ActionTypeT extends ActionType> = ReturnType<typeof actionCreators[ActionTypeT]>
+export type DataActionInstance<DataActionTypeT extends DataActionType> = ReturnType<typeof dataActionCreators[DataActionTypeT]>

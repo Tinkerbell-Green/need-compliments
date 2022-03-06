@@ -1,16 +1,16 @@
 
-export enum ActionType {
+export enum NavigationActionType {
   SET_USER_ID = "navigation/SET_USER_ID",
 }
 
-export type ActionPayload = {
-  [ActionType.SET_USER_ID]: {
+export type NavigationActionPayload = {
+  [NavigationActionType.SET_USER_ID]: {
     key: "loggedInUserId" | "pageAuthorId"
     userId: string
   }
 }
 
-export const actionCreators = {[ActionType.SET_USER_ID]: (payload: ActionPayload[ActionType.SET_USER_ID]) => ({type: ActionType.SET_USER_ID, payload}),
+export const navigationActionCreators = {[NavigationActionType.SET_USER_ID]: (payload: NavigationActionPayload[NavigationActionType.SET_USER_ID]) => ({type: NavigationActionType.SET_USER_ID, payload}),
 }
 
-export type ActionInstance<ActionTypeT extends ActionType> = ReturnType<typeof actionCreators[ActionTypeT]>
+export type NavigationActionInstance<NavigationActionTypeT extends NavigationActionType> = ReturnType<typeof navigationActionCreators[NavigationActionTypeT]>

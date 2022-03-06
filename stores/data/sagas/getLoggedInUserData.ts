@@ -1,18 +1,18 @@
 import {call, getContext, put} from "redux-saga/effects";
-import {actionCreators, ActionInstance, ActionType} from "../actions";
+import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus, UserData, UserDocument} from "../types";
 import {GetDocumentData, Repository, SetDocumentData} from "utils/firebase";
 
-export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGED_IN_USER_DATA>) {
+export function* getLoggedInUserData(action: DataActionInstance<DataActionType.GET_LOGGED_IN_USER_DATA>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaActionType = ActionType.GET_LOGGED_IN_USER_DATA
+  const sagaDataActionType = DataActionType.GET_LOGGED_IN_USER_DATA
 
   const repository: Repository = yield getContext("repository");
 
   yield put(
-    actionCreators[ActionType.SET_DATA_STATUS]({
-      type: sagaActionType,
+    dataActionCreators[DataActionType.SET_DATA_STATUS]({
+      type: sagaDataActionType,
       key: sagaKey,
       status: DataSagaStatus.LOADING
     })
@@ -34,8 +34,8 @@ export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGE
       }
 
       yield put(
-        actionCreators[ActionType.SET_DATA_DATA]({
-          type: sagaActionType,
+        dataActionCreators[DataActionType.SET_DATA_DATA]({
+          type: sagaDataActionType,
           key: sagaKey,
           data
         })
@@ -62,8 +62,8 @@ export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGE
       );
 
       yield put(
-        actionCreators[ActionType.SET_DATA_DATA]({
-          type: sagaActionType,
+        dataActionCreators[DataActionType.SET_DATA_DATA]({
+          type: sagaDataActionType,
           key: sagaKey,
           data: {
             id: payload.id,
@@ -74,8 +74,8 @@ export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGE
     }
 
     yield put(
-      actionCreators[ActionType.SET_DATA_STATUS]({
-        type: sagaActionType,
+      dataActionCreators[DataActionType.SET_DATA_STATUS]({
+        type: sagaDataActionType,
         key: sagaKey,
         status: DataSagaStatus.SUCCEEDED
       })
@@ -84,8 +84,8 @@ export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGE
     console.error(error);
 
     yield put(
-      actionCreators[ActionType.SET_DATA_STATUS]({
-        type: sagaActionType,
+      dataActionCreators[DataActionType.SET_DATA_STATUS]({
+        type: sagaDataActionType,
         key: sagaKey,
         status: DataSagaStatus.FAILED
       })

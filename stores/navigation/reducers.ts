@@ -1,5 +1,5 @@
 import {Action, handleActions} from "redux-actions";
-import {ActionPayload, ActionType} from "./actions";
+import {NavigationActionPayload, NavigationActionType} from "./actions";
 
 export type State = {
   loggedInUserId: string | undefined
@@ -13,7 +13,7 @@ const initialState: State = {
 
 export const navigationReducer = handleActions<State, any>(
   {
-    [ActionType.SET_USER_ID]: (previousState, action: Action<ActionPayload[ActionType.SET_USER_ID]>) => {
+    [NavigationActionType.SET_USER_ID]: (previousState, action: Action<NavigationActionPayload[NavigationActionType.SET_USER_ID]>) => {
       const key = action.payload.key
 
       return ({

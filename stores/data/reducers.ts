@@ -1,14 +1,14 @@
 import {Action, handleActions} from "redux-actions";
-import {ActionPayload, ActionType} from "./actions";
+import {DataActionPayload, DataActionType} from "./actions";
 import {DataSagaState, TaskData, UserData} from "./types";
 
 export type State = {
-  [ActionType.GET_LOGGED_IN_USER_DATA]: Record<string, 
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: Record<string, 
     DataSagaState & {
       data: UserData | undefined
     }
   >,
-  [ActionType.GET_TASKS_BY_DAYS]: Record<string, 
+  [DataActionType.GET_TASKS_BY_DAYS]: Record<string, 
     DataSagaState & {
       data: TaskData[] | undefined
     }
@@ -16,37 +16,37 @@ export type State = {
 }
 
 const initialState: State = {
-  [ActionType.GET_LOGGED_IN_USER_DATA]: {},
-  [ActionType.GET_TASKS_BY_DAYS]: {},
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: {},
+  [DataActionType.GET_TASKS_BY_DAYS]: {},
 };
 
 export const dataReducer = handleActions<State, any>(
   {
-    [ActionType.SET_DATA_STATUS]: (previousState, action: Action<ActionPayload[ActionType.SET_DATA_STATUS]>) => {
+    [DataActionType.SET_DATA_STATUS]: (previousState, action: Action<DataActionPayload[DataActionType.SET_DATA_STATUS]>) => {
       const key =  action.payload.key
-      const dataActionType = action.payload.type
+      const dataDataActionType = action.payload.type
 
       return ({
         ...previousState,
-        [dataActionType]: {
-          ...previousState[dataActionType],
+        [dataDataActionType]: {
+          ...previousState[dataDataActionType],
           [key]: {
-            ...previousState[dataActionType][key],
+            ...previousState[dataDataActionType][key],
             status: action.payload.status
           }
         }
       })
     },
-    [ActionType.SET_DATA_DATA]: (previousState, action: Action<ActionPayload[ActionType.SET_DATA_DATA]>) => {
+    [DataActionType.SET_DATA_DATA]: (previousState, action: Action<DataActionPayload[DataActionType.SET_DATA_DATA]>) => {
       const key =  action.payload.key
-      const dataActionType = action.payload.type
+      const dataDataActionType = action.payload.type
 
       return ({
         ...previousState,
-        [dataActionType]: {
-          ...previousState[dataActionType],
+        [dataDataActionType]: {
+          ...previousState[dataDataActionType],
           [key]: {
-            ...previousState[dataActionType][key],
+            ...previousState[dataDataActionType][key],
             data: action.payload.data
           }
         }

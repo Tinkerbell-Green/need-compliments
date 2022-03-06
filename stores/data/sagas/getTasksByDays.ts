@@ -1,23 +1,21 @@
 import {QueryConstraint, where} from "firebase/firestore";
 import {call, getContext, put, select} from "redux-saga/effects";
-import {actionCreators, ActionInstance, ActionType} from "../actions";
+import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
-import {DataSagaStatus, TaskDocument} from "../types";
+import {DataSagaStatus, TaskDocument} from "../types"; 
 import {RootState} from "stores/reducers";
+import {Repository, GetDocumentsData} from "utils/firebase";
 
-import {Repository} from "utils/firebase";
-import {GetDocumentsData} from "utils/firebase/repository/index";
-
-export function* getTasksByDays(action: ActionInstance<ActionType.GET_TASKS_BY_DAYS>) {
+export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TASKS_BY_DAYS>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaActionType = ActionType.GET_TASKS_BY_DAYS
+  const sagaDataActionType = DataActionType.GET_TASKS_BY_DAYS
 
   const repository: Repository = yield getContext("repository");
 
   yield put(
-    actionCreators[ActionType.SET_DATA_STATUS]({
-      type: sagaActionType,
+    dataActionCreators[DataActionType.SET_DATA_STATUS]({
+      type: sagaDataActionType,
       key: sagaKey,
       status: DataSagaStatus.LOADING
     })
@@ -40,28 +38,28 @@ export function* getTasksByDays(action: ActionInstance<ActionType.GET_TASKS_BY_D
       }
     );
 
-    const incomingData: State[typeof sagaActionType][string]["data"] = response.docs.map(item => ({
+    const incomingData: State[typeof sagaDataActionType][string]["data"] = response.docs.map(item => ({
       id: item.id,
       ...item.data()
     }))
 
-    const existingData: State[typeof sagaActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaActionType][sagaKey]["data"])
+    const existingData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])
     const filteredPrevData = (existingData || []).filter(existingItem => {
       const duplicateIncomingIndex = incomingData.findIndex(incomingItem => incomingItem.id === existingItem.id)
       return (duplicateIncomingIndex === -1)
     })
 
     yield put(
-      actionCreators[ActionType.SET_DATA_DATA]({
-        type: sagaActionType,
+      dataActionCreators[DataActionType.SET_DATA_DATA]({
+        type: sagaDataActionType,
         key: sagaKey,
         data: [...filteredPrevData, ...incomingData]
       })
     ); 
 
     yield put(
-      actionCreators[ActionType.SET_DATA_STATUS]({
-        type: sagaActionType,
+      dataActionCreators[DataActionType.SET_DATA_STATUS]({
+        type: sagaDataActionType,
         key: sagaKey,
         status: DataSagaStatus.SUCCEEDED
       })
@@ -70,8 +68,8 @@ export function* getTasksByDays(action: ActionInstance<ActionType.GET_TASKS_BY_D
     console.error(error);
 
     yield put(
-      actionCreators[ActionType.SET_DATA_STATUS]({
-        type: sagaActionType,
+      dataActionCreators[DataActionType.SET_DATA_STATUS]({
+        type: sagaDataActionType,
         key: sagaKey,
         status: DataSagaStatus.FAILED
       })

@@ -1,13 +1,13 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Optional} from "utility-types"
-import {actionCreators, ActionPayload, SagaActionType} from "./actions";
+import {dataActionCreators, DataActionPayload, DataSagaActionType} from "./actions";
 import {RootState} from "stores/reducers";
 
-export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
-  actionType: SagaActionType,
+export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
+  actionType: DataSagaActionType,
   options?: {
-    additionalKeys?: (keyof ActionPayload[SagaActionTypeT])[]
+    additionalKeys?: (keyof DataActionPayload[DataSagaActionTypeT])[]
   }
 ) => { 
   const dispatch = useDispatch()
@@ -31,11 +31,11 @@ export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
   },[key])
 
   // fetch
-  const fetch = useCallback((payload: Omit<Optional<ActionPayload[SagaActionTypeT], "author">, "key">)=>{
+  const fetch = useCallback((payload: Omit<Optional<DataActionPayload[DataSagaActionTypeT], "author">, "key">)=>{
     const author = payload.author || pageAuthorIdRef.current
     
     if (author && key){
-      dispatch(actionCreators[actionType]({
+      dispatch(dataActionCreators[actionType]({
         ...payload,
         author,
         key,
@@ -49,7 +49,7 @@ export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
   const state = useSelector((state: RootState) => {
     const value = state["data"][actionType][key]
     if (value) {
-      return value as RootState["data"][SagaActionTypeT][string]
+      return value as RootState["data"][DataSagaActionTypeT][string]
     } else {
       return undefined
     }

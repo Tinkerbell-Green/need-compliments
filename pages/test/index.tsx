@@ -1,11 +1,10 @@
 import type {NextPage} from "next"
 import React, {useEffect} from "react"
 import {LayoutNavigation} from "components/layout-navigation/layout-navigation.styled";
-import {dataStore} from "stores";
-import {useDataSaga} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 
 const TestPage: NextPage = () => {
-  const {fetch, data} = useDataSaga<dataStore.ActionType.GET_TASKS_BY_DAYS>(dataStore.ActionType.GET_TASKS_BY_DAYS)
+  const {fetch, data} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
 
   useEffect(()=>{
     fetch({
