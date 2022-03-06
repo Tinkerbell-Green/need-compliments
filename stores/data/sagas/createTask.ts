@@ -23,7 +23,13 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
       [repository, repository.createDocument],
       {
         path: "tasks",
-        data: payload.data,
+        data: {
+          ...payload.data,
+          author: payload.author,
+          compliments: [],
+          updatedAt: new Date().getTime(),
+          createdAt: new Date().getTime(),
+        }
       }
     );
 

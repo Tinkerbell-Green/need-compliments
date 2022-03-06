@@ -49,11 +49,13 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
       return (duplicateIncomingIndex === -1)
     })
 
+    const newData = payload.merge ? [...filteredPrevData, ...incomingData] : incomingData
+
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data: [...filteredPrevData, ...incomingData]
+        data: newData
       })
     ); 
 

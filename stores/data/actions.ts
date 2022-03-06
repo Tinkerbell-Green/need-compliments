@@ -18,6 +18,18 @@ export type DataSagaActionType = (
   DataActionType.DELETE_TASK
 )
 
+export enum Authority {
+  AUTHOR = "author",
+  VIEWER = "viewer",
+  UNKNOWN = "unknown"
+}
+export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: Authority.UNKNOWN,
+  [DataActionType.GET_TASKS_BY_DAYS]: Authority.VIEWER,
+  [DataActionType.CREATE_TASK]: Authority.AUTHOR,
+  [DataActionType.DELETE_TASK]: Authority.AUTHOR,
+}
+
 export type DataActionPayload = {
   [DataActionType.SET_DATA_STATUS]: {
     type: DataSagaActionType,
@@ -39,9 +51,10 @@ export type DataActionPayload = {
   [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
+    merge?: Boolean
   }
   [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "compliments">>, "path"> & {
+    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "compliments" | "author">>, "path"> & {
     }
   [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
