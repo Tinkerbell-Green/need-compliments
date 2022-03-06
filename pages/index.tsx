@@ -1,5 +1,6 @@
 import {Menu} from "@styled-icons/feather";
-import {Eye} from "@styled-icons/heroicons-outline/Eye";
+import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap;
+import {Book as BookClose,BookDead} from "@styled-icons/fa-solid;
 import type {NextPage} from "next";
 import {signIn, useSession} from "next-auth/react";
 import React, {useCallback, useState,useEffect} from "react"
@@ -69,7 +70,7 @@ const Home: NextPage = () => {
                   key={index}
                   label={value}
                   color={goalsColor[index]}
-                  icon={<Eye/>}
+                  icon={<BookOpen/>}
                   onAdd={()=>console.log(`${value} clicked`)}
                 >
                 </Chip>))}
