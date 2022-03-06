@@ -57,7 +57,7 @@ const Home: NextPage = () => {
       </S.IconList>
       <div className="visible">
         <Calendar></Calendar>
-        <S.Container>
+        <S.DetailSection>
           <S.Profile>
             <S.Name>{userInfo.name}</S.Name>
             <S.SecondaryName>{userInfo.email}</S.SecondaryName>
@@ -76,7 +76,7 @@ const Home: NextPage = () => {
                 </Chip>))}
             </S.FeedContents>
           </S.Feed>
-        </S.Container>
+        </S.DetailSection>
       </div>
       <div className="invisible">
         <Sidebar

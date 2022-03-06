@@ -15,8 +15,9 @@ display: flex;
 align-items: center;
 `
 
-export const PublicEyeIconContainer = styled.div`
+export const PublicBookIconContainer = styled.div`
 width: 2rem;
+padding: 0.2rem;
 margin-right: 0.5rem;
 `
 

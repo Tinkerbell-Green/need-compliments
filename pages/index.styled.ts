@@ -20,7 +20,7 @@ export const MenuIcon = styled.div`
   cursor: pointer;
 `;
 
-export const Container = styled.div`
+export const DetailSection = styled.div`
   min-width: 380px;
   flex-direction: column;
   align-content: center;
