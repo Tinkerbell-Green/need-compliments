@@ -1,6 +1,6 @@
+import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap";
+import {Book as BookClose,BookDead} from "@styled-icons/fa-solid";
 import {Menu} from "@styled-icons/feather";
-import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap;
-import {Book as BookClose,BookDead} from "@styled-icons/fa-solid;
 import type {NextPage} from "next";
 import {signIn, useSession} from "next-auth/react";
 import React, {useCallback, useState,useEffect} from "react"
