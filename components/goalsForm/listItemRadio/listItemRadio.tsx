@@ -8,19 +8,18 @@ export type PublicBookIcon = "public" | "protected" | "private" | null;
 export type ListItemRadioProps = {
   id: number;
   title: string;
-  publicEyeIcon: PublicBookIcon;
+  publicBookIcon: PublicBookIcon;
   onChange?: (value: string) => void; // 뭘 클릭했는지 부모한테 알려주기 위해서
 };
 
 export const ListItemRadio = ({
-  id,
   title,
-  publicEyeIcon,
+  publicBookIcon,
 }: ListItemRadioProps) => {
   const getpublicBookIcon = (
-    publicEyeIcon: PublicBookIcon
+    publicBookIcon: PublicBookIcon
   ): React.ReactNode | null => {
-    switch (publicEyeIcon) {
+    switch (publicBookIcon) {
       case "public": {
         return <Book />;
       }
@@ -39,9 +38,9 @@ export const ListItemRadio = ({
   return (
     <S.RadioContainer>
       <S.RadioIconAndLabel>
-        {publicEyeIcon && (
+        {publicBookIcon && (
           <S.PublicBookIconContainer>
-            {getpublicBookIcon(publicEyeIcon)}
+            {getpublicBookIcon(publicBookIcon)}
           </S.PublicBookIconContainer>
         )}
         <S.Label htmlFor="quit">{title}</S.Label>
