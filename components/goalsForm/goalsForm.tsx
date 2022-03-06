@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import * as S from "./goalsForm.styled";
-import { ListItemRadioProps } from "./listItemRadio";
-import { ListRadio } from "./listRadio";
+import {ListItemRadioProps} from "./listItemRadio";
+import {ListRadio} from "./listRadio";
 
 export const GoalsForm = () => {
   const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
