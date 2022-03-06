@@ -46,7 +46,7 @@ export function* deleteTask(action: ActionInstance<ActionType.DELETE_TASK>) {
       })
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     yield put(
       actionCreators[ActionType.SET_QUERY_STATUS]({

@@ -4,10 +4,10 @@ export type TaskDocument = {
   title: string
   category: string
   compliments: string[]
-  doneAt: string
   author: string
-  createdAt: string
-  updatedAt: string
+  doneAt: number
+  createdAt: number
+  updatedAt: number
 }
 export type TaskData = TaskDocument & {
   id: string
@@ -17,8 +17,8 @@ export type GoalDocument = {
   name: string
   color: string
   author: string
-  createdAt: string
-  updatedAt: string
+  createdAt: number
+  updatedAt: number
 }
 export type GoalData = GoalDocument & {
   id: string
@@ -28,8 +28,8 @@ export type ComplimentDocument = {
   emoji: string
   message: string
   author: string
-  createdAt: string
-  updatedAt: string
+  createdAt: number
+  updatedAt: number
 }
 export type ComplimentData = ComplimentDocument & {
   id: string
@@ -41,13 +41,12 @@ export type UserDocument = {
   image: string
   followers: string[]
   followings: string[]
-  createdAt: string
+  createdAt: number
+  updatedAt: number
 }
 export type UserData = UserDocument & {
   id: string
 }
-
-
 
 export enum DataSagaStatus {
   LOADING = "loading",

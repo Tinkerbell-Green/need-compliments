@@ -5,7 +5,7 @@ export enum ActionType {
 
 export type ActionPayload = {
   [ActionType.SET_USER_ID]: {
-    key: "loggedInUserId" | "hostingUserId"
+    key: "loggedInUserId" | "pageAuthorId"
     userId: string
   }
 }

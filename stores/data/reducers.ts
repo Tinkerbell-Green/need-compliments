@@ -1,6 +1,6 @@
 import {Action, handleActions} from "redux-actions";
 import {ActionPayload, ActionType} from "./actions";
-import {DataSagaState, UserData} from "./types";
+import {DataSagaState, TaskData, UserData} from "./types";
 
 export type State = {
   [ActionType.GET_LOGGED_IN_USER_DATA]: Record<string, 
@@ -8,10 +8,16 @@ export type State = {
       data: UserData | undefined
     }
   >,
+  [ActionType.GET_TASKS_BY_DAYS]: Record<string, 
+    DataSagaState & {
+      data: TaskData[] | undefined
+    }
+  >,
 }
 
 const initialState: State = {
   [ActionType.GET_LOGGED_IN_USER_DATA]: {},
+  [ActionType.GET_TASKS_BY_DAYS]: {},
 };
 
 export const dataReducer = handleActions<State, any>(

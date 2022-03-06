@@ -1,13 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {actionCreators, ActionInstance, ActionType} from "../actions";
-import {generateKey} from "../hooks";
 import {DataSagaStatus, UserData, UserDocument} from "../types";
 import {GetDocumentData, Repository, SetDocumentData} from "utils/firebase";
 
 export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGED_IN_USER_DATA>) {
-  const payload = action.payload
+  const payload = action.payload  
+  const sagaKey = payload.key
   const sagaActionType = ActionType.GET_LOGGED_IN_USER_DATA
-  const sagaKey = generateKey(payload.keys)
 
   const repository: Repository = yield getContext("repository");
 
@@ -49,7 +48,8 @@ export function* getLoggedInUserData(action: ActionInstance<ActionType.GET_LOGGE
         image: payload.image || "",
         followers: [],
         followings: [],
-        createdAt: new Date().toString(),
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
       }
 
       const response: SetDocumentData = yield call(

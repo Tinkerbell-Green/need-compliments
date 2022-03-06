@@ -3,12 +3,12 @@ import {ActionPayload, ActionType} from "./actions";
 
 export type State = {
   loggedInUserId: string | undefined
-  hostingUserId: string | undefined
+  pageAuthorId: string | undefined
 }
 
 const initialState: State = {
   loggedInUserId: undefined,
-  hostingUserId: undefined,
+  pageAuthorId: undefined,
 }
 
 export const navigationReducer = handleActions<State, any>(
