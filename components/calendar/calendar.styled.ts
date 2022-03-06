@@ -9,6 +9,7 @@ export const Container = styled.div`
   height: 100vh;
   width: 100%;
   max-width: 800px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
 `;
@@ -26,15 +27,17 @@ export const Title = styled.div`
   font-size: ${TITLE_FONT_SIZE}rem;
 `;
 
-
 export const Buttons = styled.div`
 	display: flex;
 	flex-direction: row;
 `;
 
 export const Button = styled.button`
+  width:20px;
+  height:20px;
+  padding:0;
+  margin: 0 5px;
   cursor: pointer;
-  padding: 0 15px;
 `
 
 export const Main = styled.main`

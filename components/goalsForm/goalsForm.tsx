@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import * as S from "./goalsForm.styled";
-import { ListItemRadioProps } from "./listItemRadio";
-import { ListRadio } from "./listRadio";
+import {ListItemRadioProps} from "./listItemRadio";
+import {ListRadio} from "./listRadio";
 
 export const GoalsForm = () => {
   const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
@@ -12,22 +12,22 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "전체공개",
-      publicEyeIcon: "open",
+      publicBookIcon: "public",
     },
     {
       id: 1,
       title: "일부공개",
-      publicEyeIcon: "open",
+      publicBookIcon: "protected",
     },
     {
       id: 2,
       title: "나만보기",
-      publicEyeIcon: "open",
+      publicBookIcon: "private",
     },
     {
       id: 3,
       title: "숨기기",
-      publicEyeIcon: "close",
+      publicBookIcon: "private",
     },
   ]);
 
@@ -35,7 +35,7 @@ export const GoalsForm = () => {
     {
       id: 0,
       title: "종료하기",
-      publicEyeIcon: null,
+      publicBookIcon: null,
     },
   ]);
 

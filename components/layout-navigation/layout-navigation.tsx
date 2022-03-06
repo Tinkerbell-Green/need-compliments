@@ -5,7 +5,7 @@ import * as S from "./layout-navigation.styled";
 export type LayoutNavigationProps = {
   children: React.ReactNode;
   title: string;
-  rightButtonText: string;
+  rightButtonText?: string;
   onLeftButtonClick: () => void;
 };
 
