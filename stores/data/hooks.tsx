@@ -31,44 +31,6 @@ export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
   },[key])
 
   // fetch
-  // const fetch = useMemo(()=>{
-  //   if (pageAuthorId && key){
-  //     return undefined
-  //   }
-  //   else {
-  //     return (
-  //       (payload: Omit<Optional<ActionPayload[SagaActionTypeT], "author">, "key">)=>{
-  //         const author = payload.author || pageAuthorId
-      
-  //         dispatch(actionCreators[actionType]({
-  //           ...payload,
-  //           author,
-  //           key,
-  //         } as any))
-  //       }
-  //     )
-  //   }
-  // },[actionType, dispatch, key, pageAuthorId])
-
-  // const fetchRef = useRef<typeof fetch | undefined>(undefined)
-  // const [guaranteedFetch, setGuaranteedFetch] = useState<typeof fetch | undefined>(undefined)
-
-  // // TODO:
-  // useEffect(()=>{
-  //   fetchRef.current = fetch
-  // },[fetch])
-
-  // useEffect(()=>{
-  //   if (pageAuthorId && key){
-  //     setGuaranteedFetch(fetchRef.current)
-  //   } else {
-  //     setGuaranteedFetch(undefined)
-  //   }
-  // },[key, pageAuthorId])
-
-
-  // const [isFetchDelayed, setIsFetchDelayed] = useState(false)
-  
   const fetch = useCallback((payload: Omit<Optional<ActionPayload[SagaActionTypeT], "author">, "key">)=>{
     const author = payload.author || pageAuthorIdRef.current
     
@@ -82,41 +44,6 @@ export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
   },[actionType, dispatch, key])
 
   const isFetchReady = useMemo(()=>Boolean(pageAuthorId && key), [key, pageAuthorId])
-  useEffect(()=>{
-    console.log("isFetchReady: ", isFetchReady); // TODO: remove 
-  },[isFetchReady])
-  // const [delayedFetch, setDelayedFetch] = useState<(()=>ReturnType<typeof fetch>) | null>(null)
-  // useEffect(()=>{
-  //   console.log("delayedFetch: ", delayedFetch); // TODO: remove 
-  // },[delayedFetch])
-  const DELAY_TIME_UNIT = 300
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const wrappedFetch = (...args: Parameters<typeof fetch>)=>{
-    if (isFetchReady){
-      fetch(...args)
-    } else {
-      console.log("fetch is delayed")
-      // setTimeout(()=>{
-      //   wrappedFetch(...args)
-      // }, DELAY_TIME_UNIT)
-    }
-  }
-
-  // useEffect(()=>{
-  //   if (isFetchReady && delayedFetch) {
-  //     console.log("delayed fetch triggered")
-  //     delayedFetch();
-  //     setDelayedFetch(null)
-  //   }
-  // }, [delayedFetch, isFetchReady])
-
-  const wrappedFetchRef = useRef<typeof wrappedFetch>(wrappedFetch)
-
-  wrappedFetchRef.current = wrappedFetch
-  // useEffect(()=>{
-  //   wrappedFetchRef.current = wrappedFetch
-  // },[wrappedFetch])
 
   // state
   const state = useSelector((state: RootState) => {
@@ -130,7 +57,8 @@ export const useDataSaga = <SagaActionTypeT extends SagaActionType>(
 
   return ({
     key: keyRef.current,
-    fetch: wrappedFetchRef.current,
+    fetch: fetch,
+    ready: isFetchReady,
     state,
     data: state?.data,
     status: state?.status

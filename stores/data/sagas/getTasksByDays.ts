@@ -73,7 +73,7 @@ export function* getTasksByDays(action: ActionInstance<ActionType.GET_TASKS_BY_D
       actionCreators[ActionType.SET_DATA_STATUS]({
         type: sagaActionType,
         key: sagaKey,
-        status: DataSagaStatus.SUCCEEDED
+        status: DataSagaStatus.FAILED
       })
     );
   }
