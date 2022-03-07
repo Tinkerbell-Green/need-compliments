@@ -1,3 +1,4 @@
+import {PlusSm} from "@styled-icons/heroicons-outline";
 import {KeyboardArrowLeft} from "@styled-icons/material-twotone";
 import React from "react";
 import * as S from "./layout-navigation.styled";
@@ -15,6 +16,17 @@ export const LayoutNavigation = ({
   rightButtonText,
   onLeftButtonClick,
 }: LayoutNavigationProps) => {
+  const getRightButtonIcon = (text: string): React.ReactNode | string => {
+    switch (text) {
+    case "+": {
+      return <PlusSm />;
+    }
+    default: {
+      return text;
+    }
+    }
+  };
+
   return (
     <S.LayoutNavigation>
       <S.Header>
@@ -22,7 +34,9 @@ export const LayoutNavigation = ({
           <KeyboardArrowLeft></KeyboardArrowLeft>
         </S.LeftButton>
         <S.Title>{title}</S.Title>
-        <S.RightButton>{rightButtonText}</S.RightButton>
+        {rightButtonText && (
+          <S.RightButton>{getRightButtonIcon(rightButtonText)}</S.RightButton>
+        )}
       </S.Header>
       <S.Content>{children}</S.Content>
     </S.LayoutNavigation>
