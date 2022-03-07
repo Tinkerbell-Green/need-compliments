@@ -55,5 +55,5 @@ height: 1.5rem;
 border-radius: 50%;
 border: 1px solid ${props => props.theme.colors.black};
 margin: 0 0rem 1rem 0;
-background: ${props => props.color};
+background: ${props => props.theme.colors.goals[props.color]};
 `
