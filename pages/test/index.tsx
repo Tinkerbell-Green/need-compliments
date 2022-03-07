@@ -5,10 +5,15 @@ import {LayoutNavigation} from "components/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 
 const TestPage: NextPage = () => {
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
   const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
   const {fetch: createTaskFetch, data: createTaskData, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
   const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
 
+  useEffect(()=>{
+    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
+  },[loggedInUserData])
+  
   useEffect(()=>{
     getTasksByDaysFetch({
       startDay: new Date("1999-11-11"),
