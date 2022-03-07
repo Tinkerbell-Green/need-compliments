@@ -1,21 +1,26 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React from "react";
+import React, {useCallback, useState} from "react";
 import {Goals} from "components/goals";
 import {LayoutNavigation} from "components/layout-navigation";
 
 const GoalsPage: NextPage = () => {
   const router = useRouter();
 
-  const onClick = () => {
+  const onLeftButtonClick = () => {
     router.push("/");
+  };
+
+  const onRightButtonClick = () => {
+    router.push("/goals/form");
   };
 
   return (
     <LayoutNavigation
       title="목표"
       rightButtonText="+"
-      onLeftButtonClick={onClick}
+      onLeftButtonClick={onLeftButtonClick}
+      onRightButtonClick={onRightButtonClick}
     >
       <Goals></Goals>
     </LayoutNavigation>
