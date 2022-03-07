@@ -2,7 +2,6 @@ import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose,BookDead} from "@styled-icons/fa-solid";
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
-import {signIn, useSession} from "next-auth/react";
 import React, {useCallback, useState,useEffect} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
@@ -19,15 +18,6 @@ export type UserInfo = {
 }
 
 const Home: NextPage = () => {
-  const {data: session} = useSession();
-
-  useEffect(() => {
-    if (!session) {
-      signIn();
-    }
-    if(session) console.log(session.user?.name,session.user?.email);
-  }, [session]);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name : "HongBeen Lee",
@@ -48,7 +38,7 @@ const Home: NextPage = () => {
     }
   },[isMenuOpen]);
 
-  return !session ? null : (
+  return (
     <LayoutMain>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>

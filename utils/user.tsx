@@ -14,7 +14,7 @@ export const UserProvider = ({
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
   const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
-  
+
   const sessionUserId = ((session?.user || {}) as any).id as string
 
   useEffect(()=>{
@@ -44,7 +44,5 @@ export const UserProvider = ({
     }
   },[fetch, session?.user?.email, session?.user?.image, session?.user?.name, sessionUserId, status])
 
-  return (<>
-    {children}
-  </>)
+  return (<>{children}</>)
 }
