@@ -8,12 +8,13 @@ const TestPage: NextPage = () => {
   const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
   const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
   const {fetch: createTaskFetch, data: createTaskData, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
+  const {fetch: updateTaskFetch, data: updateTaskData, status: updateTaskStatus} = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK)
   const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
 
   useEffect(()=>{
     console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
   },[loggedInUserData])
-  
+
   useEffect(()=>{
     getTasksByDaysFetch({
       startDay: new Date("1999-11-11"),
@@ -31,6 +32,15 @@ const TestPage: NextPage = () => {
     })
   },[createTaskFetch])
 
+  const handleUpdate = useCallback((id: string)=>{
+    updateTaskFetch({
+      pathSegments: [id],
+      data: {
+        title: "updated task",
+      }
+    })
+  },[updateTaskFetch])
+
   const handleDelete = useCallback((id: string)=>{
     deleteTaskFetch({
       pathSegments: [id]
@@ -45,6 +55,12 @@ const TestPage: NextPage = () => {
       getTasksByDaysRefetch()
     }
   },[getTasksByDaysRefetch, createTaskStatus])
+
+  useEffect(()=>{
+    if (updateTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, updateTaskStatus])
 
   useEffect(()=>{
     if (deleteTaskStatus === DataSagaStatus.SUCCEEDED){
@@ -63,8 +79,10 @@ const TestPage: NextPage = () => {
       <S.ListTask>
         {(getTasksByDaysData || []).map(item => (
           <S.ListItemTask key={item.id}>
-            <div>{`task id: ${item.id}`}</div>
+            <S.IdTask>{`task id: ${item.id}`}</S.IdTask>
+            <S.TitleTask>{item.title}</S.TitleTask>
             <button onClick={()=>handleDelete(item.id)}>삭제</button>
+            <button onClick={()=>handleUpdate(item.id)}>업데이트</button>
           </S.ListItemTask>
         ))}
       </S.ListTask>

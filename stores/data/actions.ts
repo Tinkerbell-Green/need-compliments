@@ -1,5 +1,5 @@
 import {DataSagaStatus, TaskDocument} from "./types";
-import {CreateDocumentArguments, DeleteDocumentArguments} from "utils/firebase";
+import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
@@ -8,6 +8,7 @@ export enum DataActionType {
   GET_LOGGED_IN_USER_DATA = "data/GET_LOGGED_IN_USER_DATA",
   GET_TASKS_BY_DAYS = "data/GET_TASKS_BY_DAYS",
   CREATE_TASK = "data/CREATE_TASK",
+  UPDATE_TASK = "data/UPDATE_TASK",
   DELETE_TASK = "data/DELETE_TASK",
 }
 
@@ -15,6 +16,7 @@ export type DataSagaActionType = (
   DataActionType.GET_LOGGED_IN_USER_DATA |
   DataActionType.GET_TASKS_BY_DAYS |
   DataActionType.CREATE_TASK |
+  DataActionType.UPDATE_TASK |
   DataActionType.DELETE_TASK
 )
 
@@ -27,6 +29,7 @@ export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Authority.UNKNOWN,
   [DataActionType.GET_TASKS_BY_DAYS]: Authority.VIEWER,
   [DataActionType.CREATE_TASK]: Authority.AUTHOR,
+  [DataActionType.UPDATE_TASK]: Authority.AUTHOR,
   [DataActionType.DELETE_TASK]: Authority.AUTHOR,
 }
 
@@ -56,6 +59,9 @@ export type DataActionPayload = {
   [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "compliments" | "author">>, "path"> & {
     }
+  [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & 
+    Omit<UpdateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
+    }
   [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
     }
@@ -73,6 +79,7 @@ export const dataActionCreators = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
   [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
   [DataActionType.CREATE_TASK]: (payload: DataActionPayload[DataActionType.CREATE_TASK]) => ({type: DataActionType.CREATE_TASK, payload}),
+  [DataActionType.UPDATE_TASK]: (payload: DataActionPayload[DataActionType.UPDATE_TASK]) => ({type: DataActionType.UPDATE_TASK, payload}),
   [DataActionType.DELETE_TASK]: (payload: DataActionPayload[DataActionType.DELETE_TASK]) => ({type: DataActionType.DELETE_TASK, payload}),
 }
 
