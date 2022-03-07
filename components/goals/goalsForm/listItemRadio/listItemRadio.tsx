@@ -1,5 +1,5 @@
-import { Book, BookHalf } from "@styled-icons/bootstrap";
-import { Book as BookClosed } from "@styled-icons/fa-solid";
+import {Book, BookHalf} from "@styled-icons/bootstrap";
+import {Book as BookClosed} from "@styled-icons/fa-solid";
 import React from "react";
 import * as S from "./listItemRadio.styled";
 
@@ -20,18 +20,18 @@ export const ListItemRadio = ({
     publicBookIcon: PublicBookIcon
   ): React.ReactNode | null => {
     switch (publicBookIcon) {
-      case "public": {
-        return <Book />;
-      }
-      case "protected": {
-        return <BookHalf />;
-      }
-      case "private": {
-        return <BookClosed />;
-      }
-      default: {
-        return null;
-      }
+    case "public": {
+      return <Book />;
+    }
+    case "protected": {
+      return <BookHalf />;
+    }
+    case "private": {
+      return <BookClosed />;
+    }
+    default: {
+      return null;
+    }
     }
   };
 
