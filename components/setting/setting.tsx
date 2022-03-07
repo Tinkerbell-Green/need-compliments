@@ -1,6 +1,8 @@
 import React from "react";
 import * as S from "./setting.styled";
-import { SliderSwitch } from "./sliderSwitch";
+import {SliderSwitch} from "./sliderSwitch";
+import {SubHeadingButton} from "components/subHeading/subHeadingButton";
+import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
 type SettingProps = {
   email: string;
@@ -8,44 +10,26 @@ type SettingProps = {
   id: string;
 };
 
-export const Setting = ({ email, profile, id }: SettingProps) => {
+export const Setting = ({email, profile}: SettingProps) => {
   return (
     <S.InfoList>
       <S.InfoListItemEmail>
-        <S.SubHeading>연동된 이메일</S.SubHeading>
+        <SubHeadingSpan>연동된 이메일</SubHeadingSpan>
         <S.email>{email}</S.email>
       </S.InfoListItemEmail>
 
       <S.InfoListItem>
-        <S.SubHeading>프로필</S.SubHeading>
+        <SubHeadingButton>프로필</SubHeadingButton>
         <S.name>{profile}</S.name>
       </S.InfoListItem>
 
       <S.InfoListItem>
-        <S.SubHeading>사용자 아이디</S.SubHeading>
-        <S.name>{id}</S.name>
-      </S.InfoListItem>
-
-      <S.InfoListItem>
-        <S.SubHeading>이메일 변경</S.SubHeading>
-      </S.InfoListItem>
-
-      <S.InfoListItem>
-        <S.SubHeading>비밀번호 재설정</S.SubHeading>
-      </S.InfoListItem>
-
-      <S.InfoListItem>
-        <S.SubHeading>이메일로 검색 허용</S.SubHeading>
+        <SubHeadingSpan>이메일로 검색 허용</SubHeadingSpan>
         <SliderSwitch />
       </S.InfoListItem>
 
       <S.InfoListItem>
-        <S.SubHeading>둘러보기에 나타나기</S.SubHeading>
-        <SliderSwitch />
-      </S.InfoListItem>
-
-      <S.InfoListItem>
-        <S.SubHeading>로그아웃</S.SubHeading>
+        <SubHeadingButton>로그아웃</SubHeadingButton>
       </S.InfoListItem>
 
       <S.InfoListItem>
