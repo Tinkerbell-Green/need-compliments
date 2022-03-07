@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SubHeadingButton } from "components/subHeading/subHeadingButton/subHeadingButton.styled";
+import {SubHeadingButton} from "components/subHeading/subHeadingButton/subHeadingButton.styled";
 
 export const DeleteAccount = styled(SubHeadingButton)`
 color: ${props => props.theme.colors["rose-500"]};
