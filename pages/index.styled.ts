@@ -45,20 +45,4 @@ export const SecondaryName = styled.div`
   color: ${props => props.theme.colors["gray-200"]};
 `;
 
-export const Feed = styled.div`
-  flex-direction: column;
-`;
-
-export const Header = styled.div`
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-`;
-
-export const FeedContents = styled.ul`
-  flex-direction: column;
-  > * {
-    margin-bottom: 20px;
-  }
-`;
 
