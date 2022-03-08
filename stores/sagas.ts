@@ -1,10 +1,10 @@
 import {all, fork} from "redux-saga/effects";
 
-import {querySaga} from "./query";
+import {dataSaga} from "./data";
 
 
 export default function* rootSaga() {
   yield all([
-    fork(querySaga),
+    fork(dataSaga),
   ]);
 }

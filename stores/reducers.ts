@@ -1,9 +1,11 @@
 import {combineReducers} from "redux";
 
-import {queryReducer} from "./query";
+import {dataReducer} from "./data";
+import {navigationReducer} from "./navigation";
 
 const rootReducer = combineReducers({
-  query: queryReducer,
+  data: dataReducer,
+  navigation: navigationReducer,
 });
 
 export default rootReducer;

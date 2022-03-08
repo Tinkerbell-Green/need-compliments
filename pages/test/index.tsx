@@ -1,75 +1,68 @@
 import type {NextPage} from "next"
-import React, {useCallback, useEffect, useMemo, useState} from "react"
-import {useDispatch, useSelector} from "react-redux"
-import {LayoutNavigation} from "components/layout-navigation/layout-navigation.styled";
-import {queryStore} from "stores";
-import {QueryStatus} from "stores/query/types";
-import {RootState} from "stores/reducers";
+import React, {useCallback, useEffect, useMemo} from "react"
+import * as S from "./index.styled";
+import {LayoutNavigation} from "components/layout-navigation";
+import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 
 const TestPage: NextPage = () => {
-  const dispatch = useDispatch()
-  const createTaskState = useSelector((state: RootState) => state.query.createTask);
-  const getTaskState = useSelector((state: RootState) => state.query.getTask);
-  const deleteTaskState = useSelector((state: RootState) => state.query.deleteTask);
+  const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
+  const {fetch: createTaskFetch, data: createTaskData, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
+  const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
 
-  const [createdDocId, setCreatedDocId] = useState<string>()
-  
+  useEffect(()=>{
+    getTasksByDaysFetch({
+      startDay: new Date("1999-11-11"),
+      endDay: new Date("2222-11-11"),
+    })
+  },[getTasksByDaysFetch])
+
   const handleCreate = useCallback(()=>{
-    dispatch(queryStore.return__CREATE_TASK({
+    createTaskFetch({
       data: {
-        title: "2222",
-        category: "category1", 
-        doneAt: "2022-2-22", 
-        author: "wiz"
+        title: "new task",
+        goal: "goal1",
+        doneAt: new Date().getTime()
       }
-    }))
-  },[dispatch])
+    })
+  },[createTaskFetch])
 
-  const handleDelete = useCallback(()=>{
-    if (!createdDocId) return;
-    dispatch(queryStore.return__DELETE_TASK({
-      pathSegments: [createdDocId]
-    }))
-  },[createdDocId, dispatch])
+  const handleDelete = useCallback((id: string)=>{
+    deleteTaskFetch({
+      pathSegments: [id]
+    })
+  },[deleteTaskFetch])
 
-  useEffect(()=>{
-    setCreatedDocId(createTaskState.response?.id)
-  },[createTaskState.response?.id])
+  const handleLeftButtonClick = useCallback(()=>{
+  },[])
 
   useEffect(()=>{
-    if (!createdDocId) return;
-    dispatch(queryStore.return__GET_TASK({
-      pathSegments: [createdDocId]
-    }))
-  },[createdDocId, dispatch])
-
-  useEffect(()=>{
-    if (!createdDocId) return;
-    if (deleteTaskState.status === QueryStatus.SUCCEEDED){
-      dispatch(queryStore.return__GET_TASK({
-        pathSegments: [createdDocId]
-      }))
+    if (createTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
     }
-  },[createdDocId, deleteTaskState.status, dispatch])
-  
-  const docData = getTaskState.response?.data()
+  },[getTasksByDaysRefetch, createTaskStatus])
+
+  useEffect(()=>{
+    if (deleteTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, deleteTaskStatus])
 
   return (
     <LayoutNavigation
+      rightButtonText={"??"}
       title="test"
+      onLeftButtonClick={handleLeftButtonClick}
     >
-      Test
-      <button onClick={handleCreate}>create task</button>
-      {docData && (
-        <div>
-          <div>{docData.title}</div>
-          <div>{docData.category}</div>
-          <div>{`by ${docData.author}`}</div>
-        </div>
-      )}
-      {createdDocId && (
-        <button onClick={handleDelete}>delete task</button>
-      )}
+      <S.Button onClick={handleCreate}>CREATE</S.Button>
+
+      <S.ListTask>
+        {(getTasksByDaysData || []).map(item => (
+          <S.ListItemTask key={item.id}>
+            <div>{`task id: ${item.id}`}</div>
+            <button onClick={()=>handleDelete(item.id)}>삭제</button>
+          </S.ListItemTask>
+        ))}
+      </S.ListTask>
     </LayoutNavigation>   
   )
 }

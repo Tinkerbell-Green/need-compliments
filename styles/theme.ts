@@ -1,4 +1,4 @@
-import {palette} from "./palette"
+import { palette } from "./palette"
 
 const defaultTheme = {
   media: {
@@ -20,6 +20,23 @@ export const themes = {
       textDisabled: palette["gray-600"],
       textAlternative: palette["black"],
       icon: palette["white"],
+      goals: {
+        darkgray: "#808080",
+        blue: "#3274F6",
+        skyblue: "#4FA4E5",
+        orchid: "#AD69ED",
+        mediunslateblue: "#7A7EEE",
+        lightseagreen: "#4E9198",
+        mediunseagreen: "#5E9E68",
+        green: "#99C355",
+        lightsalmon: "#ED9F8D",
+        pink: "#ED76BF",
+        hotpink: "#EA449B",
+        redpink: "#E25B62",
+        yello: "#F3D055",
+        orange: "#F19739",
+        white: "#ffffff",
+      }
     },
   },
 }
