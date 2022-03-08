@@ -1,6 +1,6 @@
 import {Action, handleActions} from "redux-actions";
 import {DataActionPayload, DataActionType} from "./actions";
-import {DataSagaState, TaskData, UserData} from "./types";
+import {DataSagaState, GoalData, TaskData, UserData} from "./types";
 
 export type State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Record<string, 
@@ -20,6 +20,19 @@ export type State = {
       data: TaskData | undefined
     }>,
   [DataActionType.DELETE_TASK]: Record<string, DataSagaState>,
+  [DataActionType.GET_GOALS]: Record<string, 
+    DataSagaState & {
+      data: GoalData[] | undefined
+    }>,
+  [DataActionType.CREATE_GOAL]: Record<string, 
+    DataSagaState & {
+      data: GoalData | undefined
+    }>,
+  [DataActionType.UPDATE_GOAL]: Record<string, 
+    DataSagaState & {
+      data: GoalData | undefined
+    }>,
+  [DataActionType.DELETE_GOAL]: Record<string, DataSagaState>,
 }
 
 const initialState: State = {
@@ -28,6 +41,10 @@ const initialState: State = {
   [DataActionType.CREATE_TASK]: {},
   [DataActionType.UPDATE_TASK]: {},
   [DataActionType.DELETE_TASK]: {},
+  [DataActionType.GET_GOALS]: {},
+  [DataActionType.CREATE_GOAL]: {},
+  [DataActionType.UPDATE_GOAL]: {},
+  [DataActionType.DELETE_GOAL]: {},
 };
 
 export const dataReducer = handleActions<State, any>(
