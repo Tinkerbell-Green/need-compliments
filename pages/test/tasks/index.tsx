@@ -7,8 +7,9 @@ import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 const TestTasksPage: NextPage = () => {
   const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
   const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
-  const {fetch: createTaskFetch, data: createTaskData, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
-  const {fetch: updateTaskFetch, data: updateTaskData, status: updateTaskStatus} = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK)
+  
+  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
+  const {fetch: updateTaskFetch, status: updateTaskStatus} = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK)
   const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
 
   useEffect(()=>{

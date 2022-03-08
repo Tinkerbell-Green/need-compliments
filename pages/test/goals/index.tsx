@@ -1,15 +1,20 @@
 import type {NextPage} from "next"
-import React, {useCallback, useEffect, useMemo} from "react"
+import React, {useCallback, useEffect} from "react"
 import * as S from "./index.styled";
 import {LayoutNavigation} from "components/layout-navigation";
-import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 
 const TestGoalsPage: NextPage = () => {
   const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
   const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS)
-  const {fetch: createGoalFetch, data: createGoalData, status: createGoalStatus} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL)
-  const {fetch: updateGoalFetch, data: updateGoalData, status: updateGoalStatus} = useDataSaga<DataActionType.UPDATE_GOAL>(DataActionType.UPDATE_GOAL)
-  const {fetch: deleteGoalFetch, status: deleteGoalStatus} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL)
+
+  const onSucceed = useCallback(()=>{
+    getGoalsRefetch()
+  },[getGoalsRefetch])
+
+  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, {onSucceed: ()=>getGoalsRefetch()})
+  const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(DataActionType.UPDATE_GOAL, {onSucceed})
+  const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
 
   useEffect(()=>{
     console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
@@ -45,24 +50,6 @@ const TestGoalsPage: NextPage = () => {
 
   const handleLeftButtonClick = useCallback(()=>{
   },[])
-
-  useEffect(()=>{
-    if (createGoalStatus === DataSagaStatus.SUCCEEDED){
-      getGoalsRefetch()
-    }
-  },[getGoalsRefetch, createGoalStatus])
-
-  useEffect(()=>{
-    if (updateGoalStatus === DataSagaStatus.SUCCEEDED){
-      getGoalsRefetch()
-    }
-  },[getGoalsRefetch, updateGoalStatus])
-
-  useEffect(()=>{
-    if (deleteGoalStatus === DataSagaStatus.SUCCEEDED){
-      getGoalsRefetch()
-    }
-  },[getGoalsRefetch, deleteGoalStatus])
 
   return (
     <LayoutNavigation
