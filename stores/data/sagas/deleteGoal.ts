@@ -3,10 +3,10 @@ import {dataActionCreators, DataActionInstance, DataActionType} from "../actions
 import {DataSagaStatus} from "../types"; 
 import {Repository, DeleteDocumentData} from "utils/firebase";
 
-export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_TASK>) {
+export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOAL>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.DELETE_TASK
+  const sagaDataActionType = DataActionType.DELETE_GOAL
 
   const repository: Repository = yield getContext("repository");
 
