@@ -33,7 +33,7 @@ export const Setting = ({email, profile}: SettingProps) => {
       </S.InfoListItem>
 
       <S.InfoListItem>
-        <S.DeleteAccount>계정 삭제하기</S.DeleteAccount>
+        <SubHeadingButton status={"error"}>계정 삭제하기</SubHeadingButton>
       </S.InfoListItem>
     </S.InfoList>
   );
