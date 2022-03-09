@@ -4,6 +4,7 @@ import {ThemeProvider} from "styled-components";
 import {wrapper} from "stores";
 import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
+import {AuthorizationProvider} from "utils/authorization";
 import {UserProvider} from "utils/user";
 import "utils/firebase"; 
 
@@ -13,7 +14,9 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
       <UserProvider>
         <ThemeProvider theme={themes.dark}>
           <GlobalStyle />
-          <Component {...pageProps} />
+          <AuthorizationProvider>
+            <Component {...pageProps} />
+          </AuthorizationProvider>
         </ThemeProvider>
       </UserProvider>
     </SessionProvider>
