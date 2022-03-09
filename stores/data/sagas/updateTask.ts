@@ -1,12 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, TaskDocument} from "../types"; 
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {DataSagaStatus} from "../types"; 
+import {Repository, UpdateDocumentData} from "utils/firebase";
 
-export function* createTask(action: DataActionInstance<DataActionType.CREATE_TASK>) {
+export function* updateTask(action: DataActionInstance<DataActionType.UPDATE_TASK>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_TASK
+  const sagaDataActionType = DataActionType.UPDATE_TASK
 
   const repository: Repository = yield getContext("repository");
 
@@ -22,16 +22,15 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
     const document = {
       ...payload.data,
       author: payload.author,
-      compliments: [],
       updatedAt: new Date().getTime(),
-      createdAt: new Date().getTime(),
     }
-
-    const response: CreateDocumentData<TaskDocument> = yield call(
-      [repository, repository.createDocument],
+    
+    const response: UpdateDocumentData = yield call(
+      [repository, repository.updateDocument],
       {
         path: "tasks",
-        data: document
+        pathSegments: payload.pathSegments,
+        data: document,
       }
     );
 
@@ -40,9 +39,9 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
         type: sagaDataActionType,
         key: sagaKey,
         data: {
-          id: response.id,
+          id: payload.pathSegments[0],
           ...document
-        }
+        },
       })
     ); 
 

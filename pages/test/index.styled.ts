@@ -16,3 +16,12 @@ export const ListItemTask = styled.div`
   flex-direction: row;
   align-items: center;
 `
+
+export const IdTask = styled.span`
+  color: ${props => props.theme.colors.textHint};
+  font-size: 0.8rem;
+`
+export const TitleTask = styled.span`
+  font-size: 1.2rem;
+  margin-left: 8px;
+`

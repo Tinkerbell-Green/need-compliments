@@ -13,7 +13,11 @@ export type State = {
     }>,
   [DataActionType.CREATE_TASK]: Record<string, 
     DataSagaState & {
-      data: {id: string} | undefined
+      data: TaskData | undefined
+    }>,
+  [DataActionType.UPDATE_TASK]: Record<string, 
+    DataSagaState & {
+      data: TaskData | undefined
     }>,
   [DataActionType.DELETE_TASK]: Record<string, DataSagaState>,
 }
@@ -22,6 +26,7 @@ const initialState: State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: {},
   [DataActionType.GET_TASKS_BY_DAYS]: {},
   [DataActionType.CREATE_TASK]: {},
+  [DataActionType.UPDATE_TASK]: {},
   [DataActionType.DELETE_TASK]: {},
 };
 
