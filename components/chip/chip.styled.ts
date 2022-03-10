@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const MARGIN = 4;
 
-export const Chip = styled.li`
+export const Chip = styled.div`
   display: flex;
   width:fit-content;
   height: fit-content;

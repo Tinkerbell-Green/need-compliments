@@ -1,12 +1,10 @@
-import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap";
-import {Book as BookClose,BookDead} from "@styled-icons/fa-solid";
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {signIn, useSession} from "next-auth/react";
 import React, {useCallback, useState,useEffect} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
-import {Chip} from "components/chip";
+import {Feed} from "components/feed";
 import {LayoutMain} from "components/layout-main"
 import {Sidebar} from "components/sidebar";
 
@@ -62,20 +60,9 @@ const Home: NextPage = () => {
             <S.Name>{userInfo.name}</S.Name>
             <S.SecondaryName>{userInfo.email}</S.SecondaryName>
           </S.Profile>
-          <S.Feed>
-            <S.Header>Feed</S.Header>
-            <S.FeedContents>
-              {goals.map((value,index)=>(
-                <Chip
-                  key={index}
-                  label={value}
-                  color={goalsColor[index]}
-                  icon={<BookOpen/>}
-                  onAdd={()=>console.log(`${value} clicked`)}
-                >
-                </Chip>))}
-            </S.FeedContents>
-          </S.Feed>
+          <Feed 
+            goals={goals} 
+            goalsColor={goalsColor}></Feed>
         </S.DetailSection>
       </div>
       <div className="invisible">
