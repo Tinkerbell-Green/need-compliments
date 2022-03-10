@@ -4,7 +4,7 @@ export const Form = styled.form<{isEditing:boolean,color:string}>`
 width:90%;
 display: flex;
 justify-content: space-between;
-border-bottom: 1px solid transparent;
+border-bottom: 1.5px solid transparent;
 border-color: ${props => (props.isEditing && props.color)};
 margin-top: 10px;
 
