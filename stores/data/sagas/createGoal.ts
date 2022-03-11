@@ -1,12 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, TaskDocument} from "../types"; 
+import {DataSagaStatus, GoalDocument} from "../types"; 
 import {Repository, CreateDocumentData} from "utils/firebase";
 
-export function* createTask(action: DataActionInstance<DataActionType.CREATE_TASK>) {
+export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOAL>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_TASK
+  const sagaDataActionType = DataActionType.CREATE_GOAL
 
   const repository: Repository = yield getContext("repository");
 
@@ -19,32 +19,18 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
   );
 
   try {
-<<<<<<< HEAD
-=======
     const document = {
       ...payload.data,
       author: payload.author,
-      compliments: [],
       updatedAt: new Date().getTime(),
       createdAt: new Date().getTime(),
     }
 
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
-    const response: CreateDocumentData<TaskDocument> = yield call(
+    const response: CreateDocumentData<GoalDocument> = yield call(
       [repository, repository.createDocument],
       {
-        path: "tasks",
-<<<<<<< HEAD
-        data: {
-          ...payload.data,
-          author: payload.author,
-          compliments: [],
-          updatedAt: new Date().getTime(),
-          createdAt: new Date().getTime(),
-        }
-=======
+        path: "goals",
         data: document
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
       }
     );
 
@@ -54,10 +40,7 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
         key: sagaKey,
         data: {
           id: response.id,
-<<<<<<< HEAD
-=======
           ...document
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
         }
       })
     ); 

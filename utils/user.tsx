@@ -3,18 +3,16 @@ import React, {ReactNode, useEffect} from "react"
 import {useDispatch} from "react-redux"
 import {DataActionType, useDataSaga} from "stores/data"
 import {NavigationActionType, navigationActionCreators} from "stores/navigation"
-
 type UserProviderProps = {
   children: ReactNode
 }
-
 export const UserProvider = ({
   children
 }: UserProviderProps) => {
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
   const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
-  
+
   const sessionUserId = ((session?.user || {}) as any).id as string
 
   useEffect(()=>{
@@ -31,7 +29,6 @@ export const UserProvider = ({
       }))
     }
   }, [dispatch, sessionUserId, status])
-
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){
       fetch({
@@ -44,7 +41,5 @@ export const UserProvider = ({
     }
   },[fetch, session?.user?.email, session?.user?.image, session?.user?.name, sessionUserId, status])
 
-  return (<>
-    {children}
-  </>)
+  return (<>{children}</>)
 }

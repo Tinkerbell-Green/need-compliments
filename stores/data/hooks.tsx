@@ -7,11 +7,14 @@ import {RootState} from "stores/reducers"
 
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   actionType: DataSagaActionType,
-  options?: {
+  options: {
     additionalKeys?: (keyof DataActionPayload[DataSagaActionTypeT])[]
-  }
+    onSucceed?: (data?: RootState["data"][DataSagaActionTypeT][string]["data"]) => void
+    onFail?: () => void
+  } = {}
 ) => { 
   const dispatch = useDispatch()
+  const {additionalKeys, onSucceed, onFail} = options
 
   // pageAuthorId
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
@@ -41,8 +44,8 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
 
   // key
   const key = useMemo(()=>{
-    return [keyUserId || "", ...(options?.additionalKeys || [])].sort().join()
-  },[options?.additionalKeys, keyUserId])
+    return [keyUserId || "", ...(additionalKeys || [])].sort().join()
+  },[additionalKeys, keyUserId])
 
   const keyRef = useRef<typeof key>(key)
   useEffect(()=>{
@@ -83,6 +86,33 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   })
 
+<<<<<<< HEAD
+=======
+  // onSucceed
+  const onSucceedRef = useRef<typeof onSucceed>(onSucceed)
+  useEffect(()=>{
+    onSucceedRef.current = onSucceed
+  },[onSucceed])
+
+  useEffect(()=>{
+    if (state?.status === "succeeded"){
+      onSucceedRef.current?.(state.data)
+    }
+  },[state?.data, state?.status])
+
+  // onFail
+  const onFailRef = useRef<typeof onFail>(onFail)
+  useEffect(()=>{
+    onFailRef.current = onFail
+  },[onFail])
+
+  useEffect(()=>{
+    if (state?.status === "failed"){
+      onFailRef.current?.()
+    }
+  },[onFail, state?.status])
+
+>>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
   return ({
     key: keyRef.current,
     fetch,
