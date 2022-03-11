@@ -17,8 +17,8 @@ type SidebarProps = UserInfo & {
 export const Sidebar = ({
   name,
   email,
-  follwer,
-  follwing,
+  follwersCount,
+  follwingsCount,
   onCloseMenu,
   isMenuOpen,
   goals,
@@ -51,8 +51,8 @@ export const Sidebar = ({
         <Profile
           name={name}
           email={email} 
-          follwer={follwer} 
-          follwing={follwing}
+          follwersCount={follwersCount} 
+          follwingsCount={follwingsCount}
           onFriendClick={handleFriendClick}/>
         <S.Goals>
           <S.GoalsTitle onClick={handleGoalsTitleClick}>목표

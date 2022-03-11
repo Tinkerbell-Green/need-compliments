@@ -6,25 +6,34 @@ import {Calendar} from "components/calendar"
 import {Feed} from "components/feed";
 import {LayoutMain} from "components/layout-main"
 import {Sidebar} from "components/sidebar";
+import {useDataSaga, DataActionType,UserData,GoalData,TaskData} from "stores/data";
 
-//TODO: stores/query/types 에 있는 UserData,CategoryData,TaskData 타입참고해서 수정
+//TODO: stores/query/types 에 있는 UserData,GoalsData,TaskData 타입참고해서 수정
 export type UserInfo = {
-  name : string,
-  email : string,
-  follwer: number,
-  follwing : number,
+  name : UserData["name"],
+  email : UserData["email"],
+  follwersCount: number,
+  follwingsCount : number,
 }
 
 const Home: NextPage = () => {
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [follwersCount,setFollwersCount] = useState(0);
+  const [follwingsCount,setFollwingsCount] = useState(0);
+
+  useEffect(()=>{
+    if(loggedInUserData){
+      setName(loggedInUserData.name);
+      setEmail(loggedInUserData.email);
+      setFollwersCount(loggedInUserData.followers.length);
+      setFollwingsCount(loggedInUserData.followings.length);
+    }
+  },[loggedInUserData]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    name : "HongBeen Lee",
-    email : "redbean-2@naver.com",
-    follwer: 40,
-    follwing :30
-  });
-  const [goals,setGoals] = useState(["Algorithm","Personal"]);
-  const [goalsColor,setGoalsColor] = useState(["orange","blueviolet"]);
 
   const handleOpenMenu:React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
@@ -47,24 +56,24 @@ const Home: NextPage = () => {
         <Calendar></Calendar>
         <S.DetailSection>
           <S.Profile>
-            <S.Name>{userInfo.name}</S.Name>
-            <S.SecondaryName>{userInfo.email}</S.SecondaryName>
+            <S.Name>{name}</S.Name>
+            <S.SecondaryName>{email}</S.SecondaryName>
           </S.Profile>
           <Feed 
-            goals={goals} 
-            goalsColor={goalsColor}></Feed>
+            goals={["Algorithms"]} 
+            goalsColor={["yellow"]}></Feed>
         </S.DetailSection>
       </div>
       <div className="invisible">
         <Sidebar
-          name={userInfo.name} 
-          email={userInfo.email}
-          follwer={userInfo.follwer}
-          follwing={userInfo.follwing}
+          name={name} 
+          email={email}
+          follwersCount={follwersCount}
+          follwingsCount={follwingsCount}
           isMenuOpen={isMenuOpen}
           onCloseMenu={handleCloseMenu}
-          goals={goals}
-          goalsColor={goalsColor}
+          goals={["Algorithms"]} 
+          goalsColor={["yellow"]}
         ></Sidebar>
       </div>
     </LayoutMain>
