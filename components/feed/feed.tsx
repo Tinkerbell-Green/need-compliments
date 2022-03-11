@@ -4,10 +4,10 @@ import React,{useState} from "react";
 import * as S from "./feed.styled";
 import {Tasks} from "./tasks"
 import {Chip} from "components/chip";
+import {ExpandedGoalData} from "pages";
 
 type FeedProps = {
-  goals: string[];
-  goalsColor: string[];
+  goals: ExpandedGoalData[];
 }
 
 export type TaskData = {
@@ -17,7 +17,6 @@ export type TaskData = {
 
 export const Feed = ({
   goals,
-  goalsColor
 }:FeedProps) => {
   const [tasks, setTasks] = useState([{
     id:Date.now().toString(),
@@ -37,18 +36,17 @@ export const Feed = ({
     <S.Feed>
       <S.Header>Feed</S.Header>
       <S.FeedContents>
-        {goals.map((value,index)=>(
-          <S.GoalAndInput key={index}> 
+        {goals.map((value)=>(
+          <S.GoalAndInput key={value.id}> 
             {/* TODO: key library 도입?  */}
             <Chip
-              key={index}
-              label={value}
-              color={goalsColor[index]}
+              label={value.name}
+              color={value.color}
               icon={<BookOpen/>}
               onAdd={handleAddTask}
             >
             </Chip>
-            <Tasks key={Date.now()} color={goalsColor[index]} tasks={tasks}></Tasks>
+            <Tasks color={value.color} tasks={tasks}></Tasks>
           </S.GoalAndInput>
         ))}
         

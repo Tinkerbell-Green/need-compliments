@@ -5,13 +5,12 @@ import React, {useCallback} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
 import {Chip} from "components/chip";
-import {UserInfo} from "pages";
+import {ExpandedUserData,ExpandedGoalData} from "pages";
 
-type SidebarProps = UserInfo & {
+type SidebarProps = ExpandedUserData & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
-  goals: string[];
-  goalsColor: string[];
+  goals: ExpandedGoalData[];
 }
 
 export const Sidebar = ({
@@ -22,7 +21,6 @@ export const Sidebar = ({
   onCloseMenu,
   isMenuOpen,
   goals,
-  goalsColor
 }:SidebarProps) => {
   const router = useRouter();
   
@@ -59,11 +57,11 @@ export const Sidebar = ({
             <S.ArrowIcon><KeyboardArrowRight/></S.ArrowIcon>
           </S.GoalsTitle>
           <S.GoalsContents>
-            {goals.map((value,index)=>(
+            {goals.map((value)=>(
               <Chip 
-                key={index}
-                label={value}
-                color={goalsColor[index]}>
+                key={value.id}
+                label={value.name}
+                color={value.color}>
               </Chip>
             ))}
           </S.GoalsContents>

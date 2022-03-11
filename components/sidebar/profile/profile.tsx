@@ -1,12 +1,17 @@
 import React from "react";
 import * as S from "../sidebar.styled";
-import {UserInfo} from "pages";
+import {ExpandedUserData} from "pages";
 
-type ProfileProps = UserInfo & {
+type ProfileProps = ExpandedUserData & {
   onFriendClick : () => void;
 };
 
-export const Profile = ({name, email, follwersCount, follwingsCount, onFriendClick}: ProfileProps) => {
+export const Profile = ({
+  name, 
+  email, 
+  follwersCount, 
+  follwingsCount, 
+  onFriendClick}: ProfileProps) => {
   return (
     <S.Profile>
       <S.Name>{name}</S.Name>
