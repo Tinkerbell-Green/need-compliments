@@ -19,8 +19,6 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
   );
 
   try {
-<<<<<<< HEAD
-=======
     const document = {
       ...payload.data,
       author: payload.author,
@@ -29,22 +27,11 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
       createdAt: new Date().getTime(),
     }
 
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
     const response: CreateDocumentData<TaskDocument> = yield call(
       [repository, repository.createDocument],
       {
         path: "tasks",
-<<<<<<< HEAD
-        data: {
-          ...payload.data,
-          author: payload.author,
-          compliments: [],
-          updatedAt: new Date().getTime(),
-          createdAt: new Date().getTime(),
-        }
-=======
         data: document
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
       }
     );
 
@@ -54,10 +41,7 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
         key: sagaKey,
         data: {
           id: response.id,
-<<<<<<< HEAD
-=======
           ...document
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
         }
       })
     ); 

@@ -86,8 +86,6 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   })
 
-<<<<<<< HEAD
-=======
   // onSucceed
   const onSucceedRef = useRef<typeof onSucceed>(onSucceed)
   useEffect(()=>{
@@ -112,7 +110,6 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   },[onFail, state?.status])
 
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8
   return ({
     key: keyRef.current,
     fetch,
