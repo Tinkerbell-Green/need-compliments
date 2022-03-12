@@ -11,10 +11,8 @@ import {
   DataActionType,
   UserData,
   GoalData,
-  TaskData,
 } from "stores/data";
 
-//TODO: stores/query/types 에 있는 UserData,GoalsData,TaskData 타입참고해서 수정
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
 	follwingsCount: number;

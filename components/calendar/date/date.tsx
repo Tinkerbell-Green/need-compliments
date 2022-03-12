@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useState} from "react"
 import * as S from "../calendar.styled";
 
 type DateProps = {
   date:string,
-  isToday:boolean
+  isToday:boolean,
   onClick: (value:string)=>void,
 }
 
