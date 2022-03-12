@@ -15,9 +15,9 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-	padding: 10px;
   width: 100%;
-  flex-basis: 10%;
+  height: fit-content;
+  margin: 5px 0;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

@@ -3,13 +3,10 @@ import styled from "styled-components";
 const ICON_SIZE = 28;
 
 export const IconList = styled.ul`
-  position: absolute;
-  top:0;
-  left:100%;
-  transform: translateX(-100%);
-  padding: 10px;
+  align-items: flex-end;
   display: flex;
   justify-content: flex-end;
+  margin-top: 10px;
 `;
 
 export const MenuIcon = styled.div`

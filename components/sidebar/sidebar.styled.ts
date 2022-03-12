@@ -39,7 +39,7 @@ export const MenuContents = styled.section`
   top:0;
   left:100%;
   width: 280px;
-  height:100%;
+  height: 100%;
   background-color: ${props => props.theme.colors["gray-800"]};
   transition: all 0.2s ease-in-out;
   
@@ -75,8 +75,28 @@ export const GoalsTitle = styled.div`
 `;
 
 export const GoalsContents = styled.ul`
+  max-height: 400px;
+  overflow-y: scroll;
   > * {
     margin-bottom: 10px;
+  }
+  
+  /* firefox */
+  scrollbar-width: 4px;
+  scrollbar-color: rgba(0,0,0,0.3);
+  scrollbar-face-color: ${props=>props.theme.colors["gray-600"]};
+  
+  &::-webkit-scrollbar{
+  /* safari, chrome */
+  width: 4px;
+  background: rgba(0,0,0,0.3);
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 2px;
+}
+  &::-webkit-scrollbar-thumb{
+  /* safari, chrome */
+  background: ${props=>props.theme.colors["gray-600"]};
   }
 `;
 
