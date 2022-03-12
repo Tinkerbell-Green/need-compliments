@@ -1,5 +1,3 @@
-import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
-import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React, {useState, useEffect, useCallback} from "react";
 import * as S from "./feed.styled";
 import {Tasks} from "./tasks";
@@ -81,7 +79,7 @@ export const Feed = ({goals}: FeedProps) => {
             <Chip
               label={goal.name}
               color={goal.color}
-              icon={<BookOpen />}
+              icon={<S.GrayIcon />}
               onAdd={handleCreateTask}
             ></Chip>
             <Tasks

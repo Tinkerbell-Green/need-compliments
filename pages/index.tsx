@@ -6,18 +6,12 @@ import {Calendar} from "components/calendar";
 import {Feed} from "components/feed";
 import {LayoutMain} from "components/layout-main";
 import {Sidebar} from "components/sidebar";
-import {
-  useDataSaga,
-  DataActionType,
-  UserData,
-  GoalData,
-} from "stores/data";
+import {useDataSaga, DataActionType, UserData, GoalData} from "stores/data";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
 	follwingsCount: number;
 };
-
 export type ExpandedGoalData = Pick<GoalData,"id"|"name"|"color">;
 
 const Home: NextPage = () => {

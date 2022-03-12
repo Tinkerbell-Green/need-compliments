@@ -8,7 +8,7 @@ type DateProps = {
 }
 
 export const Date = ({date,isToday,onClick}:DateProps) => {
-  const [stickers,setStickers] = useState(["👾","🔑"]);
+  const [stickers,setStickers] = useState([]);
 
   return (
     <S.Date onClick={()=>onClick(date)}>

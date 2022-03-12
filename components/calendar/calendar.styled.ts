@@ -71,6 +71,7 @@ export const Date = styled.li`
 `
 
 export const Today = styled.div`
+  width: ${TODAY_CIRCLE_SIZE}rem;
   height: ${TODAY_CIRCLE_SIZE}rem;
   line-height: ${TODAY_CIRCLE_SIZE}rem;
   
@@ -78,11 +79,12 @@ export const Today = styled.div`
     justify-content: center;
     position: sticky;
     border-radius: 50%;
-    border: 1px solid;
-    width: ${TODAY_CIRCLE_SIZE}rem;
+    border: 1px solid ${props => props.theme.colors["gray-300"]};
     }
 `;
-export const DateNumber = styled.div``;
+export const DateNumber = styled.div`
+color: ${props => props.theme.colors["gray-300"]}
+`;
 
 export const DateEmoji = styled.div`
   font-size: ${EMOJI_SIZE}px;
