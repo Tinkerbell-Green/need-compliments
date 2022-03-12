@@ -13,16 +13,17 @@ type TaskProps = {
 	id: string;
 	color: string;
 	title: string;
-  onDeleteTask : (value: string)=>void;
+	onDeleteTask: (value: string) => void;
 };
 
 export const Task = ({
   id, 
   color, 
-  title,
+  title, 
   onDeleteTask
 }: TaskProps) => {
-  const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
+  const {refetch: getTasksByDaysRefetch} = 
+  useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
   const {fetch: updateTaskFetch, status: updateTaskStatus} =
 		useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
 
@@ -35,15 +36,15 @@ export const Task = ({
     //TODO: modal open
   };
 
-  const handleFocus: React.FocusEventHandler = useCallback(() => {
-    setIsEditing(true);
-  }, []);
-
   const handleUpdateTask = useCallback(
-    (event: React.ChangeEvent | React.FormEvent | React.FocusEvent) => {
-      // event.preventDefault();
+    (
+      event:
+				| React.ChangeEvent
+				| React.FormEvent
+				| React.FocusEvent
+    ) => {
+      event.preventDefault();
       setIsEditing(false);
-      console.log("submit");
 
       if (inputValue) {
         updateTaskFetch({
@@ -53,12 +54,10 @@ export const Task = ({
           },
         });
       } else {
-        title
-          ? setInputValue(title)
-          : onDeleteTask(id)
+        title ? setInputValue(title) : onDeleteTask(id);
       }
     },
-    [updateTaskFetch, onDeleteTask,inputValue, id, title]
+    [updateTaskFetch, onDeleteTask, inputValue, id, title]
   );
 
   const handleChange = () => {
@@ -67,28 +66,34 @@ export const Task = ({
   };
 
   useEffect(()=>{
-    if (updateTaskStatus === DataSagaStatus.SUCCEEDED){
-      getTasksByDaysRefetch()
+    setIsEditing(title ? false : true);
+  },[title]);
+
+  useEffect(() => {
+    if (updateTaskStatus === DataSagaStatus.SUCCEEDED) {
+      getTasksByDaysRefetch();
     }
-  },[getTasksByDaysRefetch, updateTaskStatus])
+  }, [getTasksByDaysRefetch, updateTaskStatus]);
 
   return (
-    <S.Form 
-      isEditing={isEditing} 
-      color={color} 
-      onSubmit={()=>console.log("submit")}>
-      <S.Input
-        value={inputValue}
-        placeholder="입력"
-        type="text"
-        ref={InputRef}
-        onChange={handleChange}
-        onBlur={handleUpdateTask}
-        onFocus={handleFocus}
-      ></S.Input>
+    <S.FormContainer
+      isEditing={isEditing}
+      color={color}>
+      <S.Form onSubmit={handleUpdateTask}>
+        <S.Input
+          autoFocus
+          value={inputValue}
+          placeholder="입력"
+          type="text"
+          ref={InputRef}
+          onChange={handleChange}
+          onBlur={handleUpdateTask}
+          onFocus={() => setIsEditing(true)}
+        ></S.Input>
+      </S.Form>
       <S.Button onClick={handleOpenModal}>
         <MoreHorizontalOutline />
       </S.Button>
-    </S.Form>
+    </S.FormContainer>
   );
 };

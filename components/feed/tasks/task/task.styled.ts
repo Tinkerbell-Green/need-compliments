@@ -1,14 +1,18 @@
 import styled from "styled-components";
 
-export const Form = styled.form<{isEditing:boolean,color:string}>`
+export const FormContainer = styled.div<{isEditing:boolean,color:string}>`
 width:90%;
 display: flex;
 justify-content: space-between;
-border-bottom: 1.5px solid transparent;
-border-color: ${props => (props.isEditing && props.color)};
 margin-top: 10px;
 
-transition: border-color 0.3s linear;
+border-bottom: 1.5px solid transparent;
+border-color: ${props => (props.isEditing && props.color)};
+transition: border-color 0.3s ease-in;
+`;
+
+export const Form = styled.form`
+width: 100%;
 `;
 
 export const Input = styled.input`
