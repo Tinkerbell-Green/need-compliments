@@ -1,57 +1,82 @@
-import {Book as BookOpen,BookHalf} from "@styled-icons/bootstrap";
-import {Book as BookClose,BookDead} from "@styled-icons/fa-solid";
-import React,{useState} from "react";
+import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
+import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
+import React, {useState, useEffect, useCallback} from "react";
 import * as S from "./feed.styled";
-import {Tasks} from "./tasks"
+import {Tasks} from "./tasks";
 import {Chip} from "components/chip";
 import {ExpandedGoalData} from "pages";
+import {
+  useDataSaga,
+  DataActionType,
+  DataSagaStatus,
+  TaskData,
+} from "stores/data";
 
 type FeedProps = {
-  goals: ExpandedGoalData[];
-}
+	goals: ExpandedGoalData[];
+};
 
-export type TaskData = {
-  id:string,
-  title:string
-}
+export const Feed = ({goals}: FeedProps) => {
+  const {
+    fetch: getTasksByDaysFetch,
+    data: getTasksByDaysData,
+    refetch: getTasksByDaysRefetch,
+  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(
+    DataActionType.GET_TASKS_BY_DAYS
+  );
+  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
+  
+  const [tasks, setTasks] = useState<TaskData[]>();
 
-export const Feed = ({
-  goals,
-}:FeedProps) => {
-  const [tasks, setTasks] = useState([{
-    id:Date.now().toString(),
-    title: "Leetcode 4 solved!",
-  }]);
+  useEffect(() => {
+    getTasksByDaysFetch({
+      startDay: new Date("1999-11-11"),
+      endDay: new Date("2222-11-11"),
+    });
+  }, [getTasksByDaysFetch]);
 
-  const handleAddTask = ()=> { 
-    //TODO: Tasks에 새로운 Task를 추가한다.
-    tasks.push({
-      id:Date.now().toString(),
-      title:"",
-    })
-    setTasks([...tasks]);
-  }
+  useEffect(() => {
+    setTasks(getTasksByDaysData || []);
+  }, [getTasksByDaysData]);
+
+  const handleCreateTask = useCallback(
+    (goal: string) => {
+      createTaskFetch({
+        data: {
+          title: "",
+          goal,
+          doneAt: new Date().getTime(),
+        },
+      });
+    },
+    [createTaskFetch]
+  );
+
+  useEffect(()=>{
+    if (createTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, createTaskStatus])
 
   return (
     <S.Feed>
       <S.Header>Feed</S.Header>
       <S.FeedContents>
-        {goals.map((value)=>(
-          <S.GoalAndInput key={value.id}> 
-            {/* TODO: key library 도입?  */}
+        {goals.map((goal) => (
+          <S.GoalAndInput key={goal.id}>
             <Chip
-              label={value.name}
-              color={value.color}
-              icon={<BookOpen/>}
-              onAdd={handleAddTask}
-            >
-            </Chip>
-            <Tasks color={value.color} tasks={tasks}></Tasks>
+              label={goal.name}
+              color={goal.color}
+              icon={<BookOpen />}
+              onAdd={()=>handleCreateTask(goal.name)}
+            ></Chip>
+            <Tasks
+              color={goal.color}
+              tasks={tasks?.filter((task) => task.title === goal.name) || []}
+            ></Tasks>
           </S.GoalAndInput>
         ))}
-        
-        
       </S.FeedContents>
     </S.Feed>
-  )
-}
+  );
+};

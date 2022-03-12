@@ -33,7 +33,7 @@ const Home: NextPage = () => {
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
-  const [goals,setGoals]= useState<ExpandedGoalData[]>([{id:`${Date.toString}`, name:"Algorithms",color:"orange"}]);
+  const [goals,setGoals]= useState<ExpandedGoalData[]>([]);
 
   useEffect(() => {
     if (loggedInUserData) {
@@ -43,6 +43,12 @@ const Home: NextPage = () => {
       setFollwingsCount(loggedInUserData.followings.length);
     }
   }, [loggedInUserData]);
+
+  useEffect(()=>{
+    setGoals(getGoalsData || []);
+  },[getGoalsData]);
+
+  // 임의로 goal하나 추가하고 테스트
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

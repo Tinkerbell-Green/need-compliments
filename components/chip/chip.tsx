@@ -1,13 +1,14 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React from "react";
 import * as S from "./chip.styled";
+import {TaskData} from "stores/data";
 
 type ChipProps = {
   children?: React.ReactNode;
   label: string;
   color?: string;
   icon?: React.ReactNode;
-  onAdd?: React.MouseEventHandler;
+  onAdd?: (value: Pick<TaskData,"title"|"goal"|"doneAt">)=>void;
 };
 
 export const Chip = ({
