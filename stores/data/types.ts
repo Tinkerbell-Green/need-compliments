@@ -59,7 +59,6 @@ export type DataSagaState = {
   userId: string
   type: DataActionType
   status: DataSagaStatus
-  isFetched: boolean
   data: unknown
   payload: unknown
 }
