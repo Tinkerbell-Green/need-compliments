@@ -8,7 +8,7 @@ type ChipProps = {
   label: string;
   color?: string;
   icon?: React.ReactNode;
-  onAdd?: (value: Pick<TaskData,"title"|"goal"|"doneAt">)=>void;
+  onAdd?: (value: string)=>void;
 };
 
 export const Chip = ({
@@ -23,7 +23,7 @@ export const Chip = ({
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
-        <S.AddIcon onClick={onAdd}>
+        <S.AddIcon onClick={()=>onAdd(label)}>
           <PlusSm />
         </S.AddIcon>
       )}

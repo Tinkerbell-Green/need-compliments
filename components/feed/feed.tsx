@@ -24,7 +24,9 @@ export const Feed = ({goals}: FeedProps) => {
   } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(
     DataActionType.GET_TASKS_BY_DAYS
   );
-  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
+  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
+  const {fetch: deleteTaskFetch, status: deleteTaskStatus} =
+		useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
   
   const [tasks, setTasks] = useState<TaskData[]>();
 
@@ -52,11 +54,23 @@ export const Feed = ({goals}: FeedProps) => {
     [createTaskFetch]
   );
 
+  const handleDelete = useCallback((id: string)=>{
+    deleteTaskFetch({
+      pathSegments: [id]
+    })
+  },[deleteTaskFetch])
+  
   useEffect(()=>{
     if (createTaskStatus === DataSagaStatus.SUCCEEDED){
       getTasksByDaysRefetch()
     }
   },[getTasksByDaysRefetch, createTaskStatus])
+  
+  useEffect(()=>{
+    if (deleteTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, deleteTaskStatus])
 
   return (
     <S.Feed>
@@ -68,11 +82,12 @@ export const Feed = ({goals}: FeedProps) => {
               label={goal.name}
               color={goal.color}
               icon={<BookOpen />}
-              onAdd={()=>handleCreateTask(goal.name)}
+              onAdd={handleCreateTask}
             ></Chip>
             <Tasks
               color={goal.color}
-              tasks={tasks?.filter((task) => task.title === goal.name) || []}
+              tasks={tasks?.filter((task) => task.goal === goal.name) || []}
+              onDeleteTask={handleDelete}
             ></Tasks>
           </S.GoalAndInput>
         ))}

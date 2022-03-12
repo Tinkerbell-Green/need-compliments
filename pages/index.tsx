@@ -29,11 +29,21 @@ const Home: NextPage = () => {
 		);
   const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
+  const onSucceed = useCallback(()=>{
+    getGoalsRefetch()
+  },[getGoalsRefetch])
+
+  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, {onSucceed: ()=>getGoalsRefetch()})
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
   const [goals,setGoals]= useState<ExpandedGoalData[]>([]);
+
+  useEffect(()=>{
+    getGoalsFetch({})
+  },[getGoalsFetch])
 
   useEffect(() => {
     if (loggedInUserData) {
@@ -47,8 +57,6 @@ const Home: NextPage = () => {
   useEffect(()=>{
     setGoals(getGoalsData || []);
   },[getGoalsData]);
-
-  // 임의로 goal하나 추가하고 테스트
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

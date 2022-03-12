@@ -1,7 +1,7 @@
 import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
-import React, {useCallback, useRef, useState,useEffect} from "react";
+import React, {useCallback, useRef, useState, useEffect} from "react";
 import * as S from "./task.styled";
-import {Modal} from "components/modal"
+import {Modal} from "components/modal";
 import {
   useDataSaga,
   DataActionType,
@@ -10,21 +10,19 @@ import {
 } from "stores/data";
 
 type TaskProps = {
-  id:string,
-  color:string,
-  title:string,
-}
+	id: string;
+	color: string;
+	title: string;
+  onDeleteTask : (value: string)=>void;
+};
 
 export const Task = ({
-  id,
-  color,
-  title
+  id, 
+  color, 
+  title,
+  onDeleteTask
 }: TaskProps) => {
-  const {
-    refetch: getTasksByDaysRefetch,
-  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(
-    DataActionType.GET_TASKS_BY_DAYS
-  );
+  const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
   const {fetch: updateTaskFetch, status: updateTaskStatus} =
 		useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
 
@@ -32,59 +30,65 @@ export const Task = ({
   const [inputValue, setInputValue] = useState(title);
   const InputRef = useRef<HTMLInputElement>(null);
 
+  const handleOpenModal: React.MouseEventHandler = (event) => {
+    event.preventDefault();
+    //TODO: modal open
+  };
+
+  const handleFocus: React.FocusEventHandler = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  const handleUpdateTask = useCallback(
+    (event: React.ChangeEvent | React.FormEvent | React.FocusEvent) => {
+      // event.preventDefault();
+      setIsEditing(false);
+      console.log("submit");
+
+      if (inputValue) {
+        updateTaskFetch({
+          pathSegments: [id],
+          data: {
+            title: inputValue,
+          },
+        });
+      } else {
+        title
+          ? setInputValue(title)
+          : onDeleteTask(id)
+      }
+    },
+    [updateTaskFetch, onDeleteTask,inputValue, id, title]
+  );
+
+  const handleChange = () => {
+    const currentValue = InputRef.current?.value;
+    setInputValue(currentValue ? currentValue : "");
+  };
+
   useEffect(()=>{
     if (updateTaskStatus === DataSagaStatus.SUCCEEDED){
       getTasksByDaysRefetch()
     }
   },[getTasksByDaysRefetch, updateTaskStatus])
 
-  const handleOpenModal:React.MouseEventHandler = (event)=>{
-    event.preventDefault();
-    //TODO: modal open
-  }
-
-  const handleFocus:React.FocusEventHandler = useCallback(()=>{
-    setIsEditing(true);
-  },[])
-
-  const handleUpdateTask = (event:React.ChangeEvent | React.FormEvent | React.FocusEvent)=>{
-    event.preventDefault();
-
-    if(inputValue){
-      updateTaskFetch({
-        pathSegments: [id],
-        data: {
-          title: inputValue,
-        }
-      })
-    }else{
-      setInputValue(title);
-    }
-    setIsEditing(false);
-  }
-
-  const handleChange = ()=>{
-    const currentValue = InputRef.current?.value;
-    setInputValue(currentValue ? currentValue : "");
-  }
-
   return (
     <S.Form 
-      isEditing={isEditing}
-      color={color}>
-      <S.Input 
+      isEditing={isEditing} 
+      color={color} 
+      onSubmit={()=>console.log("submit")}>
+      <S.Input
         value={inputValue}
-        placeholder="입력" 
+        placeholder="입력"
         type="text"
         ref={InputRef}
         onChange={handleChange}
-        onSubmit={handleUpdateTask}
         onBlur={handleUpdateTask}
-        onFocus={handleFocus}>
-      </S.Input>
-      <S.Button 
-        onClick={handleOpenModal}><MoreHorizontalOutline/>
+        onFocus={handleFocus}
+      ></S.Input>
+      <S.Button onClick={handleOpenModal}>
+        <MoreHorizontalOutline />
       </S.Button>
     </S.Form>
-  )
-}
+  );
+};
