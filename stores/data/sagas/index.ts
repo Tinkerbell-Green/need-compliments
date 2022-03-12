@@ -9,9 +9,11 @@ import {getLoggedInUserData} from "./getLoggedInUserData"
 import {getTasksByDays} from "./getTasksByDays"
 import {updateGoal} from "./updateGoal";
 import {updateTask} from "./updateTask";
+import {updateUser} from "./updateUser"
 
 export function* dataSaga() {
   yield takeEvery(DataActionType.GET_LOGGED_IN_USER_DATA, getLoggedInUserData)
+  yield takeEvery(DataActionType.UPDATE_USER, updateUser)
   yield takeEvery(DataActionType.GET_TASKS_BY_DAYS, getTasksByDays)
   yield takeEvery(DataActionType.CREATE_TASK, createTask)
   yield takeEvery(DataActionType.UPDATE_TASK, updateTask)

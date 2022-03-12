@@ -1,11 +1,13 @@
-import {DataSagaStatus, GoalDocument, TaskDocument} from "./types";
+import {DataSagaStatus, GoalDocument, TaskDocument, UserDocument} from "./types";
 import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
   SET_DATA_DATA = "query/SET_DATA_DATA",
+  SET_DATA_PAYLOAD = "query/SET_DATA_PAYLOAD",
   // sagas
   GET_LOGGED_IN_USER_DATA = "data/GET_LOGGED_IN_USER_DATA",
+  UPDATE_USER = "data/UPDATE_USER",
   GET_TASKS_BY_DAYS = "data/GET_TASKS_BY_DAYS",
   CREATE_TASK = "data/CREATE_TASK",
   UPDATE_TASK = "data/UPDATE_TASK",
@@ -18,6 +20,7 @@ export enum DataActionType {
 
 export type DataSagaActionType = (
   DataActionType.GET_LOGGED_IN_USER_DATA |
+  DataActionType.UPDATE_USER |
   DataActionType.GET_TASKS_BY_DAYS |
   DataActionType.CREATE_TASK |
   DataActionType.UPDATE_TASK |
@@ -35,6 +38,7 @@ export enum Authority {
 }
 export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Authority.UNKNOWN,
+  [DataActionType.UPDATE_USER]: Authority.AUTHOR,
   [DataActionType.GET_TASKS_BY_DAYS]: Authority.VIEWER,
   [DataActionType.CREATE_TASK]: Authority.AUTHOR,
   [DataActionType.UPDATE_TASK]: Authority.AUTHOR,
@@ -56,6 +60,11 @@ export type DataActionPayload = {
     key: string,
     data: any
   }
+  [DataActionType.SET_DATA_PAYLOAD]: {
+    type: DataSagaActionType,
+    key: string,
+    payload: any
+  }
   // sagas
   [DataActionType.GET_LOGGED_IN_USER_DATA]: SagaDataActionDefaultPayload & {
     id: string
@@ -63,6 +72,9 @@ export type DataActionPayload = {
     name: string | undefined
     image: string | undefined
   }
+  [DataActionType.UPDATE_USER]: SagaDataActionDefaultPayload & 
+    Omit<UpdateDocumentArguments<Omit<UserDocument, "createdAt" | "updatedAt" | "email">>, "path"> & {
+    }
   [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
@@ -97,9 +109,11 @@ export type SagaDataActionDefaultPayload = {
 
 export const dataActionCreators = {
   [DataActionType.SET_DATA_STATUS]: (payload: DataActionPayload[DataActionType.SET_DATA_STATUS]) => ({type: DataActionType.SET_DATA_STATUS, payload}),
-  [DataActionType.SET_DATA_DATA]: (payload: DataActionPayload[DataActionType.SET_DATA_DATA]) => ({type: DataActionType.SET_DATA_DATA, payload}),
+  [DataActionType.SET_DATA_DATA]: (payload: DataActionPayload[DataActionType.SET_DATA_DATA]) => ({type: DataActionType.SET_DATA_DATA, payload}),  
+  [DataActionType.SET_DATA_PAYLOAD]: (payload: DataActionPayload[DataActionType.SET_DATA_PAYLOAD]) => ({type: DataActionType.SET_DATA_PAYLOAD, payload}),
   // sagas
   [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
+  [DataActionType.UPDATE_USER]: (payload: DataActionPayload[DataActionType.UPDATE_USER]) => ({type: DataActionType.UPDATE_USER, payload}),
   [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
   [DataActionType.CREATE_TASK]: (payload: DataActionPayload[DataActionType.CREATE_TASK]) => ({type: DataActionType.CREATE_TASK, payload}),
   [DataActionType.UPDATE_TASK]: (payload: DataActionPayload[DataActionType.UPDATE_TASK]) => ({type: DataActionType.UPDATE_TASK, payload}),

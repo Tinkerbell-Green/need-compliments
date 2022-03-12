@@ -17,10 +17,6 @@ const TestGoalsPage: NextPage = () => {
   const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
 
   useEffect(()=>{
-    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
-  },[loggedInUserData])
-
-  useEffect(()=>{
     getGoalsFetch({})
   },[getGoalsFetch])
 
