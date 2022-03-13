@@ -8,14 +8,14 @@ type TaskProps = {
 	id: string;
 	color: string;
 	title: string;
-	onDeleteTask: (value: string) => void;
+	onTaskDelete: (value: string) => void;
 };
 
 export const Task = ({
   id, 
   color, 
   title, 
-  onDeleteTask
+  onTaskDelete
 }: TaskProps) => {
   const {
     refetch: getTasksByDaysRefetch
@@ -29,38 +29,37 @@ export const Task = ({
   const [inputValue, setInputValue] = useState(title);
   const InputRef = useRef<HTMLInputElement>(null);
 
-  const handleOpenModal: React.MouseEventHandler = (event) => {
+  const handleModalOpen: React.MouseEventHandler = (event) => {
     event.preventDefault();
     //TODO: modal open
   };
 
-  const handleSaveTask = useCallback((id,inputValue)=>{
+  const saveTask = useCallback((id)=>{
+    if(!inputValue){
+      title ? setInputValue(title) : onTaskDelete(id);
+      return;
+    }
+
     updateTaskFetch({
       pathSegments: [id],
       data: {
         title: inputValue,
       }});
-  },[updateTaskFetch]);
+  },[inputValue,updateTaskFetch,onTaskDelete,title]);
 
-  const handleDeleteTask = useCallback((id)=>{
-    onDeleteTask(id);
-  },[onDeleteTask]);
+  const handleSubmit = useCallback((event: React.FormEvent)=>{
+    event.preventDefault();
+    setIsEditing(false);
+    saveTask(id);
+  },[saveTask,id])
 
-  const handleUpdateTask = useCallback(
-    (event: React.ChangeEvent| React.FormEvent| React.FocusEvent) => {
-      event.preventDefault();
-      setIsEditing(false);
+  const handleBlur = useCallback((event: React.FocusEvent) => {
+    event.preventDefault();
+    setIsEditing(false);
+    saveTask(id);
+  },[saveTask,id]);
 
-      if (inputValue) {
-        handleSaveTask(id,inputValue);
-      } else {
-        title ? setInputValue(title) : handleDeleteTask(id);
-      }
-    },
-    [handleSaveTask, handleDeleteTask, inputValue, title,id]
-  );
-
-  const handleChangeTask = useCallback(() => {
+  const handleChange = useCallback(() => {
     const currentValue = InputRef.current?.value || "";
     setInputValue(currentValue);
   },[]);
@@ -79,19 +78,19 @@ export const Task = ({
     <S.FormContainer
       isEditing={isEditing}
       color={color}>
-      <S.Form onSubmit={handleUpdateTask}>
+      <S.Form onSubmit={handleSubmit}>
         <S.Input
           autoFocus
           value={inputValue}
           placeholder="입력"
           type="text"
           ref={InputRef}
-          onChange={handleChangeTask}
-          onBlur={handleUpdateTask}
+          onChange={handleChange}
+          onBlur={handleBlur}
           onFocus={() => setIsEditing(true)}
         ></S.Input>
       </S.Form>
-      <S.Button onClick={handleOpenModal}>
+      <S.Button onClick={handleModalOpen}>
         <MoreHorizontalOutline />
       </S.Button>
     </S.FormContainer>

@@ -5,13 +5,13 @@ import {TaskData} from "stores/data";
 type TaskListProps = {
   color:string,
   tasks:TaskData[],
-  onDeleteTask : (value:string)=>void;
+  onTaskDelete : (value:string)=>void;
 }
 
 export const TaskList = ({
   color,
   tasks,
-  onDeleteTask,
+  onTaskDelete,
 }: TaskListProps) => {
   return (
     <li>
@@ -21,7 +21,7 @@ export const TaskList = ({
           id={id} 
           color={color} 
           title={title} 
-          onDeleteTask={onDeleteTask}></Task>
+          onTaskDelete={onTaskDelete}></Task>
       ))}
     </li>
   )

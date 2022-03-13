@@ -1,6 +1,6 @@
 import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback,useMemo} from "react";
 import * as S from "./feed.styled";
 import {TaskList} from "./task-list";
 import {Chip} from "components/chip";
@@ -31,7 +31,7 @@ export const Feed = ({goals}: FeedProps) => {
     status: deleteTaskStatus
   } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
   
-  const [tasks, setTasks] = useState<TaskData[]>();
+  const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
 
   useEffect(() => {
     getTasksByDaysFetch({
@@ -44,7 +44,7 @@ export const Feed = ({goals}: FeedProps) => {
     setTasks(getTasksByDaysData || []);
   }, [getTasksByDaysData]);
 
-  const handleCreateTask = useCallback(
+  const handleTaskCreate = useCallback(
     (goal: string) => {
       createTaskFetch({
         data: {
@@ -57,7 +57,7 @@ export const Feed = ({goals}: FeedProps) => {
     [createTaskFetch]
   );
 
-  const handleDeleteTask = useCallback((id: string)=>{
+  const handleTaskDelete = useCallback((id: string)=>{
     deleteTaskFetch({
       pathSegments: [id]
     })
@@ -75,6 +75,14 @@ export const Feed = ({goals}: FeedProps) => {
     }
   },[getTasksByDaysRefetch, deleteTaskStatus])
 
+  const goalTasks = useMemo(()=>{
+    const newGoalTasks: Record<string, TaskData[]> = {};
+    goals.forEach(goal=>{
+      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.name)
+    })
+    return newGoalTasks;
+  },[goals,tasks])
+
   return (
     <S.Feed>
       <S.Header>Feed</S.Header>
@@ -85,12 +93,12 @@ export const Feed = ({goals}: FeedProps) => {
               label={goal.name}
               color={goal.color}
               icon={<BookClose />}
-              onAdd={handleCreateTask}
+              onAdd={handleTaskCreate}
             ></Chip>
             <TaskList
               color={goal.color}
-              tasks={tasks?.filter((task) => task.goal === goal.name) || []}
-              onDeleteTask={handleDeleteTask}
+              tasks={goalTasks[goal.id]}
+              onTaskDelete={handleTaskDelete}
             ></TaskList>
           </S.GoalAndInput>
         ))}
