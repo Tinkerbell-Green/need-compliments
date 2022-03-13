@@ -1,7 +1,6 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React from "react";
 import * as S from "./chip.styled";
-import {TaskData} from "stores/data";
 
 type ChipProps = {
   children?: React.ReactNode;
@@ -24,7 +23,7 @@ export const Chip = ({
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
         <S.AddIcon onClick={()=>onAdd(label)}>
-          <PlusSm />
+          <PlusSm/>
         </S.AddIcon>
       )}
       {children}

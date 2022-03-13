@@ -5,12 +5,12 @@ import React, {useCallback} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
 import {Chip} from "components/chip";
-import {ExpandedUserData,ExpandedGoalData} from "pages";
+import {ExpandedUserData,ReducedGoalData} from "pages";
 
 type SidebarProps = ExpandedUserData & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
-  goals: ExpandedGoalData[];
+  goals: ReducedGoalData[];
 }
 
 export const Sidebar = ({

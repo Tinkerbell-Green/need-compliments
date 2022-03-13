@@ -6,7 +6,7 @@ import {TaskData} from "stores/data";
 type TasksProps = {
   color:string,
   tasks:TaskData[],
-  onDeleteTask : (valud:string)=>void;
+  onDeleteTask : (value:string)=>void;
 }
 
 export const Tasks = ({

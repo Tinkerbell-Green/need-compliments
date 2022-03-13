@@ -18,6 +18,7 @@ export const Icon = styled.div`
   height:${ICON_SIZE}px;
   padding:1px;
   margin-right: ${MARGIN}px;
+  color: ${props => props.theme.colors["gray-500"]};
 `;
 
 export const Label = styled.div`
@@ -33,9 +34,9 @@ export const AddIcon = styled.div`
   background-color: #464646;
   border-radius: 50%;
   margin-left: ${MARGIN}px;
+  color: ${props => props.theme.colors["gray-300"]};
   cursor: pointer;
 
   &:hover{
     background-color: #616161;
-  }
-`;
+  }`

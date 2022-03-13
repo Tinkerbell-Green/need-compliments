@@ -2,12 +2,7 @@ import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
 import React, {useCallback, useRef, useState, useEffect} from "react";
 import * as S from "./task.styled";
 import {Modal} from "components/modal";
-import {
-  useDataSaga,
-  DataActionType,
-  DataSagaStatus,
-  TaskData,
-} from "stores/data";
+import {useDataSaga,DataActionType,DataSagaStatus} from "stores/data";
 
 type TaskProps = {
 	id: string;
@@ -22,10 +17,13 @@ export const Task = ({
   title, 
   onDeleteTask
 }: TaskProps) => {
-  const {refetch: getTasksByDaysRefetch} = 
-  useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
-  const {fetch: updateTaskFetch, status: updateTaskStatus} =
-		useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
+  const {
+    refetch: getTasksByDaysRefetch
+  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
+  const {
+    fetch: updateTaskFetch, 
+    status: updateTaskStatus
+  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
 
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(title);
@@ -36,34 +34,36 @@ export const Task = ({
     //TODO: modal open
   };
 
+  const handleSaveTask = useCallback((id,inputValue)=>{
+    updateTaskFetch({
+      pathSegments: [id],
+      data: {
+        title: inputValue,
+      }});
+  },[updateTaskFetch]);
+
+  const handleDeleteTask = useCallback((id)=>{
+    onDeleteTask(id);
+  },[onDeleteTask]);
+
   const handleUpdateTask = useCallback(
-    (
-      event:
-				| React.ChangeEvent
-				| React.FormEvent
-				| React.FocusEvent
-    ) => {
+    (event: React.ChangeEvent| React.FormEvent| React.FocusEvent) => {
       event.preventDefault();
       setIsEditing(false);
 
       if (inputValue) {
-        updateTaskFetch({
-          pathSegments: [id],
-          data: {
-            title: inputValue,
-          },
-        });
+        handleSaveTask(id,inputValue);
       } else {
-        title ? setInputValue(title) : onDeleteTask(id);
+        title ? setInputValue(title) : handleDeleteTask(id);
       }
     },
-    [updateTaskFetch, onDeleteTask, inputValue, id, title]
+    [handleSaveTask, handleDeleteTask, inputValue, title,id]
   );
 
-  const handleChange = () => {
-    const currentValue = InputRef.current?.value;
-    setInputValue(currentValue ? currentValue : "");
-  };
+  const handleChangeTask = useCallback(() => {
+    const currentValue = InputRef.current?.value || "";
+    setInputValue(currentValue);
+  },[]);
 
   useEffect(()=>{
     setIsEditing(title ? false : true);
@@ -86,7 +86,7 @@ export const Task = ({
           placeholder="입력"
           type="text"
           ref={InputRef}
-          onChange={handleChange}
+          onChange={handleChangeTask}
           onBlur={handleUpdateTask}
           onFocus={() => setIsEditing(true)}
         ></S.Input>

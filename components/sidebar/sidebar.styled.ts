@@ -40,7 +40,7 @@ export const MenuContents = styled.section`
   left:100%;
   width: 280px;
   height: 100%;
-  background-color: ${props => props.theme.colors["gray-800"]};
+  background-color: #222222;
   transition: all 0.2s ease-in-out;
   
   &.show{

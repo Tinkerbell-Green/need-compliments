@@ -1,8 +1,10 @@
+import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
+import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React, {useState, useEffect, useCallback} from "react";
 import * as S from "./feed.styled";
 import {Tasks} from "./tasks";
 import {Chip} from "components/chip";
-import {ExpandedGoalData} from "pages";
+import {ReducedGoalData} from "pages";
 import {
   useDataSaga,
   DataActionType,
@@ -11,7 +13,7 @@ import {
 } from "stores/data";
 
 type FeedProps = {
-	goals: ExpandedGoalData[];
+	goals: ReducedGoalData[];
 };
 
 export const Feed = ({goals}: FeedProps) => {
@@ -19,12 +21,15 @@ export const Feed = ({goals}: FeedProps) => {
     fetch: getTasksByDaysFetch,
     data: getTasksByDaysData,
     refetch: getTasksByDaysRefetch,
-  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(
-    DataActionType.GET_TASKS_BY_DAYS
-  );
-  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
-  const {fetch: deleteTaskFetch, status: deleteTaskStatus} =
-		useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
+  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
+  const {
+    fetch: createTaskFetch, 
+    status: createTaskStatus
+  } = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
+  const {
+    fetch: deleteTaskFetch, 
+    status: deleteTaskStatus
+  } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
   
   const [tasks, setTasks] = useState<TaskData[]>();
 
@@ -52,7 +57,7 @@ export const Feed = ({goals}: FeedProps) => {
     [createTaskFetch]
   );
 
-  const handleDelete = useCallback((id: string)=>{
+  const handleDeleteTask = useCallback((id: string)=>{
     deleteTaskFetch({
       pathSegments: [id]
     })
@@ -79,13 +84,13 @@ export const Feed = ({goals}: FeedProps) => {
             <Chip
               label={goal.name}
               color={goal.color}
-              icon={<S.GrayIcon />}
+              icon={<BookClose />}
               onAdd={handleCreateTask}
             ></Chip>
             <Tasks
               color={goal.color}
               tasks={tasks?.filter((task) => task.goal === goal.name) || []}
-              onDeleteTask={handleDelete}
+              onDeleteTask={handleDeleteTask}
             ></Tasks>
           </S.GoalAndInput>
         ))}

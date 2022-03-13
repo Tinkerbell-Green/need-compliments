@@ -25,4 +25,8 @@ export const GlobalStyle = createGlobalStyle`
     box-shadow: none;
     cursor: pointer;
   }
+
+  svg, path{
+    color: inherit;
+  }
 `

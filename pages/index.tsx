@@ -12,30 +12,24 @@ export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
 	follwingsCount: number;
 };
-export type ExpandedGoalData = Pick<GoalData,"id"|"name"|"color">;
+export type ReducedGoalData = Pick<GoalData,"id"|"name"|"color">;
 
 const Home: NextPage = () => {
-  const {data: loggedInUserData} =
-		useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(
-		  DataActionType.GET_LOGGED_IN_USER_DATA
-		);
-  const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+  const {
+    data: loggedInUserData
+  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
 
-  const onSucceed = useCallback(()=>{
-    getGoalsRefetch()
-  },[getGoalsRefetch])
+  const {
+    fetch: getGoalsFetch, 
+    data: getGoalsData,
+  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
-  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, {onSucceed: ()=>getGoalsRefetch()})
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
-  const [goals,setGoals]= useState<ExpandedGoalData[]>([]);
-
-  useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
+  const [goals,setGoals]= useState<ReducedGoalData[]>([]);
 
   useEffect(() => {
     if (loggedInUserData) {
@@ -45,25 +39,24 @@ const Home: NextPage = () => {
       setFollwingsCount(loggedInUserData.followings.length);
     }
   }, [loggedInUserData]);
+  
+  useEffect(()=>{
+    getGoalsFetch({})
+  },[getGoalsFetch])
 
   useEffect(()=>{
-    setGoals(getGoalsData || []);
+    getGoalsData && setGoals(getGoalsData.map(({id,name,color})=>({id, name, color})));
   },[getGoalsData]);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
-    setIsMenuOpen(!isMenuOpen);
-  }, [isMenuOpen]);
+    setIsMenuOpen(true);
+  },[]);
 
-  const handleCloseMenu: React.MouseEventHandler = useCallback(
-    (event) => {
-      if ((event.target as HTMLElement).classList.contains("menuClose")) {
-        setIsMenuOpen(!isMenuOpen);
-      }
-    },
-    [isMenuOpen]
-  );
+  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
+    if ((event.target as HTMLElement).classList.contains("menuClose")) {
+      setIsMenuOpen(false);
+    }
+  },[]);
 
   return (
     <LayoutMain>
