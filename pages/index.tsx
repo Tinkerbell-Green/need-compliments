@@ -5,8 +5,8 @@ import type {NextPage} from "next";
 import React, {useCallback, useState,useEffect} from "react"
 import * as S from "./index.styled";
 import {Calendar} from "components/calendar"
-import {Chip} from "components/chip";
-import {LayoutMain} from "components/layout-main"
+import {Chip} from "components/atoms/chip";
+import {LayoutMain} from "components/templates/layout-main"
 import {Sidebar} from "components/sidebar";
 
 //TODO: stores/query/types 에 있는 UserData,CategoryData,TaskData 타입참고해서 수정

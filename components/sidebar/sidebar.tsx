@@ -4,7 +4,7 @@ import {useRouter} from "next/router";
 import React, {useCallback} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
-import {Chip} from "components/chip";
+import {Chip} from "components/atoms/chip";
 import {UserInfo} from "pages";
 
 type SidebarProps = UserInfo & {

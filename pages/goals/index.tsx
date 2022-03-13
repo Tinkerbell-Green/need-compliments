@@ -1,7 +1,7 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React from "react";
-import {LayoutNavigation} from "components/layout-navigation";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const GoalsPage: NextPage = () => {
   const router = useRouter();
