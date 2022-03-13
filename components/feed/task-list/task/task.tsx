@@ -2,29 +2,22 @@ import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
 import React, {useCallback, useRef, useState, useEffect} from "react";
 import * as S from "./task.styled";
 import {Modal} from "components/modal";
-import {useDataSaga,DataActionType,DataSagaStatus} from "stores/data";
 
 type TaskProps = {
 	id: string;
 	color: string;
 	title: string;
 	onTaskDelete: (value: string) => void;
+  onTaskUpdate: (value1: string, value2:string) => void;
 };
 
 export const Task = ({
   id, 
   color, 
   title, 
-  onTaskDelete
+  onTaskDelete,
+  onTaskUpdate
 }: TaskProps) => {
-  const {
-    refetch: getTasksByDaysRefetch
-  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
-  const {
-    fetch: updateTaskFetch, 
-    status: updateTaskStatus
-  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
-
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(title);
   const InputRef = useRef<HTMLInputElement>(null);
@@ -34,32 +27,47 @@ export const Task = ({
     //TODO: modal open
   };
 
-  const saveTask = useCallback((id)=>{
-    if(!inputValue){
-      title ? setInputValue(title) : onTaskDelete(id);
+  const deleteTask = useCallback((id)=>{
+    onTaskDelete(id);
+  },[onTaskDelete])
+
+  const saveTask = useCallback((id,inputValue)=>{
+    onTaskUpdate(id,inputValue);
+  },[onTaskUpdate]);
+
+  const handleSubmit: React.FormEventHandler = useCallback((event)=>{
+    event.preventDefault();
+    setIsEditing(false);
+    
+    if(!inputValue && !title){
+      deleteTask(id);
       return;
     }
+    
+    if(inputValue){
+      saveTask(id,inputValue);
+    }else{
+      setInputValue(title);
+    }
 
-    updateTaskFetch({
-      pathSegments: [id],
-      data: {
-        title: inputValue,
-      }});
-  },[inputValue,updateTaskFetch,onTaskDelete,title]);
+  },[saveTask,deleteTask,id,inputValue,title])
 
-  const handleSubmit = useCallback((event: React.FormEvent)=>{
-    event.preventDefault();
+  const handleBlur:React.FocusEventHandler = useCallback(() => {
     setIsEditing(false);
-    saveTask(id);
-  },[saveTask,id])
 
-  const handleBlur = useCallback((event: React.FocusEvent) => {
-    event.preventDefault();
-    setIsEditing(false);
-    saveTask(id);
-  },[saveTask,id]);
+    if(!inputValue && !title){
+      deleteTask(id);
+      return;
+    }
+    
+    if(inputValue){
+      saveTask(id,inputValue);
+    }else{
+      setInputValue(title);
+    }
+  },[saveTask,deleteTask,id,inputValue,title])
 
-  const handleChange = useCallback(() => {
+  const handleChange:React.ChangeEventHandler = useCallback(() => {
     const currentValue = InputRef.current?.value || "";
     setInputValue(currentValue);
   },[]);
@@ -67,12 +75,6 @@ export const Task = ({
   useEffect(()=>{
     setIsEditing(title ? false : true);
   },[title]);
-
-  useEffect(() => {
-    if (updateTaskStatus === DataSagaStatus.SUCCEEDED) {
-      getTasksByDaysRefetch();
-    }
-  }, [getTasksByDaysRefetch, updateTaskStatus]);
 
   return (
     <S.FormContainer

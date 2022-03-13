@@ -6,12 +6,14 @@ type TaskListProps = {
   color:string,
   tasks:TaskData[],
   onTaskDelete : (value:string)=>void;
+  onTaskUpdate: (value1: string, value2:string) => void;
 }
 
 export const TaskList = ({
   color,
   tasks,
   onTaskDelete,
+  onTaskUpdate,
 }: TaskListProps) => {
   return (
     <li>
@@ -21,7 +23,8 @@ export const TaskList = ({
           id={id} 
           color={color} 
           title={title} 
-          onTaskDelete={onTaskDelete}></Task>
+          onTaskDelete={onTaskDelete}
+          onTaskUpdate={onTaskUpdate}></Task>
       ))}
     </li>
   )

@@ -5,12 +5,7 @@ import * as S from "./feed.styled";
 import {TaskList} from "./task-list";
 import {Chip} from "components/chip";
 import {ReducedGoalData} from "pages";
-import {
-  useDataSaga,
-  DataActionType,
-  DataSagaStatus,
-  TaskData,
-} from "stores/data";
+import {useDataSaga, DataActionType, DataSagaStatus,TaskData} from "stores/data";
 
 type FeedProps = {
 	goals: ReducedGoalData[];
@@ -30,19 +25,12 @@ export const Feed = ({goals}: FeedProps) => {
     fetch: deleteTaskFetch, 
     status: deleteTaskStatus
   } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
+  const {
+    fetch: updateTaskFetch, 
+    status: updateTaskStatus
+  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
   
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
-
-  useEffect(() => {
-    getTasksByDaysFetch({
-      startDay: new Date("1999-11-11"),
-      endDay: new Date("2222-11-11"),
-    });
-  }, [getTasksByDaysFetch]);
-
-  useEffect(() => {
-    setTasks(getTasksByDaysData || []);
-  }, [getTasksByDaysData]);
 
   const handleTaskCreate = useCallback(
     (goal: string) => {
@@ -62,6 +50,33 @@ export const Feed = ({goals}: FeedProps) => {
       pathSegments: [id]
     })
   },[deleteTaskFetch])
+
+  const handleTaskUpdate = useCallback((id:string,title:string)=>{
+    updateTaskFetch({
+      pathSegments: [id],
+      data: {
+        title: title,
+      }});
+  },[updateTaskFetch])
+  
+  const goalTasks = useMemo(()=>{
+    const newGoalTasks: Record<string, TaskData[]> = {};
+    goals.forEach(goal=>{
+      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.name)
+    })
+    return newGoalTasks;
+  },[goals,tasks])
+
+  useEffect(() => {
+    getTasksByDaysFetch({
+      startDay: new Date("1999-11-11"),
+      endDay: new Date("2222-11-11"),
+    });
+  }, [getTasksByDaysFetch]);
+
+  useEffect(() => {
+    setTasks(getTasksByDaysData || []);
+  }, [getTasksByDaysData]);
   
   useEffect(()=>{
     if (createTaskStatus === DataSagaStatus.SUCCEEDED){
@@ -75,13 +90,11 @@ export const Feed = ({goals}: FeedProps) => {
     }
   },[getTasksByDaysRefetch, deleteTaskStatus])
 
-  const goalTasks = useMemo(()=>{
-    const newGoalTasks: Record<string, TaskData[]> = {};
-    goals.forEach(goal=>{
-      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.name)
-    })
-    return newGoalTasks;
-  },[goals,tasks])
+  useEffect(() => {
+    if (updateTaskStatus === DataSagaStatus.SUCCEEDED) {
+      getTasksByDaysRefetch();
+    }
+  }, [getTasksByDaysRefetch, updateTaskStatus]);
 
   return (
     <S.Feed>
@@ -99,6 +112,7 @@ export const Feed = ({goals}: FeedProps) => {
               color={goal.color}
               tasks={goalTasks[goal.id]}
               onTaskDelete={handleTaskDelete}
+              onTaskUpdate={handleTaskUpdate}
             ></TaskList>
           </S.GoalAndInput>
         ))}
