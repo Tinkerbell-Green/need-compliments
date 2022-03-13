@@ -1,21 +1,20 @@
 import React from "react";
 import {Task} from "./task"
-import * as S from "./tasks.styled";
 import {TaskData} from "stores/data";
 
-type TasksProps = {
+type TaskListProps = {
   color:string,
   tasks:TaskData[],
   onDeleteTask : (value:string)=>void;
 }
 
-export const Tasks = ({
+export const TaskList = ({
   color,
   tasks,
   onDeleteTask,
-}: TasksProps) => {
+}: TaskListProps) => {
   return (
-    <S.ListContainer>
+    <li>
       {tasks.map(({id,title})=>(
         <Task 
           key={id} 
@@ -24,6 +23,6 @@ export const Tasks = ({
           title={title} 
           onDeleteTask={onDeleteTask}></Task>
       ))}
-    </S.ListContainer>
+    </li>
   )
 }

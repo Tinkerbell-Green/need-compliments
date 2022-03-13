@@ -2,7 +2,7 @@ import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React, {useState, useEffect, useCallback} from "react";
 import * as S from "./feed.styled";
-import {Tasks} from "./tasks";
+import {TaskList} from "./task-list";
 import {Chip} from "components/chip";
 import {ReducedGoalData} from "pages";
 import {
@@ -87,11 +87,11 @@ export const Feed = ({goals}: FeedProps) => {
               icon={<BookClose />}
               onAdd={handleCreateTask}
             ></Chip>
-            <Tasks
+            <TaskList
               color={goal.color}
               tasks={tasks?.filter((task) => task.goal === goal.name) || []}
               onDeleteTask={handleDeleteTask}
-            ></Tasks>
+            ></TaskList>
           </S.GoalAndInput>
         ))}
       </S.FeedContents>
