@@ -2,10 +2,7 @@ import React, {useState} from "react";
 import * as S from "./goalsForm.styled";
 import {ListItemRadioProps} from "./listItemRadio";
 import {ListRadio} from "./listRadio";
-<<<<<<< HEAD:components/goals/goalsForm/goalsForm.tsx
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
-=======
->>>>>>> 40ec20ade9e671721c3007aa2de63479ff0003d8:components/goalsForm/goalsForm.tsx
 import {themes as T} from "styles/theme";
 
 export const GoalsForm = () => {
