@@ -1,8 +1,8 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React from "react";
-import {LayoutNavigation} from "components/layout-navigation";
 import {Setting} from "components/setting";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const SettingPage: NextPage = () => {
   const router = useRouter();

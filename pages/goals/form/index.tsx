@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import React from "react";
 import * as S from "../../../components/goals/goalsForm/goalsForm.styled";
 import {GoalsForm} from "components/goals/goalsForm";
-import {LayoutNavigation} from "components/layout-navigation";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const GoalsFormPage: NextPage = () => {
   const router = useRouter();

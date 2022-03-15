@@ -60,6 +60,7 @@ export type DataSagaState = {
   type: DataActionType
   status: DataSagaStatus
   data: unknown
+  payload: unknown
 }
 
 export const LOGGED_IN_USER_ID = "loggedIn"

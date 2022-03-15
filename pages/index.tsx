@@ -2,10 +2,11 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import React, {useCallback, useState, useEffect} from "react";
 import * as S from "./index.styled";
-import {Calendar} from "components/calendar";
+import {Chip} from "components/atoms/chip";
+import {Calendar} from "components/calendar"
 import {Feed} from "components/feed";
-import {LayoutMain} from "components/layout-main";
 import {Sidebar} from "components/sidebar";
+import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, UserData, GoalData} from "stores/data";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {

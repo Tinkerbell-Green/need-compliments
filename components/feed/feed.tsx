@@ -1,9 +1,9 @@
 import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
+import {Chip} from "components/chip";
 import React, {useState, useEffect, useCallback,useMemo} from "react";
 import * as S from "./feed.styled";
 import {TaskList} from "./task-list";
-import {Chip} from "components/chip";
 import {ReducedGoalData} from "pages";
 import {useDataSaga, DataActionType, DataSagaStatus,TaskData} from "stores/data";
 

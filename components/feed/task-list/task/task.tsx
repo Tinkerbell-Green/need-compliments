@@ -1,7 +1,6 @@
 import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
 import React, {useCallback, useRef, useState, useEffect} from "react";
 import * as S from "./task.styled";
-import {Modal} from "components/modal";
 
 type TaskProps = {
 	id: string;

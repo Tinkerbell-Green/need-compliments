@@ -1,27 +1,5 @@
 import styled from "styled-components"
 
-export const Background = styled.section`
-width:100%;
-height:100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: rgba(0,0,0,0.9);
-`
-
-export const Modal = styled.div`
-width:34vw;
-height: 25vh;
-min-height: 350px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-border-radius: 10px;
-background-color: #212222;
-padding:2rem;
-`
-
 export const Title = styled.h3`
 font-size: 1.2rem;
 padding: 1.5rem 0 1.5rem 0;
@@ -41,7 +19,6 @@ align-items: center;
 width: 20%;
 min-width: 50px;
 margin: 0.5rem 0.6rem 0.8rem 0.6rem;
-
 >span{
     font-size: 1rem;
 }

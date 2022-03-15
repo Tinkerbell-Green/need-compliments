@@ -1,6 +1,6 @@
+import {Chip} from "components/chip";
 import React, {useState} from "react";
 import * as S from "./goals.styled";
-import {Chip} from "components/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
 export const Goals = () => {

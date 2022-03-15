@@ -1,7 +1,7 @@
 import type {NextPage} from "next"
 import React, {useCallback, useEffect} from "react"
 import * as S from "./index.styled";
-import {LayoutNavigation} from "components/layout-navigation";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType} from "stores/data";
 
 const TestGoalsPage: NextPage = () => {
@@ -15,10 +15,6 @@ const TestGoalsPage: NextPage = () => {
   const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, {onSucceed: ()=>getGoalsRefetch()})
   const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(DataActionType.UPDATE_GOAL, {onSucceed})
   const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
-
-  useEffect(()=>{
-    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
-  },[loggedInUserData])
 
   useEffect(()=>{
     getGoalsFetch({})

@@ -20,12 +20,12 @@ export const LayoutNavigation = ({
 }: LayoutNavigationProps) => {
   const getRightButtonIcon = (text: string): React.ReactNode | string => {
     switch (text) {
-      case "+": {
-        return <PlusSm />;
-      }
-      default: {
-        return text;
-      }
+    case "+": {
+      return <PlusSm />;
+    }
+    default: {
+      return text;
+    }
     }
   };
 

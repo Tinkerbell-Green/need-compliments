@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useState} from "react";
 import Switch from "react-switch";
 
 export const SliderSwitch = () => {
