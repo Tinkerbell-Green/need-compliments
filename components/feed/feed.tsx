@@ -33,11 +33,11 @@ export const Feed = ({goals}: FeedProps) => {
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
 
   const handleTaskCreate = useCallback(
-    (goal: string) => {
+    (id: string) => {
       createTaskFetch({
         data: {
           title: "",
-          goal,
+          goal:id,
           doneAt: new Date().getTime(),
         },
       });
@@ -62,8 +62,9 @@ export const Feed = ({goals}: FeedProps) => {
   const goalTasks = useMemo(()=>{
     const newGoalTasks: Record<string, TaskData[]> = {};
     goals.forEach(goal=>{
-      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.name)
+      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.id)
     })
+    console.log(newGoalTasks)
     return newGoalTasks;
   },[goals,tasks])
 
@@ -103,6 +104,7 @@ export const Feed = ({goals}: FeedProps) => {
         {goals.map((goal) => (
           <S.GoalAndInput key={goal.id}>
             <Chip
+              id={goal.id}
               label={goal.name}
               color={goal.color}
               icon={<BookClose />}

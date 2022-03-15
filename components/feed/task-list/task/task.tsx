@@ -56,17 +56,13 @@ export const Task = ({
     setInputValue(currentValue);
   },[]);
 
-  useEffect(()=>{
-    setIsEditing(title ? false : true);
-  },[title]);
-
   return (
     <S.FormContainer
       isEditing={isEditing}
       color={color}>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
-          autoFocus
+          autoFocus={title ? false : true}
           value={inputValue}
           placeholder="입력"
           type="text"

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FormContainer = styled.div<{isEditing:boolean,color:string}>`
+export const FormContainer = styled.li<{isEditing:boolean,color:string}>`
 width:90%;
 display: flex;
 justify-content: space-between;

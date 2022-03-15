@@ -16,7 +16,7 @@ export const TaskList = ({
   onTaskUpdate,
 }: TaskListProps) => {
   return (
-    <li>
+    <ul>
       {tasks.map(({id,title})=>(
         <Task 
           key={id} 
@@ -26,6 +26,6 @@ export const TaskList = ({
           onTaskDelete={onTaskDelete}
           onTaskUpdate={onTaskUpdate}></Task>
       ))}
-    </li>
+    </ul>
   )
 }
