@@ -1,15 +1,17 @@
 import styled from "styled-components"
 
+const BUTTON_ICON_SIZE = 36;
+
 export const Title = styled.h3`
-font-size: 1.2rem;
-padding: 1.5rem 0 1.5rem 0;
+width:90%;
+font-size: 0.875rem;
+margin: 16px;
+text-align: center;
 `
 
 export const ActionList = styled.ul`
 display: flex;
 flex-wrap: wrap;
-width:100%;
-height: 100%;
 `
 
 export const Action = styled.li`
@@ -18,18 +20,19 @@ flex-direction: column;
 align-items: center;
 width: 20%;
 min-width: 50px;
-margin: 0.5rem 0.6rem 0.8rem 0.6rem;
+margin: 8px 6px;
 >span{
-    font-size: 1rem;
+    width: max-content;
+    font-size: 0.7rem;
 }
 `
 
 export const Button = styled.button`
-width: 4rem;
-height: 4rem;
+width: ${BUTTON_ICON_SIZE}px;
+height: ${BUTTON_ICON_SIZE}px;
 background-color: #2F2F2F;
 border-radius: 50%;
-padding:18%;
-margin-bottom: 1rem;
+padding:8px;
+margin-bottom: 10px;
 cursor: pointer;
 `

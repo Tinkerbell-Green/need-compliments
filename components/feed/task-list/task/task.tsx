@@ -1,6 +1,7 @@
 import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
-import React, {useCallback, useRef, useState, useEffect} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import * as S from "./task.styled";
+import {ModalTaskAction} from "components/organisms/modalTaskAction";
 
 type TaskProps = {
 	id: string;
@@ -19,11 +20,12 @@ export const Task = ({
 }: TaskProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(title);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const InputRef = useRef<HTMLInputElement>(null);
 
   const handleModalOpen: React.MouseEventHandler = (event) => {
     event.preventDefault();
-    //TODO: modal open
+    setIsModalOpen(true);
   };
 
   const deleteTask = useCallback((id)=>{
@@ -56,10 +58,22 @@ export const Task = ({
     setInputValue(currentValue);
   },[]);
 
+  const handleEdit = useCallback(()=>{
+    InputRef.current?.focus();
+    setIsEditing(true);
+  },[])
+
   return (
     <S.FormContainer
       isEditing={isEditing}
       color={color}>
+      <ModalTaskAction 
+        title={title}
+        isModalOpen={isModalOpen} 
+        onModalClose={()=>setIsModalOpen(false)}
+        onTaskDelete={()=>deleteTask(id)}
+        onTaskEdit={handleEdit}
+      ></ModalTaskAction>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
           autoFocus={title ? false : true}

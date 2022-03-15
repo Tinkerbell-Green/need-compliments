@@ -1,31 +1,29 @@
-import React, {useState, ReactNode} from "react";
+import React, {ReactNode} from "react";
 import * as S from "./modal.styled";
 
 export type ModalProps = {
-  children: ReactNode
+  children: ReactNode,
+  isModalOpen: boolean,
+  onModalClose: ()=>void,
 }
 
 export const Modal = ({
-  children
+  children,
+  isModalOpen,
+  onModalClose,
 }: ModalProps) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-
   const onBackgroundClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const isModalClicked =
       e.target instanceof Element && e.target.closest(".modal") !== null;
     if (isModalClicked) return;
-    setIsModalOpen(false);
+    onModalClose();
   };
 
   return (
-    <>
-      {isModalOpen && (
-        <S.Background onClick={onBackgroundClick}>
-          <S.Modal className="modal">
-            {children}
-          </S.Modal>
-        </S.Background>
-      )}
-    </>
+    <S.Background isModalOpen={isModalOpen} onClick={onBackgroundClick}>
+      <S.Modal isModalOpen={isModalOpen} className="modal">
+        {children}
+      </S.Modal>
+    </S.Background>
   );
 };
