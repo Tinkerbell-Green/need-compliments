@@ -1,13 +1,7 @@
 import styled from "styled-components";
+import {SubHeadingButton} from "components/subHeading/subHeadingButton/subHeadingButton.styled";
 
-// TODO: goalsForm와 겹치는 부분이라 빼놓으면 좋을 듯
-export const SubHeading = styled.span`
-color: ${props => props.theme.colors["gray-400"]};
-padding: 0.8rem 0 0.8rem 0;
-font-size: 0.8rem;
-`
-
-export const DeleteAccount = styled(SubHeading)`
+export const DeleteAccount = styled(SubHeadingButton)`
 color: ${props => props.theme.colors["rose-500"]};
 `
 

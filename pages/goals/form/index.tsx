@@ -1,8 +1,8 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React from "react";
-import * as S from "../../../components/goalsForm/goalsForm.styled";
-import {GoalsForm} from "components/goalsForm";
+import * as S from "../../../components/goals/goalsForm/goalsForm.styled";
+import {GoalsForm} from "components/goals/goalsForm";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const GoalsFormPage: NextPage = () => {

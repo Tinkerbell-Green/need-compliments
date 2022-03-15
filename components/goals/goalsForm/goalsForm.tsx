@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import * as S from "./goalsForm.styled";
 import {ListItemRadioProps} from "./listItemRadio";
 import {ListRadio} from "./listRadio";
+import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {themes as T} from "styles/theme";
 
 export const GoalsForm = () => {
@@ -46,19 +47,19 @@ export const GoalsForm = () => {
 
   return (
     <>
-      <S.SubHeading>제목</S.SubHeading>
+      <SubHeadingSpan>제목</SubHeadingSpan>
       <S.GoalTitle
         color={selectedGoalColor}
         placeholder="나는 알고리즘을 정복하겠다!"
       ></S.GoalTitle>
 
-      <S.SubHeading>공개설정</S.SubHeading>
+      <SubHeadingSpan>공개설정</SubHeadingSpan>
       <ListRadio data={publicSettingOptions}></ListRadio>
 
-      <S.SubHeading>진행 상황</S.SubHeading>
+      <SubHeadingSpan>진행 상황</SubHeadingSpan>
       <ListRadio data={runningOptions}></ListRadio>
 
-      <S.SubHeading>색상</S.SubHeading>
+      <SubHeadingSpan>색상</SubHeadingSpan>
       <S.ColorPalette>
         {Object.keys(T.dark.colors.goals).map((color: string) => (
           <S.OneColcor

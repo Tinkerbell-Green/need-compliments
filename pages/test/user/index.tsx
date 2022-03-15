@@ -1,8 +1,8 @@
+import {LayoutNavigation} from "components/layout-navigation";
 import type {NextPage} from "next"
 import React, {useCallback, useEffect} from "react"
 import {useSelector} from "react-redux";
 import * as S from "./index.styled";
-import {LayoutNavigation} from "components/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 import {RootState} from "stores/reducers";
 

@@ -5,24 +5,22 @@ import React, {useCallback} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
 import {Chip} from "components/atoms/chip";
-import {UserInfo} from "pages";
+import {ExpandedUserData,ReducedGoalData} from "pages";
 
-type SidebarProps = UserInfo & {
+type SidebarProps = ExpandedUserData & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
-  goals: string[];
-  goalsColor: string[];
+  goals: ReducedGoalData[];
 }
 
 export const Sidebar = ({
   name,
   email,
-  follwer,
-  follwing,
+  follwersCount,
+  follwingsCount,
   onCloseMenu,
   isMenuOpen,
   goals,
-  goalsColor
 }:SidebarProps) => {
   const router = useRouter();
   
@@ -51,19 +49,19 @@ export const Sidebar = ({
         <Profile
           name={name}
           email={email} 
-          follwer={follwer} 
-          follwing={follwing}
+          follwersCount={follwersCount} 
+          follwingsCount={follwingsCount}
           onFriendClick={handleFriendClick}/>
         <S.Goals>
           <S.GoalsTitle onClick={handleGoalsTitleClick}>목표
             <S.ArrowIcon><KeyboardArrowRight/></S.ArrowIcon>
           </S.GoalsTitle>
           <S.GoalsContents>
-            {goals.map((value,index)=>(
+            {goals.map((value)=>(
               <Chip 
-                key={index}
-                label={value}
-                color={goalsColor[index]}>
+                key={value.id}
+                label={value.name}
+                color={value.color}>
               </Chip>
             ))}
           </S.GoalsContents>

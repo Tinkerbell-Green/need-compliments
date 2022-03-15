@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import {createGlobalStyle} from "styled-components";
 import reset from "styled-reset";
 
 export const GlobalStyle = createGlobalStyle`
@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    color: #ffffff;
+    color: ${props => props.theme.colors["gray-100"]}
   }
 
   html {
@@ -24,5 +24,9 @@ export const GlobalStyle = createGlobalStyle`
     background: none;
     box-shadow: none;
     cursor: pointer;
+  }
+
+  svg, path{
+    color: inherit;
   }
 `

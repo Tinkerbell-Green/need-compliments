@@ -3,11 +3,9 @@ import React, {ReactNode, useEffect} from "react"
 import {useDispatch} from "react-redux"
 import {DataActionType, useDataSaga} from "stores/data"
 import {NavigationActionType, navigationActionCreators} from "stores/navigation"
-
 type UserProviderProps = {
   children: ReactNode
 }
-
 export const UserProvider = ({
   children
 }: UserProviderProps) => {
@@ -31,7 +29,6 @@ export const UserProvider = ({
       }))
     }
   }, [dispatch, sessionUserId, status])
-
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){
       fetch({
