@@ -21,12 +21,12 @@ export const ModalTaskAction = ({
   onTaskDelete,
   onTaskEdit
 }:ModalTaskAction) => {
-  const editTask = useCallback(()=>{
+  const editTask:React.MouseEventHandler = useCallback(()=>{
     onTaskEdit();
     onModalClose();
   },[onTaskEdit,onModalClose]);
 
-  const deleteTask = useCallback(()=>{
+  const deleteTask:React.MouseEventHandler = useCallback(()=>{
     onTaskDelete();
     onModalClose();
   },[onTaskDelete,onModalClose])
