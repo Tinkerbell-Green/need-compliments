@@ -1,14 +1,14 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useState} from "react"
 import * as S from "../calendar.styled";
 
 type DateProps = {
   date:string,
-  isToday:boolean
+  isToday:boolean,
   onClick: (value:string)=>void,
 }
 
 export const Date = ({date,isToday,onClick}:DateProps) => {
-  const [stickers,setStickers] = useState(["👾","🔑"]);
+  const [stickers,setStickers] = useState([]);
 
   return (
     <S.Date onClick={()=>onClick(date)}>

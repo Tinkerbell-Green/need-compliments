@@ -3,13 +3,10 @@ import styled from "styled-components";
 const ICON_SIZE = 28;
 
 export const IconList = styled.ul`
-  position: absolute;
-  top:0;
-  left:100%;
-  transform: translateX(-100%);
-  padding: 10px;
+  align-items: flex-end;
   display: flex;
   justify-content: flex-end;
+  margin-top: 10px;
 `;
 
 export const MenuIcon = styled.div`
@@ -45,20 +42,4 @@ export const SecondaryName = styled.div`
   color: ${props => props.theme.colors["gray-200"]};
 `;
 
-export const Feed = styled.div`
-  flex-direction: column;
-`;
-
-export const Header = styled.div`
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-`;
-
-export const FeedContents = styled.ul`
-  flex-direction: column;
-  > * {
-    margin-bottom: 20px;
-  }
-`;
 

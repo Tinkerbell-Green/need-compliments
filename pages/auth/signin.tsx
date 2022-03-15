@@ -8,19 +8,19 @@ import googleLogo from "../../public/icons/google-logo.jpeg";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
 import * as S from "./signin.styled";
-import {LayoutCenter} from "components/layout-center";
+import {LayoutCenter} from "components/templates/layout-center";
 
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const {data: session} = useSession();
+  const {status} = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
-      router.push("/");
+    if (status === "authenticated") {
+      router.replace("/");
     }
-  }, [session, router]);
+  }, [router, status]);
 
   return (
     <LayoutCenter>
