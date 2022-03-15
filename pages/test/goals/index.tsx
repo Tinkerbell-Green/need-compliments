@@ -1,7 +1,7 @@
 import type {NextPage} from "next"
 import React, {useCallback, useEffect} from "react"
 import * as S from "./index.styled";
-import {LayoutNavigation} from "components/layout-navigation";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType} from "stores/data";
 
 const TestGoalsPage: NextPage = () => {

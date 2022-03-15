@@ -1,7 +1,7 @@
 import {useSession} from "next-auth/react"
 import {useRouter} from "next/router"
 import React, {ReactNode, useEffect, useMemo} from "react"
-import {LayoutCenter} from "components/layout-center"
+import {LayoutCenter} from "components/templates/layout-center"
 
 type AuthorizationProviderProps = {
   children: ReactNode
