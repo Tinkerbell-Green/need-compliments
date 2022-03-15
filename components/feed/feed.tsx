@@ -55,7 +55,7 @@ export const Feed = ({goals}: FeedProps) => {
     updateTaskFetch({
       pathSegments: [id],
       data: {
-        title: title,
+        title,
       }});
   },[updateTaskFetch])
   

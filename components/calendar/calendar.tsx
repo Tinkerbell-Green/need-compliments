@@ -22,6 +22,10 @@ export const Calendar = () => {
     [router]
   );
 
+  // useEffect(()=>{
+  //   router.replace(`/?data=${Dayjs(new Date()).format("DDMMYYYY")}`);
+  // },[router])
+
   const handleMonthMove = useCallback(
     (direction: Direction) => {
       if (direction === "next") {

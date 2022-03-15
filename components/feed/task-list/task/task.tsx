@@ -8,7 +8,7 @@ type TaskProps = {
 	color: string;
 	title: string;
 	onTaskDelete: (value: string) => void;
-  onTaskUpdate: (value1: string, value2:string) => void;
+  onTaskUpdate: (id: string, text:string) => void;
 };
 
 export const Task = ({
@@ -35,7 +35,7 @@ export const Task = ({
     onTaskUpdate(id,inputValue);
   },[onTaskUpdate]);
 
-  const handleSubmit: React.FormEventHandler = useCallback((event)=>{
+  const handleSubmit = useCallback((event : React.FormEvent |  React.FocusEvent)=>{
     event.preventDefault();
     setIsEditing(false);
     
@@ -50,21 +50,6 @@ export const Task = ({
       setInputValue(title);
     }
 
-  },[saveTask,deleteTask,id,inputValue,title])
-
-  const handleBlur:React.FocusEventHandler = useCallback(() => {
-    setIsEditing(false);
-
-    if(!inputValue && !title){
-      deleteTask(id);
-      return;
-    }
-    
-    if(inputValue){
-      saveTask(id,inputValue);
-    }else{
-      setInputValue(title);
-    }
   },[saveTask,deleteTask,id,inputValue,title])
 
   const handleChange:React.ChangeEventHandler = useCallback(() => {
@@ -88,7 +73,7 @@ export const Task = ({
           type="text"
           ref={InputRef}
           onChange={handleChange}
-          onBlur={handleBlur}
+          onBlur={handleSubmit}
           onFocus={() => setIsEditing(true)}
         ></S.Input>
       </S.Form>
