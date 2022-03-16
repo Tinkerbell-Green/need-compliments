@@ -2,16 +2,44 @@ import {Pencil, TrashAlt} from "@styled-icons/boxicons-regular";
 import {ArrowClockwise} from "@styled-icons/fluentui-system-filled";
 import {CalendarRtl} from "@styled-icons/fluentui-system-regular";
 import {SwitchVertical} from "@styled-icons/heroicons-outline";
-import React, {useState} from "react";
+import React, {useCallback} from "react";
 import * as S from "./modalTaskAction.styled";
 import {Modal} from "components/moleculs/modal";
 
-export const ModalTaskAction = () => {
+type ModalTaskAction = {
+  taskId:string,
+  isOpen: boolean,
+  title: string,
+  onClose : ()=>void,
+  onTaskDelete: (id:string)=>void,
+  onTaskEdit: ()=>void,
+}
+
+export const ModalTaskAction = ({
+  taskId,
+  isOpen,
+  title,
+  onClose,
+  onTaskDelete,
+  onTaskEdit
+}:ModalTaskAction) => {
+  const editTask:React.MouseEventHandler = useCallback(()=>{
+    onTaskEdit();
+    onClose();
+  },[onTaskEdit,onClose]);
+
+  const deleteTask:React.MouseEventHandler = useCallback(()=>{
+    onTaskDelete(taskId);
+    onClose();
+  },[onTaskDelete,onClose,taskId])
+
   return (
-    <Modal>
-      <S.Title>work out</S.Title>
+    <Modal 
+      isOpen={isOpen} 
+      onClose={onClose}>
+      <S.Title>{title}</S.Title>
       <S.ActionList>
-        <S.Action>
+        <S.Action onClick={editTask}>
           <S.Button>
             <Pencil></Pencil>
           </S.Button>
@@ -35,7 +63,7 @@ export const ModalTaskAction = () => {
           </S.Button>
           <span>순서 변경</span>
         </S.Action>
-        <S.Action>
+        <S.Action onClick={deleteTask}>
           <S.Button>
             <TrashAlt></TrashAlt>
           </S.Button>
