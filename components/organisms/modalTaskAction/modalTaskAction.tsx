@@ -7,34 +7,36 @@ import * as S from "./modalTaskAction.styled";
 import {Modal} from "components/moleculs/modal";
 
 type ModalTaskAction = {
-  isModalOpen: boolean,
+  taskId:string,
+  isOpen: boolean,
   title: string,
-  onModalClose : ()=>void,
-  onTaskDelete: ()=>void,
+  onClose : ()=>void,
+  onTaskDelete: (id:string)=>void,
   onTaskEdit: ()=>void,
 }
 
 export const ModalTaskAction = ({
-  isModalOpen,
+  taskId,
+  isOpen,
   title,
-  onModalClose,
+  onClose,
   onTaskDelete,
   onTaskEdit
 }:ModalTaskAction) => {
   const editTask:React.MouseEventHandler = useCallback(()=>{
     onTaskEdit();
-    onModalClose();
-  },[onTaskEdit,onModalClose]);
+    onClose();
+  },[onTaskEdit,onClose]);
 
   const deleteTask:React.MouseEventHandler = useCallback(()=>{
-    onTaskDelete();
-    onModalClose();
-  },[onTaskDelete,onModalClose])
+    onTaskDelete(taskId);
+    onClose();
+  },[onTaskDelete,onClose,taskId])
 
   return (
     <Modal 
-      isModalOpen={isModalOpen} 
-      onModalClose={onModalClose}>
+      isOpen={isOpen} 
+      onClose={onClose}>
       <S.Title>{title}</S.Title>
       <S.ActionList>
         <S.Action onClick={editTask}>

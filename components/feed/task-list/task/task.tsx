@@ -23,10 +23,8 @@ export const Task = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const InputRef = useRef<HTMLInputElement>(null);
 
-  const handleModalOpen: React.MouseEventHandler = (event) => {
-    event.preventDefault();
-    setIsModalOpen(true);
-  };
+  const handleModalClose = useCallback(()=>setIsModalOpen(false),[])
+  const handleModalOpen = useCallback(()=>setIsModalOpen(true),[])
 
   const deleteTask = useCallback((id)=>{
     onTaskDelete(id);
@@ -58,7 +56,7 @@ export const Task = ({
     setInputValue(currentValue);
   },[]);
 
-  const handleEdit = useCallback(()=>{
+  const changeEditFocus = useCallback(()=>{
     InputRef.current?.focus();
     setIsEditing(true);
   },[])
@@ -67,12 +65,13 @@ export const Task = ({
     <S.FormContainer
       isEditing={isEditing}
       color={color}>
-      <ModalTaskAction 
+      <ModalTaskAction
+        taskId={id}
         title={title}
-        isModalOpen={isModalOpen} 
-        onModalClose={()=>setIsModalOpen(false)}
-        onTaskDelete={()=>deleteTask(id)}
-        onTaskEdit={handleEdit}
+        isOpen={isModalOpen} 
+        onClose={handleModalClose}
+        onTaskDelete={deleteTask}
+        onTaskEdit={changeEditFocus}
       ></ModalTaskAction>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
@@ -83,7 +82,7 @@ export const Task = ({
           ref={InputRef}
           onChange={handleChange}
           onBlur={handleSubmit}
-          onFocus={() => setIsEditing(true)}
+          onFocus={changeEditFocus}
         ></S.Input>
       </S.Form>
       <S.Button onClick={handleModalOpen}>
