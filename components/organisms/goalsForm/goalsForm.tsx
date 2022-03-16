@@ -1,7 +1,7 @@
 import React, {useState} from "react";
+import {ListItemRadioProps} from "../../moleculs/listItemRadio";
+import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
-import {ListItemRadioProps} from "./listItemRadio";
-import {ListRadio} from "./listRadio";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {themes as T} from "styles/theme";
 
