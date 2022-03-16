@@ -62,9 +62,13 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   })
 
-
   // fetch
   type FetchPartialPayload = Omit<Optional<DataActionPayload[DataSagaActionTypeT], "author">, "key">
+
+  const payloadRef = useRef(state?.payload)
+  useEffect(()=>{
+    payloadRef.current = state?.payload
+  },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
     const author = partialPayload.author || defaultFetchAuthorId
@@ -87,12 +91,12 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[actionType, defaultFetchAuthorId, dispatch, key])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
-    if (!state?.payload) return;
+    if (!payloadRef.current) return;
     
-    const partialPayload = {...(state?.payload || {}), ...(partialPartialPayload || {})}
+    const partialPayload = {...(payloadRef.current || {}), ...(partialPartialPayload || {})}
 
     fetch(partialPayload as any)
-  }, [fetch, state?.payload])
+  }, [fetch])
 
   // onSucceed
   const onSucceedRef = useRef<typeof onSucceed>(onSucceed)

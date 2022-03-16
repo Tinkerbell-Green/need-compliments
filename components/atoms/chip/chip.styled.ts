@@ -18,7 +18,7 @@ export const Icon = styled.div`
   height:${ICON_SIZE}px;
   padding:1px;
   margin-right: ${MARGIN}px;
-  color: ${props => props.theme.colors["gray-500"]};
+  color: ${props => props.theme.colors["gray-400"]};
 `;
 
 export const Label = styled.div`

@@ -76,7 +76,7 @@ export const GoalsTitle = styled.div`
 
 export const GoalsContents = styled.ul`
   max-height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto;
   > * {
     margin-bottom: 10px;
   }

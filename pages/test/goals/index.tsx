@@ -24,7 +24,7 @@ const TestGoalsPage: NextPage = () => {
     createGoalFetch({
       data: {
         name: "new goal",
-        color: "blue1"
+        color: "skyblue"
       }
     })
   },[createGoalFetch])
@@ -34,6 +34,7 @@ const TestGoalsPage: NextPage = () => {
       pathSegments: [id],
       data: {
         name: "updated goal",
+        color:"yellow",
       }
     })
   },[updateGoalFetch])

@@ -1,4 +1,4 @@
-import { palette } from "./palette"
+import {palette} from "./palette"
 
 const defaultTheme = {
   media: {
@@ -33,7 +33,7 @@ export const themes = {
         pink: "#ED76BF",
         hotpink: "#EA449B",
         redpink: "#E25B62",
-        yello: "#F3D055",
+        yellow: "#F3D055",
         orange: "#F19739",
         white: "#ffffff",
       }
