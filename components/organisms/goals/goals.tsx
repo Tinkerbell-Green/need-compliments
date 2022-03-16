@@ -1,11 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as S from "./goals.styled";
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
+import {useDataSaga, DataActionType, GoalData} from "stores/data";
+
+type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
 export const Goals = () => {
-  const [goals, setGoals] = useState(["Algorithm", "Personal"]); //TODO: 지우기
-  const [goalsColor, setGoalsColor] = useState(["orange", "blueviolet"]); //TODO: 지우기
+  const {fetch: getGoalsFetch, data: getGoalsData} =
+    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+
+  const [goals, setGoals] = useState<ReducedGoalData[]>([]);
+
+  useEffect(() => {
+    getGoalsFetch({});
+  }, [getGoalsFetch]);
+
+  useEffect(() => {
+    getGoalsData &&
+      setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
+  }, [getGoalsData]);
 
   return (
     <>
@@ -14,12 +28,12 @@ export const Goals = () => {
       </S.SubHeadingContainer>
 
       <S.FeedContents>
-        {goals.map((value, index) => (
+        {goals.map((value) => (
           <Chip
-            key={value}
-            id={value}
-            label={value} // TODO: 바꾸기
-            color={goalsColor[index]}
+            key={value.id}
+            id={value.id}
+            label={value.name}
+            color={value.color}
           ></Chip>
         ))}
       </S.FeedContents>
