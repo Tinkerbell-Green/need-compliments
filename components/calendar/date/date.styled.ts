@@ -9,13 +9,9 @@ padding: 3px;
 overflow-y: hidden;
 cursor: pointer;
 transition: all 0.2s;
-
+transform: skewX(3);
 &:hover, &:focus{
-  transform: scale(1.1);
-}
-${props => props.isPickedDate && 
-`border: 1px solid skyblue;
-border-radius: 10px;`
+  transform: translateY(-5%) scale(1.1);
 }
 `
 

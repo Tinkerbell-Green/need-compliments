@@ -4,7 +4,7 @@ import * as S from "./chip.styled";
 
 type ChipProps = {
   children?: React.ReactNode;
-  id:string;
+  id?:string;
   label: string;
   color?: string;
   icon?: React.ReactNode;
@@ -24,7 +24,7 @@ export const Chip = ({
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
-        <S.AddIcon onClick={()=>onAdd(id)}>
+        <S.AddIcon onClick={()=>onAdd(id || "")}>
           <PlusSm/>
         </S.AddIcon>
       )}

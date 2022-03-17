@@ -48,7 +48,7 @@ const Home: NextPage = () => {
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [goals,setGoals]= useState<ReducedGoalData[]>([]);
-  const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
+  const [pickedDate,setPickedDate]=useState(Dayjs().format("DD/MM/YYYY"))
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -102,11 +102,11 @@ const Home: NextPage = () => {
         data: {
           title: "",
           goal:id,
-          doneAt: new Date().getTime(),
+          doneAt: Dayjs(pickedDate,"DD/MM/YYYY").toDate().getTime(),
         },
       });
     },
-    [createTaskFetch]
+    [createTaskFetch,pickedDate]
   );
 
   const handleTaskUpdate = useCallback((id:string,title:string)=>{
@@ -124,7 +124,7 @@ const Home: NextPage = () => {
       tasks.forEach((taskItem)=>{
         if(taskItem.goal !== goal.id) return;
 
-        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
+        const curDate = Dayjs(taskItem.doneAt).format("DD/MM/YYYY");
   
         if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color});
         else newTasks[curDate] = [{...taskItem, color:goal.color}];
@@ -140,7 +140,7 @@ const Home: NextPage = () => {
 
     goals.forEach(goal=>{
       newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
+        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DD/MM/YYYY") === pickedDate)})
 
     return newGoalTasksAtPickedDate;
   },[goals,tasks,pickedDate])

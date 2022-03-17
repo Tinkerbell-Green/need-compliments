@@ -56,6 +56,11 @@ export const Days = styled.ul`
 
 export const Day = styled.li`
   font-size: ${DATE_FONT_SIZE}rem;
+  text-transform: uppercase;
+  >abbr{
+    text-decoration: none;
+    font-variant: none;
+  }
 `;
 
 export const Dates = styled.ul`

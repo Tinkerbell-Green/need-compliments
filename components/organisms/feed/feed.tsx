@@ -6,7 +6,6 @@ import {TaskList} from "./task-list";
 import {Chip} from "components/atoms/chip";
 import {ReducedGoalData} from "pages";
 import {TaskData, GoalData} from "stores/data";
-import {Dayjs} from "utils/dayjs";
 
 type FeedProps = {
   pickedDate?:string,
@@ -25,18 +24,10 @@ export const Feed = ({
   onTaskCreate,
   onTaskUpdate
 }: FeedProps) => {
-  const formatedDate = useMemo(()=>{
-    const year = pickedDate?.slice(4);
-    const month =  pickedDate?.slice(2,4)
-    const date = pickedDate?.slice(0,2);
-
-    return `${year}년 ${month}월 ${date}일`;
-  },[pickedDate]);
-
   return (
     <S.Feed>
       <S.Header>Feed
-        <S.PickedDate>{formatedDate}</S.PickedDate>
+        <S.PickedDate>{pickedDate}</S.PickedDate>
       </S.Header>
       <S.FeedContents>
         {goals.map((goal) => (

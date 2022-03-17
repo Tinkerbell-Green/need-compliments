@@ -12,7 +12,7 @@ type CalendarProps = {
 }
 
 export type Direction = "next" | "previous";
-const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
+const WEEK_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const NOT_THIS_MONTH = "";
 
 export const Calendar = ({
@@ -81,9 +81,9 @@ export const Calendar = ({
       </S.Header>
       <S.Main>
         <S.Days>
-          {WEEK_DAYS.map((value, index) => (
-            <S.Day key={index}>
-              <span>{value}</span>
+          {WEEK_DAYS.map((value) => (
+            <S.Day key={value}>
+              <abbr title={value}>{value.charAt(0)}</abbr>
             </S.Day>
           ))}
         </S.Days>
@@ -93,7 +93,7 @@ export const Calendar = ({
               return <div key={index}></div>;
             }
 
-            const curDay = Dayjs(viewDate).format(`${value}MMYYYY`);
+            const curDay = Dayjs(viewDate).format(`${value}/MM/YYYY`);
 
             return (
               <DateComponent
@@ -101,7 +101,7 @@ export const Calendar = ({
                 isPickedDate={pickedDate === curDay}
                 date={curDay}
                 tasks={tasksByDate[curDay]}
-                isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
+                isToday={curDay === Dayjs(new Date()).format("DD/MM/YYYY")}
                 onClick={onDateClick}
               ></DateComponent>
             );
