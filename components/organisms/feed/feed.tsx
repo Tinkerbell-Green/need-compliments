@@ -6,12 +6,17 @@ import {TaskList} from "./task-list";
 import {Chip} from "components/atoms/chip";
 import {ReducedGoalData} from "pages";
 import {useDataSaga, DataActionType, DataSagaStatus,TaskData} from "stores/data";
+import {Dayjs} from "utils/dayjs";
 
 type FeedProps = {
+  pickedDate?:string,
 	goals: ReducedGoalData[];
 };
 
-export const Feed = ({goals}: FeedProps) => {
+export const Feed = ({
+  pickedDate,
+  goals
+}: FeedProps) => {
   const {
     fetch: getTasksByDaysFetch,
     data: getTasksByDaysData,
@@ -62,11 +67,13 @@ export const Feed = ({goals}: FeedProps) => {
   const goalTasks = useMemo(()=>{
     const newGoalTasks: Record<string, TaskData[]> = {};
     goals.forEach(goal=>{
-      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.id)
+      newGoalTasks[goal.id] = tasks.filter(taskItem => 
+        taskItem.goal === goal.id && 
+        Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)
     })
-    console.log(newGoalTasks)
+    
     return newGoalTasks;
-  },[goals,tasks])
+  },[goals,tasks,pickedDate])
 
   useEffect(() => {
     getTasksByDaysFetch({

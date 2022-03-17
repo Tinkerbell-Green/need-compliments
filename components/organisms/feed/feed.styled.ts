@@ -4,7 +4,7 @@ export const Feed = styled.div`
   flex-direction: column;
 `;
 
-export const Header = styled.div`
+export const Header = styled.h2`
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 15px;

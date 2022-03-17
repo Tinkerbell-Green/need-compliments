@@ -5,26 +5,18 @@ import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
 import {Dayjs} from "utils/dayjs";
 
-export type Direction = "next" | "previous";
+type CalendarProps = {
+  onDateClick: (date:string)=>void;
+}
 
+export type Direction = "next" | "previous";
 const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 const NOT_THIS_MONTH = "";
 
-export const Calendar = () => {
+export const Calendar = ({onDateClick}:CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
   const router = useRouter();
-
-  const handleDateClick = useCallback(
-    (date: string) => {
-      router.push(`/?date=${date}`);
-    },
-    [router]
-  );
-
-  // useEffect(()=>{
-  //   router.replace(`/?data=${Dayjs(new Date()).format("DDMMYYYY")}`);
-  // },[router])
 
   const handleMonthMove = useCallback(
     (direction: Direction) => {
@@ -103,7 +95,7 @@ export const Calendar = () => {
                 key={index}
                 date={curDay}
                 isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
-                onClick={handleDateClick}
+                onClick={onDateClick}
               ></DateComponent>
             );
           })}

@@ -2,12 +2,12 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import React, {useCallback, useState, useEffect} from "react";
 import * as S from "./index.styled";
-import {Chip} from "components/atoms/chip";
 import {Calendar} from "components/calendar"
-import {Feed} from "components/feed";
+import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, UserData, GoalData} from "stores/data";
+import {Dayjs} from "utils/dayjs";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -25,6 +25,7 @@ const Home: NextPage = () => {
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
+  const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,6 +60,10 @@ const Home: NextPage = () => {
     }
   },[]);
 
+  const handleDateClick = useCallback((date:string)=>{
+    setPickedDate(date);
+  },[])
+
   return (
     <LayoutMain>
       <S.IconList>
@@ -67,13 +72,16 @@ const Home: NextPage = () => {
         </S.MenuIcon>
       </S.IconList>
       <div className="visible">
-        <Calendar></Calendar>
+        <Calendar
+          onDateClick={handleDateClick}></Calendar>
         <S.DetailSection>
           <S.Profile>
             <S.Name>{name}</S.Name>
             <S.SecondaryName>{email}</S.SecondaryName>
           </S.Profile>
-          <Feed goals={goals}></Feed>
+          <Feed 
+            pickedDate={pickedDate}
+            goals={goals}></Feed>
         </S.DetailSection>
       </div>
       <div className="invisible">
