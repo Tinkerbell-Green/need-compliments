@@ -1,9 +1,10 @@
 import {Stars} from "@styled-icons/bootstrap"
-import React, {useState} from "react"
-import * as S from "../calendar.styled";
+import React from "react"
+import * as S from "./date.styled";
 import {ExpandedTaskData} from "pages";
 
 type DateProps = {
+  isPickedDate:boolean,
   date:string,
   tasks:ExpandedTaskData[],
   isToday:boolean,
@@ -11,6 +12,7 @@ type DateProps = {
 }
 
 export const Date = ({
+  isPickedDate,
   date,
   tasks=[],
   isToday,
@@ -18,13 +20,16 @@ export const Date = ({
 }:DateProps) => {
 
   return (
-    <S.Date onClick={()=>onClick(date)}>
+    <S.Date 
+      isPickedDate={isPickedDate}
+      onClick={()=>onClick(date)}>
       <S.Today className={isToday ? "todayHighligh" : ""}>
         <S.DateNumber>{date.slice(0,2)}</S.DateNumber>
       </S.Today>
       <S.EmojiList>
         {tasks.map((taskItem)=>(
-          <S.Emoji 
+          <S.Emoji
+            duration={Math.random()*5+1}
             key={taskItem.id}
             color={taskItem.color ? taskItem.color : "#ffffff"}><Stars></Stars></S.Emoji>
         ))}

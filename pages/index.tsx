@@ -135,20 +135,6 @@ const Home: NextPage = () => {
     return newTasks;
   },[tasks,goals])
 
-  const goalTasks = useMemo(()=>{
-    const newGoalTasks: Record<string, ExpandedTaskData[]> = {};
-
-    goals.forEach(goal=>{
-      newGoalTasks[goal.id] = tasks.filter(taskItem => {
-        if(taskItem.goal === goal.id){
-          return {...taskItem, color : goal.color};
-        }
-      })
-    })
-
-    return newGoalTasks;
-  },[goals,tasks])
-
   const goalTasksAtPickedDate = useMemo(()=>{
     const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
 
@@ -158,8 +144,6 @@ const Home: NextPage = () => {
 
     return newGoalTasksAtPickedDate;
   },[goals,tasks,pickedDate])
-
-
 
   useEffect(() => {
     getTasksByDaysFetch({
@@ -196,6 +180,7 @@ const Home: NextPage = () => {
       </S.IconList>
       <div className="visible">
         <Calendar
+          pickedDate={pickedDate}
           onDateClick={handleDateClick}
           tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection>

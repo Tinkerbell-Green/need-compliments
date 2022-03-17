@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-const TODAY_CIRCLE_SIZE = 1.8;
-const EMOJI_SIZE=20;
 const DATE_FONT_SIZE=1.5;
 const TITLE_FONT_SIZE=1;
 
@@ -50,6 +48,7 @@ export const Main = styled.main`
 
 export const Days = styled.ul`
   width: 100%;
+  margin-bottom: 10px;
   flex-basis: 10%;
 	display: grid;
   grid-template-columns: repeat(7,1fr);
@@ -63,38 +62,4 @@ export const Dates = styled.ul`
   flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
-`;
-
-export const Date = styled.li`
-  margin-bottom: 14px;
-  cursor: pointer;
-`
-
-export const Today = styled.div`
-  width: ${TODAY_CIRCLE_SIZE}rem;
-  height: ${TODAY_CIRCLE_SIZE}rem;
-  line-height: ${TODAY_CIRCLE_SIZE}rem;
-  
-  &.todayHighligh{
-    justify-content: center;
-    position: sticky;
-    border-radius: 50%;
-    border: 1px solid ${props => props.theme.colors["gray-300"]};
-    }
-`;
-export const DateNumber = styled.div`
-color: ${props => props.theme.colors["gray-300"]};
-`;
-
-export const EmojiList = styled.ul`
-display: flex;
-margin-top: 5px;
-`;
-
-export const Emoji = styled.li<{color:string}>`
-  width: ${EMOJI_SIZE}px;
-  height: ${EMOJI_SIZE}px;
-  padding:1px;
-  color:${props => props.color};
-  overflow: hidden;
 `;

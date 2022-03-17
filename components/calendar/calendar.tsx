@@ -6,6 +6,7 @@ import {ExpandedTaskData} from "pages";
 import {Dayjs} from "utils/dayjs";
 
 type CalendarProps = {
+  pickedDate:string,
   onDateClick: (date:string)=>void,
   tasksByDate: Record<string, ExpandedTaskData[]>,
 }
@@ -15,6 +16,7 @@ const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 const NOT_THIS_MONTH = "";
 
 export const Calendar = ({
+  pickedDate,
   onDateClick,
   tasksByDate,
 }:CalendarProps) => {
@@ -96,6 +98,7 @@ export const Calendar = ({
             return (
               <DateComponent
                 key={index}
+                isPickedDate={pickedDate === curDay}
                 date={curDay}
                 tasks={tasksByDate[curDay]}
                 isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
