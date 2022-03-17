@@ -3,10 +3,12 @@ import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
+import {TaskData, GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
 
 type CalendarProps = {
-  onDateClick: (date:string)=>void;
+  onDateClick: (date:string)=>void,
+  goalTasks: Record<string, TaskData[]>,
 }
 
 export type Direction = "next" | "previous";

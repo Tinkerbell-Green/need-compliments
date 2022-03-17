@@ -10,6 +10,13 @@ export const Header = styled.h2`
   margin-bottom: 15px;
 `;
 
+export const PickedDate = styled.h3`
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin: 15px 0;
+
+`
+
 export const FeedContents = styled.ul`
   flex-direction: column;
 `;
