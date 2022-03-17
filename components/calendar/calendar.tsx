@@ -1,24 +1,25 @@
-import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
-import {TaskData, GoalData} from "stores/data";
+import {ExpandedTaskData} from "pages";
 import {Dayjs} from "utils/dayjs";
 
 type CalendarProps = {
   onDateClick: (date:string)=>void,
-  goalTasks: Record<string, TaskData[]>,
+  tasksByDate: Record<string, ExpandedTaskData[]>,
 }
 
 export type Direction = "next" | "previous";
 const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 const NOT_THIS_MONTH = "";
 
-export const Calendar = ({onDateClick}:CalendarProps) => {
+export const Calendar = ({
+  onDateClick,
+  tasksByDate,
+}:CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
-  const router = useRouter();
 
   const handleMonthMove = useCallback(
     (direction: Direction) => {
@@ -96,6 +97,7 @@ export const Calendar = ({onDateClick}:CalendarProps) => {
               <DateComponent
                 key={index}
                 date={curDay}
+                tasks={tasksByDate[curDay]}
                 isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
                 onClick={onDateClick}
               ></DateComponent>

@@ -1,4 +1,5 @@
 import {Menu} from "@styled-icons/feather";
+import {GolfCourse} from "@styled-icons/material-twotone";
 import type {NextPage} from "next";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
@@ -14,6 +15,9 @@ export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwingsCount: number;
 };
 export type ReducedGoalData = Pick<GoalData,"id"|"name"|"color">;
+export type ExpandedTaskData = TaskData & {
+  color?: string
+}
 
 const Home: NextPage = () => {
   const {
@@ -113,12 +117,34 @@ const Home: NextPage = () => {
       }});
   },[updateTaskFetch])
   
+  const tasksByDate = useMemo(()=>{
+    const newTasks: Record<string,ExpandedTaskData[]> = {};
+
+    goals.forEach((goal)=>{
+      tasks.forEach((taskItem)=>{
+        if(taskItem.goal !== goal.id) return;
+
+        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
+  
+        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color});
+        else newTasks[curDate] = [{...taskItem, color:goal.color}];
+      })
+    })
+    
+
+    return newTasks;
+  },[tasks,goals])
 
   const goalTasks = useMemo(()=>{
-    const newGoalTasks: Record<string, TaskData[]> = {};
+    const newGoalTasks: Record<string, ExpandedTaskData[]> = {};
 
     goals.forEach(goal=>{
-      newGoalTasks[goal.id] = tasks.filter(taskItem => taskItem.goal === goal.id)})
+      newGoalTasks[goal.id] = tasks.filter(taskItem => {
+        if(taskItem.goal === goal.id){
+          return {...taskItem, color : goal.color};
+        }
+      })
+    })
 
     return newGoalTasks;
   },[goals,tasks])
@@ -171,7 +197,7 @@ const Home: NextPage = () => {
       <div className="visible">
         <Calendar
           onDateClick={handleDateClick}
-          goalTasks={goalTasks}></Calendar>
+          tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection>
           <S.Profile>
             <S.Name>{name}</S.Name>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const TODAY_CIRCLE_SIZE = 1.8;
-const EMOJI_SIZE=28;
+const EMOJI_SIZE=20;
 const DATE_FONT_SIZE=1.5;
 const TITLE_FONT_SIZE=1;
 
@@ -83,9 +83,18 @@ export const Today = styled.div`
     }
 `;
 export const DateNumber = styled.div`
-color: ${props => props.theme.colors["gray-300"]}
+color: ${props => props.theme.colors["gray-300"]};
 `;
 
-export const DateEmoji = styled.div`
-  font-size: ${EMOJI_SIZE}px;
+export const EmojiList = styled.ul`
+display: flex;
+margin-top: 5px;
+`;
+
+export const Emoji = styled.li<{color:string}>`
+  width: ${EMOJI_SIZE}px;
+  height: ${EMOJI_SIZE}px;
+  padding:1px;
+  color:${props => props.color};
+  overflow: hidden;
 `;
