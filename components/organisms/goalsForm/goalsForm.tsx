@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
@@ -33,7 +33,7 @@ export const GoalsForm = () => {
   useEffect(() => {
     if (goals) {
       setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
-      setSelectedGoalColor(clickedGoal?.color);
+      clickedGoal && setSelectedGoalColor(clickedGoal?.color);
     }
   }, [goals, router, clickedGoal]);
 
@@ -78,8 +78,17 @@ export const GoalsForm = () => {
       updateGoalFetch({
         pathSegments: [clickedGoal.id],
         data: {
-          name: "updated goal",
           color: color,
+        },
+      });
+  };
+
+  const onNameChange = (e) => {
+    clickedGoal &&
+      updateGoalFetch({
+        pathSegments: [clickedGoal.id],
+        data: {
+          name: e.target.value,
         },
       });
   };
@@ -88,9 +97,11 @@ export const GoalsForm = () => {
     <>
       <SubHeadingSpan>제목</SubHeadingSpan>
       <S.GoalTitle
+        type="text"
         color={selectedGoalColor}
         placeholder="나는 알고리즘을 정복하겠다!"
-        value={clickedGoal?.name}
+        defaultValue={clickedGoal?.name}
+        onChange={onNameChange}
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>
