@@ -7,7 +7,9 @@ import {GoalsForm} from "components/organisms/goalsForm";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const GoalsFormPage: NextPage = () => {
-  const [isOnRightButtonClick, setIsOnRightButtonClick] =
+  const [isSubmitButtonClick, setIsSubmitButtonClick] =
+    useState<boolean>(false);
+  const [isDeleteButtonClick, setIsDeleteButtonClick] =
     useState<boolean>(false);
 
   const router = useRouter();
@@ -18,7 +20,7 @@ const GoalsFormPage: NextPage = () => {
 
   const onRightButtonClick = useCallback(() => {
     router.push("/goals");
-    setIsOnRightButtonClick(true);
+    setIsSubmitButtonClick(true);
   }, [router]);
 
   return (
@@ -29,7 +31,7 @@ const GoalsFormPage: NextPage = () => {
         onLeftButtonClick={onLeftButtonClick}
         onRightButtonClick={onRightButtonClick}
       >
-        <GoalsForm isOnRightButtonClick={isOnRightButtonClick}></GoalsForm>
+        <GoalsForm isSubmitButtonClick={isSubmitButtonClick}></GoalsForm>
       </LayoutNavigation>
 
       <S.DeleteButtonContainer>

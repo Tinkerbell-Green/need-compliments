@@ -8,11 +8,11 @@ import {useDataSaga, DataActionType, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
-  isOnRightButtonClick: boolean;
+  isSubmitButtonClick: boolean;
 };
 type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
-export const GoalsForm = ({isOnRightButtonClick}: GoalsFormProps) => {
+export const GoalsForm = ({isSubmitButtonClick}: GoalsFormProps) => {
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
@@ -77,7 +77,7 @@ export const GoalsForm = ({isOnRightButtonClick}: GoalsFormProps) => {
   }, [goals, router, clickedGoal]);
 
   useEffect(() => {
-    isOnRightButtonClick &&
+    isSubmitButtonClick &&
       !clickedGoal &&
       createGoalFetch({
         data: {
@@ -87,7 +87,7 @@ export const GoalsForm = ({isOnRightButtonClick}: GoalsFormProps) => {
       });
   }, [
     createGoalFetch,
-    isOnRightButtonClick,
+    isSubmitButtonClick,
     clickedGoal,
     goalName,
     selectedGoalColor,
