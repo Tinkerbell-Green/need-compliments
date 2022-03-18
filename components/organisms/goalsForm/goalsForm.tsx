@@ -9,16 +9,22 @@ import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
   isSubmitButtonClick: boolean;
+  isDeleteButtonClick: boolean;
 };
 type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
-export const GoalsForm = ({isSubmitButtonClick}: GoalsFormProps) => {
+export const GoalsForm = ({
+  isSubmitButtonClick,
+  isDeleteButtonClick,
+}: GoalsFormProps) => {
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
   const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
     DataActionType.CREATE_GOAL
   );
+  const {fetch: deleteTaskFetch, status: deleteTaskStatus} =
+    useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
   const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(
     DataActionType.UPDATE_GOAL
   );
@@ -77,14 +83,14 @@ export const GoalsForm = ({isSubmitButtonClick}: GoalsFormProps) => {
   }, [goals, router, clickedGoal]);
 
   useEffect(() => {
-    isSubmitButtonClick &&
-      !clickedGoal &&
+    if (isSubmitButtonClick && !clickedGoal) {
       createGoalFetch({
         data: {
           name: goalName,
           color: selectedGoalColor,
         },
       });
+    }
   }, [
     createGoalFetch,
     isSubmitButtonClick,
@@ -92,6 +98,16 @@ export const GoalsForm = ({isSubmitButtonClick}: GoalsFormProps) => {
     goalName,
     selectedGoalColor,
   ]);
+
+  useEffect(() => {
+    if (isDeleteButtonClick && clickedGoal && router.query.id) {
+      deleteTaskFetch({
+        pathSegments: [router.query.id as string],
+      });
+      alert(router.query.id);
+      router.push("/goals");
+    }
+  }, [deleteTaskFetch, isDeleteButtonClick, clickedGoal, router]);
 
   const onColorClick = (color: string) => {
     setSelectedGoalColor(color);

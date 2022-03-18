@@ -31,11 +31,14 @@ const GoalsFormPage: NextPage = () => {
         onLeftButtonClick={onLeftButtonClick}
         onRightButtonClick={onRightButtonClick}
       >
-        <GoalsForm isSubmitButtonClick={isSubmitButtonClick}></GoalsForm>
+        <GoalsForm
+          isSubmitButtonClick={isSubmitButtonClick}
+          isDeleteButtonClick={isDeleteButtonClick}
+        ></GoalsForm>
       </LayoutNavigation>
 
       <S.DeleteButtonContainer>
-        <S.DeleteButton>
+        <S.DeleteButton onClick={() => setIsDeleteButtonClick(true)}>
           <span>삭제</span>
         </S.DeleteButton>
       </S.DeleteButtonContainer>
