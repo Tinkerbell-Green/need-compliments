@@ -22,9 +22,12 @@ export const Goals = () => {
       setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
   }, [getGoalsData]);
 
-  const onChipClick = useCallback(() => {
-    router.push(`/goals/form`);
-  }, [router]);
+  const onChipClick = useCallback(
+    (clickedGoalId: string) => {
+      router.push(`/goals/form/?id=${clickedGoalId}`);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -34,7 +37,7 @@ export const Goals = () => {
 
       <S.FeedContents>
         {goals.map((value) => (
-          <S.ChipContainer key={value.id} onClick={onChipClick}>
+          <S.ChipContainer key={value.id} onClick={() => onChipClick(value.id)}>
             <Chip id={value.id} label={value.name} color={value.color}></Chip>
           </S.ChipContainer>
         ))}

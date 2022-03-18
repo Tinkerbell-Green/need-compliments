@@ -13,5 +13,4 @@ export const FeedContents = styled.ul`
 
 export const ChipContainer = styled.li`
 width:100%;
-/* height: 50%; */
 `

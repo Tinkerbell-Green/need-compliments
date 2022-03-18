@@ -1,12 +1,43 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {themes as T} from "styles/theme";
+import {useDataSaga, DataActionType, GoalData} from "stores/data";
+import {useRouter} from "next/router";
+
+type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
 export const GoalsForm = () => {
-  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
+  const {fetch: getGoalsFetch, data: getGoalsData} =
+    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+
+  const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(
+    DataActionType.UPDATE_GOAL
+  );
+
+  const [goals, setGoals] = useState<ReducedGoalData[]>([]);
+  const [clickedGoal, setClickedGoal] = useState<ReducedGoalData>();
+  const router = useRouter();
+
+  useEffect(() => {
+    getGoalsFetch({});
+  }, [getGoalsFetch]);
+
+  useEffect(() => {
+    getGoalsData &&
+      setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
+  }, [getGoalsData]);
+
+  useEffect(() => {
+    if (goals) {
+      setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
+      setSelectedGoalColor(clickedGoal?.color);
+    }
+  }, [goals, router, clickedGoal]);
+
+  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("ffffff");
 
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
@@ -43,6 +74,14 @@ export const GoalsForm = () => {
 
   const onColorClick = (color: string) => {
     setSelectedGoalColor(color);
+    clickedGoal &&
+      updateGoalFetch({
+        pathSegments: [clickedGoal.id],
+        data: {
+          name: "updated goal",
+          color: color,
+        },
+      });
   };
 
   return (
@@ -51,6 +90,7 @@ export const GoalsForm = () => {
       <S.GoalTitle
         color={selectedGoalColor}
         placeholder="나는 알고리즘을 정복하겠다!"
+        value={clickedGoal?.name}
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>
