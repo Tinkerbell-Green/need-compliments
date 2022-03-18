@@ -6,7 +6,7 @@ const TITLE_FONT_SIZE=1;
 export const Container = styled.section`
   height: 100vh;
   width: 100%;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   padding-bottom: 0;
   display: flex;
   flex-direction: column;

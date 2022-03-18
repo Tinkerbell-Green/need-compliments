@@ -2,9 +2,9 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
-import {Calendar} from "components/calendar"
+import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
-import {Sidebar} from "components/sidebar";
+import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";

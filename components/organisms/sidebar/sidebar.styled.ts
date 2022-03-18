@@ -1,17 +1,5 @@
 import styled from "styled-components";
 
-export const Header = styled.div`
-  justify-content: flex-end;
-`;
-
-export const SettingIcon = styled.div`
-  width:28px;
-  height:28px;
-  padding:2px;
-  margin: 10px;
-  cursor: pointer;
-`;
-
 export const MenuOverlay = styled.div`
   z-index: 10;
   position: fixed;
@@ -30,6 +18,18 @@ export const MenuOverlay = styled.div`
     opacity: 0;
     visibility: hidden;
   }
+`;
+
+export const Header = styled.div`
+  justify-content: flex-end;
+`;
+
+export const SettingIcon = styled.button`
+  width:28px;
+  height:28px;
+  padding:2px;
+  margin: 10px;
+  cursor: pointer;
 `;
 
 export const MenuContents = styled.section`
@@ -60,18 +60,19 @@ export const Profile = styled.div`
   padding: 0 20px;
 `;
 
-export const Goals = styled.div`
+export const Goals = styled.button`
   flex-direction: column;
   padding: 0 20px;
+  cursor: pointer;
 `;
 
 export const GoalsTitle = styled.div`
-  justify-content: space-between;
+  text-align: left;
+  width:100%;
   font-size: 1rem;
   font-weight: 500;
   padding: 20px 0;
   border-top: 1px solid rgba(255,255,255,0.1);
-  cursor: pointer;
 `;
 
 export const GoalsContents = styled.ul`
@@ -117,7 +118,8 @@ export const Email = styled.div`
   margin-bottom: 20px;
 `;
 
-export const FriendList = styled.div`
+export const FriendList = styled.button`
+  display: flex;
   margin: 20px 0;
   cursor: pointer;
 `;

@@ -38,5 +38,5 @@ export const AddIcon = styled.button`
   cursor: pointer;
 
   &:hover{
-    background-color: #616161;
+    color: #616161;
   }`

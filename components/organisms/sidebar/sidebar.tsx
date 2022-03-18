@@ -42,8 +42,8 @@ export const Sidebar = ({
       className={`menuClose ${isMenuOpen ? "show" : "hidden"}`}>
       <S.MenuContents className={`modalClose ${isMenuOpen ? "show" : "hidden"}`}>
         <S.Header>
-          <S.SettingIcon>
-            <Settings onClick={handleSettingClick}/>
+          <S.SettingIcon onClick={handleSettingClick}>
+            <Settings/>
           </S.SettingIcon>
         </S.Header>
         <Profile
@@ -52,9 +52,8 @@ export const Sidebar = ({
           follwersCount={follwersCount} 
           follwingsCount={follwingsCount}
           onFriendClick={handleFriendClick}/>
-        <S.Goals>
-          <S.GoalsTitle onClick={handleGoalsTitleClick}>목표
-            <S.ArrowIcon><KeyboardArrowRight/></S.ArrowIcon>
+        <S.Goals onClick={handleGoalsTitleClick}>
+          <S.GoalsTitle>목표
           </S.GoalsTitle>
           <S.GoalsContents>
             {goals.map((value)=>(
