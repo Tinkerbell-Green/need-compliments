@@ -27,12 +27,12 @@ padding: 0.6rem 0 0.6rem 0;
 font-size: 1rem;
 border: none;
 outline: none;
-color: ${props => props.color};
+color: ${props => props.theme.colors.goals[props.color]};
 background: transparent;
 margin-bottom: 0.7rem;
 
 &:focus{
-    border-bottom: 1.9px solid ${props => props.color};
+    border-bottom: 1.9px solid ${props => props.theme.colors.goals[props.color]};
 }
 `
 
