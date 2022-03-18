@@ -103,7 +103,6 @@ export const GoalsForm = ({
       deleteTaskFetch({
         pathSegments: [router.query.id as string],
       });
-      alert(router.query.id);
       router.push("/goals");
     }
   }, [deleteTaskFetch, isDeleteButtonClick, clickedGoal, router]);
