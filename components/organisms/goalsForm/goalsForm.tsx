@@ -19,7 +19,6 @@ export const GoalsForm = ({
 }: GoalsFormProps) => {
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-
   const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
     DataActionType.CREATE_GOAL
   );
