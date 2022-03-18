@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./goals.styled";
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {useDataSaga, DataActionType, GoalData} from "stores/data";
+import {useRouter} from "next/router";
 
 type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
 export const Goals = () => {
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-
   const [goals, setGoals] = useState<ReducedGoalData[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     getGoalsFetch({});
@@ -21,6 +22,10 @@ export const Goals = () => {
       setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
   }, [getGoalsData]);
 
+  const onChipClick = useCallback(() => {
+    router.push(`/goals/form`);
+  }, [router]);
+
   return (
     <>
       <S.SubHeadingContainer>
@@ -29,12 +34,9 @@ export const Goals = () => {
 
       <S.FeedContents>
         {goals.map((value) => (
-          <Chip
-            key={value.id}
-            id={value.id}
-            label={value.name}
-            color={value.color}
-          ></Chip>
+          <S.ChipContainer key={value.id} onClick={onChipClick}>
+            <Chip id={value.id} label={value.name} color={value.color}></Chip>
+          </S.ChipContainer>
         ))}
       </S.FeedContents>
     </>
