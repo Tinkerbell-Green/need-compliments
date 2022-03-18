@@ -1,44 +1,32 @@
+import {useRouter} from "next/router";
 import React, {useEffect, useRef, useState} from "react";
 import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
-import {themes as T} from "styles/theme";
 import {useDataSaga, DataActionType, GoalData} from "stores/data";
-import {useRouter} from "next/router";
+import {themes as T} from "styles/theme";
 
+type GoalsFormProps = {
+  isOnRightButtonClick: boolean;
+};
 type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
-export const GoalsForm = () => {
+export const GoalsForm = ({isOnRightButtonClick}: GoalsFormProps) => {
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
+  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
+    DataActionType.CREATE_GOAL
+  );
   const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(
     DataActionType.UPDATE_GOAL
   );
 
   const [goals, setGoals] = useState<ReducedGoalData[]>([]);
   const [clickedGoal, setClickedGoal] = useState<ReducedGoalData>();
-  const router = useRouter();
-
-  useEffect(() => {
-    getGoalsFetch({});
-  }, [getGoalsFetch]);
-
-  useEffect(() => {
-    getGoalsData &&
-      setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
-  }, [getGoalsData]);
-
-  useEffect(() => {
-    if (goals) {
-      setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
-      clickedGoal && setSelectedGoalColor(clickedGoal?.color);
-    }
-  }, [goals, router, clickedGoal]);
-
-  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("ffffff");
-
+  const [goalName, setGoalName] = useState<string>("나는 리덕스를 정복하겠다!");
+  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("white");
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
   >([
@@ -63,13 +51,46 @@ export const GoalsForm = () => {
       publicBookIcon: "private",
     },
   ]);
-
   const [runningOptions, setRunningOptions] = useState<ListItemRadioProps[]>([
     {
       id: 0,
       title: "종료하기",
       publicBookIcon: null,
     },
+  ]);
+  const router = useRouter();
+
+  useEffect(() => {
+    getGoalsFetch({});
+  }, [getGoalsFetch]);
+
+  useEffect(() => {
+    getGoalsData &&
+      setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
+  }, [getGoalsData]);
+
+  useEffect(() => {
+    if (goals) {
+      setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
+      clickedGoal && setSelectedGoalColor(clickedGoal?.color);
+    }
+  }, [goals, router, clickedGoal]);
+
+  useEffect(() => {
+    isOnRightButtonClick &&
+      !clickedGoal &&
+      createGoalFetch({
+        data: {
+          name: goalName,
+          color: selectedGoalColor,
+        },
+      });
+  }, [
+    createGoalFetch,
+    isOnRightButtonClick,
+    clickedGoal,
+    goalName,
+    selectedGoalColor,
   ]);
 
   const onColorClick = (color: string) => {
@@ -84,11 +105,12 @@ export const GoalsForm = () => {
   };
 
   const onNameChange = (e) => {
+    setGoalName(e.target.value);
     clickedGoal &&
       updateGoalFetch({
         pathSegments: [clickedGoal.id],
         data: {
-          name: e.target.value,
+          name: goalName,
         },
       });
   };
@@ -99,7 +121,7 @@ export const GoalsForm = () => {
       <S.GoalTitle
         type="text"
         color={selectedGoalColor}
-        placeholder="나는 알고리즘을 정복하겠다!"
+        placeholder="나는 리덕스를 정복하겠다!"
         defaultValue={clickedGoal?.name}
         onChange={onNameChange}
       ></S.GoalTitle>

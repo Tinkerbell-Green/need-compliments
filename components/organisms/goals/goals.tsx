@@ -1,9 +1,9 @@
+import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./goals.styled";
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {useDataSaga, DataActionType, GoalData} from "stores/data";
-import {useRouter} from "next/router";
 
 type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
