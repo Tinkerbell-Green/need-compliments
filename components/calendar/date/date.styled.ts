@@ -1,19 +1,19 @@
-import styled,{keyframes,css} from "styled-components";
+import styled from "styled-components";
 
 const TODAY_CIRCLE_SIZE = 1.8;
-const EMOJI_SIZE=20;
+const EMOJI_SIZE=24;
 
-export const Date = styled.li<{isPickedDate:boolean}>`
+export const Date = styled.button<{isPickedDate:boolean}>`
+display: flex;
+flex-direction: column;
 height:110px;
 padding: 3px;
 overflow-y: hidden;
 cursor: pointer;
 transition: all 0.2s;
-transform: skewX(3);
 &:hover, &:focus{
   transform: translateY(-5%) scale(1.1);
-}
-`
+}`
 
 export const Today = styled.div`
 width: ${TODAY_CIRCLE_SIZE}rem;
@@ -37,29 +37,10 @@ flex-wrap: wrap;
 margin-top: 5px;
 `;
 
-const emojiFade = keyframes`
-  0%{
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  50%{
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  100%{
-    opacity: 1;
-    transform: scale(1.1);
-  }
-`
-const emojiStyles = css`
-animation: ${emojiFade} ease-in-out infinite;
-`;
-
 export const Emoji = styled.li<{color:string,duration:number}>`
 width: ${EMOJI_SIZE}px;
 height: ${EMOJI_SIZE}px;
+opacity: 0.8;
 padding:1px;
 color:${props => props.color};
-${emojiStyles}
-animation-duration: ${props => props.duration}s;
 `;

@@ -14,7 +14,6 @@ export const PickedDate = styled.h3`
   font-size: 0.875rem;
   font-weight: 400;
   margin: 15px 0;
-
 `
 
 export const FeedContents = styled.ul`

@@ -1,5 +1,4 @@
 import {Menu} from "@styled-icons/feather";
-import {GolfCourse} from "@styled-icons/material-twotone";
 import type {NextPage} from "next";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
@@ -120,8 +119,8 @@ const Home: NextPage = () => {
   const tasksByDate = useMemo(()=>{
     const newTasks: Record<string,ExpandedTaskData[]> = {};
 
-    goals.forEach((goal)=>{
-      tasks.forEach((taskItem)=>{
+    tasks.forEach((taskItem)=>{
+      goals.forEach((goal)=>{
         if(taskItem.goal !== goal.id) return;
 
         const curDate = Dayjs(taskItem.doneAt).format("DD/MM/YYYY");
@@ -130,7 +129,6 @@ const Home: NextPage = () => {
         else newTasks[curDate] = [{...taskItem, color:goal.color}];
       })
     })
-    
 
     return newTasks;
   },[tasks,goals])
@@ -178,7 +176,7 @@ const Home: NextPage = () => {
           <Menu />
         </S.MenuIcon>
       </S.IconList>
-      <div className="visible">
+      <S.Visible>
         <Calendar
           pickedDate={pickedDate}
           onDateClick={handleDateClick}
@@ -196,7 +194,7 @@ const Home: NextPage = () => {
             goalTasks={goalTasksAtPickedDate}
             goals={goals}></Feed>
         </S.DetailSection>
-      </div>
+      </S.Visible>
       <div className="invisible">
         <Sidebar
           name={name}

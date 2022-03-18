@@ -3,11 +3,11 @@ import styled from "styled-components";
 const DATE_FONT_SIZE=1.5;
 const TITLE_FONT_SIZE=1;
 
-export const Container = styled.div`
+export const Container = styled.section`
   height: 100vh;
   width: 100%;
-  max-width: 800px;
-  margin: 20px;
+  padding: 20px;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
 `;
@@ -21,7 +21,7 @@ export const Header = styled.div`
 	justify-content: space-between;
 `;
 
-export const Title = styled.div`
+export const Title = styled.header`
   font-size: ${TITLE_FONT_SIZE}rem;
 `;
 
@@ -63,7 +63,7 @@ export const Day = styled.li`
   }
 `;
 
-export const Dates = styled.ul`
+export const Dates = styled.div`
   flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
