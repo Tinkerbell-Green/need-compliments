@@ -13,7 +13,12 @@ cursor: pointer;
 transition: all 0.2s;
 &:hover, &:focus{
   transform: translateY(-5%) scale(1.1);
-}`
+}
+
+@media (max-width: ${props => props.theme.media.md}px){
+  height:80px;
+}
+`
 
 export const Today = styled.div`
 width: ${TODAY_CIRCLE_SIZE}rem;
