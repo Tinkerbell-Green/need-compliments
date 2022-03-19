@@ -1,3 +1,4 @@
+import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
@@ -22,6 +23,14 @@ export const Calendar = ({
 }:CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
+  const router = useRouter();
+
+  //TODO: 쿼리에서 id받아서 date쿼리 붙이기.
+  useEffect(()=>{
+    // console.log({...router.query});
+    router.push(`/?date=${pickedDate}`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[pickedDate])
 
   const handleMonthMove = useCallback(
     (direction: Direction) => {

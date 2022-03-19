@@ -10,7 +10,7 @@ export const Header = styled.h2`
   margin-bottom: 15px;
 `;
 
-export const PickedDate = styled.h3`
+export const PickedDate = styled.div`
   font-size: 0.875rem;
   font-weight: 400;
   margin: 15px 0;

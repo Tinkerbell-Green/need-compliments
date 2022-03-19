@@ -1,5 +1,4 @@
 import {Stars,MoonStarsFill} from "@styled-icons/bootstrap";
-import {NorthStar} from "@styled-icons/octicons";
 import React from "react"
 import * as S from "./date.styled";
 import {ExpandedTaskData} from "pages";
@@ -19,12 +18,6 @@ export const Date = ({
   isToday,
   onClick
 }:DateProps) => {
-  const getRandomStar = (index:number) =>{
-    if(index===0) return <Stars/>;
-    if(index===1) return <Stars/>;
-    if(index===2) return <MoonStarsFill/>; 
-  }
-
   return (
     <S.Date 
       isPickedDate={isPickedDate}
