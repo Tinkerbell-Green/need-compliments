@@ -13,7 +13,7 @@ export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
 	follwingsCount: number;
 };
-export type ReducedGoalData = Pick<GoalData,"id"|"name"|"color">;
+
 export type ExpandedTaskData = TaskData & {
   color?: string
 }
@@ -46,7 +46,6 @@ const Home: NextPage = () => {
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
-  const [goals,setGoals]= useState<ReducedGoalData[]>([]);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DD/MM/YYYY"))
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
@@ -71,9 +70,11 @@ const Home: NextPage = () => {
     setTasks(getTasksByDaysData || []);
   }, [getTasksByDaysData]);
 
-  useEffect(()=>{
-    getGoalsData && setGoals(getGoalsData.map(({id,name,color})=>({id, name, color})));
-  },[getGoalsData]);
+  const goals = useMemo(() => {
+    const newGoals = getGoalsData || [];
+    newGoals.sort((a, b) => a.createdAt - b.createdAt);
+    return newGoals;
+  }, [getGoalsData]);
 
   const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(true);

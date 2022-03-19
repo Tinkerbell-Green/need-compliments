@@ -4,14 +4,13 @@ import React from "react";
 import * as S from "./feed.styled";
 import {TaskList} from "./task-list";
 import {Chip} from "components/atoms/chip";
-import {ReducedGoalData} from "pages";
-import {TaskData} from "stores/data";
+import {TaskData,GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
 
 type FeedProps = {
   pickedDate?:string,
   goalTasks: Record<string, TaskData[]>,
-	goals: ReducedGoalData[],
+	goals: GoalData[],
   onTaskDelete: (id:string)=>void,
   onTaskCreate: (id:string)=>void,
   onTaskUpdate:(id:string, text:string)=>void,
