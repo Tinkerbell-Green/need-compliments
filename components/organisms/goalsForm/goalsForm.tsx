@@ -4,32 +4,21 @@ import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
-import {useDataSaga, DataActionType, GoalData} from "stores/data";
+import {GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
-  isSubmitButtonClick: boolean;
-  isDeleteButtonClick: boolean;
+  goals?: GoalData[];
+  onCreateGoal: (goalName: string, selectedGoalColor: string) => void;
+  onUpdateGoal: (clickedGoalId: string, color: string) => void;
 };
-type ReducedGoalData = Pick<GoalData, "id" | "name" | "color">;
 
 export const GoalsForm = ({
-  isSubmitButtonClick,
-  isDeleteButtonClick,
+  goals,
+  onCreateGoal,
+  onUpdateGoal,
 }: GoalsFormProps) => {
-  const {fetch: getGoalsFetch, data: getGoalsData} =
-    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
-    DataActionType.CREATE_GOAL
-  );
-  const {fetch: deleteTaskFetch, status: deleteTaskStatus} =
-    useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
-  const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(
-    DataActionType.UPDATE_GOAL
-  );
-
-  const [goals, setGoals] = useState<ReducedGoalData[]>([]);
-  const [clickedGoal, setClickedGoal] = useState<ReducedGoalData>();
+  const [clickedGoal, setClickedGoal] = useState<GoalData>();
   const [goalName, setGoalName] = useState<string>("나는 리덕스를 정복하겠다!");
   const [selectedGoalColor, setSelectedGoalColor] = useState<string>("white");
   const [publicSettingOptions, setPublicSettingOptions] = useState<
@@ -66,67 +55,32 @@ export const GoalsForm = ({
   const router = useRouter();
 
   useEffect(() => {
-    getGoalsFetch({});
-  }, [getGoalsFetch]);
-
-  useEffect(() => {
-    getGoalsData &&
-      setGoals(getGoalsData.map(({id, name, color}) => ({id, name, color})));
-  }, [getGoalsData]);
-
-  useEffect(() => {
-    if (goals) {
-      setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
-      clickedGoal && setSelectedGoalColor(clickedGoal?.color);
-    }
-  }, [goals, router, clickedGoal]);
+    setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
+    clickedGoal && setSelectedGoalColor(clickedGoal?.color);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goals, clickedGoal]);
 
   useEffect(() => {
     if (isSubmitButtonClick && !clickedGoal) {
-      createGoalFetch({
-        data: {
-          name: goalName,
-          color: selectedGoalColor,
-        },
-      });
+      onCreateGoal(goalName, selectedGoalColor);
     }
-  }, [
-    createGoalFetch,
-    isSubmitButtonClick,
-    clickedGoal,
-    goalName,
-    selectedGoalColor,
-  ]);
+  }, []);
 
   useEffect(() => {
     if (isDeleteButtonClick && clickedGoal && router.query.id) {
-      deleteTaskFetch({
-        pathSegments: [router.query.id as string],
-      });
+      onDeleteGoal();
       router.push("/goals");
     }
-  }, [deleteTaskFetch, isDeleteButtonClick, clickedGoal, router]);
+  }, []);
 
   const onColorClick = (color: string) => {
     setSelectedGoalColor(color);
-    clickedGoal &&
-      updateGoalFetch({
-        pathSegments: [clickedGoal.id],
-        data: {
-          color: color,
-        },
-      });
+    clickedGoal && onUpdateGoal();
   };
 
-  const onNameChange = (e) => {
+  const onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setGoalName(e.target.value);
-    clickedGoal &&
-      updateGoalFetch({
-        pathSegments: [clickedGoal.id],
-        data: {
-          name: goalName,
-        },
-      });
+    clickedGoal && onUpdateGoal();
   };
 
   return (
@@ -137,7 +91,6 @@ export const GoalsForm = ({
         color={selectedGoalColor}
         placeholder="나는 리덕스를 정복하겠다!"
         defaultValue={clickedGoal?.name}
-        onChange={onNameChange}
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>
