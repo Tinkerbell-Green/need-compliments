@@ -34,9 +34,9 @@ export const UserProvider = ({
       fetch({
         id: sessionUserId,
         author: sessionUserId,
-        email: session.user?.email || undefined,
-        name: session.user?.name || undefined,
-        image: session.user?.image || undefined
+        email: session?.user?.email || undefined,
+        name: session?.user?.name || undefined,
+        image: session?.user?.image || undefined
       })
     }
   },[fetch, session?.user?.email, session?.user?.image, session?.user?.name, sessionUserId, status])

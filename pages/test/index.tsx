@@ -1,7 +1,7 @@
-import {LayoutNavigation} from "components/layout-navigation";
 import type {NextPage} from "next"
 import React, {useCallback, useEffect, useMemo} from "react"
 import * as S from "./index.styled";
+import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 
 const TestPage: NextPage = () => {

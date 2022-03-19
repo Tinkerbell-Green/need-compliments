@@ -13,7 +13,11 @@ const SettingPage: NextPage = () => {
 
   return (
     <LayoutNavigation title={"계정"} onLeftButtonClick={onLeftButtonClick}>
-      <Setting />
+      <Setting 
+        id={"id"}
+        profile={"profile"}
+        email={"email"}
+      />
     </LayoutNavigation>
   );
 };
