@@ -1,5 +1,6 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
+import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
 import {Calendar} from "components/organisms/calendar"
@@ -46,13 +47,14 @@ const Home: NextPage = () => {
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
-  const [pickedDate,setPickedDate]=useState(Dayjs().format("DD/MM/YYYY"))
+  const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
 
+  const router = useRouter();
   useEffect(() => {
     if (loggedInUserData) {
       setName(loggedInUserData.name);
@@ -61,6 +63,15 @@ const Home: NextPage = () => {
       setFollwingsCount(loggedInUserData.followings.length);
     }
   }, [loggedInUserData]);
+
+  useEffect(()=>{
+    router.push({
+      query : {
+        id:loggedInUserData?.id, 
+        date:`${pickedDate}`,
+      }});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[pickedDate,loggedInUserData])
   
   useEffect(()=>{
     getGoalsFetch({})
@@ -102,7 +113,7 @@ const Home: NextPage = () => {
         data: {
           title: "",
           goal:id,
-          doneAt: Dayjs(pickedDate,"DD/MM/YYYY").toDate().getTime(),
+          doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
         },
       });
     },
@@ -124,7 +135,7 @@ const Home: NextPage = () => {
       goals.forEach((goal)=>{
         if(taskItem.goal !== goal.id) return;
 
-        const curDate = Dayjs(taskItem.doneAt).format("DD/MM/YYYY");
+        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
   
         if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color});
         else newTasks[curDate] = [{...taskItem, color:goal.color}];
@@ -139,7 +150,7 @@ const Home: NextPage = () => {
 
     goals.forEach(goal=>{
       newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DD/MM/YYYY") === pickedDate)})
+        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
 
     return newGoalTasksAtPickedDate;
   },[goals,tasks,pickedDate])

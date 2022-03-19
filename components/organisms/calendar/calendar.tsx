@@ -1,4 +1,3 @@
-import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
@@ -13,7 +12,7 @@ type CalendarProps = {
 }
 
 export type Direction = "next" | "previous";
-const WEEK_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const WEEK_DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const NOT_THIS_MONTH = "";
 
 export const Calendar = ({
@@ -23,14 +22,6 @@ export const Calendar = ({
 }:CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
-  const router = useRouter();
-
-  //TODO: 쿼리에서 id받아서 date쿼리 붙이기.
-  useEffect(()=>{
-    // console.log({...router.query});
-    router.push(`/?date=${pickedDate}`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate])
 
   const handleMonthMove = useCallback(
     (direction: Direction) => {
@@ -102,7 +93,7 @@ export const Calendar = ({
               return <div key={index}></div>;
             }
 
-            const curDay = Dayjs(viewDate).format(`${value}/MM/YYYY`);
+            const curDay = Dayjs(viewDate).format(`${value}MMYYYY`);
 
             return (
               <DateComponent
@@ -110,7 +101,7 @@ export const Calendar = ({
                 isPickedDate={pickedDate === curDay}
                 date={curDay}
                 tasks={tasksByDate[curDay]}
-                isToday={curDay === Dayjs(new Date()).format("DD/MM/YYYY")}
+                isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
                 onClick={onDateClick}
               ></DateComponent>
             );
