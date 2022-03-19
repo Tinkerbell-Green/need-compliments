@@ -11,10 +11,8 @@ export const Button = styled.button`
     border-radius: 5px;
     margin-bottom: 0.8rem;
     cursor: pointer;
-    /* background: ${({ name }) => }; */
 
     > span{
         font-size: 1rem;
-        /* color: ${props => props.fontColor}; */
     }
 `

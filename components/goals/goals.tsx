@@ -1,6 +1,6 @@
-import {Chip} from "components/chip";
 import React, {useState} from "react";
 import * as S from "./goals.styled";
+import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
 export const Goals = () => {
@@ -15,7 +15,7 @@ export const Goals = () => {
 
       <S.FeedContents>
         {goals.map((value, index) => (
-          <Chip key={index} label={value} color={goalsColor[index]}></Chip>
+          <Chip key={index} id={value} label={value} color={goalsColor[index]}></Chip>
         ))}
       </S.FeedContents>
     </>

@@ -60,6 +60,7 @@ export const Sidebar = ({
             {goals.map((value)=>(
               <Chip 
                 key={value.id}
+                id={value.id}
                 label={value.name}
                 color={value.color}>
               </Chip>
