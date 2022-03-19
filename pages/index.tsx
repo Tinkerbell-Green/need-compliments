@@ -67,11 +67,13 @@ const Home: NextPage = () => {
   useEffect(()=>{
     router.push({
       query : {
-        id:loggedInUserData?.id, 
+        // id:loggedInUserData?.id, TODO: 네비게이션에서 현재보고있는 feed의 아이디를 가져와야함.
         date:`${pickedDate}`,
-      }});
+      },
+    },undefined, {shallow: true});
+  
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate,loggedInUserData])
+  },[pickedDate])
   
   useEffect(()=>{
     getGoalsFetch({})
