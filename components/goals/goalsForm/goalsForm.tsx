@@ -3,10 +3,11 @@ import * as S from "./goalsForm.styled";
 import {ListItemRadioProps} from "./listItemRadio";
 import {ListRadio} from "./listRadio";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
+import {GoalColor} from "stores/data";
 import {themes as T} from "styles/theme";
 
 export const GoalsForm = () => {
-  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("#ffffff");
+  const [selectedGoalColor, setSelectedGoalColor] = useState<GoalColor>("white");
 
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
@@ -41,7 +42,7 @@ export const GoalsForm = () => {
     },
   ]);
 
-  const onColorClick = (color: string) => {
+  const onColorClick = (color: GoalColor) => {
     setSelectedGoalColor(color);
   };
 
@@ -61,7 +62,7 @@ export const GoalsForm = () => {
 
       <SubHeadingSpan>색상</SubHeadingSpan>
       <S.ColorPalette>
-        {Object.keys(T.dark.colors.goals).map((color: string) => (
+        {(Object.keys(T.dark.colors.goals) as GoalColor[]).map((color) => (
           <S.OneColcor
             key={color}
             color={color}
