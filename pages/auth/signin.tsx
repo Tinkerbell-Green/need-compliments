@@ -15,13 +15,12 @@ export default function SignIn({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {status} = useSession();
   const router = useRouter();
-  console.log("auth/signin authenticated");
+
   useEffect(() => {
     if (status === "authenticated") {
       router.replace("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [router, status]);
 
   return (
     <LayoutCenter>
@@ -38,7 +37,7 @@ export default function SignIn({
                   height={50}
                   quality={100}
                   src={kakaoLogo}
-                  alt="kakao logo"
+                  alt=""
                 ></Image>
                 <span>카카오톡으로 계속하기</span>
               </S.KakaoBtn>
@@ -54,7 +53,7 @@ export default function SignIn({
                   height={50}
                   quality={100}
                   src={naverLogo}
-                  alt="naver logo"
+                  alt=""
                 ></Image>
                 <span>네이버로 계속하기</span>
               </S.NaverBtn>
@@ -70,7 +69,7 @@ export default function SignIn({
                   height={50}
                   quality={100}
                   src={googleLogo}
-                  alt="google logo"
+                  alt=""
                 ></Image>
                 <span>구글로 계속하기</span>
               </S.GoogleBtn>
@@ -86,7 +85,7 @@ export default function SignIn({
                   height={50}
                   quality={100}
                   src={facebookLogo}
-                  alt="facebook logo"
+                  alt=""
                 ></Image>
                 <span>페이스북으로 계속하기</span>
               </S.FacebookBtn>

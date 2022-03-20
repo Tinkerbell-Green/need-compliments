@@ -11,7 +11,7 @@ const ErrorPage: NextPage = () => {
     <LayoutCenter>
       <S.Header>{"존재하지 않는 페이지입니다."}</S.Header>
       <Chip
-        label="🧚‍♀️ 이전 페이지로 돌아가기 🧚‍♀️"
+        label="이전 페이지로 돌아가기 🧚‍♀️"
         onClick={()=>route.back()}
       ></Chip>
     </LayoutCenter>

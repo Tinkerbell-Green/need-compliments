@@ -7,9 +7,11 @@ import * as S from "./snackbar.styled";
 
 type SnackbarProps = {
   children?: React.ReactNode,
+  visible:boolean,
   type?: SnackbarType,
   label: string,
   duration?:number,
+  onClose: ()=>void,
 }
 
 export type SnackbarType = "success" | "information"| "warning"|"error";
@@ -31,26 +33,32 @@ const TYPE_ICON_MAP:Record<SnackbarType, ReactNode> = {
 export const Snackbar = ({
   children,
   type="information",
+  visible,
   label,
-  duration=5000,
+  duration=4000,
+  onClose,
 }:SnackbarProps)=>{
-  const [isVisible, setIsVisible] = useState(true);
-  useEffect(()=>{
-    setTimeout(()=>setIsVisible(false),duration);
-  })
+  const [isShow, setIsShow] = useState(visible);
 
+  useEffect(()=>{
+    visible && setTimeout(onClose,duration);
+  },[duration,visible,onClose])
+  
   return (
     <S.Container 
-      isVisible={isVisible} 
+      isVisible={visible}
       color={TYPE_COLOR_MAP[type]}>
       <S.Icon>
         {TYPE_ICON_MAP[type]}
       </S.Icon>
       <S.Label>{label}</S.Label>
-      <S.Button onClick={()=>setIsVisible(false)}>
+      <S.Button onClick={onClose}>
         <CloseOutline></CloseOutline>
       </S.Button>
       {children}
+      <S.Progess>
+        <S.Bar visible={visible} duration={duration}></S.Bar>
+      </S.Progess>
     </S.Container>
     
   )

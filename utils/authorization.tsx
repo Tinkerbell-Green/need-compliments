@@ -37,10 +37,12 @@ export const AuthorizationProvider = ({
     status === "loading"
       ? <LayoutCenter>
         <Spinner
-          text={"🧚‍♀️~여기는 칭찬이 필요해 입니다~🧚‍♀️"} color="skyblue"></Spinner>
+          text={"🧚‍♀️ 여기는 칭찬이 필요해 입니다 🧚‍♀️"} color="skyblue"></Spinner>
       </LayoutCenter>
       : (status === "unauthenticated") && !isPublicPage 
-        ? <LayoutCenter>로그인 페이지로 이동합니다 🏃🏃🏻‍♀️</LayoutCenter>
+        ? <LayoutCenter>
+          <Spinner
+            text={"로그인 페이지로 이동합니다 🏃🏃🏻‍♀️"} color="skyblue"></Spinner></LayoutCenter>
         : children
   }</>)
 }

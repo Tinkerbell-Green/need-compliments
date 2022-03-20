@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled,{keyframes, css} from "styled-components";
 
 export const Container = styled.section<{color:string,isVisible:boolean}>`
+z-index:10;
 position: fixed;
 top: 8%;
 left: 50%;
@@ -33,3 +34,36 @@ margin: 0 5px;
 border-radius: 50%;
 cursor: pointer;
 `;
+
+const progress = keyframes`
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+`
+const progressStyled = css`
+animation: ${progress} linear;
+`;
+
+export const Progess = styled.div`
+position: absolute;
+top:0;
+left:0;
+width:100%;
+height: 3px;
+overflow: hidden;
+`;
+
+export const Bar = styled.div<{visible:boolean, duration:number}>`
+width:100%;
+height: 100%;
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+background-color: ${props => props.theme.colors["gray-100"]};
+${props => props.visible && progressStyled}
+animation-duration: ${props => props.duration}ms;
+`;
+
+
