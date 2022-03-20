@@ -1,30 +1,27 @@
-import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
+import {ExpandedTaskData} from "pages";
 import {Dayjs} from "utils/dayjs";
 
-export type Direction = "next" | "previous";
+type CalendarProps = {
+  pickedDate:string,
+  onDateClick: (date:string)=>void,
+  tasksByDate: Record<string, ExpandedTaskData[]>,
+}
 
-const WEEK_DAYS: string[] = ["S", "M", "T", "W", "T", "F", "S"];
+export type Direction = "next" | "previous";
+const WEEK_DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const NOT_THIS_MONTH = "";
 
-export const Calendar = () => {
+export const Calendar = ({
+  pickedDate,
+  onDateClick,
+  tasksByDate,
+}:CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
   const [monthDays, setMonthDays] = useState([""]);
-  const router = useRouter();
-
-  const handleDateClick = useCallback(
-    (date: string) => {
-      router.push(`/?date=${date}`);
-    },
-    [router]
-  );
-
-  // useEffect(()=>{
-  //   router.replace(`/?data=${Dayjs(new Date()).format("DDMMYYYY")}`);
-  // },[router])
 
   const handleMonthMove = useCallback(
     (direction: Direction) => {
@@ -84,9 +81,9 @@ export const Calendar = () => {
       </S.Header>
       <S.Main>
         <S.Days>
-          {WEEK_DAYS.map((value, index) => (
-            <S.Day key={index}>
-              <span>{value}</span>
+          {WEEK_DAYS.map((value) => (
+            <S.Day key={value}>
+              <abbr title={value}>{value.charAt(0)}</abbr>
             </S.Day>
           ))}
         </S.Days>
@@ -101,9 +98,11 @@ export const Calendar = () => {
             return (
               <DateComponent
                 key={index}
+                isPickedDate={pickedDate === curDay}
                 date={curDay}
+                tasks={tasksByDate[curDay]}
                 isToday={curDay === Dayjs(new Date()).format("DDMMYYYY")}
-                onClick={handleDateClick}
+                onClick={onDateClick}
               ></DateComponent>
             );
           })}

@@ -1,4 +1,5 @@
 import {DataActionType} from "./actions"
+import {Theme} from "styles/theme"
 
 export type TaskDocument = {
   title: string
@@ -13,9 +14,10 @@ export type TaskData = TaskDocument & {
   id: string
 }
 
+export type GoalColor = keyof Theme["colors"]["goals"]
 export type GoalDocument = {
   name: string
-  color: string
+  color: GoalColor
   author: string
   createdAt: number
   updatedAt: number

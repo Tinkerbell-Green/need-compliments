@@ -1,37 +1,60 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
-import React, {useCallback, useState, useEffect} from "react";
+import {useRouter} from "next/router";
+import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
-import {Chip} from "components/atoms/chip";
-import {Calendar} from "components/calendar"
-import {Feed} from "components/feed";
-import {Sidebar} from "components/sidebar";
+import {Calendar} from "components/organisms/calendar"
+import {Feed} from "components/organisms/feed";
+import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, UserData, GoalData} from "stores/data";
+import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
+import {Dayjs} from "utils/dayjs";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
 	follwingsCount: number;
 };
-export type ReducedGoalData = Pick<GoalData,"id"|"name"|"color">;
+
+export type ExpandedTaskData = TaskData & {
+  color?: string
+}
 
 const Home: NextPage = () => {
   const {
     data: loggedInUserData
   } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+  const {
+    fetch: getTasksByDaysFetch,
+    data: getTasksByDaysData,
+    refetch: getTasksByDaysRefetch,
+  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
+  const {
+    fetch: createTaskFetch, 
+    status: createTaskStatus
+  } = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
+  const {
+    fetch: deleteTaskFetch, 
+    status: deleteTaskStatus
+  } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
+  const {
+    fetch: updateTaskFetch, 
+    status: updateTaskStatus
+  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
 
   const {
     fetch: getGoalsFetch, 
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
+  const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
+  const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
-  const [goals,setGoals]= useState<ReducedGoalData[]>([]);
 
+  const router = useRouter();
   useEffect(() => {
     if (loggedInUserData) {
       setName(loggedInUserData.name);
@@ -40,14 +63,31 @@ const Home: NextPage = () => {
       setFollwingsCount(loggedInUserData.followings.length);
     }
   }, [loggedInUserData]);
+
+  useEffect(()=>{
+    router.push({
+      query : {
+        // id:loggedInUserData?.id, TODO: 네비게이션에서 현재보고있는 feed의 아이디를 가져와야함.
+        date:`${pickedDate}`,
+      },
+    },undefined, {shallow: true});
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[pickedDate])
   
   useEffect(()=>{
     getGoalsFetch({})
   },[getGoalsFetch])
 
-  useEffect(()=>{
-    getGoalsData && setGoals(getGoalsData.map(({id,name,color})=>({id, name, color})));
-  },[getGoalsData]);
+  useEffect(() => {
+    setTasks(getTasksByDaysData || []);
+  }, [getTasksByDaysData]);
+
+  const goals = useMemo(() => {
+    const newGoals = getGoalsData || [];
+    newGoals.sort((a, b) => a.createdAt - b.createdAt);
+    return newGoals;
+  }, [getGoalsData]);
 
   const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(true);
@@ -59,6 +99,90 @@ const Home: NextPage = () => {
     }
   },[]);
 
+  const handleDateClick = useCallback((date:string)=>{
+    setPickedDate(date);
+  },[])
+
+  const handleTaskDelete = useCallback((id: string)=>{
+    deleteTaskFetch({
+      pathSegments: [id]
+    })
+  },[deleteTaskFetch])
+
+  const handleTaskCreate = useCallback(
+    (id: string) => {
+      createTaskFetch({
+        data: {
+          title: "",
+          goal:id,
+          doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
+        },
+      });
+    },
+    [createTaskFetch,pickedDate]
+  );
+
+  const handleTaskUpdate = useCallback((id:string,title:string)=>{
+    updateTaskFetch({
+      pathSegments: [id],
+      data: {
+        title,
+      }});
+  },[updateTaskFetch])
+  
+  const tasksByDate = useMemo(()=>{
+    const newTasks: Record<string,ExpandedTaskData[]> = {};
+
+    tasks.forEach((taskItem)=>{
+      goals.forEach((goal)=>{
+        if(taskItem.goal !== goal.id) return;
+
+        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
+  
+        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color});
+        else newTasks[curDate] = [{...taskItem, color:goal.color}];
+      })
+    })
+
+    return newTasks;
+  },[tasks,goals])
+
+  const goalTasksAtPickedDate = useMemo(()=>{
+    const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
+
+    goals.forEach(goal=>{
+      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
+        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
+
+    return newGoalTasksAtPickedDate;
+  },[goals,tasks,pickedDate])
+
+  useEffect(() => {
+    getTasksByDaysFetch({
+      startDay: new Date("1999-11-11"),
+      endDay: new Date("2222-11-11"),
+    });
+  }, [getTasksByDaysFetch]);
+
+  useEffect(()=>{
+    if (createTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, createTaskStatus])
+  
+  useEffect(()=>{
+    if (deleteTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, deleteTaskStatus])
+
+  useEffect(() => {
+    if (updateTaskStatus === DataSagaStatus.SUCCEEDED) {
+      getTasksByDaysRefetch();
+    }
+  }, [getTasksByDaysRefetch, updateTaskStatus]);
+
+
   return (
     <LayoutMain>
       <S.IconList>
@@ -66,16 +190,25 @@ const Home: NextPage = () => {
           <Menu />
         </S.MenuIcon>
       </S.IconList>
-      <div className="visible">
-        <Calendar></Calendar>
+      <S.Visible>
+        <Calendar
+          pickedDate={pickedDate}
+          onDateClick={handleDateClick}
+          tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection>
           <S.Profile>
             <S.Name>{name}</S.Name>
             <S.SecondaryName>{email}</S.SecondaryName>
           </S.Profile>
-          <Feed goals={goals}></Feed>
+          <Feed 
+            onTaskDelete={handleTaskDelete}
+            onTaskCreate={handleTaskCreate}
+            onTaskUpdate={handleTaskUpdate}
+            pickedDate={pickedDate}
+            goalTasks={goalTasksAtPickedDate}
+            goals={goals}></Feed>
         </S.DetailSection>
-      </div>
+      </S.Visible>
       <div className="invisible">
         <Sidebar
           name={name}

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Background = styled.section<{isOpen:boolean}>`
-position: absolute;
+position: fixed;
 top:50%;
 left:50%;
 width:100%;

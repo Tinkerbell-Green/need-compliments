@@ -4,7 +4,7 @@ import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
-import {GoalData} from "stores/data";
+import {GoalColor, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
@@ -18,7 +18,7 @@ export const GoalsForm = ({
   onChangeGoalName,
   onChangeGoalColor,
 }: GoalsFormProps) => {
-  const [clickedGoalColor, setClickedGoalColor] = useState<string>("white");
+  const [clickedGoalColor, setClickedGoalColor] = useState<GoalColor>("white");
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
   >([
@@ -55,7 +55,7 @@ export const GoalsForm = ({
     goal && setClickedGoalColor(goal?.color);
   }, [goal]);
 
-  const onColorClick = (color: string) => {
+  const onColorClick = (color: GoalColor) => {
     setClickedGoalColor(color);
     onChangeGoalColor(color);
   };
@@ -84,12 +84,12 @@ export const GoalsForm = ({
 
       <SubHeadingSpan>색상</SubHeadingSpan>
       <S.ColorPalette>
-        {Object.keys(T.dark.colors.goals).map((color: string) => (
-          <S.OneColcor
+        {(Object.keys(T.dark.colors.goals) as GoalColor[]).map((color) => (
+          <S.OneColor
             key={color}
             color={color}
             onClick={() => onColorClick(color)}
-          ></S.OneColcor>
+          ></S.OneColor>
         ))}
       </S.ColorPalette>
     </>

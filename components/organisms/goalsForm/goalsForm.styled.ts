@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { GoalColor } from "stores/data";
 
 export const DeleteButtonContainer = styled.div`
 position: fixed;
@@ -43,11 +44,11 @@ display: grid;
 grid-template: repeat(2, 3rem) / repeat(6, 19.2%);
 `
 
-export const OneColcor = styled.button`
+export const OneColor = styled.button<{ color: GoalColor }>`
 width: 1.5rem;
 height: 1.5rem;
 border-radius: 50%;
 border: 1px solid ${props => props.theme.colors.black};
 margin: 0 0rem 1rem 0;
-background: ${props => props.theme.colors.goals[props.color as keyof typeof props.theme.colors.goals]};
+background: ${props => props.theme.colors.goals[props.color]};
 `

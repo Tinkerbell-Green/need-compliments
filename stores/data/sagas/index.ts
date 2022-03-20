@@ -4,6 +4,7 @@ import {createGoal} from "./createGoal";
 import {createTask} from "./createTask";
 import {deleteGoal} from "./deleteGoal";
 import {deleteTask} from "./deleteTask"
+import {deleteUser} from "./deleteUser"
 import {getGoals} from "./getGoals";
 import {getLoggedInUserData} from "./getLoggedInUserData"
 import {getTasksByDays} from "./getTasksByDays"
@@ -22,4 +23,5 @@ export function* dataSaga() {
   yield takeEvery(DataActionType.CREATE_GOAL, createGoal)
   yield takeEvery(DataActionType.UPDATE_GOAL, updateGoal)
   yield takeEvery(DataActionType.DELETE_GOAL, deleteGoal)
+  yield takeEvery(DataActionType.DELETE_USER, deleteUser)
 }

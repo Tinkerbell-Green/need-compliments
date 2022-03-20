@@ -9,7 +9,7 @@ export const IconList = styled.ul`
   margin-top: 10px;
 `;
 
-export const MenuIcon = styled.div`
+export const MenuIcon = styled.button`
   width:${ICON_SIZE}px;
   height:${ICON_SIZE}px;
   padding:2px;
@@ -17,16 +17,21 @@ export const MenuIcon = styled.div`
   cursor: pointer;
 `;
 
-export const DetailSection = styled.div`
-  min-width: 380px;
+export const DetailSection = styled.section`
+  min-width: 350px;
   flex-direction: column;
   align-content: center;
-  margin: 50px 10px;
+  margin: 40px 0;
+  padding: 0 20px;
+
+@media (max-width: ${props => props.theme.media.md}px) {
+    width: 100%;
+  }
 `;
 
 export const Profile = styled.div`
   flex-direction: column;
-  margin: 30px 0;
+  margin-bottom: 30px;
 `;
 
 export const Name = styled.div`
@@ -42,4 +47,11 @@ export const SecondaryName = styled.div`
   color: ${props => props.theme.colors["gray-200"]};
 `;
 
+export const Visible = styled.main`
+display: flex;
+flex-direction: row;
 
+@media (max-width: ${props => props.theme.media.md}px) {
+    flex-direction: column;
+  }
+`;

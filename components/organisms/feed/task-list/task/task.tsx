@@ -51,7 +51,7 @@ export const Task = ({
 
   },[saveTask,deleteTask,id,inputValue,title])
 
-  const handleChange:React.ChangeEventHandler = useCallback(() => {
+  const handleChange:React.ChangeEventHandler = useCallback((e) => {
     const currentValue = InputRef.current?.value || "";
     setInputValue(currentValue);
   },[]);
@@ -68,7 +68,7 @@ export const Task = ({
       <ModalTaskAction
         taskId={id}
         title={title}
-        isOpen={isModalOpen} 
+        isOpen={isModalOpen}
         onClose={handleModalClose}
         onTaskDelete={deleteTask}
         onTaskEdit={changeEditFocus}
@@ -77,7 +77,7 @@ export const Task = ({
         <S.Input
           autoFocus={title ? false : true}
           value={inputValue}
-          placeholder="입력"
+          placeholder="오늘 한 일로 스스로에게 칭찬해보세요 😀"
           type="text"
           ref={InputRef}
           onChange={handleChange}

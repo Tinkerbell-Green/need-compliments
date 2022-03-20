@@ -16,6 +16,7 @@ export enum DataActionType {
   CREATE_GOAL = "data/CREATE_GOAL",
   UPDATE_GOAL = "data/UPDATE_GOAL",
   DELETE_GOAL = "data/DELETE_GOAL",
+  DELETE_USER = "data/DELETE_USER"
 }
 
 export type DataSagaActionType = (
@@ -28,7 +29,8 @@ export type DataSagaActionType = (
   DataActionType.GET_GOALS |
   DataActionType.CREATE_GOAL |
   DataActionType.UPDATE_GOAL |
-  DataActionType.DELETE_GOAL
+  DataActionType.DELETE_GOAL |
+  DataActionType.DELETE_USER
 )
 
 export enum Authority {
@@ -47,6 +49,7 @@ export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.CREATE_GOAL]: Authority.AUTHOR,
   [DataActionType.UPDATE_GOAL]: Authority.AUTHOR,
   [DataActionType.DELETE_GOAL]: Authority.AUTHOR,
+  [DataActionType.DELETE_USER]: Authority.AUTHOR,
 }
 
 export type DataActionPayload = {
@@ -100,6 +103,9 @@ export type DataActionPayload = {
   [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
     }
+  [DataActionType.DELETE_USER]: SagaDataActionDefaultPayload & 
+  Omit<DeleteDocumentArguments, "path"> & {
+    }
 }
 
 export type SagaDataActionDefaultPayload = {
@@ -122,6 +128,7 @@ export const dataActionCreators = {
   [DataActionType.CREATE_GOAL]: (payload: DataActionPayload[DataActionType.CREATE_GOAL]) => ({type: DataActionType.CREATE_GOAL, payload}),
   [DataActionType.UPDATE_GOAL]: (payload: DataActionPayload[DataActionType.UPDATE_GOAL]) => ({type: DataActionType.UPDATE_GOAL, payload}),
   [DataActionType.DELETE_GOAL]: (payload: DataActionPayload[DataActionType.DELETE_GOAL]) => ({type: DataActionType.DELETE_GOAL, payload}),
+  [DataActionType.DELETE_USER]: (payload: DataActionPayload[DataActionType.DELETE_USER]) => ({type: DataActionType.DELETE_USER, payload}),
 }
 
 export type DataActionInstance<DataActionTypeT extends DataActionType> = ReturnType<typeof dataActionCreators[DataActionTypeT]>

@@ -13,6 +13,7 @@ export type State = {
   [DataActionType.CREATE_GOAL]: Record<string, DataSagaState & {data: GoalData | undefined, payload:DataActionPayload[DataActionType.CREATE_GOAL]}>,
   [DataActionType.UPDATE_GOAL]: Record<string, DataSagaState & {data: GoalData | undefined, payload:DataActionPayload[DataActionType.UPDATE_GOAL]}>,
   [DataActionType.DELETE_GOAL]: Record<string, DataSagaState & {data: undefined, payload:DataActionPayload[DataActionType.DELETE_GOAL]}>,
+  [DataActionType.DELETE_USER]: Record<string, DataSagaState & {data: undefined, payload:DataActionPayload[DataActionType.DELETE_USER]}>,
 }
 
 const initialState: State = {
@@ -26,6 +27,7 @@ const initialState: State = {
   [DataActionType.CREATE_GOAL]: {},
   [DataActionType.UPDATE_GOAL]: {},
   [DataActionType.DELETE_GOAL]: {},
+  [DataActionType.DELETE_USER]: {},
 };
 
 export const dataReducer = handleActions<State, any>(
