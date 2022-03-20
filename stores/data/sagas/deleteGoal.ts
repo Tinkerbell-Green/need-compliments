@@ -7,7 +7,6 @@ import {Repository, DeleteDocumentData, GetDocumentData, GetDocumentsData} from 
 export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOAL>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const shouldDeleteTasks = payload.shouldDeleteTasks === undefined ? true : payload.shouldDeleteTasks
   const sagaDataActionType = DataActionType.DELETE_GOAL
 
   const repository: Repository = yield getContext("repository");
@@ -22,25 +21,23 @@ export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOA
 
   try {
     // delete tasks of the goal
-    if (shouldDeleteTasks){
-      const queryConstraints: QueryConstraint[] = []
-      const goalId = payload.pathSegments[0]
-      queryConstraints.push(where("goal", "==", goalId))
+    const queryConstraints: QueryConstraint[] = []
+    const goalId = payload.pathSegments[0]
+    queryConstraints.push(where("goal", "==", goalId))
   
-      const getTasksResponse: GetDocumentsData<TaskDocument> = yield call(
-        [repository, repository.getDocuments],
-        {
-          path: "tasks",
-          queryConstraints,
-        }
-      );
-      yield call(
-        [repository, repository.deleteDocuments],
-        {
-          refs: getTasksResponse.docs.map(item => item.ref)
-        }
-      )
-    }
+    const getTasksResponse: GetDocumentsData<TaskDocument> = yield call(
+      [repository, repository.getDocuments],
+      {
+        path: "tasks",
+        queryConstraints,
+      }
+    );
+    yield call(
+      [repository, repository.deleteDocuments],
+      {
+        refs: getTasksResponse.docs.map(item => item.ref)
+      }
+    )
 
     // delete goal itself
     const response: DeleteDocumentData = yield call(
