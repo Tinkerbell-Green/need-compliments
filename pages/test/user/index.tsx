@@ -1,4 +1,7 @@
 import type {NextPage} from "next"
+import {useSession} from "next-auth/react"
+import {signOut} from "next-auth/react"
+import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react"
 import {useSelector} from "react-redux";
 import * as S from "./index.styled";
@@ -14,6 +17,7 @@ const TestUserPage: NextPage = () => {
     getLoggedInUserDataRefetch()
   },[getLoggedInUserDataRefetch])
   const {fetch: updateUserFetch, status: updateUserStatus} = useDataSaga<DataActionType.UPDATE_USER>(DataActionType.UPDATE_USER, {onSucceed})
+  const {fetch: deleteUserFetch, status: deleteUserStatus} = useDataSaga<DataActionType.DELETE_USER>(DataActionType.DELETE_USER)
 
   const handleUpdate = useCallback(()=>{
     if (!loggedInUserId) return;
@@ -26,6 +30,21 @@ const TestUserPage: NextPage = () => {
     })
   },[loggedInUserId, updateUserFetch])
 
+  const handleDelete = useCallback(()=>{
+    if (!loggedInUserId) return;
+
+    deleteUserFetch({
+      pathSegments: [loggedInUserId],
+    })
+    
+  },[loggedInUserId, deleteUserFetch])
+
+  useEffect(()=>{
+    if(deleteUserStatus===DataSagaStatus.SUCCEEDED){
+      signOut({callbackUrl: "/"});
+    }
+  },[deleteUserStatus])
+
   const handleLeftButtonClick = useCallback(()=>{
   },[])
 
@@ -35,7 +54,8 @@ const TestUserPage: NextPage = () => {
       title="test goals"
       onLeftButtonClick={handleLeftButtonClick}
     >
-      <S.Button onClick={handleUpdate}>UPDATE</S.Button>
+      <S.Button onClick={handleUpdate}>UPDATE NAME</S.Button>
+      <S.Button onClick={handleDelete}>DELETE</S.Button>
 
       <div>
         <div>{loggedInUserData?.name}</div>
