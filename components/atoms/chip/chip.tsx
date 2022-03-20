@@ -1,11 +1,12 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React from "react";
 import * as S from "./chip.styled";
+import {GoalColor} from "stores/data/types";
 
 type ChipProps = {
   children?: React.ReactNode;
   label: string;
-  color?: string;
+  color?: GoalColor;
   icon?: React.ReactNode;
   onAdd?: ()=>void;
 };
@@ -13,7 +14,7 @@ type ChipProps = {
 export const Chip = ({
   children,
   label,
-  color = "#ffffff",
+  color = "white",
   icon,
   onAdd,
 }: ChipProps) => {
