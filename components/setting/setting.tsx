@@ -7,9 +7,16 @@ import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 type SettingProps = {
   name?: string;
   email?: string;
+  onDelete: () => void;
 };
 
-export const Setting = ({name, email}: SettingProps) => {
+export const Setting = ({name, email, onDelete}: SettingProps) => {
+  const onDeleteClick = () => {
+    if (confirm("계정을 삭제할까요?")) {
+      onDelete();
+    }
+  };
+
   return (
     <S.InfoList>
       <S.InfoListItemEmail>
@@ -32,7 +39,7 @@ export const Setting = ({name, email}: SettingProps) => {
       </S.InfoListItem>
 
       <S.InfoListItem>
-        <S.DeleteAccount>계정 삭제하기</S.DeleteAccount>
+        <S.DeleteAccount onClick={onDeleteClick}>계정 삭제하기</S.DeleteAccount>
       </S.InfoListItem>
     </S.InfoList>
   );
