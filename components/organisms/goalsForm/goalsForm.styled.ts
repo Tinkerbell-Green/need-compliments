@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GoalColor } from "stores/data";
+import {GoalColor} from "stores/data";
 
 export const DeleteButtonContainer = styled.div`
 position: fixed;

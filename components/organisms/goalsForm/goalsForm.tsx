@@ -10,7 +10,7 @@ import {themes as T} from "styles/theme";
 type GoalsFormProps = {
   goal?: GoalData;
   onChangeGoalName: (name: string) => void;
-  onChangeGoalColor: (color: string) => void;
+  onChangeGoalColor: (color: GoalColor) => void;
 };
 
 export const GoalsForm = ({

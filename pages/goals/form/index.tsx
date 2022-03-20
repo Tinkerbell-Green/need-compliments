@@ -5,7 +5,7 @@ import {useState} from "react";
 import * as S from "../../../components/organisms/goalsForm/goalsForm.styled";
 import {GoalsForm} from "components/organisms/goalsForm";
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType, GoalData} from "stores/data";
+import {useDataSaga, DataActionType, GoalData, GoalColor} from "stores/data";
 
 const GoalsFormPage: NextPage = () => {
   const {fetch: getGoalsFetch, data: goals} =
@@ -22,14 +22,14 @@ const GoalsFormPage: NextPage = () => {
 
   const [goal, setGoal] = useState<GoalData>();
   const [goalName, setGoalName] = useState<string>("");
-  const [goalColor, setGoalColor] = useState<string>("white");
+  const [goalColor, setGoalColor] = useState<GoalColor>("white");
   const router = useRouter();
 
   const handleGoalName = (name: string) => {
     setGoalName(name);
   };
 
-  const handleGoalColor = (color: string) => {
+  const handleGoalColor = (color: GoalColor) => {
     setGoalColor(color);
   };
 
@@ -69,7 +69,7 @@ const GoalsFormPage: NextPage = () => {
   }, [goal]);
 
   const onCreateGoal = useCallback(
-    (name: string, color: string) => {
+    (name: string, color: GoalColor) => {
       createGoalFetch({
         data: {
           name,
@@ -81,7 +81,7 @@ const GoalsFormPage: NextPage = () => {
   );
 
   const onUpdateGoal = useCallback(
-    (name: string, color: string) => {
+    (name: string, color: GoalColor) => {
       goal &&
         updateGoalFetch({
           pathSegments: [goal.id],
