@@ -102,6 +102,7 @@ export type DataActionPayload = {
     }
   [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
+      shouldDeleteTasks?: boolean
     }
   [DataActionType.DELETE_USER]: SagaDataActionDefaultPayload & 
   Omit<DeleteDocumentArguments, "path"> & {
