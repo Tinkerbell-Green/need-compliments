@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {GoalColor} from "stores/data/types";
 
 const MARGIN = 4;
 const ICON_SIZE = 18;
@@ -26,7 +27,7 @@ export const Icon = styled.div`
   color: ${props => props.theme.colors["gray-400"]};
 `;
 
-export const Label = styled.div`
+export const Label = styled.div<{color: GoalColor}>`
   color:${props => props.color && props.color};
   font-size: 0.8rem;
   font-weight: 600;
