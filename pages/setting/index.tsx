@@ -12,14 +12,33 @@ const SettingPage: NextPage = () => {
   const loggedInUserId = useSelector(
     (state: RootState) => state.navigation.loggedInUserId
   );
-  const {data: loggedInUserData} =
+  const {data: loggedInUserData, refetch: getLoggedInUserDataRefetch} =
     useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(
       DataActionType.GET_LOGGED_IN_USER_DATA
     );
+
+  const onSucceed = useCallback(() => {
+    getLoggedInUserDataRefetch();
+  }, [getLoggedInUserDataRefetch]);
+  const {fetch: updateUserFetch, status: updateUserStatus} =
+    useDataSaga<DataActionType.UPDATE_USER>(DataActionType.UPDATE_USER, {
+      onSucceed,
+    });
   const {fetch: deleteUserFetch, status: deleteUserStatus} =
     useDataSaga<DataActionType.DELETE_USER>(DataActionType.DELETE_USER);
 
-  useEffect(() => {
+  const handleUpdate = useCallback(() => {
+    if (!loggedInUserId) return;
+
+    updateUserFetch({
+      pathSegments: [loggedInUserId],
+      data: {
+        name: new Date().getSeconds().toString(),
+      },
+    });
+  }, [loggedInUserId, updateUserFetch]);
+
+  const handleSignout = useCallback(() => {
     if (deleteUserStatus === DataSagaStatus.SUCCEEDED) {
       signOut({callbackUrl: "/"});
     }
@@ -31,7 +50,13 @@ const SettingPage: NextPage = () => {
     deleteUserFetch({
       pathSegments: [loggedInUserId],
     });
-  }, [loggedInUserId, deleteUserFetch]);
+
+    handleSignout();
+  }, [loggedInUserId, deleteUserFetch, handleSignout]);
+
+  useEffect(() => {
+    handleSignout();
+  }, [handleSignout]);
 
   const router = useRouter();
 
@@ -44,7 +69,9 @@ const SettingPage: NextPage = () => {
       <Setting
         name={loggedInUserData?.name}
         email={loggedInUserData?.email}
+        onUpdate={handleUpdate}
         onDelete={handleDelete}
+        onSignout={handleSignout}
       />
     </LayoutNavigation>
   );
