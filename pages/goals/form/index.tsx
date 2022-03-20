@@ -48,12 +48,26 @@ const GoalsFormPage: NextPage = () => {
   }, [goals, goal]);
 
   const onBackClick = useCallback(() => {
+    if (
+      (goal && (goal.name !== goalName || goal?.color !== goalColor)) ||
+      (!goal && (goalName !== "" || goalColor !== "white"))
+    ) {
+      if (confirm("변동된 사항을 저장하시겠습니까?")) onSave();
+    }
     router.push("/goals");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [goal, goalName, goalColor]);
 
   const onSubmit = useCallback(() => {
-    router.push("/goals");
+    if (!goalName) alert("설정된 목표 이름이 없습니다.");
+    else {
+      router.push("/goals");
+      onSave();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goal, goalName, goalColor]);
+
+  const onSave = useCallback(() => {
     if (goal) {
       onUpdateGoal(goalName, goalColor);
     } else {

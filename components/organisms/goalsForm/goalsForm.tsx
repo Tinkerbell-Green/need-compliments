@@ -63,7 +63,6 @@ export const GoalsForm = ({
   const onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     onChangeGoalName(e.target.value);
   };
-  console.log(clickedGoalColor);
 
   return (
     <>
