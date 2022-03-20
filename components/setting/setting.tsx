@@ -5,12 +5,11 @@ import {SubHeadingButton} from "components/subHeading/subHeadingButton";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
 type SettingProps = {
-  email: string;
-  profile: string;
-  id: string;
+  name?: string;
+  email?: string;
 };
 
-export const Setting = ({email, profile}: SettingProps) => {
+export const Setting = ({name, email}: SettingProps) => {
   return (
     <S.InfoList>
       <S.InfoListItemEmail>
@@ -20,7 +19,7 @@ export const Setting = ({email, profile}: SettingProps) => {
 
       <S.InfoListItem>
         <SubHeadingButton>프로필</SubHeadingButton>
-        <S.name>{profile}</S.name>
+        <S.name>{name}</S.name>
       </S.InfoListItem>
 
       <S.InfoListItem>
