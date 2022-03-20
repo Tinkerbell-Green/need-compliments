@@ -27,7 +27,7 @@ export const Label = styled.div`
   font-weight: 600;
 `;
 
-export const AddIcon = styled.div`
+export const AddIcon = styled.button`
   width:${ICON_SIZE}px;
   height:${ICON_SIZE}px;
   padding:1px;
@@ -38,5 +38,5 @@ export const AddIcon = styled.div`
   cursor: pointer;
 
   &:hover{
-    background-color: #616161;
+    color: #616161;
   }`

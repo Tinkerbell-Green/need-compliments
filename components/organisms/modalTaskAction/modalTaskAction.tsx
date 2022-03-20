@@ -39,8 +39,8 @@ export const ModalTaskAction = ({
       onClose={onClose}>
       <S.Title>{title}</S.Title>
       <S.ActionList>
-        <S.Action onClick={editTask}>
-          <S.Button>
+        <S.Action>
+          <S.Button onClick={editTask}>
             <Pencil></Pencil>
           </S.Button>
           <span>수정</span>
@@ -63,8 +63,8 @@ export const ModalTaskAction = ({
           </S.Button>
           <span>순서 변경</span>
         </S.Action>
-        <S.Action onClick={deleteTask}>
-          <S.Button>
+        <S.Action>
+          <S.Button onClick={deleteTask}>
             <TrashAlt></TrashAlt>
           </S.Button>
           <span>삭제</span>

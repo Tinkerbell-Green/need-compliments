@@ -1,15 +1,12 @@
 import styled from "styled-components";
 
-const TODAY_CIRCLE_SIZE = 1.8;
-const EMOJI_SIZE=28;
 const DATE_FONT_SIZE=1.5;
 const TITLE_FONT_SIZE=1;
 
-export const Container = styled.div`
-  height: 100vh;
+export const Container = styled.section`
   width: 100%;
-  max-width: 800px;
-  margin: 20px;
+  padding: 20px 20px 0 20px;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
 `;
@@ -23,7 +20,7 @@ export const Header = styled.div`
 	justify-content: space-between;
 `;
 
-export const Title = styled.div`
+export const Title = styled.header`
   font-size: ${TITLE_FONT_SIZE}rem;
 `;
 
@@ -50,6 +47,7 @@ export const Main = styled.main`
 
 export const Days = styled.ul`
   width: 100%;
+  margin-bottom: 10px;
   flex-basis: 10%;
 	display: grid;
   grid-template-columns: repeat(7,1fr);
@@ -57,35 +55,15 @@ export const Days = styled.ul`
 
 export const Day = styled.li`
   font-size: ${DATE_FONT_SIZE}rem;
+  text-transform: uppercase;
+  >abbr{
+    text-decoration: none;
+    font-variant: none;
+  }
 `;
 
-export const Dates = styled.ul`
+export const Dates = styled.div`
   flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
-`;
-
-export const Date = styled.li`
-  margin-bottom: 14px;
-  cursor: pointer;
-`
-
-export const Today = styled.div`
-  width: ${TODAY_CIRCLE_SIZE}rem;
-  height: ${TODAY_CIRCLE_SIZE}rem;
-  line-height: ${TODAY_CIRCLE_SIZE}rem;
-  
-  &.todayHighligh{
-    justify-content: center;
-    position: sticky;
-    border-radius: 50%;
-    border: 1px solid ${props => props.theme.colors["gray-300"]};
-    }
-`;
-export const DateNumber = styled.div`
-color: ${props => props.theme.colors["gray-300"]}
-`;
-
-export const DateEmoji = styled.div`
-  font-size: ${EMOJI_SIZE}px;
 `;

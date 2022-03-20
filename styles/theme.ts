@@ -3,8 +3,8 @@ import {palette} from "./palette"
 const defaultTheme = {
   media: {
     // 0 <= sm < 600px
-    sm: 600, // 600px <= md < 960px
-    md: 960, //   960px <= lg < 1440px
+    sm: 600, // 600px <= md < 1024px
+    md: 1024, //   1024px <= lg < 1440px
     lg: 1440, //  1440px <= xl
   }
 }
