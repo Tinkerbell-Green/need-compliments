@@ -37,10 +37,13 @@ const TestUserPage: NextPage = () => {
       pathSegments: [loggedInUserId],
     })
     
+  },[loggedInUserId, deleteUserFetch])
+
+  useEffect(()=>{
     if(deleteUserStatus===DataSagaStatus.SUCCEEDED){
       signOut({callbackUrl: "/"});
     }
-  },[loggedInUserId, deleteUserFetch,deleteUserStatus])
+  },[deleteUserStatus])
 
   const handleLeftButtonClick = useCallback(()=>{
   },[])
