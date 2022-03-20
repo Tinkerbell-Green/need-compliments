@@ -8,19 +8,17 @@ import {GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
-  goals?: GoalData[];
-  onCreateGoal: (goalName: string, selectedGoalColor: string) => void;
-  onUpdateGoal: (clickedGoalId: string, color: string) => void;
+  goal?: GoalData;
+  onChangeGoalName: (name: string) => void;
+  onChangeGoalColor: (color: string) => void;
 };
 
 export const GoalsForm = ({
-  goals,
-  onCreateGoal,
-  onUpdateGoal,
+  goal,
+  onChangeGoalName,
+  onChangeGoalColor,
 }: GoalsFormProps) => {
-  const [clickedGoal, setClickedGoal] = useState<GoalData>();
-  const [goalName, setGoalName] = useState<string>("나는 리덕스를 정복하겠다!");
-  const [selectedGoalColor, setSelectedGoalColor] = useState<string>("white");
+  const [clickedGoalColor, setClickedGoalColor] = useState<string>("white");
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
   >([
@@ -52,45 +50,30 @@ export const GoalsForm = ({
       publicBookIcon: null,
     },
   ]);
-  const router = useRouter();
 
   useEffect(() => {
-    setClickedGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
-    clickedGoal && setSelectedGoalColor(clickedGoal?.color);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goals, clickedGoal]);
-
-  useEffect(() => {
-    if (isSubmitButtonClick && !clickedGoal) {
-      onCreateGoal(goalName, selectedGoalColor);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isDeleteButtonClick && clickedGoal && router.query.id) {
-      onDeleteGoal();
-      router.push("/goals");
-    }
-  }, []);
+    goal && setClickedGoalColor(goal?.color);
+  }, [goal]);
 
   const onColorClick = (color: string) => {
-    setSelectedGoalColor(color);
-    clickedGoal && onUpdateGoal();
+    setClickedGoalColor(color);
+    onChangeGoalColor(color);
   };
 
   const onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setGoalName(e.target.value);
-    clickedGoal && onUpdateGoal();
+    onChangeGoalName(e.target.value);
   };
+  console.log(clickedGoalColor);
 
   return (
     <>
       <SubHeadingSpan>제목</SubHeadingSpan>
       <S.GoalTitle
         type="text"
-        color={selectedGoalColor}
+        color={clickedGoalColor}
         placeholder="나는 리덕스를 정복하겠다!"
-        defaultValue={clickedGoal?.name}
+        defaultValue={goal?.name}
+        onChange={onNameChange}
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>

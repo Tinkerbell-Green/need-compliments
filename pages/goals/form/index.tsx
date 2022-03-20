@@ -20,30 +20,60 @@ const GoalsFormPage: NextPage = () => {
     DataActionType.DELETE_GOAL
   );
 
+  const [goal, setGoal] = useState<GoalData>();
+  const [goalName, setGoalName] = useState<string>("");
+  const [goalColor, setGoalColor] = useState<string>("white");
+  const router = useRouter();
+
+  const handleGoalName = (name: string) => {
+    setGoalName(name);
+  };
+
+  const handleGoalColor = (color: string) => {
+    setGoalColor(color);
+  };
+
   useEffect(() => {
     getGoalsFetch({});
   }, [getGoalsFetch]);
 
-  const router = useRouter();
+  useEffect(() => {
+    goals && setGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
 
-  const onLeftButtonClick = useCallback(() => {
+    if (goal) {
+      setGoalName(goal?.name);
+      setGoalColor(goal?.color);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goals, goal]);
+
+  const onBackClick = useCallback(() => {
     router.push("/goals");
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const onRightButtonClick = useCallback(() => {
+  const onSubmit = useCallback(() => {
     router.push("/goals");
-  }, [router]);
+    if (goal) {
+      onUpdateGoal(goalName, goalColor);
+    } else {
+      onCreateGoal(goalName, goalColor);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goal, goalName, goalColor]);
 
-  const handleUpdateGoal = () => {
-    onCreateGoal();
-  };
+  const onDelete = useCallback(() => {
+    router.push("/goals");
+    goal && onDeleteGoal(goal.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goal]);
 
   const onCreateGoal = useCallback(
-    (goalName: string, selectedGoalColor: string) => {
+    (name: string, color: string) => {
       createGoalFetch({
         data: {
-          name: goalName,
-          color: selectedGoalColor,
+          name,
+          color,
         },
       });
     },
@@ -51,15 +81,17 @@ const GoalsFormPage: NextPage = () => {
   );
 
   const onUpdateGoal = useCallback(
-    (clickedGoalId: string, color: string) => {
-      updateGoalFetch({
-        pathSegments: [clickedGoalId],
-        data: {
-          color: color,
-        },
-      });
+    (name: string, color: string) => {
+      goal &&
+        updateGoalFetch({
+          pathSegments: [goal.id],
+          data: {
+            name: name,
+            color,
+          },
+        });
     },
-    [updateGoalFetch]
+    [updateGoalFetch, goal]
   );
 
   const onDeleteGoal = useCallback(
@@ -76,22 +108,23 @@ const GoalsFormPage: NextPage = () => {
       <LayoutNavigation
         title="목표"
         rightButtonText="확인"
-        onLeftButtonClick={onLeftButtonClick}
-        onRightButtonClick={onRightButtonClick}
+        onLeftButtonClick={onBackClick}
+        onRightButtonClick={onSubmit}
       >
         <GoalsForm
-          goals={goals}
-          onCreateGoal={onCreateGoal}
-          onUpdateGoal={onUpdateGoal}
+          goal={goal}
+          onChangeGoalName={handleGoalName}
+          onChangeGoalColor={handleGoalColor}
         ></GoalsForm>
       </LayoutNavigation>
 
-      <S.DeleteButtonContainer>
-        {/* TODO: () => onDeleteGoal() */}
-        <S.DeleteButton>
-          <span>삭제</span>
-        </S.DeleteButton>
-      </S.DeleteButtonContainer>
+      {goal && (
+        <S.DeleteButtonContainer>
+          <S.DeleteButton onClick={onDelete}>
+            <span>삭제</span>
+          </S.DeleteButton>
+        </S.DeleteButtonContainer>
+      )}
     </>
   );
 };
