@@ -8,6 +8,7 @@ type ChipProps = {
   color?: string;
   icon?: React.ReactNode;
   onAdd?: ()=>void;
+  onClick? : () => void;
 };
 
 export const Chip = ({
@@ -16,9 +17,10 @@ export const Chip = ({
   color = "#ffffff",
   icon,
   onAdd,
+  onClick
 }: ChipProps) => {
   return (
-    <S.Chip>
+    <S.Chip clickable={!!onClick} onClick={onClick && onClick}>
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (

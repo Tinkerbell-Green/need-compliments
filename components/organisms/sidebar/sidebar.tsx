@@ -5,12 +5,13 @@ import React, {useCallback} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebar.styled";
 import {Chip} from "components/atoms/chip";
-import {ExpandedUserData,ReducedGoalData} from "pages";
+import {ExpandedUserData} from "pages";
+import {GoalData} from "stores/data";
 
 type SidebarProps = ExpandedUserData & {
   onCloseMenu: React.MouseEventHandler;
   isMenuOpen:boolean;
-  goals: ReducedGoalData[];
+  goals: GoalData[];
 }
 
 export const Sidebar = ({
@@ -59,7 +60,6 @@ export const Sidebar = ({
             {goals.map((value)=>(
               <Chip 
                 key={value.id}
-                id={value.id}
                 label={value.name}
                 color={value.color}>
               </Chip>

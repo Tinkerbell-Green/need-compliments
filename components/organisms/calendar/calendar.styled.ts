@@ -47,8 +47,8 @@ export const Main = styled.main`
 
 export const Days = styled.ul`
   width: 100%;
-  margin-bottom: 10px;
-  flex-basis: 10%;
+  height: fit-content;
+  margin-bottom: 10px; 
 	display: grid;
   grid-template-columns: repeat(7,1fr);
 `;
@@ -63,7 +63,6 @@ export const Day = styled.li`
 `;
 
 export const Dates = styled.div`
-  flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
 `;
