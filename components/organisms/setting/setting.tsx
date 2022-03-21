@@ -1,4 +1,5 @@
 import {signOut} from "next-auth/react";
+import {useRouter} from "next/router";
 import React from "react";
 import {SliderSwitch} from "../../atoms/sliderSwitch";
 import * as S from "./setting.styled";
@@ -13,6 +14,11 @@ type SettingProps = {
 };
 
 export const Setting = ({name, email, onUpdate, onDelete}: SettingProps) => {
+  const router = useRouter();
+  const onProfile = () => {
+    router.push(`/setting/profile?name=${name}`);
+  };
+
   const onDeleteClick = () => {
     if (confirm("계정을 삭제할까요?")) {
       onDelete();
@@ -31,8 +37,10 @@ export const Setting = ({name, email, onUpdate, onDelete}: SettingProps) => {
       </S.InfoListItemEmail>
 
       <S.InfoListItem>
-        <SubHeadingButton onClick={() => {}}>프로필</SubHeadingButton>
-        <S.name>{name}</S.name>
+        <SubHeadingButton onClick={onProfile}>
+          프로필
+          <S.name>{name}</S.name>
+        </SubHeadingButton>
       </S.InfoListItem>
 
       <S.InfoListItem>
