@@ -13,6 +13,8 @@ transition: border-color 0.3s ease-in;
 
 export const Form = styled.form`
 width: 100%;
+display: flex;
+justify-content: space-between;
 `;
 
 export const Input = styled.input`
@@ -29,4 +31,5 @@ cursor: pointer;
 width:20px;
 height:20px;
 padding:0px;
+margin-left: 5px;
 `;

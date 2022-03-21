@@ -2,12 +2,14 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
+import {useSelector} from "react-redux"
 import * as S from "./index.styled";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
+import {navigationStore} from "stores";
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {SnackbarType} from "stores/data/types";
 import {Dayjs} from "utils/dayjs";
@@ -21,10 +23,17 @@ export type ExpandedTaskData = TaskData & {
   color?: string
 }
 
+type SnackbarProps = {
+  visible: boolean,
+  message: string,
+  type: SnackbarType
+  duration?:number,
+}
+
 const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
 const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
-const MODIFY_TASKS_SUCCESS = "회원님의 데이터를 안전하게 저장했습니다😉"
+const UPDATE_TASKS_SUCCESS = "데이터를 성공적으로 저장했습니다 🧚‍♀️"
 
 const Home: NextPage = () => {
   const {
@@ -62,11 +71,15 @@ const Home: NextPage = () => {
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
-  const [isSnackbarShow, setIsSnackbarShow] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<SnackbarType>("information");
-
+  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
+    visible: false,
+    message: "",
+    type: "information",
+    duration:1000,
+    
+  });
   const router = useRouter();
+
   useEffect(() => {
     if (loggedInUserData) {
       setName(loggedInUserData.name);
@@ -78,16 +91,21 @@ const Home: NextPage = () => {
 
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
-      setSnackbarMessage(LOGIN_ERROR);
-      setIsSnackbarShow(true);
+      setSnackbarProps({
+        visible: true,
+        message: LOGIN_ERROR,
+        type: "error",
+      })
     }
   },[loggedInUserStatus])
 
   useEffect(()=>{
     if(getTasksByDaysStatus===DataSagaStatus.FAILED){
-      setSnackbarMessage(GET_TASKS_ERROR);
-      setIsSnackbarShow(true);
-      setSnackbarType("error");
+      setSnackbarProps({
+        visible: true,
+        message: GET_TASKS_ERROR,
+        type: "error",
+      })
     }
   },[getTasksByDaysStatus])
 
@@ -95,32 +113,38 @@ const Home: NextPage = () => {
     if(createTaskStatus===DataSagaStatus.FAILED 
       || updateTaskStatus===DataSagaStatus.FAILED 
       || deleteTaskStatus===DataSagaStatus.FAILED){
-      setSnackbarMessage(MODIFY_TASKS_ERROR);
-      setIsSnackbarShow(true);
-      setSnackbarType("error");
+      setSnackbarProps({
+        visible: true,
+        message: MODIFY_TASKS_ERROR,
+        type: "error",
+        duration:2000,
+      })
     }
   },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
 
   useEffect(()=>{
-    if(createTaskStatus===DataSagaStatus.SUCCEEDED 
-      || updateTaskStatus===DataSagaStatus.SUCCEEDED 
-      || deleteTaskStatus===DataSagaStatus.SUCCEEDED){
-      setSnackbarMessage(MODIFY_TASKS_SUCCESS);
-      setIsSnackbarShow(true);
-      setSnackbarType("success");
+    if(updateTaskStatus===DataSagaStatus.SUCCEEDED){
+      setSnackbarProps({
+        visible: true,
+        message: UPDATE_TASKS_SUCCESS,
+        type: "success",
+        duration:2000,
+      })
     }
-  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
+  },[updateTaskStatus])
 
   useEffect(()=>{
+    if(!loggedInUserData) return;
+    
     router.push({
       query : {
-        // id:loggedInUserData?.id, TODO: 네비게이션에서 현재보고있는 feed의 아이디를 가져와야함.
+        id:loggedInUserData?.id,
         date:`${pickedDate}`,
       },
     },undefined, {shallow: true});
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate])
+  },[pickedDate,loggedInUserData])
   
   useEffect(()=>{
     getGoalsFetch({})
@@ -233,10 +257,11 @@ const Home: NextPage = () => {
   return (
     <LayoutMain>
       <Snackbar 
-        visible={isSnackbarShow} 
-        message={snackbarMessage} 
-        type={snackbarType}
-        onClose={()=>setIsSnackbarShow(false)}></Snackbar>
+        visible={snackbarProps.visible} 
+        message={snackbarProps.message} 
+        type={snackbarProps.type}
+        duration={snackbarProps.duration}
+        onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
           <Menu />

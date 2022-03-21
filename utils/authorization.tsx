@@ -17,14 +17,13 @@ export const AuthorizationProvider = ({
   const {data,status} = useSession()
   console.log(data, status);
   useEffect(() => {
-    if (!data && status === "unauthenticated") {
+    if (status === "unauthenticated") {
       const SIGN_IN_PATHNAME = "/auth/signin"
-      if (!router.pathname.includes(SIGN_IN_PATHNAME)){
+      if (router.pathname!==SIGN_IN_PATHNAME){
         router.push(SIGN_IN_PATHNAME);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status,data]);
+  }, [router,status,data]);
 
   const isPublicPage = useMemo(()=>{
     return PUBLIC_PAGE_PATHNAMES.some(item=>{

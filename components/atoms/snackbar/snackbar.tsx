@@ -2,7 +2,7 @@ import {PatchCheckFill} from "@styled-icons/bootstrap";
 import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {InfoOutline} from "@styled-icons/evaicons-outline";
 import {Warning} from "@styled-icons/fluentui-system-filled"
-import {ReactNode, useEffect, useState} from "react";
+import {ReactNode, useEffect} from "react";
 import * as S from "./snackbar.styled";
 import {SnackbarType} from "stores/data/types";
 
@@ -34,11 +34,9 @@ export const Snackbar = ({
   type="information",
   visible,
   message,
-  duration=4000,
+  duration=3000,
   onClose,
 }:SnackbarProps)=>{
-  const [isShow, setIsShow] = useState(visible);
-
   useEffect(()=>{
     visible && setTimeout(onClose,duration);
   },[duration,visible,onClose])
