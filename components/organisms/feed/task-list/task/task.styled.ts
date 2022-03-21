@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{keyframes,css} from "styled-components";
 
 export const FormContainer = styled.li<{isEditing:boolean,color:string}>`
 width:100%;
@@ -25,11 +25,14 @@ outline: none;
 border:none;
 font-size: 0.875rem;
 `;
-
 export const Button = styled.button`
 cursor: pointer;
-width:20px;
-height:20px;
+width:24px;
+height:24px;
 padding:0px;
 margin-left: 5px;
+color: inherit;
+&:hover{
+  color: #6AAC5E;
+}
 `;

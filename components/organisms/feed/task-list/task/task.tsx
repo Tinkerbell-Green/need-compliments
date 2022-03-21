@@ -75,14 +75,6 @@ export const Task = ({
     <S.FormContainer
       isEditing={isEditing}
       color={color}>
-      <ModalTaskAction
-        taskId={id}
-        title={title}
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        onTaskDelete={deleteTask}
-        onTaskEdit={changeEditFocus}
-      ></ModalTaskAction>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
           autoFocus={title ? false : true}
@@ -99,6 +91,14 @@ export const Task = ({
       <S.Button onClick={handleModalOpen}>
         <MoreHorizontalOutline />
       </S.Button>
+      <ModalTaskAction
+        taskId={id}
+        title={title}
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onTaskDelete={deleteTask}
+        onTaskEdit={changeEditFocus}
+      ></ModalTaskAction>
     </S.FormContainer>
   );
 };

@@ -4,16 +4,12 @@ export const Feed = styled.div`
   flex-direction: column;
 `;
 
-export const Header = styled.h2`
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-`;
+export const Header = styled.header``;
 
 export const PickedDate = styled.div`
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin: 15px 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 20px 0;
 `
 
 export const FeedContents = styled.ul`

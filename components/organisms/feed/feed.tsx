@@ -28,7 +28,7 @@ export const Feed = ({
 
   return (
     <S.Feed>
-      <S.Header>Feed
+      <S.Header>
         <S.PickedDate>{`${pickedDate.substring(4)}년 ${pickedDate.substring(2,4)}월 ${pickedDate.substring(0,2)}일`}</S.PickedDate>
       </S.Header>
       <S.FeedContents>

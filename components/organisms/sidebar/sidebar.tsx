@@ -1,3 +1,4 @@
+import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {Settings} from "@styled-icons/feather";
 import {KeyboardArrowRight} from "@styled-icons/material-twotone";
 import {useRouter} from "next/router";
@@ -48,16 +49,16 @@ export const Sidebar = ({
     <Snackbar 
       visible={isSnackbarShow}
       onClose={handleSnackbarClose}
-      message="준비 중인 기능입니다. 곧 만나요!">
+      message={"준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요?🧚‍♀️"}
+      duration={5000}>
     </Snackbar>
     <S.MenuOverlay
       onClick={onCloseMenu} 
       className={`menuClose ${isMenuOpen ? "show" : "hidden"}`}>
       <S.MenuContents className={`modalClose ${isMenuOpen ? "show" : "hidden"}`}>
         <S.Header>
-          <S.SettingIcon onClick={handleSettingClick}>
-            <Settings/>
-          </S.SettingIcon>
+          <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
+          <S.SettingIcon onClick={handleSettingClick}><Settings/></S.SettingIcon>
         </S.Header>
         <Profile
           name={name}

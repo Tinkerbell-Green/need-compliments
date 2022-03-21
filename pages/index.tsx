@@ -1,7 +1,7 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React, {useCallback, useState, useEffect,useMemo} from "react";
+import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import * as S from "./index.styled";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
@@ -77,6 +77,7 @@ const Home: NextPage = () => {
     duration:1000,
     
   });
+  const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -164,13 +165,14 @@ const Home: NextPage = () => {
   },[]);
 
   const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
-    if ((event.target as HTMLElement).classList.contains("menuClose")) {
+    if ((event.target as HTMLElement).closest(".menuClose")) {
       setIsMenuOpen(false);
     }
   },[]);
 
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
+    feedRef?.current?.scrollIntoView();
   },[])
 
   const handleTaskDelete = useCallback((id: string)=>{
@@ -267,25 +269,6 @@ const Home: NextPage = () => {
           <Menu />
         </S.MenuIcon>
       </S.IconList>
-      <S.Visible>
-        <Calendar
-          pickedDate={pickedDate}
-          onDateClick={handleDateClick}
-          tasksByDate={tasksByDate}></Calendar>
-        <S.DetailSection>
-          <S.Profile>
-            <S.Name>{name}</S.Name>
-            <S.SecondaryName>{email}</S.SecondaryName>
-          </S.Profile>
-          <Feed 
-            onTaskDelete={handleTaskDelete}
-            onTaskCreate={handleTaskCreate}
-            onTaskUpdate={handleTaskUpdate}
-            pickedDate={pickedDate}
-            goalTasks={goalTasksAtPickedDate}
-            goals={goals}></Feed>
-        </S.DetailSection>
-      </S.Visible>
       <div className="invisible">
         <Sidebar
           name={name}
@@ -297,6 +280,25 @@ const Home: NextPage = () => {
           goals={goals}
         ></Sidebar>
       </div>
+      <S.Visible>
+        <Calendar
+          pickedDate={pickedDate}
+          onDateClick={handleDateClick}
+          tasksByDate={tasksByDate}></Calendar>
+        <S.DetailSection ref={feedRef}>
+          <S.Profile>
+            <S.Name>{name}</S.Name>
+            <S.SecondaryName>{email}</S.SecondaryName>
+          </S.Profile>
+          <Feed
+            onTaskDelete={handleTaskDelete}
+            onTaskCreate={handleTaskCreate}
+            onTaskUpdate={handleTaskUpdate}
+            pickedDate={pickedDate}
+            goalTasks={goalTasksAtPickedDate}
+            goals={goals}></Feed>
+        </S.DetailSection>
+      </S.Visible>
     </LayoutMain>
   );
 };
