@@ -8,7 +8,7 @@ import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 type SettingProps = {
   name?: string;
   email?: string;
-  onUpdate: () => void;
+  onUpdate: (name: string) => void;
   onDelete: () => void;
 };
 

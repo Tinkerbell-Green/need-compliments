@@ -27,16 +27,19 @@ const SettingPage: NextPage = () => {
   const {fetch: deleteUserFetch, status: deleteUserStatus} =
     useDataSaga<DataActionType.DELETE_USER>(DataActionType.DELETE_USER);
 
-  const handleUpdate = useCallback(() => {
-    if (!loggedInUserId) return;
+  const handleUpdate = useCallback(
+    (name: string) => {
+      if (!loggedInUserId) return;
 
-    updateUserFetch({
-      pathSegments: [loggedInUserId],
-      data: {
-        name: new Date().getSeconds().toString(),
-      },
-    });
-  }, [loggedInUserId, updateUserFetch]);
+      updateUserFetch({
+        pathSegments: [loggedInUserId],
+        data: {
+          name,
+        },
+      });
+    },
+    [loggedInUserId, updateUserFetch]
+  );
 
   const handleDelete = useCallback(() => {
     if (!loggedInUserId) return;
