@@ -2,6 +2,7 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
+import {useSelector} from "react-redux";
 import * as S from "./index.styled";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
@@ -11,7 +12,9 @@ import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {SnackbarType} from "stores/data/types";
+import {RootState} from "stores/reducers";
 import {Dayjs} from "utils/dayjs";
+
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -62,6 +65,9 @@ const Home: NextPage = () => {
     fetch: getGoalsFetch, 
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+  const pageAuthorId = useSelector(
+    (state: RootState) => state.navigation.pageAuthorId
+  );
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
@@ -134,17 +140,17 @@ const Home: NextPage = () => {
   },[updateTaskStatus])
 
   useEffect(()=>{
-    if(!loggedInUserData) return;
+    if(!pageAuthorId) return;
     
     router.push({
       query : {
-        id:loggedInUserData?.id,
+        id:pageAuthorId,
         date:`${pickedDate}`,
       },
     },undefined, {shallow: true});
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate,loggedInUserData])
+  },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
     getGoalsFetch({})
