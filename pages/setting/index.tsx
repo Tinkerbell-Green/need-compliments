@@ -3,7 +3,7 @@ import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {Setting} from "components/setting";
+import {Setting} from "components/organisms/setting";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 import {RootState} from "stores/reducers";

@@ -1,7 +1,7 @@
 import {signOut} from "next-auth/react";
 import React from "react";
+import {SliderSwitch} from "../../atoms/sliderSwitch";
 import * as S from "./setting.styled";
-import {SliderSwitch} from "./sliderSwitch";
 import {SubHeadingButton} from "components/subHeading/subHeadingButton";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
