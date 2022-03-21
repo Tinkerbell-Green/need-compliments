@@ -65,4 +65,6 @@ export type DataSagaState = {
   payload: unknown
 }
 
+export type SnackbarType = "success" | "information"| "warning"|"error";
+
 export const LOGGED_IN_USER_ID = "loggedIn"

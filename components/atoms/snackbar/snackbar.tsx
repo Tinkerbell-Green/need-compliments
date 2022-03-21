@@ -4,6 +4,7 @@ import {InfoOutline} from "@styled-icons/evaicons-outline";
 import {Warning} from "@styled-icons/fluentui-system-filled"
 import {ReactNode, useEffect, useState} from "react";
 import * as S from "./snackbar.styled";
+import {SnackbarType} from "stores/data/types";
 
 type SnackbarProps = {
   children?: React.ReactNode,
@@ -13,8 +14,6 @@ type SnackbarProps = {
   duration?:number,
   onClose: ()=>void,
 }
-
-export type SnackbarType = "success" | "information"| "warning"|"error";
 
 const TYPE_COLOR_MAP:Record<SnackbarType,string> = {
   success: "#6AAC5E",

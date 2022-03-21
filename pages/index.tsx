@@ -9,6 +9,7 @@ import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
+import {SnackbarType} from "stores/data/types";
 import {Dayjs} from "utils/dayjs";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
@@ -23,6 +24,7 @@ export type ExpandedTaskData = TaskData & {
 const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
 const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
+const MODIFY_TASKS_SUCCESS = "회원님의 데이터를 안전하게 저장했습니다😉"
 
 const Home: NextPage = () => {
   const {
@@ -62,6 +64,7 @@ const Home: NextPage = () => {
   const [follwingsCount, setFollwingsCount] = useState(0);
   const [isSnackbarShow, setIsSnackbarShow] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<SnackbarType>("information");
 
   const router = useRouter();
   useEffect(() => {
@@ -74,39 +77,39 @@ const Home: NextPage = () => {
   }, [loggedInUserData]);
 
   useEffect(()=>{
-    if(loggedInUserStatus==="failed"){
+    if(loggedInUserStatus===DataSagaStatus.FAILED){
       setSnackbarMessage(LOGIN_ERROR);
       setIsSnackbarShow(true);
     }
   },[loggedInUserStatus])
 
   useEffect(()=>{
-    if(getTasksByDaysStatus==="failed"){
+    if(getTasksByDaysStatus===DataSagaStatus.FAILED){
       setSnackbarMessage(GET_TASKS_ERROR);
       setIsSnackbarShow(true);
+      setSnackbarType("error");
     }
   },[getTasksByDaysStatus])
 
   useEffect(()=>{
-    if(createTaskStatus==="failed"){
+    if(createTaskStatus===DataSagaStatus.FAILED 
+      || updateTaskStatus===DataSagaStatus.FAILED 
+      || deleteTaskStatus===DataSagaStatus.FAILED){
       setSnackbarMessage(MODIFY_TASKS_ERROR);
       setIsSnackbarShow(true);
+      setSnackbarType("error");
     }
-  },[createTaskStatus])
+  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
 
   useEffect(()=>{
-    if(updateTaskStatus==="failed"){
-      setSnackbarMessage(MODIFY_TASKS_ERROR);
+    if(createTaskStatus===DataSagaStatus.SUCCEEDED 
+      || updateTaskStatus===DataSagaStatus.SUCCEEDED 
+      || deleteTaskStatus===DataSagaStatus.SUCCEEDED){
+      setSnackbarMessage(MODIFY_TASKS_SUCCESS);
       setIsSnackbarShow(true);
+      setSnackbarType("success");
     }
-  },[updateTaskStatus])
-
-  useEffect(()=>{
-    if(deleteTaskStatus==="failed"){
-      setSnackbarMessage(MODIFY_TASKS_ERROR);
-      setIsSnackbarShow(true);
-    }
-  },[deleteTaskStatus])
+  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
 
   useEffect(()=>{
     router.push({
@@ -232,7 +235,7 @@ const Home: NextPage = () => {
       <Snackbar 
         visible={isSnackbarShow} 
         message={snackbarMessage} 
-        type="error" 
+        type={snackbarType}
         onClose={()=>setIsSnackbarShow(false)}></Snackbar>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
