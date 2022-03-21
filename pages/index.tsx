@@ -2,14 +2,13 @@ import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
-import {useSelector} from "react-redux"
 import * as S from "./index.styled";
+import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
-import {navigationStore} from "stores";
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {SnackbarType} from "stores/data/types";
 import {Dayjs} from "utils/dayjs";
@@ -256,6 +255,7 @@ const Home: NextPage = () => {
 
   return (
     <LayoutMain>
+      <Seo title={name}></Seo>
       <Snackbar 
         visible={snackbarProps.visible} 
         message={snackbarProps.message} 

@@ -6,10 +6,7 @@ import {LayoutCenter} from "components/templates/layout-center"
 const TestSpinnerPage: NextPage = () => {
   return (
     <LayoutCenter>
-      <Snackbar  type="error" duration={20000} label="snackbar, here!"></Snackbar>
-      <Snackbar type="information" duration={16000} label="snackbar, here!"></Snackbar>
-      <Snackbar  type="success" duration={12000}label="snackbar, here!"></Snackbar>
-      <Snackbar  type="warning" label="snackbar, here!"></Snackbar>
+      <Snackbar visible onClose={()=>console.log("snackbar close")} type="error" duration={20000} message="snackbar, here!"></Snackbar>
       <Spinner 
         text={"🧚‍♀️ 환영합니다 🧚‍♀️"} 
         color="skyblue"></Spinner>

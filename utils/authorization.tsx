@@ -14,16 +14,16 @@ export const AuthorizationProvider = ({
   children
 }: AuthorizationProviderProps) => {
   const router = useRouter();
-  const {data,status} = useSession()
-  console.log(data, status);
+  const {status} = useSession()
+
   useEffect(() => {
     if (status === "unauthenticated") {
       const SIGN_IN_PATHNAME = "/auth/signin"
-      if (router.pathname!==SIGN_IN_PATHNAME){
+      if (router.pathname !== SIGN_IN_PATHNAME){
         router.push(SIGN_IN_PATHNAME);
       }
     }
-  }, [router,status,data]);
+  }, [router,status]);
 
   const isPublicPage = useMemo(()=>{
     return PUBLIC_PAGE_PATHNAMES.some(item=>{

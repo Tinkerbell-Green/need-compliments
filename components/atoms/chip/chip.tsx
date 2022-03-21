@@ -31,7 +31,10 @@ export const Chip = ({
   })
 
   return (
-    <S.Chip clickable={!!onClick} onClick={onClick && onClick}>
+    <S.Chip 
+      tabIndex={!!onClick ? 0 : -1}
+      clickable={!!onClick} 
+      onClick={onClick && onClick}>
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
