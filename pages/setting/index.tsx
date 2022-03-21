@@ -63,12 +63,13 @@ const SettingPage: NextPage = () => {
 
   return (
     <LayoutNavigation title={"계정"} onLeftButtonClick={onLeftButtonClick}>
-      <Setting
-        name={loggedInUserData?.name}
-        email={loggedInUserData?.email}
-        onUpdate={handleUpdate}
-        onDelete={handleDelete}
-      />
+      {loggedInUserData && (
+        <Setting
+          loggedInUser={loggedInUserData}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
+      )}
     </LayoutNavigation>
   );
 };

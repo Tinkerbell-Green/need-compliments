@@ -5,18 +5,18 @@ import {SliderSwitch} from "../../atoms/sliderSwitch";
 import * as S from "./setting.styled";
 import {SubHeadingButton} from "components/subHeading/subHeadingButton";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
+import {UserData} from "stores/data";
 
 type SettingProps = {
-  name?: string;
-  email?: string;
+  loggedInUser: UserData;
   onUpdate: (name: string) => void;
   onDelete: () => void;
 };
 
-export const Setting = ({name, email, onUpdate, onDelete}: SettingProps) => {
+export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
   const router = useRouter();
   const onProfile = () => {
-    router.push(`/setting/profile?name=${name}`);
+    router.push(`/setting/profile?name=${loggedInUser.name}`);
   };
 
   const onDeleteClick = () => {
@@ -33,13 +33,13 @@ export const Setting = ({name, email, onUpdate, onDelete}: SettingProps) => {
     <S.InfoList>
       <S.InfoListItemEmail>
         <SubHeadingSpan>연동된 이메일</SubHeadingSpan>
-        <S.email>{email}</S.email>
+        <S.email>{loggedInUser.email}</S.email>
       </S.InfoListItemEmail>
 
       <S.InfoListItem>
         <SubHeadingButton onClick={onProfile}>
           프로필
-          <S.name>{name}</S.name>
+          <S.name>{loggedInUser.name}</S.name>
         </SubHeadingButton>
       </S.InfoListItem>
 
