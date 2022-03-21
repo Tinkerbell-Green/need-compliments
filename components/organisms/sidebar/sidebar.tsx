@@ -38,7 +38,7 @@ export const Sidebar = ({
   
   const handleSettingClick = useCallback(()=>{
     router.push("/setting");
-  },[]);
+  },[router]);
 
   const handleSnackbarClose = useCallback(()=>{
     setIsSnackbarShow(false);

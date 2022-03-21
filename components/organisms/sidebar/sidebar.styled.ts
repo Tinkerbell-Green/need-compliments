@@ -29,6 +29,12 @@ export const SettingIcon = styled.button`
   padding:2px;
   margin: 10px;
   cursor: pointer;
+  transform: rotate(0deg);
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &:focus{
+    transform: rotate(90deg);
+  }
 `;
 
 export const MenuContents = styled.section`

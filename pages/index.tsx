@@ -3,6 +3,7 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import * as S from "./index.styled";
+import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
@@ -19,12 +20,18 @@ export type ExpandedTaskData = TaskData & {
   color?: string
 }
 
+const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
+const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
+const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
+
 const Home: NextPage = () => {
   const {
-    data: loggedInUserData
+    data: loggedInUserData,
+    status: loggedInUserStatus
   } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
   const {
     fetch: getTasksByDaysFetch,
+    status: getTasksByDaysStatus,
     data: getTasksByDaysData,
     refetch: getTasksByDaysRefetch,
   } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
@@ -53,6 +60,8 @@ const Home: NextPage = () => {
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
+  const [isSnackbarShow, setIsSnackbarShow] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const router = useRouter();
   useEffect(() => {
@@ -63,6 +72,41 @@ const Home: NextPage = () => {
       setFollwingsCount(loggedInUserData.followings.length);
     }
   }, [loggedInUserData]);
+
+  useEffect(()=>{
+    if(loggedInUserStatus==="failed"){
+      setSnackbarMessage(LOGIN_ERROR);
+      setIsSnackbarShow(true);
+    }
+  },[loggedInUserStatus])
+
+  useEffect(()=>{
+    if(getTasksByDaysStatus==="failed"){
+      setSnackbarMessage(GET_TASKS_ERROR);
+      setIsSnackbarShow(true);
+    }
+  },[getTasksByDaysStatus])
+
+  useEffect(()=>{
+    if(createTaskStatus==="failed"){
+      setSnackbarMessage(MODIFY_TASKS_ERROR);
+      setIsSnackbarShow(true);
+    }
+  },[createTaskStatus])
+
+  useEffect(()=>{
+    if(updateTaskStatus==="failed"){
+      setSnackbarMessage(MODIFY_TASKS_ERROR);
+      setIsSnackbarShow(true);
+    }
+  },[updateTaskStatus])
+
+  useEffect(()=>{
+    if(deleteTaskStatus==="failed"){
+      setSnackbarMessage(MODIFY_TASKS_ERROR);
+      setIsSnackbarShow(true);
+    }
+  },[deleteTaskStatus])
 
   useEffect(()=>{
     router.push({
@@ -185,6 +229,11 @@ const Home: NextPage = () => {
 
   return (
     <LayoutMain>
+      <Snackbar 
+        visible={isSnackbarShow} 
+        message={snackbarMessage} 
+        type="error" 
+        onClose={()=>setIsSnackbarShow(false)}></Snackbar>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
           <Menu />

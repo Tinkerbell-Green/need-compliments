@@ -9,7 +9,7 @@ type SnackbarProps = {
   children?: React.ReactNode,
   visible:boolean,
   type?: SnackbarType,
-  label: string,
+  message: string,
   duration?:number,
   onClose: ()=>void,
 }
@@ -34,7 +34,7 @@ export const Snackbar = ({
   children,
   type="information",
   visible,
-  label,
+  message,
   duration=4000,
   onClose,
 }:SnackbarProps)=>{
@@ -51,7 +51,7 @@ export const Snackbar = ({
       <S.Icon>
         {TYPE_ICON_MAP[type]}
       </S.Icon>
-      <S.Label>{label}</S.Label>
+      <S.Label>{message}</S.Label>
       <S.Button onClick={onClose}>
         <CloseOutline></CloseOutline>
       </S.Button>

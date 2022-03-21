@@ -1,7 +1,6 @@
 import {useSession} from "next-auth/react"
 import {useRouter} from "next/router"
 import React, {ReactNode, useEffect, useMemo} from "react"
-import {Snackbar} from "components/atoms/snackbar";
 import {Spinner} from "components/atoms/spinner";
 import {LayoutCenter} from "components/templates/layout-center"
 
@@ -15,17 +14,17 @@ export const AuthorizationProvider = ({
   children
 }: AuthorizationProviderProps) => {
   const router = useRouter();
-  const {status} = useSession()
-  console.log("AuthorizationProvider", status);
+  const {data,status} = useSession()
+  console.log(data, status);
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!data && status === "unauthenticated") {
       const SIGN_IN_PATHNAME = "/auth/signin"
-      if (router.pathname !== SIGN_IN_PATHNAME){
+      if (!router.pathname.includes(SIGN_IN_PATHNAME)){
         router.push(SIGN_IN_PATHNAME);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [status,data]);
 
   const isPublicPage = useMemo(()=>{
     return PUBLIC_PAGE_PATHNAMES.some(item=>{
@@ -37,7 +36,7 @@ export const AuthorizationProvider = ({
     status === "loading"
       ? <LayoutCenter>
         <Spinner
-          text={"🧚‍♀️ 여기는 칭찬이 필요해 입니다 🧚‍♀️"} color="skyblue"></Spinner>
+          text={"🧚‍♀️ 우리 모두 칭찬이 필요해 🧚‍♀️"} color="skyblue"></Spinner>
       </LayoutCenter>
       : (status === "unauthenticated") && !isPublicPage 
         ? <LayoutCenter>
