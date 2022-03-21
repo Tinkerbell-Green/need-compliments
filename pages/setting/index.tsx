@@ -38,25 +38,19 @@ const SettingPage: NextPage = () => {
     });
   }, [loggedInUserId, updateUserFetch]);
 
-  const handleSignout = useCallback(() => {
-    if (deleteUserStatus === DataSagaStatus.SUCCEEDED) {
-      signOut({callbackUrl: "/"});
-    }
-  }, [deleteUserStatus]);
-
   const handleDelete = useCallback(() => {
     if (!loggedInUserId) return;
 
     deleteUserFetch({
       pathSegments: [loggedInUserId],
     });
-
-    handleSignout();
-  }, [loggedInUserId, deleteUserFetch, handleSignout]);
+  }, [loggedInUserId, deleteUserFetch]);
 
   useEffect(() => {
-    handleSignout();
-  }, [handleSignout]);
+    if (deleteUserStatus === DataSagaStatus.SUCCEEDED) {
+      signOut({callbackUrl: "/"});
+    }
+  }, [deleteUserStatus]);
 
   const router = useRouter();
 
@@ -71,7 +65,6 @@ const SettingPage: NextPage = () => {
         email={loggedInUserData?.email}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
-        onSignout={handleSignout}
       />
     </LayoutNavigation>
   );

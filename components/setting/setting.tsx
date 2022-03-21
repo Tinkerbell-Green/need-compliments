@@ -1,3 +1,4 @@
+import {signOut} from "next-auth/react";
 import React from "react";
 import * as S from "./setting.styled";
 import {SliderSwitch} from "./sliderSwitch";
@@ -9,20 +10,17 @@ type SettingProps = {
   email?: string;
   onUpdate: () => void;
   onDelete: () => void;
-  onSignout: () => void;
 };
 
-export const Setting = ({
-  name,
-  email,
-  onUpdate,
-  onDelete,
-  onSignout,
-}: SettingProps) => {
+export const Setting = ({name, email, onUpdate, onDelete}: SettingProps) => {
   const onDeleteClick = () => {
     if (confirm("계정을 삭제할까요?")) {
       onDelete();
     }
+  };
+
+  const onSignout = () => {
+    signOut({callbackUrl: "/"});
   };
 
   return (
