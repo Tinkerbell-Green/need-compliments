@@ -1,6 +1,7 @@
 import {useSession} from "next-auth/react"
 import {useRouter} from "next/router"
 import React, {ReactNode, useEffect, useMemo} from "react"
+import {Spinner} from "components/atoms/spinner";
 import {LayoutCenter} from "components/templates/layout-center"
 
 type AuthorizationProviderProps = {
@@ -14,7 +15,7 @@ export const AuthorizationProvider = ({
 }: AuthorizationProviderProps) => {
   const router = useRouter();
   const {status} = useSession()
-  
+
   useEffect(() => {
     if (status === "unauthenticated") {
       const SIGN_IN_PATHNAME = "/auth/signin"
@@ -22,7 +23,7 @@ export const AuthorizationProvider = ({
         router.push(SIGN_IN_PATHNAME);
       }
     }
-  }, [router, status]);
+  }, [router,status]);
 
   const isPublicPage = useMemo(()=>{
     return PUBLIC_PAGE_PATHNAMES.some(item=>{
@@ -31,10 +32,15 @@ export const AuthorizationProvider = ({
   },[router.pathname])
 
   return (<>{
-    status === "loading" 
-      ?  <LayoutCenter>{"loading"}</LayoutCenter>
+    status === "loading"
+      ? <LayoutCenter>
+        <Spinner
+          text={"🧚‍♀️ 우리 모두 칭찬이 필요해 🧚‍♀️"} color="skyblue"></Spinner>
+      </LayoutCenter>
       : (status === "unauthenticated") && !isPublicPage 
-        ? <LayoutCenter>{"unauthenticated"}</LayoutCenter>
+        ? <LayoutCenter>
+          <Spinner
+            text={"로그인 페이지로 이동합니다 🏃🏃🏻‍♀️"} color="skyblue"></Spinner></LayoutCenter>
         : children
   }</>)
 }

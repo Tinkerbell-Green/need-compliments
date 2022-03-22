@@ -17,8 +17,9 @@ export const Profile = ({
       <S.Name>{name}</S.Name>
       <S.Email>{email}</S.Email>
       <S.FriendList onClick={()=>onFriendClick()}>
-        <S.Friend>{`${follwersCount} 팔로워`}</S.Friend>
-        <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>
+        칭필을 친구와 함께 사용할 수 있나요?
+        {/* <S.Friend>{`${follwersCount} 팔로워`}</S.Friend> */}
+        {/* <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend> */}
       </S.FriendList>
     </S.Profile>
   );

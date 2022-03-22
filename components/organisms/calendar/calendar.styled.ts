@@ -4,6 +4,7 @@ const DATE_FONT_SIZE=1.5;
 const TITLE_FONT_SIZE=1;
 
 export const Container = styled.section`
+  font-family:monospace;
   width: 100%;
   padding: 20px 20px 0 20px;
   padding-bottom: 0;
@@ -47,8 +48,8 @@ export const Main = styled.main`
 
 export const Days = styled.ul`
   width: 100%;
-  margin-bottom: 10px;
-  flex-basis: 10%;
+  height: fit-content;
+  margin-bottom: 10px; 
 	display: grid;
   grid-template-columns: repeat(7,1fr);
 `;
@@ -63,7 +64,6 @@ export const Day = styled.li`
 `;
 
 export const Dates = styled.div`
-  flex-basis: 90%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
 `;

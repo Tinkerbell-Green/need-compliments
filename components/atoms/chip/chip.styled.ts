@@ -4,7 +4,7 @@ import {GoalColor} from "stores/data/types";
 const MARGIN = 4;
 const ICON_SIZE = 18;
 
-export const Chip = styled.div`
+export const Chip = styled.div<{clickable:boolean}>`
   display: flex;
   width:fit-content;
   height: fit-content;
@@ -12,6 +12,11 @@ export const Chip = styled.div`
   border-radius: 5px;
   align-items: center;
   padding: 10px 12px;
+  cursor: ${props => props.clickable && "pointer"};
+  
+  &:hover{
+    background-color:${props => props.clickable && "#616161"};
+  };
 `;
 
 export const Icon = styled.div`

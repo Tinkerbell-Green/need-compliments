@@ -33,7 +33,7 @@ export function* updateTask(action: DataActionInstance<DataActionType.UPDATE_TAS
         data: document,
       }
     );
-
+    
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,

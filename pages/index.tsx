@@ -1,14 +1,20 @@
 import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React, {useCallback, useState, useEffect,useMemo} from "react";
+import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
+import {useSelector} from "react-redux";
 import * as S from "./index.styled";
+import {Seo} from "components/atoms/seo";
+import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
+import {SnackbarType} from "stores/data/types";
+import {RootState} from "stores/reducers";
 import {Dayjs} from "utils/dayjs";
+
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -19,12 +25,26 @@ export type ExpandedTaskData = TaskData & {
   color?: string
 }
 
+type SnackbarProps = {
+  visible: boolean,
+  message: string,
+  type: SnackbarType
+  duration?:number,
+}
+
+const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
+const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
+const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
+const UPDATE_TASKS_SUCCESS = "데이터를 성공적으로 저장했습니다 🧚‍♀️"
+
 const Home: NextPage = () => {
   const {
-    data: loggedInUserData
+    data: loggedInUserData,
+    status: loggedInUserStatus
   } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
   const {
     fetch: getTasksByDaysFetch,
+    status: getTasksByDaysStatus,
     data: getTasksByDaysData,
     refetch: getTasksByDaysRefetch,
   } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
@@ -45,6 +65,9 @@ const Home: NextPage = () => {
     fetch: getGoalsFetch, 
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+  const pageAuthorId = useSelector(
+    (state: RootState) => state.navigation.pageAuthorId
+  );
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
@@ -53,8 +76,16 @@ const Home: NextPage = () => {
   const [email, setEmail] = useState("");
   const [follwersCount, setFollwersCount] = useState(0);
   const [follwingsCount, setFollwingsCount] = useState(0);
-
+  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
+    visible: false,
+    message: "",
+    type: "information",
+    duration:1000,
+    
+  });
+  const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
+
   useEffect(() => {
     if (loggedInUserData) {
       setName(loggedInUserData.name);
@@ -65,15 +96,61 @@ const Home: NextPage = () => {
   }, [loggedInUserData]);
 
   useEffect(()=>{
+    if(loggedInUserStatus===DataSagaStatus.FAILED){
+      setSnackbarProps({
+        visible: true,
+        message: LOGIN_ERROR,
+        type: "error",
+      })
+    }
+  },[loggedInUserStatus])
+
+  useEffect(()=>{
+    if(getTasksByDaysStatus===DataSagaStatus.FAILED){
+      setSnackbarProps({
+        visible: true,
+        message: GET_TASKS_ERROR,
+        type: "error",
+      })
+    }
+  },[getTasksByDaysStatus])
+
+  useEffect(()=>{
+    if(createTaskStatus===DataSagaStatus.FAILED 
+      || updateTaskStatus===DataSagaStatus.FAILED 
+      || deleteTaskStatus===DataSagaStatus.FAILED){
+      setSnackbarProps({
+        visible: true,
+        message: MODIFY_TASKS_ERROR,
+        type: "error",
+        duration:2000,
+      })
+    }
+  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
+
+  useEffect(()=>{
+    if(updateTaskStatus===DataSagaStatus.SUCCEEDED){
+      setSnackbarProps({
+        visible: true,
+        message: UPDATE_TASKS_SUCCESS,
+        type: "success",
+        duration:2000,
+      })
+    }
+  },[updateTaskStatus])
+
+  useEffect(()=>{
+    if(!pageAuthorId) return;
+    
     router.push({
       query : {
-        // id:loggedInUserData?.id, TODO: 네비게이션에서 현재보고있는 feed의 아이디를 가져와야함.
+        id:pageAuthorId,
         date:`${pickedDate}`,
       },
     },undefined, {shallow: true});
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate])
+  },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
     getGoalsFetch({})
@@ -94,13 +171,14 @@ const Home: NextPage = () => {
   },[]);
 
   const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
-    if ((event.target as HTMLElement).classList.contains("menuClose")) {
+    if ((event.target as HTMLElement).closest(".menuClose")) {
       setIsMenuOpen(false);
     }
   },[]);
 
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
+    feedRef?.current?.scrollIntoView();
   },[])
 
   const handleTaskDelete = useCallback((id: string)=>{
@@ -185,30 +263,18 @@ const Home: NextPage = () => {
 
   return (
     <LayoutMain>
+      <Seo title={name}></Seo>
+      <Snackbar 
+        visible={snackbarProps.visible} 
+        message={snackbarProps.message} 
+        type={snackbarProps.type}
+        duration={snackbarProps.duration}
+        onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <S.IconList>
         <S.MenuIcon onClick={handleOpenMenu}>
           <Menu />
         </S.MenuIcon>
       </S.IconList>
-      <S.Visible>
-        <Calendar
-          pickedDate={pickedDate}
-          onDateClick={handleDateClick}
-          tasksByDate={tasksByDate}></Calendar>
-        <S.DetailSection>
-          <S.Profile>
-            <S.Name>{name}</S.Name>
-            <S.SecondaryName>{email}</S.SecondaryName>
-          </S.Profile>
-          <Feed 
-            onTaskDelete={handleTaskDelete}
-            onTaskCreate={handleTaskCreate}
-            onTaskUpdate={handleTaskUpdate}
-            pickedDate={pickedDate}
-            goalTasks={goalTasksAtPickedDate}
-            goals={goals}></Feed>
-        </S.DetailSection>
-      </S.Visible>
       <div className="invisible">
         <Sidebar
           name={name}
@@ -220,6 +286,25 @@ const Home: NextPage = () => {
           goals={goals}
         ></Sidebar>
       </div>
+      <S.Visible>
+        <Calendar
+          pickedDate={pickedDate}
+          onDateClick={handleDateClick}
+          tasksByDate={tasksByDate}></Calendar>
+        <S.DetailSection ref={feedRef}>
+          <S.Profile>
+            <S.Name>{name}</S.Name>
+            <S.SecondaryName>{email}</S.SecondaryName>
+          </S.Profile>
+          <Feed
+            onTaskDelete={handleTaskDelete}
+            onTaskCreate={handleTaskCreate}
+            onTaskUpdate={handleTaskUpdate}
+            pickedDate={pickedDate}
+            goalTasks={goalTasksAtPickedDate}
+            goals={goals}></Feed>
+        </S.DetailSection>
+      </S.Visible>
     </LayoutMain>
   );
 };

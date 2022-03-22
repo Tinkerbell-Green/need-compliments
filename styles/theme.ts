@@ -27,7 +27,7 @@ export const themes = {
         orchid: "#AD69ED",
         mediunslateblue: "#7A7EEE",
         lightseagreen: "#4E9198",
-        mediunseagreen: "#5E9E68",
+        mediumseagreen: "#5E9E68",
         green: "#99C355",
         lightsalmon: "#ED9F8D",
         pink: "#ED76BF",
