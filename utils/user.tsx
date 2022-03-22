@@ -11,7 +11,6 @@ export const UserProvider = ({
 }: UserProviderProps) => {
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
-  console.log("userprovider", session, status);
   const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
 
   const sessionUserId = ((session?.user || {}) as any).id as string
