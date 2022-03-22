@@ -1,13 +1,14 @@
-import styled,{keyframes,css} from "styled-components";
+import styled from "styled-components";
+import {GoalColor} from "stores/data";
 
-export const FormContainer = styled.li<{isEditing:boolean,color:string}>`
+export const FormContainer = styled.li<{isEditing:boolean,color:GoalColor}>`
 width:100%;
 display: flex;
 justify-content: space-between;
 margin-top: 10px;
 
 border-bottom: 1.5px solid transparent;
-border-color: ${props => (props.isEditing && props.color)};
+border-color: ${props => (props.isEditing && props.theme.colors.goals[props.color])};
 transition: border-color 0.3s ease-in;
 `;
 

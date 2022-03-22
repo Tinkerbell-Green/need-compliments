@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {GoalColor} from "stores/data";
 
 const TODAY_CIRCLE_SIZE = 1.8;
 const EMOJI_SIZE=20;
@@ -41,9 +42,9 @@ flex-wrap: wrap;
 margin-top: 5px;
 `;
 
-export const Emoji = styled.div<{color:string}>`
+export const Emoji = styled.div<{color:GoalColor}>`
 width: ${EMOJI_SIZE}px;
 height: ${EMOJI_SIZE}px;
 margin:1px;
-color:${props => props.color};
+color:${props => props.theme.colors.goals[props.color]};
 `;

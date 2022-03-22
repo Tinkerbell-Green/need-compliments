@@ -28,7 +28,7 @@ export const Icon = styled.div`
 `;
 
 export const Label = styled.div<{color: GoalColor}>`
-  color:${props => props.color && props.color};
+  color:${props => props.color && props.theme.colors.goals[props.color]};
   font-size: 0.8rem;
   font-weight: 600;
 `;

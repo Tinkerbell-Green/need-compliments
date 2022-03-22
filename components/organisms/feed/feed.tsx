@@ -38,7 +38,7 @@ export const Feed = ({
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<BookOpen />}
+                icon={<BookClose />}
               ></Chip>
             </S.GoalAndInput>))
           : goals.map((goal) => (
@@ -46,7 +46,7 @@ export const Feed = ({
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<BookOpen />}
+                icon={<BookClose />}
                 onAdd={()=>onTaskCreate(goal.id)}
               ></Chip>
               <TaskList

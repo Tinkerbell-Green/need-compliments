@@ -81,6 +81,7 @@ export const GoalsTitle = styled.div`
 `;
 
 export const GoalsContents = styled.ul`
+  width:100%;
   max-height: 400px;
   overflow-y: auto;
   > * {

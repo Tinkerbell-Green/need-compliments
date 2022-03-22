@@ -40,7 +40,7 @@ export const Snackbar = ({
   useEffect(()=>{
     visible && setTimeout(onClose,duration);
   },[duration,visible,onClose])
-  
+
   return (
     <S.Container 
       isVisible={visible}
