@@ -1,15 +1,15 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Profile} from "components/organisms/profile";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const ProfilePage: NextPage = () => {
   const router = useRouter();
   const [name, setName] = useState<string>("");
-  const onLeftButtonClick = () => {
+  const onLeftButtonClick = useCallback(() => {
     router.push("/setting");
-  };
+  }, [router]);
 
   useEffect(() => {
     const userName = router.query.name;
@@ -19,7 +19,7 @@ const ProfilePage: NextPage = () => {
     } else {
       setName(userName.join(""));
     }
-  }, [router]);
+  }, [router.query.name]);
 
   return (
     <LayoutNavigation

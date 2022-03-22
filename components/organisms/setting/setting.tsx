@@ -1,6 +1,6 @@
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
-import React from "react";
+import React, {useCallback} from "react";
 import {SliderSwitch} from "../../atoms/sliderSwitch";
 import * as S from "./setting.styled";
 import {SubHeadingButton} from "components/subHeading/subHeadingButton";
@@ -15,19 +15,19 @@ type SettingProps = {
 
 export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
   const router = useRouter();
-  const onProfile = () => {
+  const onProfileClick = useCallback(() => {
     router.push(`/setting/profile?name=${loggedInUser.name}`);
-  };
+  }, [router, loggedInUser]);
 
-  const onDeleteClick = () => {
+  const onDeleteClick = useCallback(() => {
     if (confirm("계정을 삭제할까요?")) {
       onDelete();
     }
-  };
+  }, [onDelete]);
 
-  const onSignout = () => {
+  const onSignout = useCallback(() => {
     signOut({callbackUrl: "/"});
-  };
+  }, []);
 
   return (
     <S.InfoList>
@@ -37,7 +37,7 @@ export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
       </S.InfoListItemEmail>
 
       <S.InfoListItem>
-        <SubHeadingButton onClick={onProfile}>
+        <SubHeadingButton onClick={onProfileClick}>
           프로필
           <S.name>{loggedInUser.name}</S.name>
         </SubHeadingButton>
