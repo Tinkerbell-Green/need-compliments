@@ -45,6 +45,9 @@ export default NextAuth({
       }
 
       return Promise.resolve(newSession);
+    },
+    redirect: ({url, baseUrl}) =>{
+      return baseUrl
     }
   }
 });
