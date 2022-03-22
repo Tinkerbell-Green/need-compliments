@@ -4,21 +4,21 @@ import {ThemeProvider} from "styled-components";
 import {wrapper} from "stores";
 import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
+import {AuthenticationProvider} from "utils/authentication";
 import {AuthorizationProvider} from "utils/authorization";
-import {UserProvider} from "utils/user";
 import "utils/firebase"; 
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
     <SessionProvider session={session}>
-      <UserProvider>
+      <AuthenticationProvider>
         <ThemeProvider theme={themes.dark}>
           <GlobalStyle />
           <AuthorizationProvider>
             <Component {...pageProps} />
           </AuthorizationProvider>
         </ThemeProvider>
-      </UserProvider>
+      </AuthenticationProvider>
     </SessionProvider>
   );
 }

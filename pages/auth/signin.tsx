@@ -13,15 +13,6 @@ import {LayoutCenter} from "components/templates/layout-center";
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const {status} = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.replace("/");
-    }
-  }, [router, status]);
-
   return (
     <LayoutCenter>
       {providers
