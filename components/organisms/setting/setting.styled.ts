@@ -1,9 +1,4 @@
 import styled from "styled-components";
-import {SubHeadingButton} from "components/subHeading/subHeadingButton/subHeadingButton.styled";
-
-export const DeleteAccount = styled(SubHeadingButton)`
-color: ${props => props.theme.colors["rose-500"]};
-`
 
 export const InfoList = styled.ul`
 display: flex;
@@ -29,8 +24,4 @@ margin: 1rem 0 1rem 0;
 export const email = styled.p`
 color: ${props => props.theme.colors["white"]};
 font-size:1rem;
-`
-
-export const name = styled.span`
-
 `
