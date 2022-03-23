@@ -1,19 +1,26 @@
-import type {AppProps} from "next/app"
-import {Provider as ReduxProvider} from "react-redux";
-import {store} from "store";
-import {ThemeProvider} from "styled-components"
+import {SessionProvider} from "next-auth/react";
+import type {AppProps} from "next/app";
+import {ThemeProvider} from "styled-components";
+import {wrapper} from "stores";
 import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
+import {AuthenticationProvider} from "utils/authentication";
+import {AuthorizationProvider} from "utils/authorization";
+import "utils/firebase"; 
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
-    <ReduxProvider store={store}>
-      <ThemeProvider theme={themes.light}>
-        <GlobalStyle/>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </ReduxProvider>
-  )
+    <SessionProvider session={session}>
+      <AuthenticationProvider>
+        <ThemeProvider theme={themes.dark}>
+          <GlobalStyle />
+          <AuthorizationProvider>
+            <Component {...pageProps} />
+          </AuthorizationProvider>
+        </ThemeProvider>
+      </AuthenticationProvider>
+    </SessionProvider>
+  );
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp);
