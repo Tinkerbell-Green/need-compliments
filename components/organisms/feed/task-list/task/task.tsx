@@ -3,10 +3,11 @@ import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
 import React, {useCallback, useRef, useState} from "react";
 import * as S from "./task.styled";
 import {ModalTaskAction} from "components/organisms/modalTaskAction";
+import {GoalColor} from "stores/data/types"
 
 type TaskProps = {
 	id: string;
-	color: string;
+	color: GoalColor;
 	title: string;
 	onTaskDelete: (value: string) => void;
   onTaskUpdate: (id: string, text:string) => void;

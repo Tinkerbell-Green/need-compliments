@@ -1,9 +1,10 @@
 import React from "react";
 import {Task} from "./task"
 import {TaskData} from "stores/data";
+import {GoalColor} from "stores/data/types"
 
 type TaskListProps = {
-  color:string,
+  color:GoalColor,
   tasks:TaskData[],
   onTaskDelete : (value:string)=>void;
   onTaskUpdate: (id: string, text:string) => void;

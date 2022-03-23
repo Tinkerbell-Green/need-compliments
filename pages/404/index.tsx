@@ -1,6 +1,6 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router"
-import * as S from "./index.styled";
+import * as S from "../../styles/pages/404.styled";
 import {Chip} from "components/atoms/chip"
 import {Seo} from "components/atoms/seo";
 import {LayoutCenter} from "components/templates/layout-center"
