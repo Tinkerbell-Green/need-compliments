@@ -8,7 +8,7 @@ type ProfileProps = {
 
 export const Profile = ({name}: ProfileProps) => (
   <>
-    <S.ImageContainer>img</S.ImageContainer>
+    <S.ImageContainer></S.ImageContainer>
     <ProfileInput inputName={"이름"} name={name}></ProfileInput>
   </>
 );

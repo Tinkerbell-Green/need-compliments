@@ -9,7 +9,7 @@ type ProfileInputProps = {
 const ProfileInput = ({inputName, name}: ProfileInputProps) => (
   <S.InputContainer>
     <S.InputName>{inputName}</S.InputName>
-    <S.Input defaultValue={name}></S.Input>
+    <S.Input defaultValue={name} disabled></S.Input>
   </S.InputContainer>
 );
 
