@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import * as S from "./goals.styled";
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 
