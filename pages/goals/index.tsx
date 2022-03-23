@@ -1,7 +1,7 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React from "react";
-import {Goals} from "components/goals";
+import {Goals} from "components/organisms/goals";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 
 const GoalsPage: NextPage = () => {

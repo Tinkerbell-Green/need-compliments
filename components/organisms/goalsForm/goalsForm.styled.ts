@@ -21,19 +21,19 @@ border-radius: 5px;
 }
 `
 
-export const GoalTitle = styled.input`
+export const GoalTitle = styled.input<{ color: GoalColor }>`
 width: 100%;
 height: 2rem;
 padding: 0.6rem 0 0.6rem 0;
 font-size: 1rem;
 border: none;
 outline: none;
-color: ${props => props.color};
+color: ${props => props.theme.colors.goals[props.color]};
 background: transparent;
 margin-bottom: 0.7rem;
 
 &:focus{
-    border-bottom: 1.9px solid ${props => props.color};
+    border-bottom-color: ${props => props.theme.colors.goals[props.color]};
 }
 `
 
@@ -44,7 +44,7 @@ display: grid;
 grid-template: repeat(2, 3rem) / repeat(6, 19.2%);
 `
 
-export const OneColcor = styled.button<{color: GoalColor}>`
+export const OneColor = styled.button<{ color: GoalColor }>`
 width: 1.5rem;
 height: 1.5rem;
 border-radius: 50%;
