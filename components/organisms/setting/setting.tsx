@@ -43,10 +43,10 @@ export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
         </SubHeadingButton>
       </S.InfoListItem>
 
-      <S.InfoListItem>
+      {/* <S.InfoListItem>
         <SubHeadingSpan>이메일로 검색 허용</SubHeadingSpan>
         <SliderSwitch />
-      </S.InfoListItem>
+      </S.InfoListItem> */}
 
       <S.InfoListItem>
         <SubHeadingButton onClick={onSignout}>로그아웃</SubHeadingButton>
