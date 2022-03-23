@@ -1,8 +1,8 @@
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 import React, {useCallback} from "react";
-import {SliderSwitch} from "../../atoms/sliderSwitch";
 import * as S from "./setting.styled";
+import {SliderSwitch} from "components/atoms/sliderSwitch";
 import {SubHeadingButton} from "components/subHeading/subHeadingButton";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
 import {UserData} from "stores/data";
@@ -39,7 +39,7 @@ export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
       <S.InfoListItem>
         <SubHeadingButton onClick={onProfileClick}>
           프로필
-          <S.name>{loggedInUser.name}</S.name>
+          <p>{loggedInUser.name}</p>
         </SubHeadingButton>
       </S.InfoListItem>
 
@@ -53,7 +53,9 @@ export const Setting = ({loggedInUser, onUpdate, onDelete}: SettingProps) => {
       </S.InfoListItem>
 
       <S.InfoListItem>
-        <S.DeleteAccount onClick={onDeleteClick}>계정 삭제하기</S.DeleteAccount>
+        <SubHeadingButton status={"error"} onClick={onDeleteClick}>
+          계정 삭제하기
+        </SubHeadingButton>
       </S.InfoListItem>
     </S.InfoList>
   );
