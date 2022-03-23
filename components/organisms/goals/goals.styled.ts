@@ -10,3 +10,8 @@ export const FeedContents = styled.ul`
     margin-bottom: 20px;
   }
 `;
+
+export const ChipContainer = styled.li`
+width:100%;
+cursor: pointer;
+`

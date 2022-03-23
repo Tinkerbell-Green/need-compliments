@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
+    scroll-behavior: smooth;
   }
 
   div, section, header, footer {

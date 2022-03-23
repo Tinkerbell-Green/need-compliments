@@ -1,3 +1,4 @@
+import {CloseOutline} from "@styled-icons/evaicons-outline";
 import React, {ReactNode} from "react";
 import * as S from "./modal.styled";
 
@@ -22,6 +23,7 @@ export const Modal = ({
   return (
     <S.Background isOpen={isOpen} onClick={onBackgroundClick}>
       <S.Modal isOpen={isOpen} className="modal">
+        <S.CloseButton onClick={onClose}><CloseOutline/></S.CloseButton>
         {children}
       </S.Modal>
     </S.Background>

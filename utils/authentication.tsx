@@ -3,12 +3,13 @@ import React, {ReactNode, useEffect} from "react"
 import {useDispatch} from "react-redux"
 import {DataActionType, useDataSaga} from "stores/data"
 import {NavigationActionType, navigationActionCreators} from "stores/navigation"
-type UserProviderProps = {
+
+type AuthenticationProviderProps = {
   children: ReactNode
 }
-export const UserProvider = ({
+export const AuthenticationProvider = ({
   children
-}: UserProviderProps) => {
+}: AuthenticationProviderProps) => {
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
   const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
@@ -29,6 +30,7 @@ export const UserProvider = ({
       }))
     }
   }, [dispatch, sessionUserId, status])
+  
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){
       fetch({

@@ -1,4 +1,4 @@
-import {QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot} from "firebase/firestore"
+import {QueryConstraint, collection, CollectionReference, Firestore, setDoc, doc, SetOptions, getDocs, Query, where, query, deleteDoc, getDoc, DocumentReference, addDoc, updateDoc, UpdateData, PartialWithFieldValue, WithFieldValue, DocumentSnapshot, QuerySnapshot, writeBatch} from "firebase/firestore"
 import {firestore} from "../firebase"
 
 export class Repository {
@@ -49,6 +49,17 @@ export class Repository {
     return deleteDoc(
       doc(this.firestore, path, ...pathSegments)
     );
+  }
+
+  deleteDocuments({
+    refs,
+  }: DeleteDocumentsArguments){
+    const batch = writeBatch(this.firestore)
+    refs.forEach(item => {
+      batch.delete(item)
+    })
+
+    return batch.commit();
   }
 
   getDocument<DocumentType>({
@@ -105,6 +116,9 @@ export type SetDocumentArguments<DocumentType> = {
 export type DeleteDocumentArguments = {
   path: string
   pathSegments:string[]
+}
+export type DeleteDocumentsArguments = {
+  refs: DocumentReference[]
 }
 export type GetDocumentArguments = {
   path: string

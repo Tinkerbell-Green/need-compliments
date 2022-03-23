@@ -45,7 +45,7 @@ export const ModalTaskAction = ({
           </S.Button>
           <span>수정</span>
         </S.Action>
-        <S.Action>
+        {/* <S.Action>
           <S.Button>
             <ArrowClockwise></ArrowClockwise>
           </S.Button>
@@ -62,7 +62,7 @@ export const ModalTaskAction = ({
             <SwitchVertical></SwitchVertical>
           </S.Button>
           <span>순서 변경</span>
-        </S.Action>
+        </S.Action> */}
         <S.Action>
           <S.Button onClick={deleteTask}>
             <TrashAlt></TrashAlt>

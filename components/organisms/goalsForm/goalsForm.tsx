@@ -1,14 +1,24 @@
-import React, {useState} from "react";
+import {useRouter} from "next/router";
+import React, {useEffect, useRef, useState} from "react";
+import {ListItemRadioProps} from "../../moleculs/listItemRadio";
+import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
-import {ListItemRadioProps} from "./listItemRadio";
-import {ListRadio} from "./listRadio";
 import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
-import {GoalColor} from "stores/data";
+import {GoalColor, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
-export const GoalsForm = () => {
-  const [selectedGoalColor, setSelectedGoalColor] = useState<GoalColor>("white");
+type GoalsFormProps = {
+  goal?: GoalData;
+  onChangeGoalName: (name: string) => void;
+  onChangeGoalColor: (color: GoalColor) => void;
+};
 
+export const GoalsForm = ({
+  goal,
+  onChangeGoalName,
+  onChangeGoalColor,
+}: GoalsFormProps) => {
+  const [clickedGoalColor, setClickedGoalColor] = useState<GoalColor>("white");
   const [publicSettingOptions, setPublicSettingOptions] = useState<
     ListItemRadioProps[]
   >([
@@ -33,7 +43,6 @@ export const GoalsForm = () => {
       publicBookIcon: "private",
     },
   ]);
-
   const [runningOptions, setRunningOptions] = useState<ListItemRadioProps[]>([
     {
       id: 0,
@@ -42,16 +51,28 @@ export const GoalsForm = () => {
     },
   ]);
 
+  useEffect(() => {
+    goal && setClickedGoalColor(goal?.color);
+  }, [goal]);
+
   const onColorClick = (color: GoalColor) => {
-    setSelectedGoalColor(color);
+    setClickedGoalColor(color);
+    onChangeGoalColor(color);
+  };
+
+  const onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    onChangeGoalName(e.target.value);
   };
 
   return (
     <>
       <SubHeadingSpan>제목</SubHeadingSpan>
       <S.GoalTitle
-        color={selectedGoalColor}
-        placeholder="나는 알고리즘을 정복하겠다!"
+        type="text"
+        color={clickedGoalColor}
+        placeholder="나는 리덕스를 정복하겠다!"
+        defaultValue={goal?.name}
+        onChange={onNameChange}
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>
@@ -63,11 +84,11 @@ export const GoalsForm = () => {
       <SubHeadingSpan>색상</SubHeadingSpan>
       <S.ColorPalette>
         {(Object.keys(T.dark.colors.goals) as GoalColor[]).map((color) => (
-          <S.OneColcor
+          <S.OneColor
             key={color}
             color={color}
             onClick={() => onColorClick(color)}
-          ></S.OneColcor>
+          ></S.OneColor>
         ))}
       </S.ColorPalette>
     </>

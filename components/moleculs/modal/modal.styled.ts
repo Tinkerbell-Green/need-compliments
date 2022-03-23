@@ -33,3 +33,12 @@ transition: all 350ms ease-in-out;
 visibility: ${props=>props.isOpen ? "visible" : "hidden"};
 transform: ${props=>props.isOpen ? "translateY(0)" : "translateY(10%);"};
 `
+export const CloseButton = styled.button`
+position: absolute;
+top:0;
+left:100%;
+transform: translateX(-100%);
+width: 28px;
+height:28px;
+color: ${props => props.theme.colors["gray-800"]}
+`;

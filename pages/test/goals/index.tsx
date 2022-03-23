@@ -24,7 +24,7 @@ const TestGoalsPage: NextPage = () => {
     createGoalFetch({
       data: {
         name: "new goal",
-        color: "skyblue"
+        color: "white"
       }
     })
   },[createGoalFetch])
