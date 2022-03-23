@@ -31,6 +31,11 @@ export const RightButton = styled.button`
   height: 36px;
 `
 
+export const RightDiv = styled.div`
+  width: 36px;
+  height: 36px;
+`
+
 export const Title = styled.span`
   font-size: 1.25rem;
   font-weight: 500;

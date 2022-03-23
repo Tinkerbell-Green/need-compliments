@@ -36,6 +36,7 @@ export const LayoutNavigation = ({
           <KeyboardArrowLeft></KeyboardArrowLeft>
         </S.LeftButton>
         <S.Title>{title}</S.Title>
+        {!rightButtonText && <S.RightDiv></S.RightDiv>}
         {rightButtonText && onRightButtonClick && (
           <S.RightButton onClick={onRightButtonClick}>
             {getRightButtonIcon(rightButtonText)}
