@@ -12,9 +12,9 @@ import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {SnackbarType} from "stores/data/types";
+import {GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import {Dayjs} from "utils/dayjs";
-
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -22,7 +22,7 @@ export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 };
 
 export type ExpandedTaskData = TaskData & {
-  color?: string
+  color?: GoalColor
 }
 
 type SnackbarProps = {
@@ -217,7 +217,7 @@ const Home: NextPage = () => {
 
         const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
   
-        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color});
+        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color ? goal.color : "white"});
         else newTasks[curDate] = [{...taskItem, color:goal.color}];
       })
     })
