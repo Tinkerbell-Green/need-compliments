@@ -2,7 +2,7 @@ import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import * as S from "./goals.styled";
 import {Chip} from "components/atoms/chip";
-import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
+import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
 import {useDataSaga, DataActionType, GoalData} from "stores/data";
 
 export const Goals = () => {
