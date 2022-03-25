@@ -2,8 +2,8 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
-import * as S from "../../../components/organisms/goalsForm/goalsForm.styled";
 import {GoalsForm} from "components/organisms/goalsForm";
+import * as S from "components/organisms/goalsForm/goalsForm.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, GoalData, GoalColor} from "stores/data";
 
@@ -23,14 +23,19 @@ const GoalsFormPage: NextPage = () => {
   const [goal, setGoal] = useState<GoalData>();
   const [goalName, setGoalName] = useState<string>("");
   const [goalColor, setGoalColor] = useState<GoalColor>("white");
+  const [goalPrivacy, setGoalPrivacy] = useState<GoalData["privacy"]>("everyone")
   const router = useRouter();
-
+  
   const handleGoalName = (name: string) => {
     setGoalName(name);
   };
 
   const handleGoalColor = (color: GoalColor) => {
     setGoalColor(color);
+  };
+
+  const handleGoalPrivacy = (privacy: GoalData["privacy"]) => {
+    setGoalPrivacy(privacy);
   };
 
   useEffect(() => {
@@ -69,9 +74,9 @@ const GoalsFormPage: NextPage = () => {
 
   const onSave = useCallback(() => {
     if (goal) {
-      onUpdateGoal(goalName, goalColor);
+      onUpdateGoal(goalName, goalColor, goalPrivacy);
     } else {
-      onCreateGoal(goalName, goalColor);
+      onCreateGoal(goalName, goalColor, goalPrivacy);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goal, goalName, goalColor]);
@@ -83,11 +88,12 @@ const GoalsFormPage: NextPage = () => {
   }, [goal]);
 
   const onCreateGoal = useCallback(
-    (name: string, color: GoalColor) => {
+    (name: string, color: GoalColor, privacy: GoalData["privacy"]) => {
       createGoalFetch({
         data: {
           name,
           color,
+          privacy
         },
       });
     },
@@ -95,13 +101,14 @@ const GoalsFormPage: NextPage = () => {
   );
 
   const onUpdateGoal = useCallback(
-    (name: string, color: GoalColor) => {
+    (name: string, color: GoalColor, privacy: GoalData["privacy"]) => {
       goal &&
         updateGoalFetch({
           pathSegments: [goal.id],
           data: {
             name: name,
             color,
+            privacy
           },
         });
     },
@@ -129,6 +136,8 @@ const GoalsFormPage: NextPage = () => {
           goal={goal}
           onChangeGoalName={handleGoalName}
           onChangeGoalColor={handleGoalColor}
+          goalPrivacy={goalPrivacy}
+          onChangeGoalPrivacy={handleGoalPrivacy}
         ></GoalsForm>
       </LayoutNavigation>
 
