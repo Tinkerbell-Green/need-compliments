@@ -22,9 +22,6 @@ export const HeaderMain = ({
         </S.NavPart>
         <S.NavPart>
           <S.More>
-            <Link href={"/"} passHref>
-              <S.NavItem><Icon><PencilFill/></Icon></S.NavItem>
-            </Link>
             <Link href={"/goals"} passHref>
               <S.NavItem><Icon><TargetEdit/></Icon></S.NavItem>
             </Link>
@@ -32,6 +29,9 @@ export const HeaderMain = ({
               <S.NavItem><SettingIcon rotate/></S.NavItem>
             </Link>
           </S.More>
+          <Link href={"/"} passHref>
+            <S.NavItem><Icon><PencilFill size={20}/></Icon></S.NavItem>
+          </Link>
           <S.NavItem onClick={onMenuOpen}><Icon><Menu /></Icon></S.NavItem>
         </S.NavPart>
       </S.Nav>
