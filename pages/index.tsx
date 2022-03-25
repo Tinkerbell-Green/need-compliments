@@ -250,7 +250,7 @@ const Home: NextPage = () => {
   },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
 
   return (
-    <LayoutMain name={name} onMenuOpen={handleOpenMenu}>
+    <LayoutMain onMenuOpen={handleOpenMenu}>
       <Seo title={name}></Seo>
       <Snackbar 
         visible={snackbarProps.visible} 

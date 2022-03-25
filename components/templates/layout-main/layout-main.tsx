@@ -4,18 +4,16 @@ import {HeaderMain} from "components/organisms/headerMain";
 
 export type LayoutMainProps = {
   children: React.ReactNode,
-  name:string,
   onMenuOpen : React.MouseEventHandler,
 }
 
 export const LayoutMain = ({
   children,
-  name,
   onMenuOpen,
 }: LayoutMainProps) => {
   return (
     <S.LayoutMain>
-      <HeaderMain name={name} onMenuOpen={onMenuOpen}></HeaderMain>
+      <HeaderMain onMenuOpen={onMenuOpen}></HeaderMain>
       <S.Contents>
         {children}
       </S.Contents>

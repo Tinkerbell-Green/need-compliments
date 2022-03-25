@@ -60,6 +60,7 @@ export const Goals = styled.button`
 
 export const GoalsTitle = styled.div`
   text-align: left;
+  align-items: center;
   width:100%;
   font-size: 1rem;
   font-weight: 500;

@@ -1,12 +1,14 @@
 import {CloseOutline} from "@styled-icons/evaicons-outline";
-import {Settings} from "@styled-icons/feather";
+import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import React, {useCallback, useState} from "react";
 import {Profile} from "./profile"
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
+import {Icon} from "components/atoms/icon";
 import {Snackbar} from "components/atoms/snackbar";
+import {SettingIcon} from "components/moleculs/settingIcon"
 import {Sidebar} from "components/moleculs/sidebar";
 import {ExpandedUserData} from "pages";
 import {GoalData} from "stores/data";
@@ -48,7 +50,7 @@ export const SidebarSetting = ({
       <S.Header>
         <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
         <Link href={"/setting"} passHref>
-          <S.SettingIcon><Settings/></S.SettingIcon>
+          <SettingIcon rotate/>
         </Link>
       </S.Header>
       <Profile
@@ -59,7 +61,10 @@ export const SidebarSetting = ({
         onFriendClick={handleFriendClick}/>
       <Link href={"/goals"} passHref>
         <S.Goals>
-          <S.GoalsTitle>목표 관리</S.GoalsTitle>
+          <S.GoalsTitle>
+            <Icon><TargetEdit/></Icon>
+            <span>목표 관리</span>
+          </S.GoalsTitle>
           <S.GoalsContents>
             {goals.map((value)=>(
               <Chip 

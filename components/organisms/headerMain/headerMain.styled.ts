@@ -42,11 +42,9 @@ export const More = styled(NavPart)`
   }
 `;
 
-
 export const NavItem = styled.div`
 font-size: 1rem;
-margin-right:10px;
-padding: 10px 20px;
+margin-right:5px;
 border-radius: 3px;
 cursor: pointer;
 &:hover, &:focus{
