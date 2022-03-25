@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {ListItemRadioProps} from "../../moleculs/listItemRadio";
 import {ListRadio} from "../../moleculs/listRadio";
 import * as S from "./goalsForm.styled";
-import {SubHeadingSpan} from "components/subHeading/subHeadingSpan";
+import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
 import {GoalColor, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
