@@ -49,7 +49,7 @@ export const Sidebar = ({
     <Snackbar 
       visible={isSnackbarShow}
       onClose={handleSnackbarClose}
-      message={"준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요?🧚‍♀️"}
+      message={"준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️"}
       duration={5000}>
     </Snackbar>
     <S.MenuOverlay
@@ -67,7 +67,7 @@ export const Sidebar = ({
           follwingsCount={follwingsCount}
           onFriendClick={handleFriendClick}/>
         <S.Goals onClick={handleGoalsTitleClick}>
-          <S.GoalsTitle>목표
+          <S.GoalsTitle>목표 관리
           </S.GoalsTitle>
           <S.GoalsContents>
             {goals.map((value)=>(
