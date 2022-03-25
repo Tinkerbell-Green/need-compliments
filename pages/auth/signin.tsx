@@ -7,8 +7,8 @@ import facebookLogo from "../../public/icons/facebook-logo.png";
 import googleLogo from "../../public/icons/google-logo.jpeg";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
-import * as S from "./signin.styled";
 import {LayoutCenter} from "components/templates/layout-center";
+import * as S from "styles/pages/signin.styled";
 
 export default function SignIn({
   providers,

@@ -1,8 +1,8 @@
 import type {NextPage} from "next"
 import React, {useCallback, useEffect} from "react"
-import * as S from "./index.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType} from "stores/data";
+import * as S from "styles/pages/test/goals.styled";
 
 const TestGoalsPage: NextPage = () => {
   const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)

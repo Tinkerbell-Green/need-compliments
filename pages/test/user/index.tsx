@@ -4,10 +4,10 @@ import {signOut} from "next-auth/react"
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react"
 import {useSelector} from "react-redux";
-import * as S from "./index.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 import {RootState} from "stores/reducers";
+import * as S from "styles/pages/test/user.styled";
 
 const TestUserPage: NextPage = () => {
   const loggedInUserId = useSelector((state: RootState)=>state.navigation.loggedInUserId)

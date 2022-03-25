@@ -3,7 +3,6 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
-import * as S from "./index.styled";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
@@ -11,9 +10,9 @@ import {Feed} from "components/organisms/feed";
 import {Sidebar} from "components/organisms/sidebar";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
-import {SnackbarType} from "stores/data/types";
-import {GoalColor} from "stores/data/types";
+import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
+import * as S from "styles/pages/index.styled";
 import {Dayjs} from "utils/dayjs";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {

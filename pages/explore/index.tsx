@@ -1,9 +1,9 @@
 import type {NextPage} from "next"
 import {useRouter} from "next/router"
 import React from "react"
-import * as S from "./index.styled";
 import {Chip} from "components/atoms/chip"
 import {LayoutCenter} from "components/templates/layout-center"
+import * as S from "styles/pages/explore.styled";
 
 const ExplorePage: NextPage = () => {
   const route = useRouter();
