@@ -6,7 +6,7 @@ type IconProps = {
   rotate?: boolean;
 }
 
-export const Icon = ({children, color="white", rotate=false}:IconProps) => {
+export const Icon = ({children, color="", rotate=false}:IconProps) => {
   return (
     <S.Icon color={color} rotate={rotate}>
       {children}

@@ -6,7 +6,7 @@ export const Icon = styled.button<{rotate:boolean,color:string}>`
   padding:2px;
   margin: 5px;
   cursor: pointer;
-  color: ${props => props.color};
+  color: ${props => props.color ? props.color : props.theme.colors["gray-200"]};
 
   ${props => props.rotate && `
   transform: rotate(0deg);
