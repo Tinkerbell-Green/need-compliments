@@ -242,23 +242,12 @@ const Home: NextPage = () => {
   }, [getTasksByDaysFetch]);
 
   useEffect(()=>{
-    if (createTaskStatus === DataSagaStatus.SUCCEEDED){
+    if (createTaskStatus === DataSagaStatus.SUCCEEDED 
+      || deleteTaskStatus === DataSagaStatus.SUCCEEDED 
+      || updateTaskStatus === DataSagaStatus.SUCCEEDED){
       getTasksByDaysRefetch()
     }
-  },[getTasksByDaysRefetch, createTaskStatus])
-  
-  useEffect(()=>{
-    if (deleteTaskStatus === DataSagaStatus.SUCCEEDED){
-      getTasksByDaysRefetch()
-    }
-  },[getTasksByDaysRefetch, deleteTaskStatus])
-
-  useEffect(() => {
-    if (updateTaskStatus === DataSagaStatus.SUCCEEDED) {
-      getTasksByDaysRefetch();
-    }
-  }, [getTasksByDaysRefetch, updateTaskStatus]);
-
+  },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
 
   return (
     <LayoutMain>
