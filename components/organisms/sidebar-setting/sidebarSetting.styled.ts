@@ -24,20 +24,6 @@ export const Header = styled.div`
   justify-content: flex-end;
 `;
 
-export const SettingIcon = styled.button`
-  width:28px;
-  height:28px;
-  padding:2px;
-  margin: 10px;
-  cursor: pointer;
-  transform: rotate(0deg);
-  transition: all 0.3s ease-in-out;
-
-  &:hover, &:focus{
-    transform: rotate(90deg);
-  }
-`;
-
 export const MenuContents = styled.section`
   display: flex;
   flex-direction: column;
@@ -108,12 +94,6 @@ export const GoalsContents = styled.ul`
   }
 `;
 
-export const ArrowIcon=styled.div`
-  width:20px;
-  height:20px;
-  cursor: pointer;
-`;
-
 export const Name = styled.div`
   font-size: 1.8rem;
   font-weight: 900;
@@ -135,6 +115,19 @@ export const FriendList = styled.button`
 export const Friend = styled.div`
   font-size: 1rem;
   margin-right: 10px;
+`;
+export const SettingIcon = styled.button`
+  width:28px;
+  height:28px;
+  padding:2px;
+  margin: 10px;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &:focus{
+    transform: rotate(90deg);
+  }
 `;
 
 export const CloseButton = styled.button`

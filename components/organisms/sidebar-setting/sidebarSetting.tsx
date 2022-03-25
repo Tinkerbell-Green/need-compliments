@@ -1,22 +1,23 @@
 import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {Settings} from "@styled-icons/feather";
-import {KeyboardArrowRight} from "@styled-icons/material-twotone";
+import Link from "next/link";
 import {useRouter} from "next/router";
 import React, {useCallback, useState} from "react";
 import {Profile} from "./profile"
-import * as S from "./sidebar.styled";
+import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {Snackbar} from "components/atoms/snackbar";
+import {Sidebar} from "components/moleculs/sidebar";
 import {ExpandedUserData} from "pages";
 import {GoalData} from "stores/data";
 
-type SidebarProps = ExpandedUserData & {
-  onCloseMenu: React.MouseEventHandler;
+type SidebarSettingProps = ExpandedUserData & {
+  onCloseMenu: React.MouseEventHandler,
   isMenuOpen:boolean;
   goals: GoalData[];
 }
 
-export const Sidebar = ({
+export const SidebarSetting = ({
   name,
   email,
   follwersCount,
@@ -24,22 +25,13 @@ export const Sidebar = ({
   onCloseMenu,
   isMenuOpen,
   goals,
-}:SidebarProps) => {
+}:SidebarSettingProps) => {
   const router = useRouter();
   const [isSnackbarShow, setIsSnackbarShow] = useState(false);
   
-  const handleGoalsTitleClick = useCallback(()=>{
-    router.push("/goals");
-  },[router]);
-  
   const handleFriendClick = useCallback(()=>{
-    // router.push("/explore");
     setIsSnackbarShow(true);
   },[]);
-  
-  const handleSettingClick = useCallback(()=>{
-    router.push("/setting");
-  },[router]);
 
   const handleSnackbarClose = useCallback(()=>{
     setIsSnackbarShow(false);
@@ -52,23 +44,22 @@ export const Sidebar = ({
       message={"준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️"}
       duration={5000}>
     </Snackbar>
-    <S.MenuOverlay
-      onClick={onCloseMenu} 
-      className={`menuClose ${isMenuOpen ? "show" : "hidden"}`}>
-      <S.MenuContents className={`modalClose ${isMenuOpen ? "show" : "hidden"}`}>
-        <S.Header>
-          <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
-          <S.SettingIcon onClick={handleSettingClick}><Settings/></S.SettingIcon>
-        </S.Header>
-        <Profile
-          name={name}
-          email={email} 
-          follwersCount={follwersCount} 
-          follwingsCount={follwingsCount}
-          onFriendClick={handleFriendClick}/>
-        <S.Goals onClick={handleGoalsTitleClick}>
-          <S.GoalsTitle>목표 관리
-          </S.GoalsTitle>
+    <Sidebar isOpen={isMenuOpen} onClose={onCloseMenu}>
+      <S.Header>
+        <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
+        <Link href={"/setting"} passHref>
+          <S.SettingIcon><Settings/></S.SettingIcon>
+        </Link>
+      </S.Header>
+      <Profile
+        name={name}
+        email={email}
+        follwersCount={follwersCount} 
+        follwingsCount={follwingsCount}
+        onFriendClick={handleFriendClick}/>
+      <Link href={"/goals"} passHref>
+        <S.Goals>
+          <S.GoalsTitle>목표 관리</S.GoalsTitle>
           <S.GoalsContents>
             {goals.map((value)=>(
               <Chip 
@@ -79,8 +70,8 @@ export const Sidebar = ({
             ))}
           </S.GoalsContents>
         </S.Goals>
-      </S.MenuContents>
-    </S.MenuOverlay>
+      </Link>
+    </Sidebar>
   </>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from "../sidebar.styled";
+import * as S from "../sidebarSetting.styled";
 import {ExpandedUserData} from "pages";
 
 type ProfileProps = ExpandedUserData & {
@@ -8,7 +8,7 @@ type ProfileProps = ExpandedUserData & {
 
 export const Profile = ({
   name, 
-  email, 
+  email,
   follwersCount, 
   follwingsCount, 
   onFriendClick}: ProfileProps) => {
