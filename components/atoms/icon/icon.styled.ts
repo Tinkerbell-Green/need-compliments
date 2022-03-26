@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Icon = styled.button<{bubble:boolean, rotate:boolean,color:string}>`
+export const Icon = styled.button<{rotate:boolean,color:string}>`
   width:26px;
   height:26px;
   padding:2px;
