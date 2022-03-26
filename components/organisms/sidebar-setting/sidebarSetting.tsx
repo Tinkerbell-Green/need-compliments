@@ -1,48 +1,51 @@
 import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
-import {useRouter} from "next/router";
-import React, {useCallback} from "react";
+import React, {useCallback,useMemo} from "react";
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon";
 import {IconSetting} from "components/moleculs/iconSetting"
 import {Sidebar} from "components/moleculs/sidebar";
-import {ExpandedUserData} from "pages";
-import {GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 
-type SidebarSettingProps = ExpandedUserData & {
+type SidebarSettingProps = {
   onCloseMenu: React.MouseEventHandler,
   isMenuOpen:boolean;
-  goals: GoalData[];
   onSnackbarShow:()=>void,
 }
 
 export const SidebarSetting = ({
-  name,
-  email,
-  follwersCount,
-  follwingsCount,
   onCloseMenu,
   isMenuOpen,
-  goals,
   onSnackbarShow,
 }:SidebarSettingProps) => {
-  const router = useRouter();
-  
+  const {
+    data: loggedInUserData,
+  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+  const {
+    data: getGoalsData,
+  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+
+  const goals = useMemo(() => {
+    const newGoals = getGoalsData || [];
+    newGoals.sort((a, b) => a.createdAt - b.createdAt);
+    return newGoals;
+  }, [getGoalsData]);
+
   const handleFriendClick = useCallback(()=>{
     onSnackbarShow();
   },[onSnackbarShow]);
 
   return (
-    <Sidebar isOpen={isMenuOpen} onClose={onCloseMenu}>
+    <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
       <S.Header>
-        <Link href={"/setting"} passHref>
-          <IconSetting rotate/>
+        <Link href={"/setting"} passHref={true}>
+          <IconSetting rotate={true}/>
         </Link>
       </S.Header>
       <S.Profile>
-        <S.Name>{name}</S.Name>
-        <S.Email>{email}</S.Email>
+        <S.Name>{loggedInUserData?.name}</S.Name>
+        <S.Email>{loggedInUserData?.email}</S.Email>
         <S.FriendList onClick={handleFriendClick}>
         칭필을 친구와 함께 사용할 수 있나요?
           {/* <S.Friend>{`${follwersCount} 팔로워`}</S.Friend> */}

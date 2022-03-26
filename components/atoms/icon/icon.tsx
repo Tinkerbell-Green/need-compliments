@@ -7,9 +7,9 @@ type IconProps = {
   rotate?: boolean;
 }
 
-export const Icon = ({children,onClick, color="", rotate=false}:IconProps) => {
+export const Icon = ({children,onClick, color="", rotate}:IconProps) => {
   return (
-    <S.Icon color={color} rotate={rotate} onClick={onClick && onClick}>
+    <S.Icon tabIndex={0} color={color} rotate={rotate ? rotate : false} onClick={onClick && onClick}>
       {children}
     </S.Icon>
   );

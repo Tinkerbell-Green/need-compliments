@@ -31,7 +31,6 @@ type SnackbarProps = {
   duration?:number,
 }
 
-
 const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
 const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
@@ -61,7 +60,6 @@ const Home: NextPage = () => {
     fetch: updateTaskFetch, 
     status: updateTaskStatus
   } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
-
   const {
     fetch: getGoalsFetch, 
     data: getGoalsData,
@@ -71,15 +69,9 @@ const Home: NextPage = () => {
     (state: RootState) => state.navigation.pageAuthorId
   );
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState<ExpandedUserData>({
-    name:"",
-    email:"",
-    follwersCount:0,
-    follwingsCount:0,
-  })
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
     message: "",
@@ -209,16 +201,16 @@ const Home: NextPage = () => {
     }
   },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
   
-  useEffect(() => {
-    if (!loggedInUserData) return;
+  // useEffect(() => {
+  //   if (!loggedInUserData) return;
 
-    setUserInfo({
-      name : loggedInUserData.name,
-      email : loggedInUserData.email,
-      follwersCount : loggedInUserData.followers.length,
-      follwingsCount : loggedInUserData.followings.length,
-    })
-  }, [loggedInUserData]);
+  //   setUserInfo({
+  //     name : loggedInUserData.name,
+  //     email : loggedInUserData.email,
+  //     follwersCount : loggedInUserData.followers.length,
+  //     follwingsCount : loggedInUserData.followings.length,
+  //   })
+  // }, [loggedInUserData]);
 
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
@@ -267,14 +259,13 @@ const Home: NextPage = () => {
   return (
     <LayoutMain 
       header={<HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>}
-      sidebar={<SidebarSetting
-        {...userInfo}
-        isMenuOpen={isMenuOpen}
-        onCloseMenu={handleCloseMenu}
-        goals={goals}
-        onSnackbarShow={handleSnackbarShow}
-      ></SidebarSetting>}>
-      <Seo title={userInfo.name}></Seo>
+      sidebar={
+        <SidebarSetting
+          isMenuOpen={isMenuOpen}
+          onCloseMenu={handleCloseMenu}
+          onSnackbarShow={handleSnackbarShow}
+        ></SidebarSetting>}>
+      <Seo title={loggedInUserData?.name || ""}></Seo>
       <Snackbar 
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>

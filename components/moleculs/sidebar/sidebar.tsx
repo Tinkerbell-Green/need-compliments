@@ -14,16 +14,16 @@ export const Sidebar = ({
   isOpen,
   onClose,
 }: SidebarProps) => {
+
   return (
     <S.MenuOverlay
-      onClick={onClose} 
+      onClick={onClose}
       className={`menuClose ${isOpen ? "show" : "hidden"}`}>
       <S.MenuContents className={`menuClose ${isOpen ? "show" : "hidden"}`}>
-        <S.CloseButton>
-          <Icon onClick={onClose}><CloseOutline/></Icon>
-        </S.CloseButton>
+        <S.CloseButton><Icon onClick={onClose}><CloseOutline/></Icon></S.CloseButton>
         {children}
       </S.MenuContents>
     </S.MenuOverlay>
+    
   );
 };

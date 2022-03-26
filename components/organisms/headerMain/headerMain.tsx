@@ -28,7 +28,7 @@ export const HeaderMain = ({
             <S.NavItem><Icon><TargetEdit/></Icon></S.NavItem>
           </Link>
           <Link href={"/setting"} passHref>
-            <S.NavItem><IconSetting rotate/></S.NavItem>
+            <S.NavItem><IconSetting rotate={true}/></S.NavItem>
           </Link>
           <S.NavItem onClick={onMenuOpen}><Icon><Menu /></Icon></S.NavItem>
         </S.NavPart>
