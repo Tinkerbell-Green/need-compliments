@@ -28,15 +28,17 @@ export const FeedItem = ({
       <S.Item>
         <Chip label={goal} color={goalColor}></Chip>
         <S.Task>{task}</S.Task>
-        <S.Reaction onClick={()=>{
-          setIsThumbsClick(true);
-          setTimeout(()=>setIsThumbsClick(false),2000);
-        }}>
-          <IconThumbsUp clicked={isThumbsClick}></IconThumbsUp>
-          <S.Count>{complimentsCount}</S.Count>
-        </S.Reaction>
-        <S.Text>{writer}</S.Text>
-        <S.Text>{doneAt}</S.Text>
+        <div>
+          <S.Reaction onClick={()=>{
+            setIsThumbsClick(true);
+            setTimeout(()=>setIsThumbsClick(false),2000);
+          }}>
+            <IconThumbsUp clicked={isThumbsClick}></IconThumbsUp>
+            <S.Count>{complimentsCount}</S.Count>
+          </S.Reaction>
+          <S.Li>{writer}</S.Li>
+          <S.Li>{doneAt}</S.Li>
+        </div>
       </S.Item>
     </li>
   );

@@ -4,25 +4,29 @@ export const Item = styled.ul`
 width:100%;
 display: flex;
 align-items: center;
-justify-content: space-between;
 margin-top: 12px;
 `;
 export const Task = styled.li`
-flex-basis: 50%;
+flex-grow: 1;
+margin-left: 18px;
 flex-shrink: 2;
 font-size: 0.875rem;
+min-width:200px;
 `;
+
 export const Reaction = styled.li`
 display: flex;
 align-items: center;
 flex-shrink: 2;
 `;
 
-export const Text = styled.li`
+export const Li = styled.li`
 font-size: 0.65rem;
-flex-shrink: 2;
+display: flex;
+align-items: center;
+margin-left: 20px;
 `;
-export const Count = styled.li`
+export const Count = styled.div`
 font-size: 0.8rem;
   margin-left: 12px;
 `;
