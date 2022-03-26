@@ -36,12 +36,6 @@ height: 10px;
 width:10px;
 `;
 
-export const More = styled(NavPart)`
-@media screen and (max-width: ${props => props.theme.media.md}px){
-    visibility: hidden;
-  }
-`;
-
 export const NavItem = styled.div`
 font-size: 1rem;
 margin-right:5px;
