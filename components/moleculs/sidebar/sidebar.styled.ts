@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MenuOverlay = styled.div`
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   top:0;
   left: 0;
@@ -18,10 +18,6 @@ export const MenuOverlay = styled.div`
     opacity: 0;
     visibility: hidden;
   }
-`;
-
-export const Header = styled.div`
-  justify-content: flex-end;
 `;
 
 export const MenuContents = styled.section`

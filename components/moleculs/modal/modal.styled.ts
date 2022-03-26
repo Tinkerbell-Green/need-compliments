@@ -12,7 +12,7 @@ justify-content: center;
 align-items: center;
 background-color: rgba(0,0,0,0.5);
 transition: all 350ms ease-in-out;
-
+z-index: 10;
 visibility: ${props=>props.isOpen ? "visible" : "hidden"};
 opacity: ${props=>props.isOpen ? 1 : 0};
 `

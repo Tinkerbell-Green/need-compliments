@@ -8,6 +8,10 @@ display: flex;
 align-items: center;
 padding-top:10px;
 border-bottom: 1px solid rgba(1,1,1,0.5);
+background-color: ${props => props.theme.colors.black};
+position: sticky; 
+top:0;
+z-index: 1;
 `;
 
 export const NavPart = styled.div`
