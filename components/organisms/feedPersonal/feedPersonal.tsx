@@ -1,13 +1,13 @@
 import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React,{useMemo} from "react";
-import * as S from "./feed.styled";
-import {TaskList} from "./task-list";
+import * as S from "./feedPersonal.styled";
 import {Chip} from "components/atoms/chip";
+import {TaskInput} from "components/moleculs/taskInput"
 import {TaskData,GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
 
-type FeedProps = {
+type FeedPersonalProps = {
   pickedDate:string,
   goalTasks: Record<string, TaskData[]>,
 	goals: GoalData[],
@@ -16,14 +16,14 @@ type FeedProps = {
   onTaskUpdate:(id:string, text:string)=>void,
 };
 
-export const Feed = ({
+export const FeedPersonal = ({
   pickedDate,
   goalTasks,
   goals,
   onTaskDelete,
   onTaskCreate,
   onTaskUpdate
-}: FeedProps) => {
+}: FeedPersonalProps) => {
   const isAddable = useMemo(()=>Dayjs(pickedDate,"DDMMYYYY").toNow().match(/전/g),[pickedDate]);
 
   return (
@@ -49,12 +49,15 @@ export const Feed = ({
                 icon={<BookClose />}
                 onAdd={()=>onTaskCreate(goal.id)}
               ></Chip>
-              <TaskList
-                color={goal.color}
-                tasks={goalTasks[goal.id]}
-                onTaskDelete={onTaskDelete}
-                onTaskUpdate={onTaskUpdate}
-              ></TaskList>
+              {goalTasks[goal.id].map(({id,title})=>(
+                <TaskInput 
+                  key={id} 
+                  id={id} 
+                  color={goal.color} 
+                  title={title} 
+                  onTaskDelete={onTaskDelete}
+                  onTaskUpdate={onTaskUpdate}></TaskInput>
+              ))}
             </S.GoalAndInput>
           ))}
       </S.FeedContents>
