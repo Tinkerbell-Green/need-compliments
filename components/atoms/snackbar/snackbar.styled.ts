@@ -24,6 +24,7 @@ margin: 0 5px;
 
 export const Label = styled.p`
 margin: 0 5px;
+font-size: 14px;
 `;
 
 export const Button = styled.button`

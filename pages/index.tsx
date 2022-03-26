@@ -7,7 +7,7 @@ import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {Feed} from "components/organisms/feed";
-import {Sidebar} from "components/organisms/sidebar";
+import {SidebarSetting} from "components/organisms/sidebar-setting";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
@@ -250,7 +250,7 @@ const Home: NextPage = () => {
   },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
 
   return (
-    <LayoutMain>
+    <LayoutMain onMenuOpen={handleOpenMenu}>
       <Seo title={name}></Seo>
       <Snackbar 
         visible={snackbarProps.visible} 
@@ -258,13 +258,8 @@ const Home: NextPage = () => {
         type={snackbarProps.type}
         duration={snackbarProps.duration}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
-      <S.IconList>
-        <S.MenuIcon onClick={handleOpenMenu}>
-          <Menu />
-        </S.MenuIcon>
-      </S.IconList>
       <div className="invisible">
-        <Sidebar
+        <SidebarSetting
           name={name}
           email={email}
           follwersCount={follwersCount}
@@ -272,7 +267,7 @@ const Home: NextPage = () => {
           isMenuOpen={isMenuOpen}
           onCloseMenu={handleCloseMenu}
           goals={goals}
-        ></Sidebar>
+        ></SidebarSetting>
       </div>
       <S.Visible>
         <Calendar
@@ -280,10 +275,6 @@ const Home: NextPage = () => {
           onDateClick={handleDateClick}
           tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection ref={feedRef}>
-          <S.Profile>
-            <S.Name>{name}</S.Name>
-            <S.SecondaryName>{email}</S.SecondaryName>
-          </S.Profile>
           <Feed
             onTaskDelete={handleTaskDelete}
             onTaskCreate={handleTaskCreate}

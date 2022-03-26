@@ -9,7 +9,7 @@ export const Header = styled.header``;
 export const PickedDate = styled.div`
   font-size: 1.125rem;
   font-weight: 600;
-  margin: 20px 0;
+  margin: 10px 0;
 `
 
 export const FeedContents = styled.ul`
