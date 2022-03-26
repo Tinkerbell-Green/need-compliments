@@ -5,7 +5,7 @@ import Link from "next/link";
 import * as S from "./headerMain.styled";
 import {Icon} from "components/atoms/icon";
 import {Logo} from "components/atoms/logo"
-import {SettingIcon} from "components/moleculs/settingIcon"
+import {IconSetting} from "components/moleculs/iconSetting"
 
 type HeaderMainProps = {
   onMenuOpen : React.MouseEventHandler,
@@ -26,7 +26,7 @@ export const HeaderMain = ({
               <S.NavItem><Icon><TargetEdit/></Icon></S.NavItem>
             </Link>
             <Link href={"/setting"} passHref>
-              <S.NavItem><SettingIcon rotate/></S.NavItem>
+              <S.NavItem><IconSetting rotate/></S.NavItem>
             </Link>
           </S.More>
           <Link href={"/"} passHref>

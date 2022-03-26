@@ -8,7 +8,7 @@ import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon";
 import {Snackbar} from "components/atoms/snackbar";
-import {SettingIcon} from "components/moleculs/settingIcon"
+import {IconSetting} from "components/moleculs/iconSetting"
 import {Sidebar} from "components/moleculs/sidebar";
 import {ExpandedUserData} from "pages";
 import {GoalData} from "stores/data";
@@ -50,7 +50,7 @@ export const SidebarSetting = ({
       <S.Header>
         <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
         <Link href={"/setting"} passHref>
-          <SettingIcon rotate/>
+          <IconSetting rotate/>
         </Link>
       </S.Header>
       <Profile
