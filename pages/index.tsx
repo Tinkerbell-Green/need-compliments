@@ -35,6 +35,7 @@ const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠
 const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const UPDATE_TASKS_SUCCESS = "데이터를 성공적으로 저장했습니다 🧚‍♀️"
+const NEXT_FEATURE ="준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️";
 
 const Home: NextPage = () => {
   const {
@@ -80,7 +81,6 @@ const Home: NextPage = () => {
     message: "",
     type: "information",
     duration:1000,
-    
   });
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
@@ -248,15 +248,21 @@ const Home: NextPage = () => {
       getTasksByDaysRefetch()
     }
   },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
+  
+  const handleSnackbarShow = useCallback(()=>{
+    setSnackbarProps({
+      visible:true,
+      message:NEXT_FEATURE,
+      type:"information",
+      duration:5000,
+    })
+  },[])
 
   return (
     <LayoutMain onMenuOpen={handleOpenMenu}>
       <Seo title={name}></Seo>
       <Snackbar 
-        visible={snackbarProps.visible} 
-        message={snackbarProps.message} 
-        type={snackbarProps.type}
-        duration={snackbarProps.duration}
+        {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <div className="invisible">
         <SidebarSetting
@@ -267,6 +273,7 @@ const Home: NextPage = () => {
           isMenuOpen={isMenuOpen}
           onCloseMenu={handleCloseMenu}
           goals={goals}
+          onSnackbarShow={handleSnackbarShow}
         ></SidebarSetting>
       </div>
       <S.Visible>

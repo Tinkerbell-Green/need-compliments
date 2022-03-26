@@ -1,4 +1,3 @@
-import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
 import {useRouter} from "next/router";
@@ -7,7 +6,6 @@ import {Profile} from "./profile"
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon";
-import {Snackbar} from "components/atoms/snackbar";
 import {IconSetting} from "components/moleculs/iconSetting"
 import {Sidebar} from "components/moleculs/sidebar";
 import {ExpandedUserData} from "pages";
@@ -17,6 +15,7 @@ type SidebarSettingProps = ExpandedUserData & {
   onCloseMenu: React.MouseEventHandler,
   isMenuOpen:boolean;
   goals: GoalData[];
+  onSnackbarShow:()=>void,
 }
 
 export const SidebarSetting = ({
@@ -27,28 +26,17 @@ export const SidebarSetting = ({
   onCloseMenu,
   isMenuOpen,
   goals,
+  onSnackbarShow,
 }:SidebarSettingProps) => {
   const router = useRouter();
-  const [isSnackbarShow, setIsSnackbarShow] = useState(false);
   
   const handleFriendClick = useCallback(()=>{
-    setIsSnackbarShow(true);
-  },[]);
+    onSnackbarShow();
+  },[onSnackbarShow]);
 
-  const handleSnackbarClose = useCallback(()=>{
-    setIsSnackbarShow(false);
-  },[])
-
-  return (<>
-    <Snackbar 
-      visible={isSnackbarShow}
-      onClose={handleSnackbarClose}
-      message={"준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️"}
-      duration={5000}>
-    </Snackbar>
+  return (
     <Sidebar isOpen={isMenuOpen} onClose={onCloseMenu}>
       <S.Header>
-        <S.CloseButton onClick={onCloseMenu}><CloseOutline/></S.CloseButton>
         <Link href={"/setting"} passHref>
           <IconSetting rotate/>
         </Link>
@@ -77,6 +65,5 @@ export const SidebarSetting = ({
         </S.Goals>
       </Link>
     </Sidebar>
-  </>
   );
 };

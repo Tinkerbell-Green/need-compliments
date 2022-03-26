@@ -40,3 +40,20 @@ export const MenuContents = styled.section`
     transform: translateX(0%);
   }
 `;
+
+
+export const CloseButton = styled.button`
+position: absolute;
+top:0;
+left:0;
+transform: translateX(-100%) rotate(0deg);
+width: 30px;
+height:30px;
+padding:2px;
+color: ${props => props.theme.colors["gray-600"]};
+transition: transform 0.3s ease-in-out;
+
+&:hover, &:focus{
+  transform: translateX(-100%) rotate(90deg);
+}
+`;
