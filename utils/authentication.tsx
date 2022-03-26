@@ -22,12 +22,6 @@ export const AuthenticationProvider = ({
         key: "loggedInUserId",
         userId: sessionUserId
       }))
-  
-      // TODO: move this to query param logic later
-      dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
-        key: "pageAuthorId",
-        userId: sessionUserId
-      }))
     }
   }, [dispatch, sessionUserId, status])
   

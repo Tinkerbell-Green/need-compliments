@@ -1,8 +1,7 @@
-import isEqual from "lodash.isequal"
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Optional} from "utility-types"
-import {Authority, dataActionCreators, DataActionPayload, DataActionType, DataSagaActionType, dataSagaAuthority} from "./actions";
+import {dataActionCreators, DataActionPayload, DataActionType, DataSagaActionType, dataSagaDefaultAuthor} from "./actions";
 import {RootState} from "stores/reducers"
 
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
@@ -20,32 +19,24 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
 
-  const authority = dataSagaAuthority[actionType]
+  const defaultFetchAuthor = useMemo(()=>{
+    const defaultFetchAuthorType = dataSagaDefaultAuthor[actionType]
 
-  const keyUserId = useMemo(()=>{
-    if (authority === Authority.AUTHOR){
+    if (defaultFetchAuthorType === "loggedInUser"){
       return loggedInUserId
-    } else if (authority === Authority.VIEWER){
-      return pageAuthorId
-    } else {
+    }
+    else if (defaultFetchAuthorType === "pageAuthor"){
       return pageAuthorId
     }
-  },[authority, loggedInUserId, pageAuthorId])
-
-  const defaultFetchAuthorId = useMemo(()=>{
-    if (authority === Authority.AUTHOR){
-      return loggedInUserId
-    } else if (authority === Authority.VIEWER){
-      return pageAuthorId
-    } else {
-      return pageAuthorId
+    else {
+      return ""
     }
-  },[authority, loggedInUserId, pageAuthorId])
+  },[actionType, loggedInUserId, pageAuthorId])
 
   // key
   const key = useMemo(()=>{
-    return [keyUserId || "", ...(additionalKeys || [])].sort().join()
-  },[additionalKeys, keyUserId])
+    return [defaultFetchAuthor || "", ...(additionalKeys || [])].sort().join()
+  },[additionalKeys, defaultFetchAuthor])
 
   const keyRef = useRef<typeof key>(key)
   useEffect(()=>{
@@ -71,24 +62,22 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
-    const author = partialPayload.author || defaultFetchAuthorId
+    const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
     
-    if (author && key){
-      dispatch(dataActionCreators[actionType]({
-        ...partialPayload,
-        author,
-        key,
-      } as any))
+    dispatch(dataActionCreators[actionType]({
+      ...partialPayload,
+      author,
+      key,
+    } as any))
 
-      dispatch(
-        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
-          type: actionType,
-          key,
-          payload: partialPayload
-        })
-      )
-    }
-  },[actionType, defaultFetchAuthorId, dispatch, key])
+    dispatch(
+      dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+        type: actionType,
+        key,
+        payload: partialPayload
+      })
+    )
+  },[actionType, defaultFetchAuthor, dispatch, key])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
     if (!payloadRef.current) return;
