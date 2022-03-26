@@ -2,20 +2,20 @@ import React, {useCallback} from "react";
 import {ListItemRadio, ListItemRadioProps} from "../listItemRadio";
 import * as S from "./listRadio.styled";
 
-export type ListRadioProps = {
+export type ListRadioProps<ValueType = string> = {
   name: string
-  data: Omit<ListItemRadioProps, "name" | "onClick" | "checked">[];
-  value: string
-  onChange?: (value: string) => void
+  data: Omit<ListItemRadioProps<ValueType>, "name" | "onClick" | "checked">[];
+  value: ValueType
+  onChange?: (value: ValueType) => void
 };
 
-export const ListRadio = ({
+export const ListRadio = <ValueType extends string>({
   data,
   name,
   value,
   onChange,
-}: ListRadioProps) => {
-  const handleClick = useCallback((value: string)=>{
+}: ListRadioProps<ValueType>) => {
+  const handleClick = useCallback((value: ValueType)=>{
     onChange?.(value)
   },[onChange])
 

@@ -5,23 +5,23 @@ import * as S from "./listItemRadio.styled";
 
 export type PublicBookIcon = "public" | "protected" | "private" | null;
 
-export type ListItemRadioProps = {
+export type ListItemRadioProps<ValueType = string> = {
   name: string;
   title: string;
-  value: string;
+  value: ValueType;
   publicBookIcon: PublicBookIcon;
   checked: boolean;
-  onClick: (value: string) => void; // 뭘 클릭했는지 부모한테 알려주기 위해서
+  onClick: (value: ValueType) => void; // 뭘 클릭했는지 부모한테 알려주기 위해서
 };
 
-export const ListItemRadio = ({
+export const ListItemRadio = <ValueType extends string>({
   title,
   name,
   value,
   publicBookIcon,
   onClick,
   checked,
-}: ListItemRadioProps) => {
+}: ListItemRadioProps<ValueType>) => {
   const getpublicBookIcon = (
     publicBookIcon: PublicBookIcon
   ): React.ReactNode | null => {
