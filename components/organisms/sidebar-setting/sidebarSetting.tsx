@@ -1,8 +1,7 @@
 import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import React, {useCallback, useState} from "react";
-import {Profile} from "./profile"
+import React, {useCallback} from "react";
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon";
@@ -41,12 +40,15 @@ export const SidebarSetting = ({
           <IconSetting rotate/>
         </Link>
       </S.Header>
-      <Profile
-        name={name}
-        email={email}
-        follwersCount={follwersCount} 
-        follwingsCount={follwingsCount}
-        onFriendClick={handleFriendClick}/>
+      <S.Profile>
+        <S.Name>{name}</S.Name>
+        <S.Email>{email}</S.Email>
+        <S.FriendList onClick={handleFriendClick}>
+        칭필을 친구와 함께 사용할 수 있나요?
+          {/* <S.Friend>{`${follwersCount} 팔로워`}</S.Friend> */}
+          {/* <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend> */}
+        </S.FriendList>
+      </S.Profile>
       <Link href={"/goals"} passHref>
         <S.Goals>
           <S.GoalsTitle>

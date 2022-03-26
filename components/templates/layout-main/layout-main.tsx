@@ -1,19 +1,21 @@
 import React from "react"
 import * as S from "./layout-main.styled"
-import {HeaderMain} from "components/organisms/headerMain";
 
 export type LayoutMainProps = {
   children: React.ReactNode,
-  onMenuOpen : React.MouseEventHandler,
+  header? : React.ReactNode,
+  sidebar? : React.ReactNode,
 }
 
 export const LayoutMain = ({
   children,
-  onMenuOpen,
+  header,
+  sidebar,
 }: LayoutMainProps) => {
   return (
     <S.LayoutMain>
-      <HeaderMain onMenuOpen={onMenuOpen}></HeaderMain>
+      {header && header}
+      {sidebar && sidebar}
       <S.Contents>
         {children}
       </S.Contents>
