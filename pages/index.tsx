@@ -1,4 +1,3 @@
-import {Menu} from "@styled-icons/feather";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
@@ -6,10 +5,10 @@ import {useSelector} from "react-redux";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
-import {Feed} from "components/organisms/feed";
+import {FeedPersonal} from "components/organisms/feedPersonal";
 import {SidebarSetting} from "components/organisms/sidebar-setting";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData, GoalData} from "stores/data";
+import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/index.styled";
@@ -275,13 +274,13 @@ const Home: NextPage = () => {
           onDateClick={handleDateClick}
           tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection ref={feedRef}>
-          <Feed
+          <FeedPersonal
             onTaskDelete={handleTaskDelete}
             onTaskCreate={handleTaskCreate}
             onTaskUpdate={handleTaskUpdate}
             pickedDate={pickedDate}
             goalTasks={goalTasksAtPickedDate}
-            goals={goals}></Feed>
+            goals={goals}></FeedPersonal>
         </S.DetailSection>
       </S.Visible>
     </LayoutMain>
