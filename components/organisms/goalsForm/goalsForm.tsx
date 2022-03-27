@@ -40,7 +40,7 @@ export const GoalsForm = ({
       publicBookIcon: "private",
     },
     {
-      value: "hide",
+      value: "none",
       title: "숨기기",
       publicBookIcon: "private",
     },

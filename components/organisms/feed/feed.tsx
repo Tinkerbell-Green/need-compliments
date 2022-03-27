@@ -12,7 +12,7 @@ type FeedProps = {
   goalTasks: Record<string, TaskData[]>,
 	goals: GoalData[],
   onTaskDelete: (id:string)=>void,
-  onTaskCreate: (id:string)=>void,
+  onTaskCreate: (id:string, readPermission: GoalData["readPermission"])=>void,
   onTaskUpdate:(id:string, text:string)=>void,
 };
 
@@ -47,7 +47,7 @@ export const Feed = ({
                 label={goal.name}
                 color={goal.color}
                 icon={<BookClose />}
-                onAdd={()=>onTaskCreate(goal.id)}
+                onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
               ></Chip>
               <TaskList
                 color={goal.color}
