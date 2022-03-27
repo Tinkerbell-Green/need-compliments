@@ -42,50 +42,6 @@ const GoalsFormPage: NextPage = () => {
     getGoalsFetch({});
   }, [getGoalsFetch]);
 
-  useEffect(() => {
-    goals && setGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
-
-    if (goal) {
-      setGoalName(goal?.name);
-      setGoalColor(goal?.color);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goals, goal]);
-
-  const onBackClick = useCallback(() => {
-    if (
-      (goal && (goal.name !== goalName || goal?.color !== goalColor)) ||
-      (!goal && (goalName !== "" || goalColor !== "white"))
-    ) {
-      if (confirm("변동된 사항을 저장하시겠습니까?")) onSave();
-    }
-    router.push("/goals");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
-
-  const onSubmit = useCallback(() => {
-    if (!goalName) alert("설정된 목표 이름이 없습니다.");
-    else {
-      router.push("/goals");
-      onSave();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
-
-  const onSave = useCallback(() => {
-    if (goal) {
-      onUpdateGoal(goalName, goalColor, goalPrivacy);
-    } else {
-      onCreateGoal(goalName, goalColor, goalPrivacy);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
-
-  const onDelete = useCallback(() => {
-    router.push("/goals");
-    goal && onDeleteGoal(goal.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal]);
 
   const onCreateGoal = useCallback(
     (name: string, color: GoalColor, privacy: GoalData["privacy"]) => {
@@ -123,6 +79,47 @@ const GoalsFormPage: NextPage = () => {
     },
     [deleteGoalFetch]
   );
+
+  const onSave = useCallback(() => {
+    if (goal) {
+      onUpdateGoal(goalName, goalColor, goalPrivacy);
+    } else {
+      onCreateGoal(goalName, goalColor, goalPrivacy);
+    }
+  }, [goal, onUpdateGoal, goalName, goalColor, goalPrivacy, onCreateGoal]);
+
+  useEffect(() => {
+    goals && setGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
+
+    if (goal) {
+      setGoalName(goal?.name);
+      setGoalColor(goal?.color);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goals, goal]);
+
+  const onBackClick = useCallback(() => {
+    if (
+      (goal && (goal.name !== goalName || goal?.color !== goalColor)) ||
+      (!goal && (goalName !== "" || goalColor !== "white"))
+    ) {
+      if (confirm("변동된 사항을 저장하시겠습니까?")) onSave();
+    }
+    router.push("/goals");
+  }, [goal, goalName, goalColor, router, onSave]);
+
+  const onSubmit = useCallback(() => {
+    if (!goalName) alert("설정된 목표 이름이 없습니다.");
+    else {
+      router.push("/goals");
+      onSave();
+    }
+  }, [goalName, router, onSave]);
+
+  const onDelete = useCallback(() => {
+    router.push("/goals");
+    goal && onDeleteGoal(goal.id);
+  }, [goal, onDeleteGoal, router]);
 
   return (
     <>
