@@ -1,24 +1,39 @@
-import React from "react"
+import React, {useState,useCallback} from "react"
 import * as S from "./layout-main.styled"
+import {HeaderMain} from "components/organisms/headerMain"
+import {SidebarSetting} from "components/organisms/sidebarSetting";
 
 export type LayoutMainProps = {
   children: React.ReactNode,
-  header? : React.ReactNode,
-  sidebar? : React.ReactNode,
+  onSnackbarShow? : ()=>void,
 }
 
 export const LayoutMain = ({
   children,
-  header,
-  sidebar,
+  onSnackbarShow,
 }: LayoutMainProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
+    setIsMenuOpen(true);
+  },[]);
+
+  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
+    if ((event.target as HTMLElement).closest(".menuClose")) {
+      setIsMenuOpen(false);
+    }
+  },[]);
+
   return (
     <S.LayoutMain>
-      {header && header}
-      {sidebar && sidebar}
+      <HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>
+      <SidebarSetting
+        isMenuOpen={isMenuOpen}
+        onCloseMenu={handleCloseMenu}
+        onSnackbarShow={onSnackbarShow && onSnackbarShow}
+      ></SidebarSetting>    
       <S.Contents>
         {children}
       </S.Contents>
-    </S.LayoutMain>   
-  )
+    </S.LayoutMain>
+  );
 }

@@ -18,10 +18,9 @@ export const HeaderMain = ({
     <S.Header>
       <Logo/>
       <S.Nav>
+        <S.NavPart></S.NavPart>
         <S.NavPart>
-        </S.NavPart>
-        <S.NavPart>
-          <Link href={"/"} passHref>
+          <Link href={"/feed"} passHref>
             <S.NavItem><Icon><PencilSquare/></Icon></S.NavItem>
           </Link>
           <Link href={"/goals"} passHref>

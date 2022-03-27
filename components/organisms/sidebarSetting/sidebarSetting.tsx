@@ -11,7 +11,7 @@ import {useDataSaga, DataActionType} from "stores/data";
 type SidebarSettingProps = {
   onCloseMenu: React.MouseEventHandler,
   isMenuOpen:boolean;
-  onSnackbarShow:()=>void,
+  onSnackbarShow?:()=>void,
 }
 
 export const SidebarSetting = ({
@@ -33,7 +33,7 @@ export const SidebarSetting = ({
   }, [getGoalsData]);
 
   const handleFriendClick = useCallback(()=>{
-    onSnackbarShow();
+    onSnackbarShow && onSnackbarShow();
   },[onSnackbarShow]);
 
   return (

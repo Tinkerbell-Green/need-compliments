@@ -9,6 +9,7 @@ export type TaskDocument = {
   doneAt: number
   createdAt: number
   updatedAt: number
+  readPermission: "everyone" | "me" | "none"
 }
 export type TaskData = TaskDocument & {
   id: string
@@ -18,6 +19,7 @@ export type GoalColor = keyof Theme["colors"]["goals"]
 export type GoalDocument = {
   name: string
   color: GoalColor
+  readPermission: "everyone" | "me" | "none"
   author: string
   createdAt: number
   updatedAt: number

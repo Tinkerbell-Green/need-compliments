@@ -5,11 +5,12 @@ import {useSelector} from "react-redux";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
-import {Feed} from "components/organisms/feed";
-import {HeaderMain} from "components/organisms/headerMain";
-import {SidebarSetting} from "components/organisms/sidebar-setting";
+import {FeedPersonal} from "components/organisms/feedPersonal";
+import {FeedPublic} from "components/organisms/feedPublic";
+import {HeaderMain} from "components/organisms/headerMain"
+import {SidebarSetting} from "components/organisms/sidebarSetting";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData} from "stores/data";
+import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/index.styled";
@@ -69,7 +70,6 @@ const Home: NextPage = () => {
     (state: RootState) => state.navigation.pageAuthorId
   );
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
@@ -80,16 +80,6 @@ const Home: NextPage = () => {
   });
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
-
-  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
-    setIsMenuOpen(true);
-  },[]);
-
-  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
-    if ((event.target as HTMLElement).closest(".menuClose")) {
-      setIsMenuOpen(false);
-    }
-  },[]);
 
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
@@ -103,12 +93,13 @@ const Home: NextPage = () => {
   },[deleteTaskFetch])
 
   const handleTaskCreate = useCallback(
-    (id: string) => {
+    (id: string, readPermission: GoalData["readPermission"]) => {
       createTaskFetch({
         data: {
           title: "",
           goal:id,
           doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
+          readPermission,
         },
       });
     },
@@ -201,17 +192,6 @@ const Home: NextPage = () => {
     }
   },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
   
-  // useEffect(() => {
-  //   if (!loggedInUserData) return;
-
-  //   setUserInfo({
-  //     name : loggedInUserData.name,
-  //     email : loggedInUserData.email,
-  //     follwersCount : loggedInUserData.followers.length,
-  //     follwingsCount : loggedInUserData.followings.length,
-  //   })
-  // }, [loggedInUserData]);
-
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
@@ -257,14 +237,7 @@ const Home: NextPage = () => {
   },[updateTaskStatus])
 
   return (
-    <LayoutMain 
-      header={<HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>}
-      sidebar={
-        <SidebarSetting
-          isMenuOpen={isMenuOpen}
-          onCloseMenu={handleCloseMenu}
-          onSnackbarShow={handleSnackbarShow}
-        ></SidebarSetting>}>
+    <LayoutMain onSnackbarShow={handleSnackbarShow}>
       <Seo title={loggedInUserData?.name || ""}></Seo>
       <Snackbar 
         {...snackbarProps}
@@ -275,13 +248,13 @@ const Home: NextPage = () => {
           onDateClick={handleDateClick}
           tasksByDate={tasksByDate}></Calendar>
         <S.DetailSection ref={feedRef}>
-          <Feed
+          <FeedPersonal
             onTaskDelete={handleTaskDelete}
             onTaskCreate={handleTaskCreate}
             onTaskUpdate={handleTaskUpdate}
             pickedDate={pickedDate}
             goalTasks={goalTasksAtPickedDate}
-            goals={goals}></Feed>
+            goals={goals}></FeedPersonal>
         </S.DetailSection>
       </S.Visible>
     </LayoutMain>

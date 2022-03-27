@@ -7,7 +7,7 @@ export const LayoutMain = styled.div`
   flex-direction: column;
 `
 
-export const Contents = styled.div`
+export const Contents = styled.main`
   width: 100%;
   flex-direction: column;
 

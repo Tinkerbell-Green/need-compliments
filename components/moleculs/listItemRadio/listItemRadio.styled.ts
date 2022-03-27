@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const RadioContainer = styled.div`
-width: 100%;
-height: 2rem;
-display: flex;
-align-items: center;
-margin-bottom: 1rem;
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
 `
 
 export const RadioIconAndLabel = styled.div`
