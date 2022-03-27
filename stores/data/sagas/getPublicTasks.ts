@@ -3,14 +3,14 @@ import {call, getContext, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
 import {DataSagaStatus, TaskDocument} from "../types"; 
-import {GoalDocument} from "./../types";
+import {GoalDocument} from "../types";
 import {RootState} from "stores/reducers";
 import {Repository, GetDocumentsData} from "utils/firebase";
 
-export function* getCommunityTasks(action: DataActionInstance<DataActionType.GET_COMMUNITY_TASKS>) {
+export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PUBLIC_TASKS>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.GET_COMMUNITY_TASKS
+  const sagaDataActionType = DataActionType.GET_PUBLIC_TASKS
 
   const repository: Repository = yield getContext("repository");
 

@@ -9,7 +9,7 @@ export enum DataActionType {
   GET_LOGGED_IN_USER_DATA = "data/GET_LOGGED_IN_USER_DATA",
   UPDATE_USER = "data/UPDATE_USER",
   GET_TASKS_BY_DAYS = "data/GET_TASKS_BY_DAYS",
-  GET_COMMUNITY_TASKS = "data/GET_COMMUNITY_TASKS",
+  GET_PUBLIC_TASKS = "data/GET_PUBLIC_TASKS",
   CREATE_TASK = "data/CREATE_TASK",
   UPDATE_TASK = "data/UPDATE_TASK",
   DELETE_TASK = "data/DELETE_TASK",
@@ -24,7 +24,7 @@ export type DataSagaActionType = (
   DataActionType.GET_LOGGED_IN_USER_DATA |
   DataActionType.UPDATE_USER |
   DataActionType.GET_TASKS_BY_DAYS |
-  DataActionType.GET_COMMUNITY_TASKS |
+  DataActionType.GET_PUBLIC_TASKS |
   DataActionType.CREATE_TASK |
   DataActionType.UPDATE_TASK |
   DataActionType.DELETE_TASK |
@@ -46,7 +46,7 @@ export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Authority.UNKNOWN,
   [DataActionType.UPDATE_USER]: Authority.AUTHOR,
   [DataActionType.GET_TASKS_BY_DAYS]: Authority.VIEWER,
-  [DataActionType.GET_COMMUNITY_TASKS]: Authority.VIEWER,
+  [DataActionType.GET_PUBLIC_TASKS]: Authority.VIEWER,
   [DataActionType.CREATE_TASK]: Authority.AUTHOR,
   [DataActionType.UPDATE_TASK]: Authority.AUTHOR,
   [DataActionType.DELETE_TASK]: Authority.AUTHOR,
@@ -60,7 +60,7 @@ export const dataSagaDefaultAuthor:Record<DataSagaActionType, "pageAuthor" | "lo
   [DataActionType.GET_LOGGED_IN_USER_DATA]: "none",
   [DataActionType.UPDATE_USER]: "loggedInUser",
   [DataActionType.GET_TASKS_BY_DAYS]: "pageAuthor",
-  [DataActionType.GET_COMMUNITY_TASKS]: "none",
+  [DataActionType.GET_PUBLIC_TASKS]: "none",
   [DataActionType.CREATE_TASK]: "loggedInUser",
   [DataActionType.UPDATE_TASK]: "loggedInUser",
   [DataActionType.DELETE_TASK]: "loggedInUser",
@@ -102,7 +102,7 @@ export type DataActionPayload = {
     endDay: Date
     merge?: Boolean
   }
-  [DataActionType.GET_COMMUNITY_TASKS]: SagaDataActionDefaultPayload & {
+  [DataActionType.GET_PUBLIC_TASKS]: SagaDataActionDefaultPayload & {
     startTime: Date
     endTime: Date
     merge?: Boolean
@@ -145,7 +145,7 @@ export const dataActionCreators = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
   [DataActionType.UPDATE_USER]: (payload: DataActionPayload[DataActionType.UPDATE_USER]) => ({type: DataActionType.UPDATE_USER, payload}),
   [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
-  [DataActionType.GET_COMMUNITY_TASKS]: (payload: DataActionPayload[DataActionType.GET_COMMUNITY_TASKS]) => ({type: DataActionType.GET_COMMUNITY_TASKS, payload}),
+  [DataActionType.GET_PUBLIC_TASKS]: (payload: DataActionPayload[DataActionType.GET_PUBLIC_TASKS]) => ({type: DataActionType.GET_PUBLIC_TASKS, payload}),
   [DataActionType.CREATE_TASK]: (payload: DataActionPayload[DataActionType.CREATE_TASK]) => ({type: DataActionType.CREATE_TASK, payload}),
   [DataActionType.UPDATE_TASK]: (payload: DataActionPayload[DataActionType.UPDATE_TASK]) => ({type: DataActionType.UPDATE_TASK, payload}),
   [DataActionType.DELETE_TASK]: (payload: DataActionPayload[DataActionType.DELETE_TASK]) => ({type: DataActionType.DELETE_TASK, payload}),
