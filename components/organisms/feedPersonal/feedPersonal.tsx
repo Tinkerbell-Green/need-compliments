@@ -12,7 +12,7 @@ type FeedPersonalProps = {
   goalTasks: Record<string, TaskData[]>,
 	goals: GoalData[],
   onTaskDelete: (id:string)=>void,
-  onTaskCreate: (id:string)=>void,
+  onTaskCreate: (id:string, readPermission: GoalData["readPermission"])=>void,
   onTaskUpdate:(id:string, text:string)=>void,
 };
 
@@ -47,7 +47,7 @@ export const FeedPersonal = ({
                 label={goal.name}
                 color={goal.color}
                 icon={<BookClose />}
-                onAdd={()=>onTaskCreate(goal.id)}
+                onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
               ></Chip>
               {goalTasks[goal.id].map(({id,title})=>(
                 <TaskInput 

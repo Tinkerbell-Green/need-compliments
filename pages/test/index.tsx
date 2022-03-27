@@ -21,7 +21,8 @@ const TestPage: NextPage = () => {
       data: {
         title: "new task",
         goal: "goal1",
-        doneAt: new Date().getTime()
+        doneAt: new Date().getTime(),
+        readPermission: "everyone"
       }
     })
   },[createTaskFetch])

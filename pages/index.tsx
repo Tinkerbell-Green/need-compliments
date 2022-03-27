@@ -186,12 +186,13 @@ const Home: NextPage = () => {
   },[deleteTaskFetch])
 
   const handleTaskCreate = useCallback(
-    (id: string) => {
+    (id: string, readPermission: GoalData["readPermission"]) => {
       createTaskFetch({
         data: {
           title: "",
           goal:id,
           doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
+          readPermission,
         },
       });
     },
