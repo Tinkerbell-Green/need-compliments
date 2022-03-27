@@ -25,7 +25,7 @@ const TestGoalsPage: NextPage = () => {
       data: {
         name: "new goal",
         color: "white",
-        privacy: "everyone"
+        readPermission: "everyone"
       }
     })
   },[createGoalFetch])
@@ -36,7 +36,7 @@ const TestGoalsPage: NextPage = () => {
       data: {
         name: "updated goal",
         color:"yellow",
-        privacy: "everyone"
+        readPermission: "everyone"
       }
     })
   },[updateGoalFetch])

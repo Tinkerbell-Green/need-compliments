@@ -23,7 +23,7 @@ const GoalsFormPage: NextPage = () => {
   const [goal, setGoal] = useState<GoalData>();
   const [goalName, setGoalName] = useState<string>("");
   const [goalColor, setGoalColor] = useState<GoalColor>("white");
-  const [goalPrivacy, setGoalPrivacy] = useState<GoalData["privacy"]>("everyone")
+  const [goalPrivacy, setGoalPrivacy] = useState<GoalData["readPermission"]>("everyone")
   const router = useRouter();
   
   const handleGoalName = (name: string) => {
@@ -34,8 +34,8 @@ const GoalsFormPage: NextPage = () => {
     setGoalColor(color);
   };
 
-  const handleGoalPrivacy = (privacy: GoalData["privacy"]) => {
-    setGoalPrivacy(privacy);
+  const handleGoalPrivacy = (readPermission: GoalData["readPermission"]) => {
+    setGoalPrivacy(readPermission);
   };
 
   useEffect(() => {
@@ -44,12 +44,12 @@ const GoalsFormPage: NextPage = () => {
 
 
   const onCreateGoal = useCallback(
-    (name: string, color: GoalColor, privacy: GoalData["privacy"]) => {
+    (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
       createGoalFetch({
         data: {
           name,
           color,
-          privacy
+          readPermission
         },
       });
     },
@@ -57,14 +57,14 @@ const GoalsFormPage: NextPage = () => {
   );
 
   const onUpdateGoal = useCallback(
-    (name: string, color: GoalColor, privacy: GoalData["privacy"]) => {
+    (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
       goal &&
         updateGoalFetch({
           pathSegments: [goal.id],
           data: {
             name: name,
             color,
-            privacy
+            readPermission
           },
         });
     },

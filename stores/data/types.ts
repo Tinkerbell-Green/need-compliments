@@ -18,7 +18,7 @@ export type GoalColor = keyof Theme["colors"]["goals"]
 export type GoalDocument = {
   name: string
   color: GoalColor
-  privacy: "everyone" | "me" | "hide"
+  readPermission: "everyone" | "me" | "hide"
   author: string
   createdAt: number
   updatedAt: number

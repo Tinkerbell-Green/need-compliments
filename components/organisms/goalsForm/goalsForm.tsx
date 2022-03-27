@@ -9,8 +9,8 @@ type GoalsFormProps = {
   goal?: GoalData;
   onChangeGoalName: (name: string) => void;
   onChangeGoalColor: (color: GoalColor) => void;
-  goalPrivacy: GoalData["privacy"]
-  onChangeGoalPrivacy: (color: GoalData["privacy"]) => void;
+  goalPrivacy: GoalData["readPermission"]
+  onChangeGoalPrivacy: (color: GoalData["readPermission"]) => void;
 };
 
 export const GoalsForm = ({
@@ -22,7 +22,7 @@ export const GoalsForm = ({
 }: GoalsFormProps) => {
   const [clickedGoalColor, setClickedGoalColor] = useState<GoalColor>("white");
   
-  const publicSettingOptions: ListRadioProps<GoalData["privacy"]>["data"] = useMemo(()=>[
+  const publicSettingOptions: ListRadioProps<GoalData["readPermission"]>["data"] = useMemo(()=>[
     {
       value: "everyone",
       title: "전체공개",
@@ -67,7 +67,7 @@ export const GoalsForm = ({
     onChangeGoalName(e.target.value);
   };
 
-  const onPrivacyChange = useCallback((value: GoalData["privacy"])=>{
+  const onPrivacyChange = useCallback((value: GoalData["readPermission"])=>{
     onChangeGoalPrivacy(value)
   },[onChangeGoalPrivacy])
 
@@ -83,7 +83,7 @@ export const GoalsForm = ({
       ></S.GoalTitle>
 
       <SubHeadingSpan>공개설정</SubHeadingSpan>
-      <ListRadio<GoalData["privacy"]> name="privacy" data={publicSettingOptions} value={goalPrivacy} onChange={onPrivacyChange}></ListRadio>
+      <ListRadio<GoalData["readPermission"]> name="readPermission" data={publicSettingOptions} value={goalPrivacy} onChange={onPrivacyChange}></ListRadio>
 
       <SubHeadingSpan>진행 상황</SubHeadingSpan>
       <ListRadio name="running" data={runningOptions} value={"quit"}></ListRadio>
