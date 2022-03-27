@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 export const Header = styled.div`
   padding: 10px;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
 `;
 
 export const Profile = styled.div`

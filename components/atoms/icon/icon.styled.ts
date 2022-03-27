@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
 export const Icon = styled.div<{color:string,isRotate:boolean}>`
-  width:26px;
-  height:26px;
+  width:30px;
+  height:30px;
   padding:2px;
-  margin: 5px;
   cursor: pointer;
   color: ${props => props.color ? props.color : props.theme.colors["gray-300"]};
 

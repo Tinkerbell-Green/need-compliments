@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, {useCallback,useMemo} from "react";
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
-import {Logo} from "components/atoms/logo";
 import {IconSetting} from "components/moleculs/iconSetting"
 import {Sidebar} from "components/moleculs/sidebar";
 import {useDataSaga, DataActionType} from "stores/data";
@@ -36,7 +35,6 @@ export const SidebarSetting = ({
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
       <S.Header>
-        <Logo/>
         <Link href={"/setting"} passHref={true}>
           <a><IconSetting/></a>
         </Link>
