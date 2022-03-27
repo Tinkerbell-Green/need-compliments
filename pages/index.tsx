@@ -6,9 +6,6 @@ import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
-import {FeedPublic} from "components/organisms/feedPublic";
-import {HeaderMain} from "components/organisms/headerMain"
-import {SidebarSetting} from "components/organisms/sidebarSetting";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";

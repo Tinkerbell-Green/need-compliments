@@ -18,7 +18,7 @@ export const LayoutMain = ({
   },[]);
 
   const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
-    if ((event.target as HTMLElement).closest(".menuClose")) {
+    if (!(event.target as HTMLElement).closest(".menu")) {
       setIsMenuOpen(false);
     }
   },[]);
@@ -29,7 +29,6 @@ export const LayoutMain = ({
       <SidebarSetting
         isMenuOpen={isMenuOpen}
         onCloseMenu={handleCloseMenu}
-        onSnackbarShow={onSnackbarShow && onSnackbarShow}
       ></SidebarSetting>    
       <S.Contents>
         {children}

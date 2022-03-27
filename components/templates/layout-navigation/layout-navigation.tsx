@@ -1,7 +1,9 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import {KeyboardArrowLeft} from "@styled-icons/material-twotone";
-import React from "react";
+import React,{useCallback,useState} from "react";
 import * as S from "./layout-navigation.styled";
+import {HeaderMain} from "components/organisms/headerMain"
+import {SidebarSetting} from "components/organisms/sidebarSetting";
 
 export type LayoutNavigationProps = {
   children: React.ReactNode;
@@ -29,9 +31,25 @@ export const LayoutNavigation = ({
     }
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
+    setIsMenuOpen(true);
+  },[]);
+
+  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
+    if (!(event.target as HTMLElement).closest(".menu")) {
+      setIsMenuOpen(false);
+    }
+  },[]);
+
   return (
     <S.LayoutNavigation>
       <S.Header>
+        <HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>
+        <SidebarSetting
+          isMenuOpen={isMenuOpen}
+          onCloseMenu={handleCloseMenu}
+        ></SidebarSetting>
         <S.LeftButton onClick={onLeftButtonClick}>
           <KeyboardArrowLeft></KeyboardArrowLeft>
         </S.LeftButton>

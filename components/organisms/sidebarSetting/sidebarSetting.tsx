@@ -11,13 +11,11 @@ import {useDataSaga, DataActionType} from "stores/data";
 type SidebarSettingProps = {
   onCloseMenu: React.MouseEventHandler,
   isMenuOpen:boolean;
-  onSnackbarShow?:()=>void,
 }
 
 export const SidebarSetting = ({
   onCloseMenu,
   isMenuOpen,
-  onSnackbarShow,
 }:SidebarSettingProps) => {
   const {
     data: loggedInUserData,
@@ -33,8 +31,8 @@ export const SidebarSetting = ({
   }, [getGoalsData]);
 
   const handleFriendClick = useCallback(()=>{
-    onSnackbarShow && onSnackbarShow();
-  },[onSnackbarShow]);
+    //
+  },[]);
 
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
@@ -46,11 +44,10 @@ export const SidebarSetting = ({
       <S.Profile>
         <S.Name>{loggedInUserData?.name}</S.Name>
         <S.Email>{loggedInUserData?.email}</S.Email>
-        <S.FriendList onClick={handleFriendClick}>
-        칭필을 친구와 함께 사용할 수 있나요?
-          {/* <S.Friend>{`${follwersCount} 팔로워`}</S.Friend> */}
-          {/* <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend> */}
-        </S.FriendList>
+        {/* <S.FriendList onClick={handleFriendClick}>
+          <S.Friend>{`${follwersCount} 팔로워`}</S.Friend>
+          <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>
+        </S.FriendList> */}
       </S.Profile>
       <Link href={"/goals"} passHref>
         <S.Goals>
