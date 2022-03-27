@@ -15,7 +15,6 @@ export const Profile = styled.div`
 
 export const Goals = styled.div`
   flex-direction: column;
-  cursor: pointer;
 `;
 
 export const Title = styled.a`
@@ -25,7 +24,7 @@ export const Title = styled.a`
   width:100%;
   font-size: 1rem;
   font-weight: 600;
-  padding: 20px 10px;
+  padding: 18px 20px;
   cursor: pointer;
 `;
 
