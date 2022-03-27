@@ -1,9 +1,8 @@
-import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
 import React, {useCallback,useMemo} from "react";
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
-import {Icon} from "components/atoms/icon";
+import {Logo} from "components/atoms/logo";
 import {IconSetting} from "components/moleculs/iconSetting"
 import {Sidebar} from "components/moleculs/sidebar";
 import {useDataSaga, DataActionType} from "stores/data";
@@ -37,8 +36,9 @@ export const SidebarSetting = ({
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
       <S.Header>
+        <Logo/>
         <Link href={"/setting"} passHref={true}>
-          <IconSetting rotate={true}/>
+          <a><IconSetting/></a>
         </Link>
       </S.Header>
       <S.Profile>
@@ -49,23 +49,24 @@ export const SidebarSetting = ({
           <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>
         </S.FriendList> */}
       </S.Profile>
-      <Link href={"/goals"} passHref>
-        <S.Goals>
-          <S.GoalsTitle>
-            <Icon><TargetEdit/></Icon>
-            <span>목표 관리</span>
-          </S.GoalsTitle>
-          <S.GoalsContents>
-            {goals.map((value)=>(
-              <Chip 
-                key={value.id}
-                label={value.name}
-                color={value.color}>
-              </Chip>
-            ))}
-          </S.GoalsContents>
-        </S.Goals>
+      <Link href={"/"} passHref>
+        <S.Title>내 피드</S.Title>
       </Link>
+      <S.Goals>
+        <Link href={"/goals"} passHref>
+          <S.Title>목표</S.Title>
+        </Link>
+        <S.GoalsContents>
+          {goals.map((value)=>(
+            <Chip 
+              key={value.id}
+              label={value.name}
+              color={value.color}>
+            </Chip>
+          ))}
+        </S.GoalsContents>
+      </S.Goals>
+      
     </Sidebar>
   );
 };

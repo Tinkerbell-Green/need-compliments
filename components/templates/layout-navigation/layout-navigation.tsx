@@ -44,12 +44,8 @@ export const LayoutNavigation = ({
 
   return (
     <S.LayoutNavigation>
+      <HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>
       <S.Header>
-        <HeaderMain onMenuOpen={handleOpenMenu}></HeaderMain>
-        <SidebarSetting
-          isMenuOpen={isMenuOpen}
-          onCloseMenu={handleCloseMenu}
-        ></SidebarSetting>
         <S.LeftButton onClick={onLeftButtonClick}>
           <KeyboardArrowLeft></KeyboardArrowLeft>
         </S.LeftButton>
@@ -61,6 +57,10 @@ export const LayoutNavigation = ({
           </S.RightButton>
         )}
       </S.Header>
+      <SidebarSetting
+        isMenuOpen={isMenuOpen}
+        onCloseMenu={handleCloseMenu}
+      ></SidebarSetting>
       <S.Content>{children}</S.Content>
     </S.LayoutNavigation>
   );

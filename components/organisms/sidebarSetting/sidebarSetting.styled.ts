@@ -1,38 +1,42 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
-  justify-content: flex-end;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Profile = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 `;
 
-export const Goals = styled.button`
+export const Goals = styled.div`
   flex-direction: column;
-  padding: 0 20px;
   cursor: pointer;
 `;
 
-export const GoalsTitle = styled.div`
+export const Title = styled.a`
   text-align: left;
+  text-decoration: none;
   align-items: center;
   width:100%;
   font-size: 1rem;
-  font-weight: 500;
-  padding: 20px 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  font-weight: 600;
+  padding: 20px 10px;
+  cursor: pointer;
 `;
 
 export const GoalsContents = styled.ul`
   width:100%;
   max-height: 400px;
   overflow-y: auto;
+  padding: 0 20px;
   > * {
-    margin-bottom: 10px;
+    margin-top: 10px;
   }
   
   /* firefox */
@@ -55,7 +59,7 @@ export const GoalsContents = styled.ul`
 `;
 
 export const Name = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   font-weight: 900;
   margin-bottom: 10px;
 `;

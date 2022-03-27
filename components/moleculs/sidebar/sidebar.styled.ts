@@ -28,6 +28,7 @@ export const MenuContents = styled.section`
   left:100%;
   width: 280px;
   height: 100%;
+  padding: 6px;
   background-color: #222222;
   transition: all 0.2s ease-in-out;
   

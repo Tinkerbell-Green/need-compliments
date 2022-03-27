@@ -5,12 +5,10 @@ import {SidebarSetting} from "components/organisms/sidebarSetting";
 
 export type LayoutMainProps = {
   children: React.ReactNode,
-  onSnackbarShow? : ()=>void,
 }
 
 export const LayoutMain = ({
   children,
-  onSnackbarShow,
 }: LayoutMainProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleOpenMenu: React.MouseEventHandler = useCallback(() => {

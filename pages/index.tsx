@@ -234,7 +234,7 @@ const Home: NextPage = () => {
   },[updateTaskStatus])
 
   return (
-    <LayoutMain onSnackbarShow={handleSnackbarShow}>
+    <LayoutMain>
       <Seo title={loggedInUserData?.name || ""}></Seo>
       <Snackbar 
         {...snackbarProps}

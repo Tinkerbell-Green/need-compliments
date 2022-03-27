@@ -6,9 +6,7 @@ import LogoComponent from "public/logo.svg"
 export const Logo = () => { 
   return (
     <Link href={"/"} passHref>
-      <S.Logo>
-        <LogoComponent width="200" height="66"/>
-      </S.Logo>
+      <a><LogoComponent width="150" height="42.86"/></a>
     </Link>
   )
 };

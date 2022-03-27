@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const HEAHER_HEIGHT = 48
+const HEAHER_HEIGHT = 28
 
 export const LayoutNavigation = styled.div`
   background-color: ${props => props.theme.colors.black};
@@ -11,7 +11,9 @@ export const LayoutNavigation = styled.div`
 `
 
 export const Header = styled.header`
-  position: fixed;
+  position: sticky;
+  z-index: 1;
+  top:0;
   width: 100%;
   height: ${HEAHER_HEIGHT}px;
   flex-direction: row;

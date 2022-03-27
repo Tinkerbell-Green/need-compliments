@@ -6,8 +6,7 @@ width: 100%;
 height: 70px;
 display: flex;
 align-items: center;
-padding-top:10px;
-border-bottom: 1px solid rgba(1,1,1,0.5);
+padding:10px 0 0 15px;
 background-color: ${props => props.theme.colors.black};
 position: sticky; 
 top:0;
@@ -29,24 +28,21 @@ export const Nav = styled.div`
   }
 `;
 
-export const Profile = styled.div`
-width:fit-content;
-font-size:0.875rem;
+export const More = styled.div`
+@media screen and (max-width: ${props => props.theme.media.md}px){
+  visibility: hidden;
+}
 `;
 
-export const Img = styled.img`
-border-radius: 50%;
-height: 10px;
-width:10px;
-`;
-
-export const NavItem = styled.div`
+export const NavItem = styled.a`
+text-decoration: none;
 font-size: 1rem;
-margin-right:5px;
+padding: 10px 20px;
 border-radius: 3px;
+color: ${props => props.theme.colors["gray-200"]};
 cursor: pointer;
 &:hover, &:focus{
-  background-color: ${props => props.theme.colors["gray-600"]};
+  color: ${props => props.theme.colors.goals.mediunslateblue};
 }
 `;
 
@@ -55,6 +51,9 @@ export const Icon = styled.button`
   height:${ICON_SIZE}px;
   padding:2px;
   cursor: pointer;
+  &:hover, &:focus{
+  color: ${props => props.theme.colors.goals.mediunslateblue};
+}
 `;
 
 export const MenuIcon = styled(Icon)`
