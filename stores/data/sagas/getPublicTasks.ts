@@ -3,7 +3,6 @@ import {call, getContext, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
 import {DataSagaStatus, TaskDocument} from "../types"; 
-import {GoalDocument} from "../types";
 import {RootState} from "stores/reducers";
 import {Repository, GetDocumentsData} from "utils/firebase";
 
@@ -23,22 +22,8 @@ export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PU
   );
 
   try {
-    // fetch get public goals
-    const goalsQueryConstraints: QueryConstraint[] = []
-    goalsQueryConstraints.push(where("privacy", "==", "everyone"))
-
-    const goalsResponse: GetDocumentsData<GoalDocument> = yield call(
-      [repository, repository.getDocuments],
-      {
-        path: "goals",
-        queryConstraints: goalsQueryConstraints,
-      }
-    );
-    const goalIds = goalsResponse.docs.map(item=>item.id)
-
-    // fetch get tasks
     const tasksQueryConstraints: QueryConstraint[] = []
-    tasksQueryConstraints.push(where("goal", "in", goalIds))
+    tasksQueryConstraints.push(where("readPermission", "not-in", ["none", "me"]))
 
     const startTime = payload.startTime.getTime()
     const endTime = payload.endTime.getTime()
