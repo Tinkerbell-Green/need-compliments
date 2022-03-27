@@ -41,7 +41,7 @@ export const Title = styled.span`
   font-weight: 500;
 `
 
-export const Content = styled.div`
+export const Content = styled.main`
   margin-top: ${HEAHER_HEIGHT}px;
   display: flex;
   flex-direction: column;
