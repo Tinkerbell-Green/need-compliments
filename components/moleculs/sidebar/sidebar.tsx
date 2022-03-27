@@ -1,4 +1,3 @@
-import {CloseOutline} from "@styled-icons/evaicons-outline";
 import React, {ReactNode} from "react";
 import * as S from "./sidebar.styled";
 
@@ -19,7 +18,6 @@ export const Sidebar = ({
       onClick={onClose}
       className={`${isOpen ? "show" : "hidden"}`}>
       <S.MenuContents className={`menu ${isOpen ? "show" : "hidden"}`}>
-        <S.CloseButton onClick={onClose}><CloseOutline/></S.CloseButton>
         {children}
       </S.MenuContents>
     </S.MenuOverlay>

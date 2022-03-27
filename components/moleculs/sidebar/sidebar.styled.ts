@@ -41,9 +41,3 @@ export const MenuContents = styled.section`
     transform: translateX(0%);
   }
 `;
-
-export const CloseButton = styled.div`
-position: absolute;
-top:0;
-left:0;
-`;

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const HEAHER_HEIGHT = 28
+const HEAHER_HEIGHT = 48
 
 export const LayoutNavigation = styled.div`
   background-color: ${props => props.theme.colors.black};
@@ -48,5 +48,9 @@ export const Content = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 70%;
+  max-width: ${props => props.theme.media.md}px;
+  width:60%;
+  @media screen and (max-width: ${props => props.theme.media.md}px){
+    width:80%;
+  }
 `
