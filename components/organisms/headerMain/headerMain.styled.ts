@@ -45,17 +45,3 @@ cursor: pointer;
   color: ${props => props.theme.colors.goals.mediunslateblue};
 }
 `;
-
-export const Icon = styled.button`
-  width:${ICON_SIZE}px;
-  height:${ICON_SIZE}px;
-  padding:2px;
-  cursor: pointer;
-  &:hover, &:focus{
-  color: ${props => props.theme.colors.goals.mediunslateblue};
-}
-`;
-
-export const MenuIcon = styled(Icon)`
-margin-right: 10px;
-`;
