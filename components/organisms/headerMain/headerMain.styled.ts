@@ -21,7 +21,7 @@ export const Nav = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-
+  padding-right: 20px;
   align-items: center;
   > *{
     margin-left: 10px;
