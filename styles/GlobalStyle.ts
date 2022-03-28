@@ -26,6 +26,10 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+  :focus-visible{
+  outline: 3px dotted #B9AAFF;
+  }
+  
   a{
     text-decoration: none;
   }
