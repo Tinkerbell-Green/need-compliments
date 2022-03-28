@@ -1,18 +1,25 @@
 import {Menu} from "@styled-icons/boxicons-regular";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {useState,useCallback} from "react";
 import * as S from "./headerMain.styled";
 import {Icon} from "components/atoms/icon";
 import {Logo} from "components/atoms/logo";
+import {SidebarSetting} from "components/organisms/sidebarSetting";
 
-type HeaderMainProps = {
-  onMenuOpen : React.MouseEventHandler,
-}
-
-export const HeaderMain = ({
-  onMenuOpen
-}:HeaderMainProps) => {
+export const HeaderMain = () => {
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
+    setIsMenuOpen(true);
+  },[]);
+
+  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
+    if (!(event.target as HTMLElement).closest(".menu")) {
+      setIsMenuOpen(false);
+    }
+  },[]);
+
   return (
     <S.Header>
       <Logo/>
@@ -21,18 +28,22 @@ export const HeaderMain = ({
         <S.NavPart>
           <S.More>
             <Link href={"/feed"} passHref>
-              <S.NavItem className={router.pathname == "/feed" ? "active" : ""}>내 피드</S.NavItem>
+              <S.NavItem className={router.pathname.includes("/feed") ? "active" : ""}>내 피드</S.NavItem>
             </Link>
             <Link href={"/goals"} passHref>
-              <S.NavItem className={router.pathname == "/goals" ? "active" : ""}>목표</S.NavItem>
+              <S.NavItem className={router.pathname.includes("/goals") ? "active" : ""}>목표</S.NavItem>
             </Link>
             <Link href={"/setting"} passHref>
-              <S.NavItem className={router.pathname == "/setting" ? "active" : ""}>설정</S.NavItem>
+              <S.NavItem className={router.pathname.includes("/setting") ? "active" : ""}>설정</S.NavItem>
             </Link>
           </S.More>
-          <button onClick={onMenuOpen}><Icon><Menu /></Icon></button>
+          <button onClick={handleOpenMenu} aria-label={"사이드바 열기"}><Icon aria-label={"Menu image"}><Menu /></Icon></button>
         </S.NavPart>
       </S.Nav>
+      <SidebarSetting
+        isMenuOpen={isMenuOpen}
+        onCloseMenu={handleCloseMenu}
+      ></SidebarSetting>    
     </S.Header>
   )
 };

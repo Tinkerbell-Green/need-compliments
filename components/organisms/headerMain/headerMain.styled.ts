@@ -41,7 +41,8 @@ padding: 10px 20px;
 border-radius: 3px;
 color: ${props => props.theme.colors["gray-200"]};
 cursor: pointer;
-&:hover, &:focus{
+
+&:hover, &:focus,&.active{
   color: ${props => props.theme.colors.goals.mediunslateblue};
 }
 `;
