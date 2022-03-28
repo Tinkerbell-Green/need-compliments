@@ -12,7 +12,7 @@ type CalendarProps = {
 }
 
 export type Direction = "next" | "previous";
-const WEEK_DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const WEEK_DAYS = ["sunday 일요일", "monday 월요일", "tuesday 화요일", "wednesday 수요일", "thursday 목요일", "friday 금요일", "saturday 토요일"];
 const NOT_THIS_MONTH = "";
 
 export const Calendar = ({
@@ -75,7 +75,7 @@ export const Calendar = ({
     <S.Container>
       <S.Header>
         <Header
-          title={Dayjs(viewDate).format("YYYY/MM")}
+          title={Dayjs(viewDate).format("YYYY년 MM월")}
           onClick={handleMonthMove}
         ></Header>
       </S.Header>

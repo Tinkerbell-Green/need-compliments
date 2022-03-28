@@ -84,9 +84,9 @@ export const TaskInput = ({
           onChange={handleChange}
           onFocus={changeEditFocus}
         ></S.Input>
-        <S.Button type="submit"><PatchCheck/></S.Button>
+        <S.Button type="submit" onClick={handleSubmit} aria-label={"저장하기"}><PatchCheck/></S.Button>
       </S.Form>
-      <S.Button onClick={handleModalOpen}>
+      <S.Button onClick={handleModalOpen} aria-label={"더보기"}>
         <MoreHorizontalOutline />
       </S.Button>
       <ModalTaskAction

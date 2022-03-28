@@ -30,7 +30,7 @@ export const HeaderMain = ({
               <S.NavItem className={router.pathname == "/setting" ? "active" : ""}>설정</S.NavItem>
             </Link>
           </S.More>
-          <button onClick={onMenuOpen}><Icon aria-label={"Menu image"}><Menu /></Icon></button>
+          <button onClick={onMenuOpen} aria-label={"사이드바 열기"}><Icon aria-label={"Menu image"}><Menu /></Icon></button>
         </S.NavPart>
       </S.Nav>
     </S.Header>

@@ -24,7 +24,7 @@ export const Modal = ({
   return (
     <S.Background isOpen={isOpen} onClick={onBackgroundClick}>
       <S.Modal isOpen={isOpen} className="modal">
-        <S.CloseButton onClick={onClose}><Icon size={20}><CloseOutline/></Icon></S.CloseButton>
+        <S.CloseButton onClick={onClose} aria-label={"닫기"}><Icon size={20}><CloseOutline/></Icon></S.CloseButton>
         {children}
       </S.Modal>
     </S.Background>
