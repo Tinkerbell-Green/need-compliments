@@ -73,13 +73,14 @@ export const TaskInput = ({
     <S.FormContainer>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
-          onUnderline={isEditing}
+          isUnderline={isEditing}
           color={color}
           autoFocus={title ? false : true}
           value={inputValue}
           placeholder="오늘 한 일로 스스로에게 칭찬해보세요 😀"
           type="text"
           ref={InputRef}
+          onBlur={()=>setIsEditing(false)}
           onChange={handleChange}
           onFocus={changeEditFocus}
         ></S.Input>

@@ -47,7 +47,7 @@ export const SecondaryName = styled.div`
   color: ${props => props.theme.colors["gray-200"]};
 `;
 
-export const Visible = styled.main`
+export const Visible = styled.div`
 display: flex;
 flex-direction: row;
 

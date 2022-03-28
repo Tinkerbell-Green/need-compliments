@@ -4,7 +4,9 @@ export const Feed = styled.div`
   flex-direction: column;
 `;
 
-export const Header = styled.header``;
+export const Header = styled.header`
+margin-bottom: 10px;
+`;
 
 export const PickedDate = styled.div`
   font-size: 1.125rem;
