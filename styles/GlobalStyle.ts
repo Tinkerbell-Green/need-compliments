@@ -20,10 +20,14 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    border: none;
+    border:none;
     background: none;
     box-shadow: none;
     cursor: pointer;
+  }
+
+  input {
+    border:none;
   }
 
   svg, path{

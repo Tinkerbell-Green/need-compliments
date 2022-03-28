@@ -1,6 +1,7 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React,{useState,useCallback} from "react";
 import * as S from "./chip.styled";
+import {Icon} from "components/atoms/icon"
 import {GoalColor} from "stores/data/types";
 
 type ChipProps = {

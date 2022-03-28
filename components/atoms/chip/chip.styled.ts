@@ -36,7 +36,7 @@ export const Label = styled.div<{color: GoalColor}>`
 export const AddIcon = styled.button`
   width:${ICON_SIZE}px;
   height:${ICON_SIZE}px;
-  padding:1px;
+  padding:0;
   background-color: #464646;
   border-radius: 50%;
   margin-left: ${MARGIN}px;
