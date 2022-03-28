@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled,{css} from "styled-components";
 
-export const MenuOverlay = styled.div`
+export const MenuOverlay = styled.div<{isVisible:boolean}>`
   z-index: 10;
   position: fixed;
   top:0;
@@ -10,17 +10,17 @@ export const MenuOverlay = styled.div`
   background-color: rgba(0,0,0,0.5);
   transition: all 0.2s ease-in-out;
   
-  &.show{
+  ${props => props.isVisible 
+    ? css`
     opacity: 1;
-    visibility: visible;
-  }
-  &.hidden{
+    visibility: visible;` 
+    : css`
     opacity: 0;
     visibility: hidden;
-  }
+  `}
 `;
 
-export const MenuContents = styled.section`
+export const MenuContents = styled.section<{isVisible:boolean}>`
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -28,15 +28,16 @@ export const MenuContents = styled.section`
   left:100%;
   width: 280px;
   height: 100%;
+  padding: 6px;
   background-color: #222222;
   transition: all 0.2s ease-in-out;
   
-  &.show{
+  ${props => props.isVisible 
+    ? css`
     visibility: visible;
-    transform:translateX(-100%);
-  }
-  &.hidden{
+    transform:translateX(-100%);`
+    : css`
     visibility: hidden;
     transform: translateX(0%);
-  }
+  `}
 `;

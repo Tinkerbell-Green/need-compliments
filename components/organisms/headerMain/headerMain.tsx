@@ -1,38 +1,49 @@
-import {PencilSquare} from "@styled-icons/bootstrap";
 import {Menu} from "@styled-icons/boxicons-regular";
-import {TargetEdit} from "@styled-icons/fluentui-system-filled";
 import Link from "next/link";
+import {useRouter} from "next/router";
+import {useState,useCallback} from "react";
 import * as S from "./headerMain.styled";
 import {Icon} from "components/atoms/icon";
-import {Logo} from "components/atoms/logo"
-import {IconSetting} from "components/moleculs/iconSetting"
+import {Logo} from "components/atoms/logo";
+import {SidebarSetting} from "components/organisms/sidebarSetting";
 
-type HeaderMainProps = {
-  onMenuOpen : React.MouseEventHandler,
-}
+export const HeaderMain = () => {
+  const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
+    setIsMenuOpen(true);
+  },[]);
 
-export const HeaderMain = ({
-  onMenuOpen
-}:HeaderMainProps) => {
+  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
+    if (!(event.target as HTMLElement).closest(".menu")) {
+      setIsMenuOpen(false);
+    }
+  },[]);
+
   return (
     <S.Header>
       <Logo/>
       <S.Nav>
+        <S.NavPart></S.NavPart>
         <S.NavPart>
-        </S.NavPart>
-        <S.NavPart>
-          <Link href={"/"} passHref>
-            <S.NavItem><Icon><PencilSquare/></Icon></S.NavItem>
-          </Link>
-          <Link href={"/goals"} passHref>
-            <S.NavItem><Icon><TargetEdit/></Icon></S.NavItem>
-          </Link>
-          <Link href={"/setting"} passHref>
-            <S.NavItem><IconSetting rotate/></S.NavItem>
-          </Link>
-          <S.NavItem onClick={onMenuOpen}><Icon><Menu /></Icon></S.NavItem>
+          <S.More>
+            <Link href={"/feed"} passHref>
+              <S.NavItem className={router.pathname.includes("/feed") ? "active" : ""}>내 피드</S.NavItem>
+            </Link>
+            <Link href={"/goals"} passHref>
+              <S.NavItem className={router.pathname.includes("/goals") ? "active" : ""}>목표</S.NavItem>
+            </Link>
+            <Link href={"/setting"} passHref>
+              <S.NavItem className={router.pathname.includes("/setting") ? "active" : ""}>설정</S.NavItem>
+            </Link>
+          </S.More>
+          <button onClick={handleOpenMenu} aria-label={"사이드바 열기"}><Icon aria-label={"Menu image"}><Menu /></Icon></button>
         </S.NavPart>
       </S.Nav>
+      <SidebarSetting
+        isMenuOpen={isMenuOpen}
+        onCloseMenu={handleCloseMenu}
+      ></SidebarSetting>    
     </S.Header>
   )
 };
