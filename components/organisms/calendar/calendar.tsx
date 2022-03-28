@@ -72,7 +72,7 @@ export const Calendar = ({
   }, [viewDate]);
 
   return (
-    <S.Container>
+    <S.Container role="region" aria-label="달력">
       <S.Header>
         <Header
           title={Dayjs(viewDate).format("YYYY년 MM월")}
