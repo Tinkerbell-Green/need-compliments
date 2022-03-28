@@ -1,7 +1,6 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React,{useState,useCallback} from "react";
 import * as S from "./chip.styled";
-import {Icon} from "components/atoms/icon"
 import {GoalColor} from "stores/data/types";
 
 type ChipProps = {
@@ -27,7 +26,7 @@ export const Chip = ({
     if(!onAdd) return;
     addTimer && clearTimeout(addTimer);
 
-    const newTimer = setTimeout(onAdd,400);
+    const newTimer = setTimeout(onAdd,250);
     setAddTimer(newTimer);
   }),[addTimer,onAdd]);
 

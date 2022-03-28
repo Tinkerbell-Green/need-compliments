@@ -38,7 +38,6 @@ position: absolute;
 top:0;
 left:100%;
 transform: translateX(-100%);
-width: 28px;
-height:28px;
+margin-right: 5px;
 color: ${props => props.theme.colors["gray-800"]}
 `;
