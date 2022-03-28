@@ -2,6 +2,7 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
+import {Seo} from "components/atoms/seo";
 import {GoalsForm} from "components/organisms/goalsForm";
 import * as S from "components/organisms/goalsForm/goalsForm.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
@@ -129,6 +130,7 @@ const GoalsFormPage: NextPage = () => {
         onLeftButtonClick={onBackClick}
         onRightButtonClick={onSubmit}
       >
+        <Seo title={`(작성 중) ${goalName}`}></Seo>
         <GoalsForm
           goal={goal}
           onChangeGoalName={handleGoalName}
