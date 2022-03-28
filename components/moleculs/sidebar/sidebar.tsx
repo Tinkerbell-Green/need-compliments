@@ -14,10 +14,8 @@ export const Sidebar = ({
 }: SidebarProps) => {
 
   return (
-    <S.MenuOverlay
-      onClick={onClose}
-      className={`${isOpen ? "show" : "hidden"}`}>
-      <S.MenuContents className={`menu ${isOpen ? "show" : "hidden"}`}>
+    <S.MenuOverlay onClick={onClose} isVisible={isOpen}>
+      <S.MenuContents className={"menu"} isVisible={isOpen}>
         {children}
       </S.MenuContents>
     </S.MenuOverlay>
