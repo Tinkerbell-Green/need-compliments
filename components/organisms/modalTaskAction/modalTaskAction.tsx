@@ -42,7 +42,7 @@ export const ModalTaskAction = ({
       <S.ActionList>
         <S.Action>
           <S.Button onClick={editTask}>
-            <Icon size={24}><Pencil></Pencil></Icon>
+            <Icon size={24} aria-label={"editTask image"}><Pencil></Pencil></Icon>
           </S.Button>
           <span>수정</span>
         </S.Action>
@@ -66,7 +66,7 @@ export const ModalTaskAction = ({
         </S.Action> */}
         <S.Action>
           <S.Button onClick={deleteTask}>
-            <Icon size={24}><TrashAlt></TrashAlt></Icon>
+            <Icon size={24} aria-label={"deleteTask image"}><TrashAlt></TrashAlt></Icon>
           </S.Button>
           <span>삭제</span>
         </S.Action>

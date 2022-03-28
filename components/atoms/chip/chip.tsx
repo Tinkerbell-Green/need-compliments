@@ -38,7 +38,7 @@ export const Chip = ({
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
-        <S.AddIcon onClick={handleAdd}>
+        <S.AddIcon onClick={handleAdd} aria-label={"plus image"}>
           <PlusSm/>
         </S.AddIcon>
       )}

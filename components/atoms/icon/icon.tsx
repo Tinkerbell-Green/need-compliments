@@ -9,7 +9,11 @@ type IconProps = {
 
 export const Icon = ({children, size, color="", isRotate=false}:IconProps) => {
   return (
-    <S.Icon color={color} isRotate={isRotate} size={size && size}>
+    <S.Icon 
+      color={color} 
+      isRotate={isRotate} 
+      size={size && size}
+      role="img">
       {children}
     </S.Icon>
   );
