@@ -28,5 +28,7 @@ export const GlobalStyle = createGlobalStyle`
 
   svg, path{
     color: inherit;
+    width: inherit;
+    height: inherit;
   }
 `
