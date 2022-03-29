@@ -14,6 +14,7 @@ export enum DataActionType {
   UPDATE_TASK = "data/UPDATE_TASK",
   DELETE_TASK = "data/DELETE_TASK",
   GET_GOALS = "data/GET_GOALS",
+  GET_GOALS_BY_ID = "data/GET_GOALS_BY_ID",
   CREATE_GOAL = "data/CREATE_GOAL",
   UPDATE_GOAL = "data/UPDATE_GOAL",
   DELETE_GOAL = "data/DELETE_GOAL",
@@ -29,6 +30,7 @@ export type DataSagaActionType = (
   DataActionType.UPDATE_TASK |
   DataActionType.DELETE_TASK |
   DataActionType.GET_GOALS |
+  DataActionType.GET_GOALS_BY_ID |
   DataActionType.CREATE_GOAL |
   DataActionType.UPDATE_GOAL |
   DataActionType.DELETE_GOAL |
@@ -51,6 +53,7 @@ export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.UPDATE_TASK]: Authority.AUTHOR,
   [DataActionType.DELETE_TASK]: Authority.AUTHOR,
   [DataActionType.GET_GOALS]: Authority.VIEWER,
+  [DataActionType.GET_GOALS_BY_ID]: Authority.VIEWER,
   [DataActionType.CREATE_GOAL]: Authority.AUTHOR,
   [DataActionType.UPDATE_GOAL]: Authority.AUTHOR,
   [DataActionType.DELETE_GOAL]: Authority.AUTHOR,
@@ -65,6 +68,7 @@ export const dataSagaDefaultAuthor:Record<DataSagaActionType, "pageAuthor" | "lo
   [DataActionType.UPDATE_TASK]: "loggedInUser",
   [DataActionType.DELETE_TASK]: "loggedInUser",
   [DataActionType.GET_GOALS]: "pageAuthor",
+  [DataActionType.GET_GOALS_BY_ID]: "none",
   [DataActionType.CREATE_GOAL]: "loggedInUser",
   [DataActionType.UPDATE_GOAL]: "loggedInUser",
   [DataActionType.DELETE_GOAL]: "loggedInUser",
@@ -118,6 +122,9 @@ export type DataActionPayload = {
     }
   [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
     }
+  [DataActionType.GET_GOALS_BY_ID]: SagaDataActionDefaultPayload & {
+    id: string[],
+  }
   [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
     }
@@ -150,6 +157,7 @@ export const dataActionCreators = {
   [DataActionType.UPDATE_TASK]: (payload: DataActionPayload[DataActionType.UPDATE_TASK]) => ({type: DataActionType.UPDATE_TASK, payload}),
   [DataActionType.DELETE_TASK]: (payload: DataActionPayload[DataActionType.DELETE_TASK]) => ({type: DataActionType.DELETE_TASK, payload}),
   [DataActionType.GET_GOALS]: (payload: DataActionPayload[DataActionType.GET_GOALS]) => ({type: DataActionType.GET_GOALS, payload}),
+  [DataActionType.GET_GOALS_BY_ID]: (payload: DataActionPayload[DataActionType.GET_GOALS_BY_ID]) => ({type: DataActionType.GET_GOALS_BY_ID, payload}),
   [DataActionType.CREATE_GOAL]: (payload: DataActionPayload[DataActionType.CREATE_GOAL]) => ({type: DataActionType.CREATE_GOAL, payload}),
   [DataActionType.UPDATE_GOAL]: (payload: DataActionPayload[DataActionType.UPDATE_GOAL]) => ({type: DataActionType.UPDATE_GOAL, payload}),
   [DataActionType.DELETE_GOAL]: (payload: DataActionPayload[DataActionType.DELETE_GOAL]) => ({type: DataActionType.DELETE_GOAL, payload}),
