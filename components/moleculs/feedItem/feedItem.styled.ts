@@ -6,7 +6,12 @@ display: flex;
 align-items: center;
 margin-top: 12px;
 `;
-export const Task = styled.li`
+
+export const Goal = styled.div`
+width: 120px;
+`;
+
+export const Task = styled.p`
 flex-grow: 1;
 margin-left: 18px;
 flex-shrink: 2;

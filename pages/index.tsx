@@ -35,22 +35,9 @@ const UPDATE_TASKS_SUCCESS = "데이터를 성공적으로 저장했습니다 �
 const NEXT_FEATURE ="준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️";
 
 const Home: NextPage = () => {
-  const {
-    fetch: getTasksByDaysFetch,
-    status: getTasksByDaysStatus,
-    data: getTasksByDaysData,
-    refetch: getTasksByDaysRefetch,
-  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
-  const {
-    fetch: getGoalsFetch, 
-    data: getGoalsData,
-    status: getGoalssStatus
-  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-  const pageAuthorId = useSelector(
-    (state: RootState) => state.navigation.pageAuthorId
-  );
+  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
+  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
 
-  const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
     message: "",
@@ -67,53 +54,54 @@ const Home: NextPage = () => {
     })
   },[])
 
-  const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
-  }, [getGoalsData]);
+  const taskGoalIdList = useMemo(()=>{
+    const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.map(item => item.goal));
+    return Array.from(taskGoalIdList);
+  },[getPublicTasksData]);
 
-  const tasksByDate = useMemo(()=>{
-    const newTasks: Record<string,ExpandedTaskData[]> = {};
+  const publicTasksAndGoals = useMemo(()=>{
+    if(!getPublicTasksData || !getGoalsByIdsData) return;
 
-    tasks.forEach((taskItem)=>{
-      goals.forEach((goal)=>{
-        if(taskItem.goal !== goal.id) return;
+    const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
 
-        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
+    getPublicTasksData.forEach(task => {
+      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
+      // Filter out tasks whose goal was already removed.
+      if(goal) publicTasksAndGoals.push({task,goal});
+    });
+
+    return publicTasksAndGoals;
+  },[getPublicTasksData,getGoalsByIdsData]);
   
-        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color ? goal.color : "white"});
-        else newTasks[curDate] = [{...taskItem, color:goal.color}];
-      })
+  useEffect(()=>{
+    getPublicTasksFetch({
+      startTime: new Date("1999-11-11"),
+      endTime: new Date("2222-11-11"),
+    })
+  },[getPublicTasksFetch])
+
+
+  useEffect(()=>{
+    const stack:string[] = [];
+    console.log(taskGoalIdList)
+    taskGoalIdList.forEach((value, index)=>{
+      stack.push(value);
+
+      if(index && stack.length%9===0){
+        getGoalsByIdsFetch({
+          ids: [...stack],
+        })
+        stack.splice(0,10);
+      }
     })
 
-    return newTasks;
-  },[tasks,goals])
-  
-  useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
-
-  useEffect(() => {
-    setTasks(getTasksByDaysData || []);
-  }, [getTasksByDaysData]);
-
-  useEffect(() => {
-    getTasksByDaysFetch({
-      startDay: new Date("1999-11-11"),
-      endDay: new Date("2222-11-11"),
-    });
-  }, [getTasksByDaysFetch]);
-
-  useEffect(()=>{
-    if(getTasksByDaysStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
-        visible: true,
-        message: GET_TASKS_ERROR,
-        type: "error",
+    if(stack.length){
+      getGoalsByIdsFetch({
+        ids: [...stack],
       })
     }
-  },[getTasksByDaysStatus])
+    
+  },[getGoalsByIdsFetch,taskGoalIdList])
 
   return (
     <LayoutMain>
@@ -122,7 +110,7 @@ const Home: NextPage = () => {
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <Tabs/>
-      <FeedPublic/>
+      <FeedPublic tasksAndGoals={publicTasksAndGoals || []}/>
     </LayoutMain>
   );
 };

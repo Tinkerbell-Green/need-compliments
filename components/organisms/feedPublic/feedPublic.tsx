@@ -4,31 +4,17 @@ import {FeedItem} from "components/moleculs/feedItem"
 import {GoalData, TaskData} from "stores/data";
 
 type FeedPublicProps = {
-
+  tasksAndGoals: {task: TaskData, goal: GoalData}[];
 };
 
 export const FeedPublic = ({
+  tasksAndGoals,
 }: FeedPublicProps) => {
   return (
     <S.Feed>
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
-      <FeedItem />
+      {(tasksAndGoals || []).map(item => (
+        <FeedItem key={item.task.id} task={item.task} goal={item.goal}></FeedItem>
+      ))}
     </S.Feed>
   );
 };
