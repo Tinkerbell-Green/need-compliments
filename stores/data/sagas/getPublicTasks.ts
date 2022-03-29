@@ -23,7 +23,7 @@ export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PU
 
   try {
     const tasksQueryConstraints: QueryConstraint[] = []
-    tasksQueryConstraints.push(where("readPermission", "not-in", ["none", "me"]))
+    tasksQueryConstraints.push(where("readPermission", "==", "everyone"))
 
     const startTime = payload.startTime.getTime()
     const endTime = payload.endTime.getTime()

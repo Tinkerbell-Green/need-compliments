@@ -1,3 +1,4 @@
+import {useSession} from "next-auth/react";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Optional} from "utility-types"
@@ -18,6 +19,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   // pageAuthorId
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
+  const isNavigationInitialized = useSelector((state:RootState)=>state.navigation.initialized)
 
   const defaultFetchAuthor = useMemo(()=>{
     const defaultFetchAuthorType = dataSagaDefaultAuthor[actionType]
@@ -62,8 +64,10 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
+    if (!isNavigationInitialized) return;
+
     const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
-    
+
     dispatch(dataActionCreators[actionType]({
       ...partialPayload,
       author,
@@ -77,7 +81,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
         payload: partialPayload
       })
     )
-  },[actionType, defaultFetchAuthor, dispatch, key])
+  },[actionType, defaultFetchAuthor, dispatch, isNavigationInitialized, key])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
     if (!payloadRef.current) return;
