@@ -6,7 +6,7 @@ import * as S from "styles/pages/test/feed-public.styled";
 
 const TestFeedPublicPage: NextPage = () => {
   const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
-  const {fetch: getGoalsByIdFetch, data: getGoalsByIdData} = useDataSaga<DataActionType.GET_GOALS_BY_ID>(DataActionType.GET_GOALS_BY_ID)
+  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
 
   const taskGoalIdList = useMemo(()=>{
     const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.map(item => item.goal));
@@ -14,15 +14,15 @@ const TestFeedPublicPage: NextPage = () => {
   },[getPublicTasksData]);
 
   const publicTasksAndGoals = useMemo(()=>{
-    if(!getPublicTasksData || !getGoalsByIdData) return;
+    if(!getPublicTasksData || !getGoalsByIdsData) return;
 
     const publicTasksAndGoals = getPublicTasksData.map(task => {
-      const goal = getGoalsByIdData.find(goal => task.goal === goal.id);
+      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
       return {task, goal};
     });
 
     return publicTasksAndGoals;
-  },[getPublicTasksData,getGoalsByIdData]);
+  },[getPublicTasksData,getGoalsByIdsData]);
   
   useEffect(()=>{
     getPublicTasksFetch({
@@ -33,10 +33,10 @@ const TestFeedPublicPage: NextPage = () => {
 
 
   useEffect(()=>{
-    getGoalsByIdFetch({
+    getGoalsByIdsFetch({
       ids: [...taskGoalIdList],
     })
-  },[getGoalsByIdFetch,taskGoalIdList])
+  },[getGoalsByIdsFetch,taskGoalIdList])
 
   return (
     <LayoutNavigation>

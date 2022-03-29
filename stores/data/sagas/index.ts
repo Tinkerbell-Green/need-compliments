@@ -6,7 +6,7 @@ import {deleteGoal} from "./deleteGoal";
 import {deleteTask} from "./deleteTask"
 import {deleteUser} from "./deleteUser"
 import {getGoals} from "./getGoals";
-import {getGoalsById} from "./getGoalsById";
+import {getGoalsByIds} from "./getGoalsByIds";
 import {getLoggedInUserData} from "./getLoggedInUserData"
 import {getPublicTasks} from "./getPublicTasks"
 import {getTasksByDays} from "./getTasksByDays"
@@ -23,7 +23,7 @@ export function* dataSaga() {
   yield takeEvery(DataActionType.UPDATE_TASK, updateTask)
   yield takeEvery(DataActionType.DELETE_TASK, deleteTask)
   yield takeEvery(DataActionType.GET_GOALS, getGoals)
-  yield takeEvery(DataActionType.GET_GOALS_BY_ID, getGoalsById)
+  yield takeEvery(DataActionType.GET_GOALS_BY_IDS, getGoalsByIds)
   yield takeEvery(DataActionType.CREATE_GOAL, createGoal)
   yield takeEvery(DataActionType.UPDATE_GOAL, updateGoal)
   yield takeEvery(DataActionType.DELETE_GOAL, deleteGoal)

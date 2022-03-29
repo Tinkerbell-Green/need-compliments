@@ -4,10 +4,10 @@ import {dataActionCreators, DataActionInstance, DataActionType} from "../actions
 import {DataSagaStatus, GoalDocument,GoalData} from "../types"; 
 import {Repository, GetDocumentsData} from "utils/firebase";
 
-export function* getGoalsById(action: DataActionInstance<DataActionType.GET_GOALS_BY_ID>) {
+export function* getGoalsByIds(action: DataActionInstance<DataActionType.GET_GOALS_BY_IDS>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.GET_GOALS_BY_ID
+  const sagaDataActionType = DataActionType.GET_GOALS_BY_IDS
 
   const repository: Repository = yield getContext("repository");
 
