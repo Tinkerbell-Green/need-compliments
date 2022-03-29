@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     border:none;
+    outline:none;
     background: none;
     box-shadow: none;
     cursor: pointer;
@@ -36,6 +37,10 @@ export const GlobalStyle = createGlobalStyle`
 
   input {
     border:none;
+    outline:none;
+    :focus-visible{
+      outline: none;
+    }
   }
 
   svg, path{
