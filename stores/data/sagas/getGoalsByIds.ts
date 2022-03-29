@@ -1,7 +1,9 @@
 import {QueryConstraint, where, documentId} from "firebase/firestore";
-import {call, getContext, put} from "redux-saga/effects";
+import {call, getContext, put,select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
+import {State} from "../reducers";
 import {DataSagaStatus, GoalDocument,GoalData} from "../types"; 
+import {RootState} from "stores/reducers";
 import {Repository, GetDocumentsData} from "utils/firebase";
 
 export function* getGoalsByIds(action: DataActionInstance<DataActionType.GET_GOALS_BY_IDS>) {
@@ -36,12 +38,13 @@ export function* getGoalsByIds(action: DataActionInstance<DataActionType.GET_GOA
       ...item.data(),
     })
     );
+    const previousData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data,
+        data : [...(previousData || []),...data],
       })
     ); 
 

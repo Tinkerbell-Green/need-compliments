@@ -1,7 +1,7 @@
 import type {NextPage} from "next"
 import React, {useEffect, useMemo} from "react"
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType} from "stores/data";
+import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestFeedPublicPage: NextPage = () => {
@@ -16,9 +16,12 @@ const TestFeedPublicPage: NextPage = () => {
   const publicTasksAndGoals = useMemo(()=>{
     if(!getPublicTasksData || !getGoalsByIdsData) return;
 
-    const publicTasksAndGoals = getPublicTasksData.map(task => {
+    const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
+
+    getPublicTasksData.forEach(task => {
       const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
-      return {task, goal};
+      // Filter out tasks whose goal was already removed.
+      if(goal) publicTasksAndGoals.push({task,goal});
     });
 
     return publicTasksAndGoals;
@@ -33,9 +36,25 @@ const TestFeedPublicPage: NextPage = () => {
 
 
   useEffect(()=>{
-    getGoalsByIdsFetch({
-      ids: [...taskGoalIdList],
+    const stack:string[] = [];
+    console.log(taskGoalIdList)
+    taskGoalIdList.forEach((value, index)=>{
+      stack.push(value);
+
+      if(index && stack.length%9===0){
+        getGoalsByIdsFetch({
+          ids: [...stack],
+        })
+        stack.splice(0,10);
+      }
     })
+
+    if(stack.length){
+      getGoalsByIdsFetch({
+        ids: [...stack],
+      })
+    }
+    
   },[getGoalsByIdsFetch,taskGoalIdList])
 
   return (
