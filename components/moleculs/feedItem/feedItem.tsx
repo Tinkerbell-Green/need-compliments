@@ -1,9 +1,19 @@
+import {HandThumbsUpFill,HeartFill,} from "@styled-icons/bootstrap";
+import {Celebration} from "@styled-icons/material-rounded/";
 import React,{useState} from "react";
 import * as S from "./feedItem.styled";
 import {Chip} from "components/atoms/chip";
+import {Icon} from "components/atoms/icon";
 import {IconThumbsUp} from "components/moleculs/iconThumbsUp";
 import {GoalData, TaskData} from "stores/data";
 import {Dayjs} from "utils/dayjs"
+/*
+@styled-icons/bootstrap/EmojiHeartEyesFill
+@styled-icons/bootstrap/HeartFill
+@styled-icons/fa-solid/KissWinkHeart
+import {HandThumbsUpFill} from "@styled-icons/bootstrap";
+
+*/
 
 type FeedItemProps = {
   task?: TaskData,
@@ -39,13 +49,21 @@ export const FeedItem = ({
         <Chip label={goal.name} color={goal.color}></Chip>
         <S.Task>{task.title}</S.Task>
         <div>
-          <S.Reaction onClick={()=>{
+          <div onClick={()=>{
             setIsThumbsClick(true);
             setTimeout(()=>setIsThumbsClick(false),2000);
           }}>
-            <IconThumbsUp clicked={isThumbsClick}></IconThumbsUp>
+            <S.ReactionList>
+              <S.Reaction>{"👍🏻"}</S.Reaction>
+              <S.Reaction>{"👏🏻"}</S.Reaction>
+              <S.Reaction>{"🎉"}</S.Reaction>
+              <S.Reaction>{"❤️"}</S.Reaction>
+              {/* <IconThumbsUp clicked={isThumbsClick}></IconThumbsUp> */}
+              {/* <Icon><HeartFill/></Icon> */}
+              {/* <Icon><Celebration/></Icon> */}
+            </S.ReactionList>
             <S.Count>{task.compliments.length}</S.Count>
-          </S.Reaction>
+          </div>
           <S.Li>{task.author}</S.Li>
           <S.Li>{Dayjs(task.doneAt).format("MM/DD HH:mm")}</S.Li>
         </div>

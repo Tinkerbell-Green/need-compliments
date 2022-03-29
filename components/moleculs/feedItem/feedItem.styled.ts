@@ -13,11 +13,12 @@ flex-shrink: 2;
 font-size: 0.875rem;
 min-width:200px;
 `;
+export const ReactionList = styled.ul`
+display:flex;
+`;
 
 export const Reaction = styled.li`
-display: flex;
-align-items: center;
-flex-shrink: 2;
+padding: 0 3px;
 `;
 
 export const Li = styled.li`

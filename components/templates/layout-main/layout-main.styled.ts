@@ -11,8 +11,4 @@ export const Contents = styled.main`
   width:90%;
   margin: 50px auto;
   flex-direction: column;
-
-  @media screen and (min-width: ${props => props.theme.media.md}px) {
-    width: 84%;
-  }
 `;
