@@ -42,7 +42,7 @@ export const Li = styled.li`
 font-size: 0.65rem;
 display: flex;
 align-items: center;
-margin-left: 20px;
+margin-left: 10px;
 `;
 export const Count = styled.div`
 font-size: 0.8rem;
