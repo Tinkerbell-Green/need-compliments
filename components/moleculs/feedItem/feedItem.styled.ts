@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Item = styled.ul`
 width:100%;
 display: flex;
+justify-content: space-between;
 align-items: center;
 padding: 10px 5px;
 border-radius: 5px;
@@ -10,6 +11,12 @@ border: 1px solid transparent;
 cursor: pointer;
 &:hover, &:focus{
   background:  #444444;
+}
+
+@media screen and (max-width: ${props => props.theme.media.sm}px){
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 `;
 
@@ -24,8 +31,19 @@ flex-shrink: 2;
 font-size: 0.875rem;
 min-width:200px;
 `;
+export const Contents = styled.div`
+align-items: center;
+`;
+
+export const Info = styled.div`
+width:100%;
+align-items: baseline;
+justify-content: flex-end;
+`;
+
 export const ReactionList = styled.ul`
 display:flex;
+align-items: center;
 `;
 
 export const Reaction = styled.li`

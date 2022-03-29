@@ -30,6 +30,7 @@ top:50%;
 left:50%;
 width: 150px;
 height: 150px;
+font-size: 150px;
 z-index: 2;
 color: #FF3638;
 visibility: hidden;
