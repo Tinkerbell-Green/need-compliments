@@ -20,13 +20,27 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    border: none;
+    border:none;
     background: none;
     box-shadow: none;
     cursor: pointer;
   }
 
+  :focus-visible{
+  outline: 3px dotted #B9AAFF;
+  }
+  
+  a{
+    text-decoration: none;
+  }
+
+  input {
+    border:none;
+  }
+
   svg, path{
     color: inherit;
+    width: inherit;
+    height: inherit;
   }
 `

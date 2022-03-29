@@ -12,8 +12,8 @@ export const Header= ({title,onClick}:HeaderProps) =>{
   return <>
     <S.Title>{title}</S.Title>
     <S.Buttons>
-      <S.Button onClick={()=>onClick("previous")}><KeyboardArrowLeft/></S.Button>
-      <S.Button onClick={()=>onClick("next")}><KeyboardArrowRight/></S.Button>
+      <S.Button onClick={()=>onClick("previous")} aria-label="이전 달력보기"><KeyboardArrowLeft/></S.Button>
+      <S.Button onClick={()=>onClick("next")} aria-label="다음 달력보기"><KeyboardArrowRight/></S.Button>
     </S.Buttons>
   </>
 }

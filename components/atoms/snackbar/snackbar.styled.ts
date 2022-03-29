@@ -1,6 +1,6 @@
 import styled,{keyframes, css} from "styled-components";
 
-export const Container = styled.section<{color:string,isVisible:boolean}>`
+export const Container = styled.button<{color:string,isVisible:boolean}>`
 z-index:10;
 position: fixed;
 top: 8%;

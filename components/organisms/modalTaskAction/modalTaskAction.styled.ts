@@ -30,9 +30,12 @@ margin: 8px 6px;
 export const Button = styled.button`
 width: ${BUTTON_ICON_SIZE}px;
 height: ${BUTTON_ICON_SIZE}px;
+line-height: ${BUTTON_ICON_SIZE}px;
+display: flex;
+justify-content: center;
+align-items: center;
 background-color: #2F2F2F;
 border-radius: 50%;
-padding:8px;
 margin-bottom: 10px;
 cursor: pointer;
 `
