@@ -47,10 +47,9 @@ export const SecondaryName = styled.div`
   color: ${props => props.theme.colors["gray-200"]};
 `;
 
-export const Visible = styled.div`
+export const Visible = styled.main`
 display: flex;
 flex-direction: row;
-height:100%;
 
 @media (max-width: ${props => props.theme.media.md}px) {
     flex-direction: column;

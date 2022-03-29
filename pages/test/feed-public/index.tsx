@@ -14,15 +14,8 @@ const TestFeedPublicPage: NextPage = () => {
     })
   },[getPublicTasksFetch])
 
-  const handleLeftButtonClick = useCallback(()=>{
-  },[])
-
   return (
-    <LayoutNavigation
-      rightButtonText={"?"}
-      title="test feed public"
-      onLeftButtonClick={handleLeftButtonClick}
-    >
+    <LayoutNavigation>
       <S.ListTask>
         {(getPublicTasksData || []).map(item => (
           <S.ListItemTask key={item.id}>
