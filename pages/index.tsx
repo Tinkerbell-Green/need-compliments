@@ -1,11 +1,10 @@
 import type {NextPage} from "next";
-import {useRouter} from "next/router";
-import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
+import React, {useCallback, useState, useEffect,useMemo} from "react";
 import {useSelector} from "react-redux";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
-import {Calendar} from "components/organisms/calendar"
-import {FeedPersonal} from "components/organisms/feedPersonal";
+import {Tabs} from "components/moleculs/tabs";
+import {FeedPublic} from "components/organisms/feedPublic";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
@@ -37,27 +36,11 @@ const NEXT_FEATURE ="준비 중인 기능입니다. 그동안 캘린더를 채�
 
 const Home: NextPage = () => {
   const {
-    data: loggedInUserData,
-    status: loggedInUserStatus
-  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
-  const {
     fetch: getTasksByDaysFetch,
     status: getTasksByDaysStatus,
     data: getTasksByDaysData,
     refetch: getTasksByDaysRefetch,
   } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
-  const {
-    fetch: createTaskFetch, 
-    status: createTaskStatus
-  } = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
-  const {
-    fetch: deleteTaskFetch, 
-    status: deleteTaskStatus
-  } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
-  const {
-    fetch: updateTaskFetch, 
-    status: updateTaskStatus
-  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
   const {
     fetch: getGoalsFetch, 
     data: getGoalsData,
@@ -68,48 +51,12 @@ const Home: NextPage = () => {
   );
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
-  const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
     message: "",
     type: "information",
     duration:1000,
   });
-  const feedRef = useRef<HTMLElement>(null);
-  const router = useRouter();
-
-  const handleDateClick = useCallback((date:string)=>{
-    setPickedDate(date);
-    feedRef?.current?.scrollIntoView();
-  },[])
-
-  const handleTaskDelete = useCallback((id: string)=>{
-    deleteTaskFetch({
-      pathSegments: [id]
-    })
-  },[deleteTaskFetch])
-
-  const handleTaskCreate = useCallback(
-    (id: string, readPermission: GoalData["readPermission"]) => {
-      createTaskFetch({
-        data: {
-          title: "",
-          goal:id,
-          doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
-          readPermission,
-        },
-      });
-    },
-    [createTaskFetch,pickedDate]
-  );
-
-  const handleTaskUpdate = useCallback((id:string,title:string)=>{
-    updateTaskFetch({
-      pathSegments: [id],
-      data: {
-        title,
-      }});
-  },[updateTaskFetch])
 
   const handleSnackbarShow = useCallback(()=>{
     setSnackbarProps({
@@ -142,29 +89,6 @@ const Home: NextPage = () => {
 
     return newTasks;
   },[tasks,goals])
-
-  const goalTasksAtPickedDate = useMemo(()=>{
-    const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
-
-    goals.forEach(goal=>{
-      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
-
-    return newGoalTasksAtPickedDate;
-  },[goals,tasks,pickedDate])
-
-  useEffect(()=>{
-    if(!pageAuthorId) return;
-    
-    router.push({
-      query : {
-        id:pageAuthorId,
-        date:`${pickedDate}`,
-      },
-    },undefined, {shallow: true});
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
     getGoalsFetch({})
@@ -182,24 +106,6 @@ const Home: NextPage = () => {
   }, [getTasksByDaysFetch]);
 
   useEffect(()=>{
-    if (createTaskStatus === DataSagaStatus.SUCCEEDED 
-      || deleteTaskStatus === DataSagaStatus.SUCCEEDED 
-      || updateTaskStatus === DataSagaStatus.SUCCEEDED){
-      getTasksByDaysRefetch()
-    }
-  },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
-  
-  useEffect(()=>{
-    if(loggedInUserStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
-        visible: true,
-        message: LOGIN_ERROR,
-        type: "error",
-      })
-    }
-  },[loggedInUserStatus])
-
-  useEffect(()=>{
     if(getTasksByDaysStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
         visible: true,
@@ -209,51 +115,14 @@ const Home: NextPage = () => {
     }
   },[getTasksByDaysStatus])
 
-  useEffect(()=>{
-    if(createTaskStatus===DataSagaStatus.FAILED 
-      || updateTaskStatus===DataSagaStatus.FAILED 
-      || deleteTaskStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
-        visible: true,
-        message: MODIFY_TASKS_ERROR,
-        type: "error",
-        duration:2000,
-      })
-    }
-  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
-
-  useEffect(()=>{
-    if(updateTaskStatus===DataSagaStatus.SUCCEEDED){
-      setSnackbarProps({
-        visible: true,
-        message: UPDATE_TASKS_SUCCESS,
-        type: "success",
-        duration:2000,
-      })
-    }
-  },[updateTaskStatus])
-
   return (
     <LayoutMain>
-      <Seo title={loggedInUserData?.name || ""}></Seo>
+      <Seo title={"전체 글"}></Seo>
       <Snackbar 
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
-      <S.Visible>
-        <Calendar
-          pickedDate={pickedDate}
-          onDateClick={handleDateClick}
-          tasksByDate={tasksByDate}></Calendar>
-        <S.DetailSection ref={feedRef}>
-          <FeedPersonal
-            onTaskDelete={handleTaskDelete}
-            onTaskCreate={handleTaskCreate}
-            onTaskUpdate={handleTaskUpdate}
-            pickedDate={pickedDate}
-            goalTasks={goalTasksAtPickedDate}
-            goals={goals}></FeedPersonal>
-        </S.DetailSection>
-      </S.Visible>
+      <Tabs/>
+      <FeedPublic/>
     </LayoutMain>
   );
 };

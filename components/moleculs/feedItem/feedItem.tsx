@@ -6,13 +6,30 @@ import {GoalData, TaskData} from "stores/data";
 import {Dayjs} from "utils/dayjs"
 
 type FeedItemProps = {
-  task: TaskData,
-  goal: GoalData
+  task?: TaskData,
+  goal?: GoalData
 }
 
 export const FeedItem = ({
-  task,
-  goal,
+  task={
+    id:"task0", 
+    title:"개발개발", 
+    author:"홍빈이",
+    goal:"goal0",
+    compliments:[],
+    doneAt:new Date().getTime(),
+    createdAt:new Date().getTime(),
+    updatedAt:new Date().getTime(),
+    readPermission:"everyone"},
+  goal={
+    id:"goal0",
+    name:"개발왕",
+    color:"mediunslateblue",
+    author:"홍빈이",
+    createdAt:new Date().getTime(),
+    updatedAt:new Date().getTime(),
+    readPermission:"everyone"
+  }
 }: FeedItemProps) => {
   const [isThumbsClick, setIsThumbsClick] = useState(false);
 

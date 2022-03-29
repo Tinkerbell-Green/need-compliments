@@ -47,7 +47,7 @@ export const SidebarSetting = ({
           <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>
         </S.FriendList> */}
       </S.Profile>
-      <Link href={"/"} passHref>
+      <Link href={"/feed"} passHref>
         <S.Title>내 피드</S.Title>
       </Link>
       <S.Goals>
