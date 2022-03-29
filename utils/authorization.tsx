@@ -11,7 +11,7 @@ type AuthorizationProviderProps = {
   children: ReactNode
 }
 
-const PUBLIC_PAGE_PATHNAMES = ["/auth/signin","/test"]
+const PUBLIC_PAGE_PATHNAMES = ["/auth/signin","/"]
 
 export const AuthorizationProvider = ({
   children
