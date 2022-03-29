@@ -34,7 +34,7 @@ const TestFeedPublicPage: NextPage = () => {
 
   useEffect(()=>{
     getGoalsByIdFetch({
-      id: taskGoalIdList,
+      ids: [...taskGoalIdList],
     })
   },[getGoalsByIdFetch,taskGoalIdList])
 

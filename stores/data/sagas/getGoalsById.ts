@@ -21,7 +21,7 @@ export function* getGoalsById(action: DataActionInstance<DataActionType.GET_GOAL
 
   try {
     const queryConstraints: QueryConstraint[] = []
-    queryConstraints.push(where(documentId(), "in", [...payload.id]))
+    queryConstraints.push(where(documentId(), "in", [...payload.ids]))
 
     const response: GetDocumentsData<GoalDocument> = yield call(
       [repository, repository.getDocuments],

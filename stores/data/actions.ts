@@ -123,7 +123,7 @@ export type DataActionPayload = {
   [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
     }
   [DataActionType.GET_GOALS_BY_ID]: SagaDataActionDefaultPayload & {
-    id: string[],
+    ids: string[],
   }
   [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
