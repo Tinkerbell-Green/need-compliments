@@ -4,7 +4,13 @@ export const Item = styled.ul`
 width:100%;
 display: flex;
 align-items: center;
-margin-top: 12px;
+padding: 10px 5px;
+border-radius: 5px;
+border: 1px solid transparent;
+cursor: pointer;
+&:hover, &:focus{
+  background:  #444444;
+}
 `;
 
 export const Goal = styled.div`
@@ -23,7 +29,13 @@ display:flex;
 `;
 
 export const Reaction = styled.li`
-padding: 0 3px;
+padding: 5px;
+border-radius: 5px;
+font-size: 1.25rem;
+cursor: pointer;
+&:hover, &:focus{
+  background-color: gray;
+}
 `;
 
 export const Li = styled.li`
