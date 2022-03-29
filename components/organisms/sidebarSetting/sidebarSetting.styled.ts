@@ -1,38 +1,40 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
+  padding: 10px;
   justify-content: flex-end;
 `;
 
 export const Profile = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 `;
 
-export const Goals = styled.button`
+export const Goals = styled.div`
   flex-direction: column;
-  padding: 0 20px;
-  cursor: pointer;
 `;
 
-export const GoalsTitle = styled.div`
+export const Title = styled.a`
   text-align: left;
+  text-decoration: none;
   align-items: center;
   width:100%;
   font-size: 1rem;
-  font-weight: 500;
-  padding: 20px 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  font-weight: 600;
+  padding: 18px 20px;
+  cursor: pointer;
 `;
 
 export const GoalsContents = styled.ul`
   width:100%;
   max-height: 400px;
   overflow-y: auto;
+  padding: 0 20px;
   > * {
-    margin-bottom: 10px;
+    margin-top: 10px;
   }
   
   /* firefox */
@@ -55,7 +57,7 @@ export const GoalsContents = styled.ul`
 `;
 
 export const Name = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   font-weight: 900;
   margin-bottom: 10px;
 `;
@@ -88,20 +90,4 @@ export const SettingIcon = styled.button`
   &:hover, &:focus{
     transform: rotate(90deg);
   }
-`;
-
-export const CloseButton = styled.button`
-position: absolute;
-top:0;
-left:0;
-transform: translateX(-100%) rotate(0deg);
-width: 30px;
-height:30px;
-padding:2px;
-color: ${props => props.theme.colors["gray-600"]};
-transition: transform 0.3s ease-in-out;
-
-&:hover, &:focus{
-  transform: translateX(-100%) rotate(90deg);
-}
 `;

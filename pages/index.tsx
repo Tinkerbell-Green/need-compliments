@@ -6,7 +6,6 @@ import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
-import {SidebarSetting} from "components/organisms/sidebar-setting";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
@@ -34,6 +33,7 @@ const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠
 const GET_TASKS_ERROR = "일시적인 오류로 데이터를 가져오는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const MODIFY_TASKS_ERROR = "일시적인 오류로 데이터를 저장하는데 실패했습니다. 잠시 후 다시 시도해 주세요."
 const UPDATE_TASKS_SUCCESS = "데이터를 성공적으로 저장했습니다 🧚‍♀️"
+const NEXT_FEATURE ="준비 중인 기능입니다. 그동안 캘린더를 채워보는건 어떨까요? 🧚‍♀️";
 
 const Home: NextPage = () => {
   const {
@@ -58,10 +58,10 @@ const Home: NextPage = () => {
     fetch: updateTaskFetch, 
     status: updateTaskStatus
   } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
-
   const {
     fetch: getGoalsFetch, 
     data: getGoalsData,
+    status: getGoalssStatus
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
   const pageAuthorId = useSelector(
     (state: RootState) => state.navigation.pageAuthorId
@@ -69,30 +69,126 @@ const Home: NextPage = () => {
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [follwersCount, setFollwersCount] = useState(0);
-  const [follwingsCount, setFollwingsCount] = useState(0);
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
     message: "",
     type: "information",
     duration:1000,
-    
   });
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (loggedInUserData) {
-      setName(loggedInUserData.name);
-      setEmail(loggedInUserData.email);
-      setFollwersCount(loggedInUserData.followers.length);
-      setFollwingsCount(loggedInUserData.followings.length);
-    }
-  }, [loggedInUserData]);
+  const handleDateClick = useCallback((date:string)=>{
+    setPickedDate(date);
+    feedRef?.current?.scrollIntoView();
+  },[])
 
+  const handleTaskDelete = useCallback((id: string)=>{
+    deleteTaskFetch({
+      pathSegments: [id]
+    })
+  },[deleteTaskFetch])
+
+  const handleTaskCreate = useCallback(
+    (id: string, readPermission: GoalData["readPermission"]) => {
+      createTaskFetch({
+        data: {
+          title: "",
+          goal:id,
+          doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
+          readPermission,
+        },
+      });
+    },
+    [createTaskFetch,pickedDate]
+  );
+
+  const handleTaskUpdate = useCallback((id:string,title:string)=>{
+    updateTaskFetch({
+      pathSegments: [id],
+      data: {
+        title,
+      }});
+  },[updateTaskFetch])
+
+  const handleSnackbarShow = useCallback(()=>{
+    setSnackbarProps({
+      visible:true,
+      message:NEXT_FEATURE,
+      type:"information",
+      duration:5000,
+    })
+  },[])
+
+  const goals = useMemo(() => {
+    const newGoals = getGoalsData || [];
+    newGoals.sort((a, b) => a.createdAt - b.createdAt);
+    return newGoals;
+  }, [getGoalsData]);
+
+  const tasksByDate = useMemo(()=>{
+    const newTasks: Record<string,ExpandedTaskData[]> = {};
+
+    tasks.forEach((taskItem)=>{
+      goals.forEach((goal)=>{
+        if(taskItem.goal !== goal.id) return;
+
+        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
+  
+        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color ? goal.color : "white"});
+        else newTasks[curDate] = [{...taskItem, color:goal.color}];
+      })
+    })
+
+    return newTasks;
+  },[tasks,goals])
+
+  const goalTasksAtPickedDate = useMemo(()=>{
+    const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
+
+    goals.forEach(goal=>{
+      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
+        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
+
+    return newGoalTasksAtPickedDate;
+  },[goals,tasks,pickedDate])
+
+  useEffect(()=>{
+    if(!pageAuthorId) return;
+    
+    router.push({
+      query : {
+        id:pageAuthorId,
+        date:`${pickedDate}`,
+      },
+    },undefined, {shallow: true});
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[pickedDate,pageAuthorId])
+  
+  useEffect(()=>{
+    getGoalsFetch({})
+  },[getGoalsFetch])
+
+  useEffect(() => {
+    setTasks(getTasksByDaysData || []);
+  }, [getTasksByDaysData]);
+
+  useEffect(() => {
+    getTasksByDaysFetch({
+      startDay: new Date("1999-11-11"),
+      endDay: new Date("2222-11-11"),
+    });
+  }, [getTasksByDaysFetch]);
+
+  useEffect(()=>{
+    if (createTaskStatus === DataSagaStatus.SUCCEEDED 
+      || deleteTaskStatus === DataSagaStatus.SUCCEEDED 
+      || updateTaskStatus === DataSagaStatus.SUCCEEDED){
+      getTasksByDaysRefetch()
+    }
+  },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
+  
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
@@ -137,138 +233,12 @@ const Home: NextPage = () => {
     }
   },[updateTaskStatus])
 
-  useEffect(()=>{
-    if(!pageAuthorId) return;
-    
-    router.push({
-      query : {
-        id:pageAuthorId,
-        date:`${pickedDate}`,
-      },
-    },undefined, {shallow: true});
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[pickedDate,pageAuthorId])
-  
-  useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
-
-  useEffect(() => {
-    setTasks(getTasksByDaysData || []);
-  }, [getTasksByDaysData]);
-
-  const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
-  }, [getGoalsData]);
-
-  const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
-    setIsMenuOpen(true);
-  },[]);
-
-  const handleCloseMenu: React.MouseEventHandler = useCallback((event) => {
-    if ((event.target as HTMLElement).closest(".menuClose")) {
-      setIsMenuOpen(false);
-    }
-  },[]);
-
-  const handleDateClick = useCallback((date:string)=>{
-    setPickedDate(date);
-    feedRef?.current?.scrollIntoView();
-  },[])
-
-  const handleTaskDelete = useCallback((id: string)=>{
-    deleteTaskFetch({
-      pathSegments: [id]
-    })
-  },[deleteTaskFetch])
-
-  const handleTaskCreate = useCallback(
-    (id: string, readPermission: GoalData["readPermission"]) => {
-      createTaskFetch({
-        data: {
-          title: "",
-          goal:id,
-          doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
-          readPermission,
-        },
-      });
-    },
-    [createTaskFetch,pickedDate]
-  );
-
-  const handleTaskUpdate = useCallback((id:string,title:string)=>{
-    updateTaskFetch({
-      pathSegments: [id],
-      data: {
-        title,
-      }});
-  },[updateTaskFetch])
-  
-  const tasksByDate = useMemo(()=>{
-    const newTasks: Record<string,ExpandedTaskData[]> = {};
-
-    tasks.forEach((taskItem)=>{
-      goals.forEach((goal)=>{
-        if(taskItem.goal !== goal.id) return;
-
-        const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
-  
-        if(newTasks[curDate]) newTasks[curDate].push({...taskItem, color:goal.color ? goal.color : "white"});
-        else newTasks[curDate] = [{...taskItem, color:goal.color}];
-      })
-    })
-
-    return newTasks;
-  },[tasks,goals])
-
-  const goalTasksAtPickedDate = useMemo(()=>{
-    const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
-
-    goals.forEach(goal=>{
-      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
-
-    return newGoalTasksAtPickedDate;
-  },[goals,tasks,pickedDate])
-
-  useEffect(() => {
-    getTasksByDaysFetch({
-      startDay: new Date("1999-11-11"),
-      endDay: new Date("2222-11-11"),
-    });
-  }, [getTasksByDaysFetch]);
-
-  useEffect(()=>{
-    if (createTaskStatus === DataSagaStatus.SUCCEEDED 
-      || deleteTaskStatus === DataSagaStatus.SUCCEEDED 
-      || updateTaskStatus === DataSagaStatus.SUCCEEDED){
-      getTasksByDaysRefetch()
-    }
-  },[getTasksByDaysRefetch, createTaskStatus,deleteTaskStatus,updateTaskStatus])
-
   return (
-    <LayoutMain onMenuOpen={handleOpenMenu}>
-      <Seo title={name}></Seo>
+    <LayoutMain>
+      <Seo title={loggedInUserData?.name || ""}></Seo>
       <Snackbar 
-        visible={snackbarProps.visible} 
-        message={snackbarProps.message} 
-        type={snackbarProps.type}
-        duration={snackbarProps.duration}
+        {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
-      <div className="invisible">
-        <SidebarSetting
-          name={name}
-          email={email}
-          follwersCount={follwersCount}
-          follwingsCount={follwingsCount}
-          isMenuOpen={isMenuOpen}
-          onCloseMenu={handleCloseMenu}
-          goals={goals}
-        ></SidebarSetting>
-      </div>
       <S.Visible>
         <Calendar
           pickedDate={pickedDate}

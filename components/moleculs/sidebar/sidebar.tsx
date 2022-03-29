@@ -1,4 +1,3 @@
-import {CloseOutline} from "@styled-icons/evaicons-outline";
 import React, {ReactNode} from "react";
 import * as S from "./sidebar.styled";
 
@@ -13,13 +12,13 @@ export const Sidebar = ({
   isOpen,
   onClose,
 }: SidebarProps) => {
+
   return (
-    <S.MenuOverlay
-      onClick={onClose} 
-      className={`menuClose ${isOpen ? "show" : "hidden"}`}>
-      <S.MenuContents className={`modalClose ${isOpen ? "show" : "hidden"}`}>
+    <S.MenuOverlay onClick={onClose} isVisible={isOpen}>
+      <S.MenuContents className={"menu"} isVisible={isOpen}>
         {children}
       </S.MenuContents>
     </S.MenuOverlay>
+    
   );
 };

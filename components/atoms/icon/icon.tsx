@@ -3,12 +3,12 @@ import * as S from "./icon.styled"
 type IconProps = {
   children:React.ReactNode,
   color?: string;
-  rotate?: boolean;
+  isRotate?: boolean;
 }
 
-export const Icon = ({children, color="", rotate=false}:IconProps) => {
+export const Icon = ({children, color="", isRotate=false}:IconProps) => {
   return (
-    <S.Icon color={color} rotate={rotate}>
+    <S.Icon color={color} isRotate={isRotate}>
       {children}
     </S.Icon>
   );

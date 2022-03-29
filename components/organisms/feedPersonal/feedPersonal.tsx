@@ -49,15 +49,17 @@ export const FeedPersonal = ({
                 icon={<BookClose />}
                 onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
               ></Chip>
-              {goalTasks[goal.id].map(({id,title})=>(
-                <TaskInput 
-                  key={id} 
-                  id={id} 
-                  color={goal.color} 
-                  title={title} 
-                  onTaskDelete={onTaskDelete}
-                  onTaskUpdate={onTaskUpdate}></TaskInput>
-              ))}
+              <ul>
+                {goalTasks[goal.id].map(({id,title})=>(
+                  <TaskInput 
+                    key={id} 
+                    id={id} 
+                    color={goal.color} 
+                    title={title} 
+                    onTaskDelete={onTaskDelete}
+                    onTaskUpdate={onTaskUpdate}></TaskInput>
+                ))}
+              </ul>
             </S.GoalAndInput>
           ))}
       </S.FeedContents>
