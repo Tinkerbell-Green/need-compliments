@@ -7,6 +7,7 @@ import facebookLogo from "../../public/icons/facebook-logo.png";
 import googleLogo from "../../public/icons/google-logo.jpeg";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
+import {Seo} from "components/atoms/seo";
 import {LayoutCenter} from "components/templates/layout-center";
 import * as S from "styles/pages/signin.styled";
 
@@ -24,6 +25,7 @@ export default function SignIn({
    
   return (
     <LayoutCenter>
+      <Seo title={"로그인"}></Seo>
       {providers
         ? Object.values(providers).map((provider) => {
           if (provider.name === "Kakao") {

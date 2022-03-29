@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
-export const Icon = styled.div<{color:string,isRotate:boolean}>`
-  width:30px;
-  height:30px;
-  padding:2px;
-  cursor: pointer;
+export const Icon = styled.span<{color:string,isRotate:boolean,size?:number}>`
+  display: flex;
+  width:${props => props.size ? props.size : 28}px;
+  height:${props => props.size ? props.size : 28}px;
   color: ${props => props.color ? props.color : props.theme.colors["gray-300"]};
 
   ${props => props.isRotate && `

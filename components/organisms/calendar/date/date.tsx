@@ -21,7 +21,8 @@ export const Date = ({
   return (
     <S.Date 
       isPickedDate={isPickedDate}
-      onClick={()=>onClick(date)}>
+      onClick={()=>onClick(date)}
+      aria-label={`${date.slice(0,2)}일`}>
       <S.Today className={isToday ? "todayHighligh" : ""}>
         <S.DateNumber>{date.slice(0,2)}</S.DateNumber>
       </S.Today>

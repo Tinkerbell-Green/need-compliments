@@ -1,3 +1,4 @@
+import {Session} from "next-auth"
 import {useSession} from "next-auth/react"
 import React, {ReactNode, useEffect} from "react"
 import {useDispatch} from "react-redux"
@@ -7,6 +8,11 @@ import {NavigationActionType, navigationActionCreators} from "stores/navigation"
 type AuthenticationProviderProps = {
   children: ReactNode
 }
+
+export const getSessionUserId = (session: Session | null) => {
+  return ((session?.user || {}) as any).id as string
+}
+
 export const AuthenticationProvider = ({
   children
 }: AuthenticationProviderProps) => {
@@ -14,18 +20,12 @@ export const AuthenticationProvider = ({
   const {data: session, status} = useSession()
   const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
 
-  const sessionUserId = ((session?.user || {}) as any).id as string
+  const sessionUserId = getSessionUserId(session)
 
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){
       dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
         key: "loggedInUserId",
-        userId: sessionUserId
-      }))
-  
-      // TODO: move this to query param logic later
-      dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
-        key: "pageAuthorId",
         userId: sessionUserId
       }))
     }

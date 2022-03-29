@@ -3,6 +3,7 @@ import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React,{useMemo} from "react";
 import * as S from "./feedPersonal.styled";
 import {Chip} from "components/atoms/chip";
+import {Icon} from "components/atoms/icon"
 import {TaskInput} from "components/moleculs/taskInput"
 import {TaskData,GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
@@ -38,7 +39,7 @@ export const FeedPersonal = ({
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<BookClose />}
+                icon={<Icon size={18} color="gray" aria-label={"personal image"}><BookClose /></Icon>}
               ></Chip>
             </S.GoalAndInput>))
           : goals.map((goal) => (
@@ -46,7 +47,7 @@ export const FeedPersonal = ({
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<BookClose />}
+                icon={<Icon size={18}  color="gray" aria-label={"personal image"}><BookClose /></Icon>}
                 onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
               ></Chip>
               <ul>

@@ -1,6 +1,7 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect, useState} from "react";
+import {Seo} from "components/atoms/seo";
 import {Profile} from "components/organisms/profile";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 
@@ -28,6 +29,7 @@ const ProfilePage: NextPage = () => {
       onLeftButtonClick={onLeftButtonClick}
       onRightButtonClick={onLeftButtonClick}
     >
+      <Seo title={"프로필 설정"}></Seo>
       <Profile name={name} />
     </LayoutNavigation>
   );
