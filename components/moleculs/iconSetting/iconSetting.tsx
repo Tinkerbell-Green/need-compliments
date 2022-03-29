@@ -7,6 +7,6 @@ type IconSettingProps = {
 
 export const IconSetting = (props:IconSettingProps) => {
   return (
-    <Icon {...props} isRotate={true}><Settings/></Icon>
+    <Icon {...props} isRotate={true} aria-label={"Settings image"}><Settings/></Icon>
   );
 }

@@ -26,7 +26,7 @@ export const Chip = ({
     if(!onAdd) return;
     addTimer && clearTimeout(addTimer);
 
-    const newTimer = setTimeout(onAdd,400);
+    const newTimer = setTimeout(onAdd,250);
     setAddTimer(newTimer);
   }),[addTimer,onAdd]);
 
@@ -38,7 +38,7 @@ export const Chip = ({
       {icon && <S.Icon>{icon}</S.Icon>}
       <S.Label color={color}>{label}</S.Label>
       {onAdd && (
-        <S.AddIcon onClick={handleAdd}>
+        <S.AddIcon onClick={handleAdd} aria-label={"추가하기"}>
           <PlusSm/>
         </S.AddIcon>
       )}

@@ -50,6 +50,7 @@ export const SecondaryName = styled.div`
 export const Visible = styled.div`
 display: flex;
 flex-direction: row;
+height:100%;
 
 @media (max-width: ${props => props.theme.media.md}px) {
     flex-direction: column;

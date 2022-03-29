@@ -12,6 +12,7 @@ export const FeedContents = styled.ul`
 `;
 
 export const ChipContainer = styled.li`
+display: flex;
+justify-content: space-between;
 width:100%;
-cursor: pointer;
 `

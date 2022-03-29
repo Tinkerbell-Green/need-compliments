@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Input as InputUnderline} from "components/atoms/inputUnderline/inputUnderline.styled";
 import {GoalColor} from "stores/data";
 
 export const DeleteButtonContainer = styled.div`
@@ -21,20 +22,15 @@ border-radius: 5px;
 }
 `
 
-export const GoalTitle = styled.input<{ color: GoalColor }>`
+export const GoalTitle = styled(InputUnderline)<{isUnderline:boolean,color: GoalColor }>`
 width: 100%;
 height: 2rem;
 padding: 0.6rem 0 0.6rem 0;
 font-size: 1rem;
-border: none;
 outline: none;
 color: ${props => props.theme.colors.goals[props.color]};
 background: transparent;
 margin-bottom: 0.7rem;
-
-&:focus{
-    border-bottom-color: ${props => props.theme.colors.goals[props.color]};
-}
 `
 
 export const ColorPalette = styled.div`

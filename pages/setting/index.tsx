@@ -1,8 +1,9 @@
 import type {NextPage} from "next";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useSelector} from "react-redux";
+import {Seo} from "components/atoms/seo";
 import {Setting} from "components/organisms/setting";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
@@ -62,7 +63,8 @@ const SettingPage: NextPage = () => {
   };
 
   return (
-    <LayoutNavigation title={"계정"} onLeftButtonClick={onLeftButtonClick}>
+    <LayoutNavigation title={"설정"} onLeftButtonClick={onLeftButtonClick}>
+      <Seo title={"설정"}></Seo>
       {loggedInUserData && (
         <Setting
           loggedInUser={loggedInUserData}

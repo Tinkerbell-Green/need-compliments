@@ -75,6 +75,7 @@ export const GoalsForm = ({
     <>
       <SubHeadingSpan>제목</SubHeadingSpan>
       <S.GoalTitle
+        isUnderline={true}
         type="text"
         color={clickedGoalColor}
         placeholder="나는 리덕스를 정복하겠다!"

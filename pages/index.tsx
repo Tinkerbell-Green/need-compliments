@@ -235,7 +235,7 @@ const Home: NextPage = () => {
 
   return (
     <LayoutMain>
-      <Seo title={loggedInUserData?.name || ""}></Seo>
+      <Seo title={`${loggedInUserData?.name || ""} `}></Seo>
       <Snackbar 
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
