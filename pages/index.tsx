@@ -70,7 +70,7 @@ const Home: NextPage = () => {
       if(goal) publicTasksAndGoals.push({task,goal});
     });
 
-    return publicTasksAndGoals;
+    return publicTasksAndGoals.sort((a,b)=> b.task.createdAt - a.task.createdAt);
   },[getPublicTasksData,getGoalsByIdsData]);
   
   useEffect(()=>{

@@ -35,7 +35,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
         </S.ReactionList>
         {/* <S.Count>{task.compliments.length}</S.Count> */}
         {/* <S.Li>{task.author}</S.Li> */}
-        <S.Li>{Dayjs(task.doneAt).format("MM/DD HH:mm")}</S.Li>
+        <S.Li>{Dayjs(task.createdAt).format("MM/DD HH:mm")}</S.Li>
       </S.Item>
     </li>
     <IconHeart isVisible={isClicked} onHide={()=>setIsClicked(false)}></IconHeart>
