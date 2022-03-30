@@ -31,6 +31,7 @@ export const Nav = styled.div`
 export const More = styled.div`
 @media screen and (max-width: ${props => props.theme.media.md}px){
   visibility: hidden;
+  width:0px;
 }
 `;
 

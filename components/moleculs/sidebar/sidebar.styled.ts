@@ -17,6 +17,7 @@ export const MenuOverlay = styled.div<{isVisible:boolean}>`
     : css`
     opacity: 0;
     visibility: hidden;
+    width: 0px;
   `}
 `;
 

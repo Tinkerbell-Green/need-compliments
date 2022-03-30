@@ -8,11 +8,17 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     color: ${props => props.theme.colors["gray-100"]}
   }
+  body{
+    background-color: ${props => props.theme.colors.black};
+    overflow-x:hidden;
+  }
 
   html {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     scroll-behavior: smooth;
+    width:100%;
+    overflow-x:hidden;
   }
 
   div, section, header, footer {
