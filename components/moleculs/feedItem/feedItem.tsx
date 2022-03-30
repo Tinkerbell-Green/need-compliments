@@ -30,10 +30,8 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
   return (<>
     <li>
       <S.Item onDoubleClick={()=>handleClickedEmoji("❤️")}>
-        <S.Contents>
-          <S.Goal><Chip label={goal.name} color={goal.color}></Chip></S.Goal>
-          <S.Task>{task.title}</S.Task>
-        </S.Contents>
+        <S.Goal><Chip label={goal.name} color={goal.color}></Chip></S.Goal>
+        <S.Task>{task.title}</S.Task>
         <S.Info>
           <S.ReactionList>
             <S.Reaction onClick={()=>handleClickedEmoji("👍🏻")}>{"👍🏻"}</S.Reaction>

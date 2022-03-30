@@ -1,14 +1,12 @@
 import styled from "styled-components"
 
 export const LayoutMain = styled.div`
-  background-color: ${props => props.theme.colors.black};
-  min-width: 100%;
-  min-height: 100vh;
+  width: 100%;
   flex-direction: column;
 `
 
 export const Contents = styled.main`
   width:90%;
-  margin: 50px auto;
+  margin: 10px auto;
   flex-direction: column;
 `;

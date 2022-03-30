@@ -6,7 +6,7 @@ width: 100%;
 height: 70px;
 display: flex;
 align-items: center;
-padding:10px 0 0 15px;
+padding:10px 0;
 background-color: ${props => props.theme.colors.black};
 position: sticky; 
 top:0;

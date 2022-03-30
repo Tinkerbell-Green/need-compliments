@@ -8,7 +8,8 @@ export const DetailSection = styled.section`
   padding: 0 20px;
 
 @media (max-width: ${props => props.theme.media.md}px) {
-    width: 100%;
+    min-width: 100%;
+    padding: 0 8px;
   }
 `;
 

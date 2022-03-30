@@ -6,8 +6,8 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 padding: 10px 5px;
+margin-top: 5px;
 border-radius: 5px;
-border: 1px solid transparent;
 cursor: pointer;
 &:hover, &:focus{
   background:  #444444;
@@ -21,24 +21,27 @@ cursor: pointer;
 `;
 
 export const Goal = styled.div`
-width: 120px;
+width: 160px;
 `;
 
 export const Task = styled.p`
 flex-grow: 1;
-margin-left: 18px;
 flex-shrink: 2;
 font-size: 0.875rem;
 min-width:200px;
+
+@media screen and (max-width: ${props => props.theme.media.sm}px){
+  padding: 10px 0;
+}
 `;
 export const Contents = styled.div`
 align-items: center;
 `;
 
 export const Info = styled.div`
-width:100%;
+width:fit-content;
+justify-content: space-between;
 align-items: baseline;
-justify-content: flex-end;
 `;
 
 export const ReactionList = styled.ul`
