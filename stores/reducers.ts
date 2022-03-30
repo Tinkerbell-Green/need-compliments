@@ -1,5 +1,4 @@
 import {combineReducers} from "redux";
-
 import {dataReducer} from "./data";
 import {navigationReducer} from "./navigation";
 
