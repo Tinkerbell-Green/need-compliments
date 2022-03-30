@@ -13,7 +13,7 @@ cursor: pointer;
   background:  #444444;
 }
 
-@media screen and (max-width: ${props => props.theme.media.sm}px){
+@media screen and (max-width: ${props => props.theme.media.md}px){
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -30,7 +30,7 @@ flex-shrink: 2;
 font-size: 0.875rem;
 min-width:200px;
 
-@media screen and (max-width: ${props => props.theme.media.sm}px){
+@media screen and (max-width: ${props => props.theme.media.md}px){
   padding: 10px 0;
 }
 `;

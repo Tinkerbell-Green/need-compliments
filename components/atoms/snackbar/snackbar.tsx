@@ -59,7 +59,7 @@ export const Snackbar = ({
     <S.Container 
       role="dialog"
       ref={dialogRef}
-      tabIndex={visible ? 0 : -1}
+      tabIndex={-1}
       isVisible={visible}
       color={TYPE_MAP[type].color}
       aria-label={message}>

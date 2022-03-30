@@ -1,8 +1,10 @@
 import type {NextPage} from "next";
+import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo} from "react";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Tabs} from "components/moleculs/tabs";
+import {FeedNotice} from "components/organisms/feedNotice";
 import {FeedPublic} from "components/organisms/feedPublic";
 import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType, TaskData,GoalData} from "stores/data";
@@ -19,13 +21,16 @@ type SnackbarProps = {
 const Home: NextPage = () => {
   const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
   const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
-
+  const router = useRouter();
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
     message: "",
     type: "information",
     duration:1000,
   });
+  const tabIndex = useMemo(()=>{
+    return router.query.tab;
+  },[router.query.tab])
 
   const taskGoalIdList = useMemo(()=>{
     const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.map(item => item.goal));
@@ -83,7 +88,8 @@ const Home: NextPage = () => {
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <Tabs/>
-      <FeedPublic tasksAndGoals={publicTasksAndGoals || []}/>
+      {tabIndex==="0" && <FeedPublic tasksAndGoals={publicTasksAndGoals || []}/>}
+      {tabIndex==="1" && <FeedNotice/>}
     </LayoutMain>
   );
 };

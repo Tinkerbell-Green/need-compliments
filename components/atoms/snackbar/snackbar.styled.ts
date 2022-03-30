@@ -17,6 +17,9 @@ transition: all 0.3s ease-out;
 width:fit-content;
 visibility: ${props=>props.isVisible ? "visible" : "hidden"};
 transform: ${props=>props.isVisible ? "translate(-50%, -50%);" : "translate(-50%, -300%);"};
+:focus-visible{
+  outline: none;
+  }
 `;
 
 export const Icon = styled.div`
