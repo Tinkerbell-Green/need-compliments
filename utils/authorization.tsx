@@ -24,7 +24,7 @@ export const AuthorizationProvider = ({
     if (status === "unauthenticated") {
       const SIGN_IN_PATHNAME = "/auth/signin"
       if (router.pathname !== SIGN_IN_PATHNAME){
-        router.push(SIGN_IN_PATHNAME);
+        // router.push(SIGN_IN_PATHNAME);
       }
     }
   }, [router,status]);
