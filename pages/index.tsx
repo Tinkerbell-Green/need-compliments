@@ -84,7 +84,7 @@ const Home: NextPage = () => {
   return (
     <LayoutMain>
       <Seo title={"전체 글"}></Seo>
-      <Snackbar 
+      <Snackbar
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <Tabs/>

@@ -6,7 +6,7 @@ export enum NavigationActionType {
 
 export type NavigationActionPayload = {
   [NavigationActionType.SET_USER_ID]: {
-    key: "loggedInUserId" | "pageAuthorId"
+    key: "loggedInUserId" | "pageAuthorId" | "stranger"
     userId: string
   }
   [NavigationActionType.SET_INITIALIZED]: {

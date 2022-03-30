@@ -67,11 +67,9 @@ export const Snackbar = ({
         {TYPE_MAP[type].icon}
       </S.Icon>
       <S.Label>{message}</S.Label>
-      <span>
-        <S.Button onClick={onClose}>
-          <CloseOutline></CloseOutline>
-        </S.Button>
-      </span>
+      <S.Button onClick={onClose}>
+        <CloseOutline></CloseOutline>
+      </S.Button>
       {children}
       <S.Progess>
         <S.Bar visible={visible} duration={duration}></S.Bar>

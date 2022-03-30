@@ -30,6 +30,15 @@ export const AuthenticationProvider = ({
       }))
     }
   }, [dispatch, sessionUserId, status])
+
+  useEffect(()=>{
+    if (status === "unauthenticated"){
+      dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
+        key: "stranger",
+        userId: ""
+      }))
+    }
+  }, [dispatch, sessionUserId, status])
   
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){

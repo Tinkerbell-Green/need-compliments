@@ -42,7 +42,7 @@ font-size: 14px;
 }
 `;
 
-export const Button = styled.button`
+export const Button = styled.div`
 width: ${ICON_NOTMAL_SIZE}px;
 height:${ICON_NOTMAL_SIZE}px;
 padding:0;
