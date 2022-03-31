@@ -2,14 +2,14 @@ import {Action, handleActions} from "redux-actions";
 import {NavigationActionPayload, NavigationActionType} from "./actions";
 
 export type State = {
-  loggedInUserId: string | undefined
-  pageAuthorId: string | undefined
+  loggedInUserId: string | null
+  pageAuthorId: string | null
   initialized: boolean
 }
 
 const initialState: State = {
-  loggedInUserId: undefined,
-  pageAuthorId: undefined,
+  loggedInUserId: null,
+  pageAuthorId: null,
   initialized: false,
 }
 

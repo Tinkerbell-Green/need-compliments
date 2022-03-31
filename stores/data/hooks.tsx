@@ -48,6 +48,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   // state
   const state = useSelector((state: RootState) => {
     const value = state["data"][actionType][key]
+
     if (value) {
       return value as RootState["data"][DataSagaActionTypeT][string]
     } else {
@@ -120,7 +121,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     fetch,
     refetch,
     state,
-    data: state?.data as RootState["data"][DataSagaActionTypeT][string]["data"] | undefined,
-    status: state?.status as RootState["data"][DataSagaActionTypeT][string]["status"] | undefined,
+    data: state?.data as RootState["data"][DataSagaActionTypeT][string]["data"] | null,
+    status: state?.status as RootState["data"][DataSagaActionTypeT][string]["status"] | null,
   }) 
 }
