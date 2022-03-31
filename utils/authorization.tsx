@@ -22,12 +22,15 @@ export const AuthorizationProvider = ({
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      const SIGN_IN_PATHNAME = "/auth/signin"
-      if (router.pathname !== SIGN_IN_PATHNAME){
-        // router.push(SIGN_IN_PATHNAME);
-      }
+      // const SIGN_IN_PATHNAME = "/auth/signin"
+      // if (router.pathname !== SIGN_IN_PATHNAME){
+      //   router.push(SIGN_IN_PATHNAME);
+      // }
+      dispatch(navigationActionCreators[NavigationActionType.SET_INITIALIZED]({
+        initialized: true
+      }))   
     }
-  }, [router,status]);
+  }, [router,status,dispatch]);
 
   useEffect(()=>{
     const sessionUserId = getSessionUserId(session)
