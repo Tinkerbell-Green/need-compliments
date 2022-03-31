@@ -96,6 +96,8 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
     endTime: new Date("2222-11-11"),
   } as any))
 
+  await (async () => new Promise(resolve => setTimeout(resolve, 3000)))()
+
   return ({
     props: {
       data: store.getState().data[DataActionType.GET_PUBLIC_TASKS][""].data || ""
