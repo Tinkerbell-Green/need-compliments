@@ -13,7 +13,7 @@ const GoalsPage: NextPage = () => {
         <Seo title={"목표 설정"}></Seo>
         <Goals></Goals>
       </LayoutNavigation>
-      <Link href={"/goal/form"} passHref>
+      <Link href={"/goals/form"} passHref>
         <S.ButtonContainer>
           <S.Button>추가하기</S.Button>
         </S.ButtonContainer>

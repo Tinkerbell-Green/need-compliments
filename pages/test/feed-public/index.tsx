@@ -34,8 +34,6 @@ const TestFeedPublicPage: NextPage = () => {
     })
   },[getPublicTasksFetch])
 
-<<<<<<< HEAD
-=======
 
   useEffect(()=>{
     const stack:string[] = [];
@@ -59,7 +57,6 @@ const TestFeedPublicPage: NextPage = () => {
     
   },[getGoalsByIdsFetch,taskGoalIdList])
 
->>>>>>> f62cdf5d415a40f6b9979a640c8a91214279a17b
   return (
     <LayoutNavigation>
       <S.ListTask>

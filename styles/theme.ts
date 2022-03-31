@@ -1,4 +1,4 @@
-import { palette } from "./palette"
+import {palette} from "./palette"
 
 const defaultTheme = {
   media: {
@@ -25,16 +25,16 @@ export const themes = {
         blue: "#3274F6",
         skyblue: "#4FA4E5",
         orchid: "#AD69ED",
-        mediunslateblue: "#7A7EEE",
+        mediunslateblue: "#a3a6f7",
         lightseagreen: "#4E9198",
         mediumseagreen: "#5E9E68",
-        green: "#99C355",
+        green: "#aae67b",
         lightsalmon: "#ED9F8D",
-        pink: "#ED76BF",
-        hotpink: "#EA449B",
+        pink: "#ffa4dc",
+        hotpink: "#ff6cb9",
         redpink: "#E25B62",
-        yellow: "#F3D055",
-        orange: "#F19739",
+        yellow: "#fbdf7b",
+        orange: "#feb86f",
         white: "#ffffff",
       }
     },
