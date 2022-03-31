@@ -63,7 +63,7 @@ const SettingPage: NextPage = () => {
   };
 
   return (
-    <LayoutNavigation title={"설정"} onLeftButtonClick={onLeftButtonClick}>
+    <LayoutNavigation>
       <Seo title={"설정"}></Seo>
       {loggedInUserData && (
         <Setting

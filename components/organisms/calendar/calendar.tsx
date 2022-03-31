@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
-import {ExpandedTaskData} from "pages";
+import {ExpandedTaskData} from "pages/feed";
 import {Dayjs} from "utils/dayjs";
 
 type CalendarProps = {
