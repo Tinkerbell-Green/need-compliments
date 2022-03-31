@@ -23,12 +23,7 @@ const ProfilePage: NextPage = () => {
   }, [router.query.name]);
 
   return (
-    <LayoutNavigation
-      title="프로필"
-      rightButtonText="확인"
-      onLeftButtonClick={onLeftButtonClick}
-      onRightButtonClick={onLeftButtonClick}
-    >
+    <LayoutNavigation>
       <Seo title={"프로필 설정"}></Seo>
       <Profile name={name} />
     </LayoutNavigation>

@@ -45,15 +45,8 @@ const TestUserPage: NextPage = () => {
     }
   },[deleteUserStatus])
 
-  const handleLeftButtonClick = useCallback(()=>{
-  },[])
-
   return (
-    <LayoutNavigation
-      rightButtonText={"?"}
-      title="test goals"
-      onLeftButtonClick={handleLeftButtonClick}
-    >
+    <LayoutNavigation>
       <S.Button onClick={handleUpdate}>UPDATE NAME</S.Button>
       <S.Button onClick={handleDelete}>DELETE</S.Button>
 

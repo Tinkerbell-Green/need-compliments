@@ -12,7 +12,7 @@ export const FeedPublic = ({
 }: FeedPublicProps) => {
   return (
     <S.Feed>
-      {(tasksAndGoals || []).map(item => (
+      {(tasksAndGoals).map(item => (
         <FeedItem key={item.task.id} task={item.task} goal={item.goal}></FeedItem>
       ))}
     </S.Feed>
