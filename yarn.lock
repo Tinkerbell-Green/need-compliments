@@ -1731,6 +1731,14 @@
     "@babel/runtime" "^7.14.6"
     "@styled-icons/styled-icon" "^10.6.3"
 
+"@styled-icons/material-rounded@^10.34.0":
+  version "10.34.0"
+  resolved "https://registry.yarnpkg.com/@styled-icons/material-rounded/-/material-rounded-10.34.0.tgz#8a8a1c35215a9c035da51ae5e4797821e5d07a23"
+  integrity sha512-Y2QB3bz+tDmrtcgNXKIPnw8xqarObpcFxOapkP3pMDGl+guCgV5jNHrE8xTKyN5lYYQmm9oBZ5odwgT3B+Uw5g==
+  dependencies:
+    "@babel/runtime" "^7.14.0"
+    "@styled-icons/styled-icon" "^10.6.3"
+
 "@styled-icons/material-twotone@^10.34.0":
   version "10.34.0"
   resolved "https://registry.yarnpkg.com/@styled-icons/material-twotone/-/material-twotone-10.34.0.tgz#91983def41f87e17d18d6d3d1fbbc4e6abb56106"

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {Input as InputUnderline} from "components/atoms/inputUnderline/inputUnderline.styled";
 import {GoalColor} from "stores/data";
 
-export const DeleteButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
 position: fixed;
 bottom: 10px;
 width: 100%;
@@ -11,11 +11,15 @@ padding: 0 2rem 0 2rem;
 box-sizing: border-box;
 `
 
-export const DeleteButton = styled.button`
+export const Button = styled.button`
 width: 100%;
 height: 100%;
 background-color: #1F1F1F;
 border-radius: 5px;
+`
+
+export const DeleteButton = styled(Button)`
+margin-right: 3px;
 
 >span{
     color: #CB535A;

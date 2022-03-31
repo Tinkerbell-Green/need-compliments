@@ -49,9 +49,6 @@ const TestTasksPage: NextPage = () => {
     })
   },[deleteTaskFetch])
 
-  const handleLeftButtonClick = useCallback(()=>{
-  },[])
-
   useEffect(()=>{
     if (createTaskStatus === DataSagaStatus.SUCCEEDED){
       getTasksByDaysRefetch()
@@ -71,11 +68,7 @@ const TestTasksPage: NextPage = () => {
   },[getTasksByDaysRefetch, deleteTaskStatus])
 
   return (
-    <LayoutNavigation
-      rightButtonText={"?"}
-      title="test tasks"
-      onLeftButtonClick={handleLeftButtonClick}
-    >
+    <LayoutNavigation>
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListTask>

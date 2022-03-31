@@ -13,24 +13,29 @@ transform: scale(1);
 const bubble = keyframes`
 	0% {
     visibility: visible;
+    z-index:0;
 		transform:translate(-100%,0) scale(1);
 	}
   50%{
+    z-index:0;
     transform: translate(-100%, -100px) scale(1.8);
   }
 	100% {
     visibility: hidden;
     opacity: 0;
+    z-index:-1;
 		transform:translate(-100%, -200px) scale(3);
 	}
 `
 const bubbleStyled = css`
-animation: ${bubble} 750ms linear;
+animation: ${bubble} 550ms linear;
 `;
 
 export const Bubble = styled.div<{clicked: boolean}>`
   visibility: hidden;
   position: fixed;
+  z-index:-1;
+  will-change: z-index;
   color:rgba(150, 55, 255,1);
   ${props => props.clicked && bubbleStyled};
 `;

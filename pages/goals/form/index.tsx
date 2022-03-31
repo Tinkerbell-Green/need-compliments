@@ -124,12 +124,7 @@ const GoalsFormPage: NextPage = () => {
 
   return (
     <>
-      <LayoutNavigation
-        title="목표"
-        rightButtonText="확인"
-        onLeftButtonClick={onBackClick}
-        onRightButtonClick={onSubmit}
-      >
+      <LayoutNavigation>
         <Seo title={`(작성 중) ${goalName}`}></Seo>
         <GoalsForm
           goal={goal}
@@ -140,13 +135,16 @@ const GoalsFormPage: NextPage = () => {
         ></GoalsForm>
       </LayoutNavigation>
 
-      {goal && (
-        <S.DeleteButtonContainer>
+      <S.ButtonContainer>
+        {goal && (
           <S.DeleteButton onClick={onDelete}>
             <span>삭제</span>
           </S.DeleteButton>
-        </S.DeleteButtonContainer>
-      )}
+        )}
+        <S.Button onClick={onSubmit}>
+          <span>확인</span>
+        </S.Button>
+      </S.ButtonContainer>
     </>
   );
 };

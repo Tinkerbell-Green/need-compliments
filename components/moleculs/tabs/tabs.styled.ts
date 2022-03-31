@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Tabs = styled.div`
-width: 90%;
+width: 100%;
 margin-bottom: 14px;
 border-bottom: 0.8px solid gray;
 `;

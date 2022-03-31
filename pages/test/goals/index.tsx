@@ -47,15 +47,8 @@ const TestGoalsPage: NextPage = () => {
     })
   },[deleteGoalFetch])
 
-  const handleLeftButtonClick = useCallback(()=>{
-  },[])
-
   return (
-    <LayoutNavigation
-      rightButtonText={"?"}
-      title="test goals"
-      onLeftButtonClick={handleLeftButtonClick}
-    >
+    <LayoutNavigation>
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListGoal>
