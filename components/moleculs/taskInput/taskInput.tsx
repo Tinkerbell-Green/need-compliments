@@ -80,7 +80,7 @@ export const TaskInput = ({
           placeholder="오늘 한 일로 스스로에게 칭찬해보세요 😀"
           type="text"
           ref={InputRef}
-          onBlur={()=>setIsEditing(false)}
+          onBlur={handleSubmit}
           onChange={handleChange}
           onFocus={changeEditFocus}
         ></S.Input>

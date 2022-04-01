@@ -18,7 +18,7 @@ export type State = {
   [DataActionType.DELETE_USER]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_USER]}>,
 }
 
-const initialState: State = {
+export const initialState: State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: {},
   [DataActionType.UPDATE_USER]: {},
   [DataActionType.GET_TASKS_BY_DAYS]: {},

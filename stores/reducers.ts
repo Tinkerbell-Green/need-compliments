@@ -1,7 +1,8 @@
+import merge from "deepmerge"
 import {HYDRATE} from "next-redux-wrapper";
-import {CombinedState, combineReducers} from "redux";
-import {dataReducer, State as DataState} from "./data";
-import {navigationReducer, State as NavigationState} from "./navigation";
+import {combineReducers} from "redux";
+import {dataReducer, State as DataState, initialState as dataInitialState} from "./data";
+import {navigationReducer, State as NavigationState, initialState as navigationInitialState} from "./navigation";
 
 const combinedReducer = combineReducers({
   data: dataReducer,
@@ -13,12 +14,17 @@ export type RootState = {
   navigation: NavigationState;
 }
 
-const rootReducer = (state: RootState, action: any) => {
+const initialRootState: RootState = {
+  data: dataInitialState,
+  navigation: navigationInitialState
+}
+
+const rootReducer = (state = initialRootState, action: any) => {
   if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
-    };
+    const incomingState = action.payload as RootState
+
+    const nextState: RootState = merge(state, incomingState)
+
     return nextState;
   } else {
     return combinedReducer(state, action);
@@ -26,5 +32,3 @@ const rootReducer = (state: RootState, action: any) => {
 };
 
 export default rootReducer;
-
-// export type RootState = ReturnType<typeof rootReducer>; // https://velog.io/@velopert/use-typescript-and-redux-like-a-pro

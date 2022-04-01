@@ -6,7 +6,7 @@ width: 100%;
 height: 70px;
 display: flex;
 align-items: center;
-padding:10px 0 0 15px;
+padding:10px 0;
 background-color: ${props => props.theme.colors.black};
 position: sticky; 
 top:0;
@@ -31,6 +31,7 @@ export const Nav = styled.div`
 export const More = styled.div`
 @media screen and (max-width: ${props => props.theme.media.md}px){
   visibility: hidden;
+  width:0px;
 }
 `;
 

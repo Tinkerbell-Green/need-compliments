@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {GoalColor} from "stores/data";
 
 const TODAY_CIRCLE_SIZE = 1.8;
-const EMOJI_SIZE=20;
+const EMOJI_SIZE=14;
 
 export const Date = styled.button<{isPickedDate:boolean}>`
 display: flex;

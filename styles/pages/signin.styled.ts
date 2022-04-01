@@ -22,7 +22,7 @@ export const LogoBtn = styled.button`
     > span{
         font-size: 1rem;
     }
-// `
+`
 
 export const NaverBtn = styled(LogoBtn)`
     background: ${NAVER_BACKGROUND_COLOR};

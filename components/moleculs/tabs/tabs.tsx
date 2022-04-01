@@ -1,4 +1,5 @@
-import React,{useState} from "react";
+import {useRouter} from "next/router";
+import React,{useCallback, useEffect, useState} from "react";
 import * as S from "./tabs.styled";
 
 type TabsProps = {
@@ -7,16 +8,28 @@ type TabsProps = {
 const TAB_CONTENTS=["전체 글", "📍 공지"];
 
 export const Tabs = ({children}:TabsProps)=>{
-  const [focusedTab, setFocusedTab] = useState(TAB_CONTENTS[0]);
+  const router = useRouter();
+
+  useEffect(()=>{
+    router.push({
+      query: {tab: 0}
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  const handleTabClick = useCallback((index:number, value:string)=>{
+    router.push({
+      query: {tab: index}
+    });
+  },[router])
 
   return (
     <S.Tabs>
-      {TAB_CONTENTS.map((value)=>
+      {TAB_CONTENTS.map((value,index)=>
         <S.Tab 
           key={value}
-          id={value}
-          clicked={focusedTab === value}
-          onClick={()=>setFocusedTab(value)}>{value}
+          clicked={router.query.tab === index.toString()}
+          onClick={()=>handleTabClick(index,value)}>{value}
         </S.Tab>)}
       {children}
     </S.Tabs>

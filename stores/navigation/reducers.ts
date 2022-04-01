@@ -7,7 +7,7 @@ export type State = {
   initialized: boolean
 }
 
-const initialState: State = {
+export const initialState: State = {
   loggedInUserId: null,
   pageAuthorId: null,
   initialized: false,
