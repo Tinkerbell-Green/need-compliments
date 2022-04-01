@@ -1,23 +1,12 @@
 import type {NextPage} from "next"
-import {getSession} from "next-auth/react";
 import React, {useEffect, useMemo} from "react"
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {wrapper} from "stores";
-import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators} from "stores/data";
-import {RootState} from "stores/reducers";
+import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
+import {waitDuringLoading} from "stores/data/ssr";
 import * as S from "styles/pages/test/feed-public.styled";
 
-type TestSsrPageProps = {
-  data: any
-}
-
-const TestSsrPage: NextPage<TestSsrPageProps> = ({
-  data
-}) => {
-  useEffect(()=>{
-    console.warn("data: ", data); // TODO: remove 
-  },[data])
-
+const TestSsrPage: NextPage = ({}) => {
   const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
   const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
 
@@ -39,14 +28,6 @@ const TestSsrPage: NextPage<TestSsrPageProps> = ({
 
     return publicTasksAndGoals;
   },[getPublicTasksData,getGoalsByIdsData]);
-  
-  // useEffect(()=>{
-  //   getPublicTasksFetch({
-  //     startTime: new Date("1999-11-11"),
-  //     endTime: new Date("2222-11-11"),
-  //   })
-  // },[getPublicTasksFetch])
-
 
   useEffect(()=>{
     const stack:string[] = [];
@@ -87,21 +68,19 @@ const TestSsrPage: NextPage<TestSsrPageProps> = ({
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({req, res, ...etc}) => {
-  // const session = await getSession({req})
+  const KEY = ""
   
   store.dispatch(dataActionCreators[DataActionType.GET_PUBLIC_TASKS]({
-    // author: undefined,
-    key: "",
+    author: undefined,
+    key: KEY,
     startTime: new Date("1999-11-11"),
     endTime: new Date("2222-11-11"),
-  } as any))
+  }))
 
-  await (async () => new Promise(resolve => setTimeout(resolve, 3000)))()
+  await waitDuringLoading(store, {actionType: DataActionType.GET_PUBLIC_TASKS, key: KEY})
 
   return ({
-    props: {
-      data: store.getState().data[DataActionType.GET_PUBLIC_TASKS][""].data || ""
-    }
+    props: {}
   })
 });
 
