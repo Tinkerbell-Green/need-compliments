@@ -123,7 +123,8 @@ export type DataActionPayload = {
     }
   [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
     }
-  [DataActionType.GET_GOALS_BY_IDS]: SagaDataActionDefaultPayload & {
+  [DataActionType.GET_GOALS_BY_IDS]: Omit<SagaDataActionDefaultPayload, "author"> & {
+    author: undefined,
     ids: string[],
   }
   [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & 
