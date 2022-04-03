@@ -47,22 +47,7 @@ export const AuthorizationProvider = ({
     }
   }, [dispatch, session, status])
 
-  const isPublicPage = useMemo(()=>{
-    return PUBLIC_PAGE_PATHNAMES.some(item=>{
-      return router.pathname.includes(item)
-    })
-  },[router.pathname])
-
-  return (<>{
-    status === "loading"
-      ? <LayoutCenter>
-        <Spinner
-          text={"🧚‍♀️ 우리 모두 칭찬이 필요해 🧚‍♀️"} color="skyblue"></Spinner>
-      </LayoutCenter>
-      : (status === "unauthenticated") && !isPublicPage 
-        ? <LayoutCenter>
-          <Spinner
-            text={"로그인 페이지로 이동합니다 🏃🏃🏻‍♀️"} color="skyblue"></Spinner></LayoutCenter>
-        : children
-  }</>)
+  return (
+    <>{children}</>
+  )
 }

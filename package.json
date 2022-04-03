@@ -24,6 +24,7 @@
     "@types/lodash.isequal": "^4.5.5",
     "babel-plugin-styled-components": "^2.0.2",
     "dayjs": "^1.10.8",
+    "deepmerge": "^4.2.2",
     "firebase": "^9.6.7",
     "immer": "^9.0.12",
     "lodash.isequal": "^4.5.0",

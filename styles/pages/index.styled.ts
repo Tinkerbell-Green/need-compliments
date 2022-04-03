@@ -1,5 +1,4 @@
 import styled from "styled-components";
-<<<<<<< HEAD
 
 const ICON_SIZE = 28;
 
@@ -56,5 +55,3 @@ flex-direction: row;
     flex-direction: column;
   }
 `;
-=======
->>>>>>> 2bbf9016ff9628793bb58d5241f2fae9cb50c695
