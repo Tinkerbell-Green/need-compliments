@@ -29,8 +29,8 @@ export type GoalData = GoalDocument & {
 }
 
 export type ComplimentDocument = {
-  emoji: string
-  message: string
+  type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"
+  task: string
   author: string
   createdAt: number
   updatedAt: number

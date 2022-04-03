@@ -1,5 +1,6 @@
 import {takeEvery} from "redux-saga/effects";
 import {DataActionType} from "../actions"
+import {createComplimentOnTask} from "./createComplimentOnTask";
 import {createGoal} from "./createGoal";
 import {createTask} from "./createTask";
 import {deleteGoal} from "./deleteGoal";
@@ -28,4 +29,5 @@ export function* dataSaga() {
   yield takeEvery(DataActionType.UPDATE_GOAL, updateGoal)
   yield takeEvery(DataActionType.DELETE_GOAL, deleteGoal)
   yield takeEvery(DataActionType.DELETE_USER, deleteUser)
+  yield takeEvery(DataActionType.CREATE_COMPLIMENT_ON_TASK, createComplimentOnTask)
 }

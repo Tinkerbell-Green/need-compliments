@@ -1,4 +1,4 @@
-import {DataSagaStatus, GoalDocument, TaskDocument, UserDocument} from "./types";
+import {ComplimentDocument, DataSagaStatus, GoalDocument, TaskDocument, UserDocument} from "./types";
 import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
@@ -18,7 +18,8 @@ export enum DataActionType {
   CREATE_GOAL = "data/CREATE_GOAL",
   UPDATE_GOAL = "data/UPDATE_GOAL",
   DELETE_GOAL = "data/DELETE_GOAL",
-  DELETE_USER = "data/DELETE_USER"
+  DELETE_USER = "data/DELETE_USER",
+  CREATE_COMPLIMENT_ON_TASK = "data/CREATE_COMPLIMENT_ON_TASK",
 }
 
 export type DataSagaActionType = (
@@ -34,7 +35,8 @@ export type DataSagaActionType = (
   DataActionType.CREATE_GOAL |
   DataActionType.UPDATE_GOAL |
   DataActionType.DELETE_GOAL |
-  DataActionType.DELETE_USER
+  DataActionType.DELETE_USER |
+  DataActionType.CREATE_COMPLIMENT_ON_TASK
 )
 
 // TODO: use autority check in each data saga
@@ -58,6 +60,7 @@ export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.UPDATE_GOAL]: Authority.AUTHOR,
   [DataActionType.DELETE_GOAL]: Authority.AUTHOR,
   [DataActionType.DELETE_USER]: Authority.AUTHOR,
+  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: Authority.VIEWER,
 }
 export const dataSagaDefaultAuthor:Record<DataSagaActionType, "pageAuthor" | "loggedInUser" | "none" > = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: "none",
@@ -73,6 +76,7 @@ export const dataSagaDefaultAuthor:Record<DataSagaActionType, "pageAuthor" | "lo
   [DataActionType.UPDATE_GOAL]: "loggedInUser",
   [DataActionType.DELETE_GOAL]: "loggedInUser",
   [DataActionType.DELETE_USER]: "loggedInUser",
+  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: "loggedInUser",
 }
 
 export type DataActionPayload = {
@@ -139,6 +143,9 @@ export type DataActionPayload = {
   [DataActionType.DELETE_USER]: SagaDataActionDefaultPayload & 
   Omit<DeleteDocumentArguments, "path"> & {
     }
+  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: SagaDataActionDefaultPayload & 
+    Omit<CreateDocumentArguments<Omit<ComplimentDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
+    }
 }
 
 export type SagaDataActionDefaultPayload = {
@@ -164,6 +171,7 @@ export const dataActionCreators = {
   [DataActionType.UPDATE_GOAL]: (payload: DataActionPayload[DataActionType.UPDATE_GOAL]) => ({type: DataActionType.UPDATE_GOAL, payload}),
   [DataActionType.DELETE_GOAL]: (payload: DataActionPayload[DataActionType.DELETE_GOAL]) => ({type: DataActionType.DELETE_GOAL, payload}),
   [DataActionType.DELETE_USER]: (payload: DataActionPayload[DataActionType.DELETE_USER]) => ({type: DataActionType.DELETE_USER, payload}),
+  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: (payload: DataActionPayload[DataActionType.CREATE_COMPLIMENT_ON_TASK]) => ({type: DataActionType.CREATE_COMPLIMENT_ON_TASK, payload}),
 }
 
 export type DataActionInstance<DataActionTypeT extends DataActionType> = ReturnType<typeof dataActionCreators[DataActionTypeT]>
