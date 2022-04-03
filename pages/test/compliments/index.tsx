@@ -1,7 +1,7 @@
 import type {NextPage} from "next"
-import React, {useCallback, useEffect, useMemo, useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
+import {useDataSaga, DataActionType, ComplimentData} from "stores/data";
 import * as S from "styles/pages/test/tasks.styled";
 
 const TestTasksPage: NextPage = () => {
@@ -9,15 +9,14 @@ const TestTasksPage: NextPage = () => {
 
   const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
   
-  const onCreateSucceed = useCallback((data)=>{
-    setCreatedComplimentId(data.)
+  const onCreateSucceed = useCallback((data?: ComplimentData | null)=>{
+    setCreatedComplimentId(data?.id)
   },[])
 
-  const {fetch: createComplimentFetch, status: createComplimentStatus} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {
+  const {fetch: createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {
     onSucceed: onCreateSucceed
   })
-  const {fetch: deleteComplimentFetch, status: deleteComplimentStatus} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT)
-
+  const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT)
 
   useEffect(()=>{
     getTasksByDaysFetch({
@@ -51,7 +50,7 @@ const TestTasksPage: NextPage = () => {
             <S.IdTask>{item.id}</S.IdTask>
             <S.TitleTask>{item.title}</S.TitleTask>
             <button onClick={()=>handleCreate(item.id)}>create compliment</button>
-            <button onClick={()=>handleDelete()}>delete compliment</button>
+            {createdComplimentId && <button onClick={()=>handleDelete()}>delete compliment</button> }
           </S.ListItemTask>
         ))}
       </S.ListTask>
