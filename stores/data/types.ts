@@ -10,7 +10,7 @@ export type TaskDocument = {
   updatedAt: number
   readPermission: "everyone" | "me" | "none"
 }
-export type TaskData = Omit<TaskDocument, "compliments"> & {
+export type TaskData = TaskDocument & {
   id: string
   compliments: ComplimentData[]
 }

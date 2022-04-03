@@ -34,17 +34,15 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
       }
     );
 
-    const data = {
-      id: response.id,
-      ...document,
-      compliments: [] // WIP:
-    }
-
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data
+        data: {
+          id: response.id,
+          ...document,
+          compliments: []
+        }
       })
     ); 
 

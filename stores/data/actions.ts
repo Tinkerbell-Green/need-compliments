@@ -121,7 +121,7 @@ export type DataActionPayload = {
     merge?: Boolean
   }
   [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "compliments" | "author">>, "path"> & {
+    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
     }
   [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & 
     Omit<UpdateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
