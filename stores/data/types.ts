@@ -9,7 +9,6 @@ export type TaskDocument = {
   createdAt: number
   updatedAt: number
   readPermission: "everyone" | "me" | "none"
-  compliments: string[]
 }
 export type TaskData = Omit<TaskDocument, "compliments"> & {
   id: string
@@ -31,6 +30,7 @@ export type GoalData = GoalDocument & {
 
 export type ComplimentDocument = {
   type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"
+  task: string
   author: string
   createdAt: number
   updatedAt: number
