@@ -16,7 +16,8 @@ export type State = {
   [DataActionType.UPDATE_GOAL]: Record<string, DataSagaState & {data: GoalData | null, payload:DataActionPayload[DataActionType.UPDATE_GOAL]}>,
   [DataActionType.DELETE_GOAL]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_GOAL]}>,
   [DataActionType.DELETE_USER]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_USER]}>,
-  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: Record<string, DataSagaState & {data: ComplimentData | null, payload:DataActionPayload[DataActionType.CREATE_COMPLIMENT_ON_TASK]}>,
+  [DataActionType.CREATE_COMPLIMENT]: Record<string, DataSagaState & {data: ComplimentData | null, payload:DataActionPayload[DataActionType.CREATE_COMPLIMENT]}>,
+  [DataActionType.DELETE_COMPLIMENT]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_COMPLIMENT]}>,
 }
 
 export const initialState: State = {
@@ -33,7 +34,8 @@ export const initialState: State = {
   [DataActionType.UPDATE_GOAL]: {},
   [DataActionType.DELETE_GOAL]: {},
   [DataActionType.DELETE_USER]: {},
-  [DataActionType.CREATE_COMPLIMENT_ON_TASK]: {},
+  [DataActionType.CREATE_COMPLIMENT]: {},
+  [DataActionType.DELETE_COMPLIMENT]: {},
 };
 
 export const dataReducer = handleActions<State, any>(

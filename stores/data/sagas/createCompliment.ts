@@ -1,13 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus, ComplimentDocument} from "../types";
-import {TaskDocument} from "stores/data/types";
-import {Repository, CreateDocumentData, GetDocumentData, UpdateDocumentData} from "utils/firebase";
+import {Repository, CreateDocumentData} from "utils/firebase";
 
-export function* createComplimentOnTask(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT_ON_TASK>) {
+export function* createCompliment(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_COMPLIMENT_ON_TASK
+  const sagaDataActionType = DataActionType.CREATE_COMPLIMENT
 
   const repository: Repository = yield getContext("repository");
 
@@ -20,22 +19,7 @@ export function* createComplimentOnTask(action: DataActionInstance<DataActionTyp
   );
 
   try {
-    // get task 
-    const getTaskResponse: GetDocumentData<TaskDocument> = yield call(
-      [repository, repository.getDocument],
-      {
-        path: "tasks",
-        pathSegments: [payload.data.task]
-      }
-    );
-
-    const taskDocument = getTaskResponse.data()
-    if (!taskDocument){
-      throw Error ("there is no task of this id")
-    }
-
-    // create compliement
-    const complimentDocument = {
+    const document = {
       ...payload.data,
       author: payload.author,
       updatedAt: new Date().getTime(),
@@ -46,20 +30,7 @@ export function* createComplimentOnTask(action: DataActionInstance<DataActionTyp
       [repository, repository.createDocument],
       {
         path: "compliments",
-        data: complimentDocument
-      }
-    );
-
-    // update task
-    const updateTaskResponse: UpdateDocumentData = yield call(
-      [repository, repository.updateDocument],
-      {
-        path: "tasks",
-        pathSegments: [payload.data.task],
-        data: {
-          ...taskDocument,
-          compliments: [...taskDocument.compliments, createComplimentResponse.id]
-        },
+        data: document
       }
     );
 
@@ -69,7 +40,7 @@ export function* createComplimentOnTask(action: DataActionInstance<DataActionTyp
         key: sagaKey,
         data: {
           id: createComplimentResponse.id,
-          ...complimentDocument
+          ...document
         }
       })
     ); 

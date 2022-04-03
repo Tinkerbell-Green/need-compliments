@@ -4,7 +4,6 @@ import {Theme} from "styles/theme"
 export type TaskDocument = {
   title: string
   goal: string
-  compliments: string[]
   author: string
   doneAt: number
   createdAt: number
@@ -13,6 +12,7 @@ export type TaskDocument = {
 }
 export type TaskData = TaskDocument & {
   id: string
+  compliments: string[] // WIP:
 }
 
 export type GoalColor = keyof Theme["colors"]["goals"]

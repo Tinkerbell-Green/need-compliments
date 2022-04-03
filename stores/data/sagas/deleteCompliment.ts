@@ -1,12 +1,13 @@
+import {QueryConstraint, where} from "firebase/firestore";
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, TaskDocument} from "../types"; 
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {DataSagaStatus, TaskDocument} from "stores/data/types"; 
+import {Repository, DeleteDocumentData, GetDocumentData, GetDocumentsData} from "utils/firebase";
 
-export function* createTask(action: DataActionInstance<DataActionType.CREATE_TASK>) {
+export function* deleteCompliment(action: DataActionInstance<DataActionType.DELETE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_TASK
+  const sagaDataActionType = DataActionType.DELETE_COMPLIMENT
 
   const repository: Repository = yield getContext("repository");
 
@@ -19,34 +20,13 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
   );
 
   try {
-    const document = {
-      ...payload.data,
-      author: payload.author,
-      updatedAt: new Date().getTime(),
-      createdAt: new Date().getTime(),
-    }
-
-    const response: CreateDocumentData<TaskDocument> = yield call(
-      [repository, repository.createDocument],
+    const response: DeleteDocumentData = yield call(
+      [repository, repository.deleteDocument],
       {
-        path: "tasks",
-        data: document
+        path: "compliments",
+        pathSegments: payload.pathSegments
       }
     );
-
-    const data = {
-      id: response.id,
-      ...document,
-      compliments: [] // WIP:
-    }
-
-    yield put(
-      dataActionCreators[DataActionType.SET_DATA_DATA]({
-        type: sagaDataActionType,
-        key: sagaKey,
-        data
-      })
-    ); 
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_STATUS]({

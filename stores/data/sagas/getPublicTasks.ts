@@ -40,7 +40,8 @@ export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PU
 
     const incomingData: State[typeof sagaDataActionType][string]["data"] = tasksResponse.docs.map(item => ({
       id: item.id,
-      ...item.data()
+      ...item.data(),
+      compliments: [] // WIP:
     }))
 
     const existingData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])
