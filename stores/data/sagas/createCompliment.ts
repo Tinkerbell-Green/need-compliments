@@ -1,7 +1,8 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus, ComplimentDocument} from "../types";
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {TaskDocument} from "stores/data/types";
+import {Repository, CreateDocumentData, GetDocumentData, UpdateDocumentData} from "utils/firebase";
 
 export function* createCompliment(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT>) {
   const payload = action.payload  
@@ -19,7 +20,8 @@ export function* createCompliment(action: DataActionInstance<DataActionType.CREA
   );
 
   try {
-    const document = {
+    // create compliment
+    const complimentDocument = {
       ...payload.data,
       author: payload.author,
       updatedAt: new Date().getTime(),
@@ -30,7 +32,36 @@ export function* createCompliment(action: DataActionInstance<DataActionType.CREA
       [repository, repository.createDocument],
       {
         path: "compliments",
-        data: document
+        data: complimentDocument
+      }
+    );
+
+    // get task
+    const getTaskResponse: GetDocumentData<TaskDocument> = yield call(
+      [repository, repository.getDocument],
+      {
+        path: "tasks",
+        pathSegments: [payload.task]
+      }
+    );
+    const prevTaskDocument = getTaskResponse.data()
+    if (!prevTaskDocument){
+      throw Error(`there is no task of id: ${payload.task}`)
+    }
+
+    // update task
+    const newTaskDocument: TaskDocument = {
+      ...prevTaskDocument,
+      compliments: [...prevTaskDocument.compliments, createComplimentResponse.id],
+      updatedAt: new Date().getTime(),
+    }
+    
+    const updateTaskResponse: UpdateDocumentData = yield call(
+      [repository, repository.updateDocument],
+      {
+        path: "tasks",
+        pathSegments: [payload.task],
+        data: newTaskDocument,
       }
     );
 

@@ -9,10 +9,11 @@ export type TaskDocument = {
   createdAt: number
   updatedAt: number
   readPermission: "everyone" | "me" | "none"
+  compliments: string[]
 }
-export type TaskData = TaskDocument & {
+export type TaskData = Omit<TaskDocument, "compliments"> & {
   id: string
-  compliments: string[] // WIP:
+  compliments: ComplimentData[]
 }
 
 export type GoalColor = keyof Theme["colors"]["goals"]
@@ -30,7 +31,6 @@ export type GoalData = GoalDocument & {
 
 export type ComplimentDocument = {
   type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"
-  task: string
   author: string
   createdAt: number
   updatedAt: number

@@ -22,6 +22,7 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
   );
 
   try {
+    // get tasks
     const queryConstraints: QueryConstraint[] = []
     queryConstraints.push(where("author", "==", payload.author))
 
@@ -37,6 +38,8 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
         queryConstraints,
       }
     );
+
+    // get compliments of 
 
     const incomingData: State[typeof sagaDataActionType][string]["data"] = response.docs.map(item => ({
       id: item.id,

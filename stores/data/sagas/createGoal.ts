@@ -20,7 +20,7 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
 
   try {
     const document = {
-      ...payload.data,
+      ...payload.data, 
       author: payload.author,
       updatedAt: new Date().getTime(),
       createdAt: new Date().getTime(),
