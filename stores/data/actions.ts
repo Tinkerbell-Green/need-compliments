@@ -149,7 +149,6 @@ export type DataActionPayload = {
     }
   [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<ComplimentDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-      task: string
     }
   [DataActionType.DELETE_COMPLIMENT]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
