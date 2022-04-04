@@ -42,7 +42,7 @@ export const HeaderMain = () => {
           <button onClick={handleOpenMenu} aria-label={"사이드바 열기"}><Icon aria-label={"Menu image"}><Menu /></Icon></button>
         </S.NavPart>
           : <Link href={"/auth/signin"} passHref>
-            <S.NavItem>회원가입</S.NavItem>
+            <S.NavItem>로그인/회원가입</S.NavItem>
           </Link>}
       </S.Nav>
       <SidebarSetting
