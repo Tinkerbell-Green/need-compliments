@@ -19,7 +19,7 @@ const initialRootState: RootState = {
   navigation: navigationInitialState
 }
 
-const combineMerge: MergeOptions["arrayMerge"] = (previousArray, incomingArray, options) => {
+const arrayMerge: MergeOptions["arrayMerge"] = (previousArray, incomingArray, options) => {
   const resultArray: typeof previousArray = [...previousArray]
 
   incomingArray.forEach((incomingItem) => {
@@ -34,17 +34,17 @@ const combineMerge: MergeOptions["arrayMerge"] = (previousArray, incomingArray, 
   return resultArray
 }
 
-const rootReducer = (state = initialRootState, action: any) => {
+const rootReducer = (previousClientState = initialRootState, action: any) => {
   if (action.type === HYDRATE) {
-    const incomingServerSideState = action.payload as RootState
+    const incomingServerState = action.payload as RootState
 
     const nextState: RootState = {
-      navigation: state.navigation,
-      data: merge(state.data, incomingServerSideState.data, {arrayMerge: combineMerge})
+      navigation: previousClientState.navigation,
+      data: merge(previousClientState.data, incomingServerState.data, {arrayMerge})
     }
     return nextState;
   } else {
-    return combinedReducer(state, action);
+    return combinedReducer(previousClientState, action);
   }
 };
 
