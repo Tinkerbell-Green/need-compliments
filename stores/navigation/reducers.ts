@@ -2,13 +2,15 @@ import {Action, handleActions} from "redux-actions";
 import {NavigationActionPayload, NavigationActionType} from "./actions";
 
 export type State = {
-  loggedInUserId: string | undefined
-  pageAuthorId: string | undefined
+  loggedInUserId: string | null
+  pageAuthorId: string | null
+  initialized: boolean
 }
 
-const initialState: State = {
-  loggedInUserId: undefined,
-  pageAuthorId: undefined,
+export const initialState: State = {
+  loggedInUserId: null,
+  pageAuthorId: null,
+  initialized: false,
 }
 
 export const navigationReducer = handleActions<State, any>(
@@ -19,6 +21,12 @@ export const navigationReducer = handleActions<State, any>(
       return ({
         ...previousState,
         [key]: action.payload.userId
+      })
+    },
+    [NavigationActionType.SET_INITIALIZED]: (previousState, action: Action<NavigationActionPayload[NavigationActionType.SET_INITIALIZED]>) => {
+      return ({
+        ...previousState,
+        initialized: action.payload.initialized
       })
     },
   },

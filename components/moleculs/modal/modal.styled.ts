@@ -12,7 +12,7 @@ justify-content: center;
 align-items: center;
 background-color: rgba(0,0,0,0.5);
 transition: all 350ms ease-in-out;
-
+z-index: 10;
 visibility: ${props=>props.isOpen ? "visible" : "hidden"};
 opacity: ${props=>props.isOpen ? 1 : 0};
 `
@@ -38,7 +38,6 @@ position: absolute;
 top:0;
 left:100%;
 transform: translateX(-100%);
-width: 28px;
-height:28px;
+margin-right: 5px;
 color: ${props => props.theme.colors["gray-800"]}
 `;

@@ -4,6 +4,7 @@ import {CalendarRtl} from "@styled-icons/fluentui-system-regular";
 import {SwitchVertical} from "@styled-icons/heroicons-outline";
 import React, {useCallback} from "react";
 import * as S from "./modalTaskAction.styled";
+import {Icon} from "components/atoms/icon"
 import {Modal} from "components/moleculs/modal";
 
 type ModalTaskAction = {
@@ -40,8 +41,8 @@ export const ModalTaskAction = ({
       <S.Title>{title}</S.Title>
       <S.ActionList>
         <S.Action>
-          <S.Button onClick={editTask}>
-            <Pencil></Pencil>
+          <S.Button onClick={editTask} aria-label={"수정하기"}>
+            <Icon size={24}><Pencil></Pencil></Icon>
           </S.Button>
           <span>수정</span>
         </S.Action>
@@ -64,8 +65,8 @@ export const ModalTaskAction = ({
           <span>순서 변경</span>
         </S.Action> */}
         <S.Action>
-          <S.Button onClick={deleteTask}>
-            <TrashAlt></TrashAlt>
+          <S.Button onClick={deleteTask} aria-label={"삭제하기"}>
+            <Icon size={24}><TrashAlt></TrashAlt></Icon>
           </S.Button>
           <span>삭제</span>
         </S.Action>

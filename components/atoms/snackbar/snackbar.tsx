@@ -2,7 +2,7 @@ import {PatchCheckFill} from "@styled-icons/bootstrap";
 import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {InfoOutline} from "@styled-icons/evaicons-outline";
 import {Warning} from "@styled-icons/fluentui-system-filled"
-import {ReactNode, useEffect} from "react";
+import {ReactNode, useEffect,useRef} from "react";
 import * as S from "./snackbar.styled";
 import {SnackbarType} from "stores/data/types";
 
@@ -15,18 +15,28 @@ type SnackbarProps = {
   onClose: ()=>void,
 }
 
-const TYPE_COLOR_MAP:Record<SnackbarType,string> = {
-  success: "#6AAC5E",
-  information: "#2D9AD3",
-  warning : "#EF9100",
-  error: "#FF5757",
+type Property = {
+  color: string,
+  icon : ReactNode
 }
 
-const TYPE_ICON_MAP:Record<SnackbarType, ReactNode> = {
-  success: <PatchCheckFill/>,
-  information: <InfoOutline/>,
-  warning : <Warning/>,
-  error: <InfoOutline/>,
+const TYPE_MAP:Record<SnackbarType,Property> = {
+  success: {
+    color: "#6AAC5E",
+    icon: <PatchCheckFill/>
+  },
+  information: {
+    color: "#2D9AD3",
+    icon: <InfoOutline/>
+  },
+  warning : {
+    color: "#EF9100",
+    icon: <Warning/>
+  },
+  error: {
+    color: "#FF5757",
+    icon: <InfoOutline/>
+  },
 }
 
 export const Snackbar = ({
@@ -37,16 +47,24 @@ export const Snackbar = ({
   duration=3000,
   onClose,
 }:SnackbarProps)=>{
+  const dialogRef = useRef<HTMLButtonElement>(null);
   useEffect(()=>{
+    if(visible) dialogRef?.current?.focus();
+    else dialogRef?.current?.blur();
+    
     visible && setTimeout(onClose,duration);
   },[duration,visible,onClose])
 
   return (
     <S.Container 
+      role="dialog"
+      ref={dialogRef}
+      tabIndex={-1}
       isVisible={visible}
-      color={TYPE_COLOR_MAP[type]}>
+      color={TYPE_MAP[type].color}
+      aria-label={message}>
       <S.Icon>
-        {TYPE_ICON_MAP[type]}
+        {TYPE_MAP[type].icon}
       </S.Icon>
       <S.Label>{message}</S.Label>
       <S.Button onClick={onClose}>

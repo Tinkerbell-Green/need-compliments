@@ -3,12 +3,12 @@ import {getProviders, signIn, useSession} from "next-auth/react";
 import Image from "next/image";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import facebookLogo from "../../public/icons/facebook-logo.png";
 import googleLogo from "../../public/icons/google-logo.jpeg";
 import kakaoLogo from "../../public/icons/kakao-logo.png";
 import naverLogo from "../../public/icons/naver-logo.png";
-import * as S from "../../styles/pages/signin.styled";
+import {Seo} from "components/atoms/seo";
 import {LayoutCenter} from "components/templates/layout-center";
+import * as S from "styles/pages/signin.styled";
 
 export default function SignIn({
   providers,
@@ -24,6 +24,7 @@ export default function SignIn({
    
   return (
     <LayoutCenter>
+      <Seo title={"로그인"}></Seo>
       {providers
         ? Object.values(providers).map((provider) => {
           if (provider.name === "Kakao") {
@@ -74,23 +75,7 @@ export default function SignIn({
                 <span>구글로 계속하기</span>
               </S.GoogleBtn>
             );
-          } else if (provider.name === "Facebook") {
-            return (
-              <S.FacebookBtn
-                key={provider.name}
-                onClick={() => signIn(provider.id)}
-              >
-                <Image
-                  width={50}
-                  height={50}
-                  quality={100}
-                  src={facebookLogo}
-                  alt=""
-                ></Image>
-                <span>페이스북으로 계속하기</span>
-              </S.FacebookBtn>
-            );
-          } else {
+          }else {
             console.error(
               `${provider.name}는 간편로그인 할 수 없는 provider입니다.`
             );

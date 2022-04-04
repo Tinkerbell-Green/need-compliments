@@ -2,8 +2,9 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
-import * as S from "../../../components/organisms/goalsForm/goalsForm.styled";
+import {Seo} from "components/atoms/seo";
 import {GoalsForm} from "components/organisms/goalsForm";
+import * as S from "components/organisms/goalsForm/goalsForm.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType, GoalData, GoalColor} from "stores/data";
 
@@ -23,8 +24,9 @@ const GoalsFormPage: NextPage = () => {
   const [goal, setGoal] = useState<GoalData>();
   const [goalName, setGoalName] = useState<string>("");
   const [goalColor, setGoalColor] = useState<GoalColor>("white");
+  const [goalPrivacy, setGoalPrivacy] = useState<GoalData["readPermission"]>("everyone")
   const router = useRouter();
-
+  
   const handleGoalName = (name: string) => {
     setGoalName(name);
   };
@@ -33,9 +35,59 @@ const GoalsFormPage: NextPage = () => {
     setGoalColor(color);
   };
 
+  const handleGoalPrivacy = (readPermission: GoalData["readPermission"]) => {
+    setGoalPrivacy(readPermission);
+  };
+
   useEffect(() => {
     getGoalsFetch({});
   }, [getGoalsFetch]);
+
+
+  const onCreateGoal = useCallback(
+    (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
+      createGoalFetch({
+        data: {
+          name,
+          color,
+          readPermission
+        },
+      });
+    },
+    [createGoalFetch]
+  );
+
+  const onUpdateGoal = useCallback(
+    (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
+      goal &&
+        updateGoalFetch({
+          pathSegments: [goal.id],
+          data: {
+            name: name,
+            color,
+            readPermission
+          },
+        });
+    },
+    [updateGoalFetch, goal]
+  );
+
+  const onDeleteGoal = useCallback(
+    (id: string) => {
+      deleteGoalFetch({
+        pathSegments: [id],
+      });
+    },
+    [deleteGoalFetch]
+  );
+
+  const onSave = useCallback(() => {
+    if (goal) {
+      onUpdateGoal(goalName, goalColor, goalPrivacy);
+    } else {
+      onCreateGoal(goalName, goalColor, goalPrivacy);
+    }
+  }, [goal, onUpdateGoal, goalName, goalColor, goalPrivacy, onCreateGoal]);
 
   useEffect(() => {
     goals && setGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
@@ -55,8 +107,7 @@ const GoalsFormPage: NextPage = () => {
       if (confirm("변동된 사항을 저장하시겠습니까?")) onSave();
     }
     router.push("/goals");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
+  }, [goal, goalName, goalColor, router, onSave]);
 
   const onSubmit = useCallback(() => {
     if (!goalName) alert("설정된 목표 이름이 없습니다.");
@@ -64,81 +115,36 @@ const GoalsFormPage: NextPage = () => {
       router.push("/goals");
       onSave();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
-
-  const onSave = useCallback(() => {
-    if (goal) {
-      onUpdateGoal(goalName, goalColor);
-    } else {
-      onCreateGoal(goalName, goalColor);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, goalName, goalColor]);
+  }, [goalName, router, onSave]);
 
   const onDelete = useCallback(() => {
     router.push("/goals");
     goal && onDeleteGoal(goal.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal]);
-
-  const onCreateGoal = useCallback(
-    (name: string, color: GoalColor) => {
-      createGoalFetch({
-        data: {
-          name,
-          color,
-        },
-      });
-    },
-    [createGoalFetch]
-  );
-
-  const onUpdateGoal = useCallback(
-    (name: string, color: GoalColor) => {
-      goal &&
-        updateGoalFetch({
-          pathSegments: [goal.id],
-          data: {
-            name: name,
-            color,
-          },
-        });
-    },
-    [updateGoalFetch, goal]
-  );
-
-  const onDeleteGoal = useCallback(
-    (id: string) => {
-      deleteGoalFetch({
-        pathSegments: [id],
-      });
-    },
-    [deleteGoalFetch]
-  );
+  }, [goal, onDeleteGoal, router]);
 
   return (
     <>
-      <LayoutNavigation
-        title="목표"
-        rightButtonText="확인"
-        onLeftButtonClick={onBackClick}
-        onRightButtonClick={onSubmit}
-      >
+      <LayoutNavigation>
+        <Seo title={`(작성 중) ${goalName}`}></Seo>
         <GoalsForm
           goal={goal}
           onChangeGoalName={handleGoalName}
           onChangeGoalColor={handleGoalColor}
+          goalPrivacy={goalPrivacy}
+          onChangeGoalPrivacy={handleGoalPrivacy}
         ></GoalsForm>
       </LayoutNavigation>
 
-      {goal && (
-        <S.DeleteButtonContainer>
+      <S.ButtonContainer>
+        {goal && (
           <S.DeleteButton onClick={onDelete}>
             <span>삭제</span>
           </S.DeleteButton>
-        </S.DeleteButtonContainer>
-      )}
+        )}
+        <S.Button onClick={onSubmit}>
+          <span>확인</span>
+        </S.Button>
+      </S.ButtonContainer>
     </>
   );
 };

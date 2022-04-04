@@ -1,8 +1,8 @@
-import isEqual from "lodash.isequal"
+import {useSession} from "next-auth/react";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Optional} from "utility-types"
-import {Authority, dataActionCreators, DataActionPayload, DataActionType, DataSagaActionType, dataSagaAuthority} from "./actions";
+import {dataActionCreators, DataActionPayload, DataActionType, DataSagaActionType, dataSagaDefaultAuthor} from "./actions";
 import {RootState} from "stores/reducers"
 
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
@@ -19,33 +19,26 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   // pageAuthorId
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
+  const isNavigationInitialized = useSelector((state:RootState)=>state.navigation.initialized)
 
-  const authority = dataSagaAuthority[actionType]
+  const defaultFetchAuthor = useMemo(()=>{
+    const defaultFetchAuthorType = dataSagaDefaultAuthor[actionType]
 
-  const keyUserId = useMemo(()=>{
-    if (authority === Authority.AUTHOR){
+    if (defaultFetchAuthorType === "loggedInUser"){
       return loggedInUserId
-    } else if (authority === Authority.VIEWER){
-      return pageAuthorId
-    } else {
+    }
+    else if (defaultFetchAuthorType === "pageAuthor"){
       return pageAuthorId
     }
-  },[authority, loggedInUserId, pageAuthorId])
-
-  const defaultFetchAuthorId = useMemo(()=>{
-    if (authority === Authority.AUTHOR){
-      return loggedInUserId
-    } else if (authority === Authority.VIEWER){
-      return pageAuthorId
-    } else {
-      return pageAuthorId
+    else {
+      return ""
     }
-  },[authority, loggedInUserId, pageAuthorId])
+  },[actionType, loggedInUserId, pageAuthorId])
 
   // key
   const key = useMemo(()=>{
-    return [keyUserId || "", ...(additionalKeys || [])].sort().join()
-  },[additionalKeys, keyUserId])
+    return [defaultFetchAuthor || "", ...(additionalKeys || [])].sort().join()
+  },[additionalKeys, defaultFetchAuthor])
 
   const keyRef = useRef<typeof key>(key)
   useEffect(()=>{
@@ -55,6 +48,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   // state
   const state = useSelector((state: RootState) => {
     const value = state["data"][actionType][key]
+
     if (value) {
       return value as RootState["data"][DataSagaActionTypeT][string]
     } else {
@@ -71,24 +65,24 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
-    const author = partialPayload.author || defaultFetchAuthorId
-    
-    if (author && key){
-      dispatch(dataActionCreators[actionType]({
-        ...partialPayload,
-        author,
-        key,
-      } as any))
+    if (!isNavigationInitialized) return;
 
-      dispatch(
-        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
-          type: actionType,
-          key,
-          payload: partialPayload
-        })
-      )
-    }
-  },[actionType, defaultFetchAuthorId, dispatch, key])
+    const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
+
+    dispatch(dataActionCreators[actionType]({
+      ...partialPayload,
+      author,
+      key,
+    } as any))
+
+    dispatch(
+      dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+        type: actionType,
+        key,
+        payload: partialPayload
+      })
+    )
+  },[actionType, defaultFetchAuthor, dispatch, isNavigationInitialized, key])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
     if (!payloadRef.current) return;
@@ -127,7 +121,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     fetch,
     refetch,
     state,
-    data: state?.data as RootState["data"][DataSagaActionTypeT][string]["data"] | undefined,
-    status: state?.status as RootState["data"][DataSagaActionTypeT][string]["status"] | undefined,
+    data: state?.data as RootState["data"][DataSagaActionTypeT][string]["data"] | null,
+    status: state?.status as RootState["data"][DataSagaActionTypeT][string]["status"] | null,
   }) 
 }

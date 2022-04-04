@@ -1,7 +1,8 @@
-import {Stars,MoonStarsFill} from "@styled-icons/bootstrap";
+import {Star,MoonStarsFill} from "@styled-icons/bootstrap";
+import {StarOfLife} from "@styled-icons/fa-solid/StarOfLife"
 import React from "react"
 import * as S from "./date.styled";
-import {ExpandedTaskData} from "pages";
+import {ExpandedTaskData} from "pages/feed";
 
 type DateProps = {
   isPickedDate:boolean,
@@ -21,7 +22,8 @@ export const Date = ({
   return (
     <S.Date 
       isPickedDate={isPickedDate}
-      onClick={()=>onClick(date)}>
+      onClick={()=>onClick(date)}
+      aria-label={`${date.slice(0,2)}일`}>
       <S.Today className={isToday ? "todayHighligh" : ""}>
         <S.DateNumber>{date.slice(0,2)}</S.DateNumber>
       </S.Today>
@@ -30,7 +32,7 @@ export const Date = ({
           <S.Emoji
             key={taskItem.id}
             color={taskItem.color ? taskItem.color : "white"}>
-            {index===4 ? <MoonStarsFill/> : <Stars size={18}/>}
+            {index===4 ? <MoonStarsFill/> : <StarOfLife/>}
           </S.Emoji>
         ))}
       </S.EmojiList>

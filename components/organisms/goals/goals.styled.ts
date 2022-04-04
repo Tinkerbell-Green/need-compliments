@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SubHeadingContainer = styled.div`
 margin: 0.8rem 0 0.8rem 0;
+justify-content: space-between;
 `
 
 export const FeedContents = styled.ul`
@@ -12,6 +13,7 @@ export const FeedContents = styled.ul`
 `;
 
 export const ChipContainer = styled.li`
+display: flex;
+justify-content: space-between;
 width:100%;
-cursor: pointer;
 `

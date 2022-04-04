@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import * as S from "./calendar.styled";
 import {Date as DateComponent} from "./date/index";
 import {Header} from "./header/index";
-import {ExpandedTaskData} from "pages";
+import {ExpandedTaskData} from "pages/feed";
 import {Dayjs} from "utils/dayjs";
 
 type CalendarProps = {
@@ -12,7 +12,7 @@ type CalendarProps = {
 }
 
 export type Direction = "next" | "previous";
-const WEEK_DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const WEEK_DAYS = ["sunday 일요일", "monday 월요일", "tuesday 화요일", "wednesday 수요일", "thursday 목요일", "friday 금요일", "saturday 토요일"];
 const NOT_THIS_MONTH = "";
 
 export const Calendar = ({
@@ -72,10 +72,10 @@ export const Calendar = ({
   }, [viewDate]);
 
   return (
-    <S.Container>
+    <S.Container role="region" aria-label="달력">
       <S.Header>
         <Header
-          title={Dayjs(viewDate).format("YYYY/MM")}
+          title={Dayjs(viewDate).format("YYYY년 MM월")}
           onClick={handleMonthMove}
         ></Header>
       </S.Header>

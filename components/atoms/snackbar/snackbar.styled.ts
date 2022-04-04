@@ -1,6 +1,9 @@
 import styled,{keyframes, css} from "styled-components";
 
-export const Container = styled.section<{color:string,isVisible:boolean}>`
+const ICON_NOTMAL_SIZE = 22;
+const ICON_SAMLL_SIZE = 16;
+
+export const Container = styled.button<{color:string,isVisible:boolean}>`
 z-index:10;
 position: fixed;
 top: 8%;
@@ -11,28 +14,46 @@ border-radius: 4px;
 align-items: center;
 padding: 15px 10px;
 transition: all 0.3s ease-out;
-
+width:fit-content;
 visibility: ${props=>props.isVisible ? "visible" : "hidden"};
 transform: ${props=>props.isVisible ? "translate(-50%, -50%);" : "translate(-50%, -300%);"};
+:focus-visible{
+  outline: none;
+  }
 `;
 
 export const Icon = styled.div`
-width: 22px;
-height:22px;
+width: ${ICON_NOTMAL_SIZE}px;
+height:${ICON_NOTMAL_SIZE}px;
 margin: 0 5px;
+
+@media (max-width: ${props => props.theme.media.md}px) {
+	width: ${ICON_NOTMAL_SIZE}px;
+	height:${ICON_SAMLL_SIZE}px;
+	margin: 0;
+}
 `;
 
 export const Label = styled.p`
 margin: 0 5px;
+font-size: 14px;
+@media (max-width: ${props => props.theme.media.md}px) {
+	font-size: 12px;
+}
 `;
 
-export const Button = styled.button`
-width: 22px;
-height:22px;
+export const Button = styled.div`
+width: ${ICON_NOTMAL_SIZE}px;
+height:${ICON_NOTMAL_SIZE}px;
 padding:0;
 margin: 0 5px;
 border-radius: 50%;
 cursor: pointer;
+@media (max-width: ${props => props.theme.media.md}px) {
+	width: ${ICON_NOTMAL_SIZE}px;
+	height:${ICON_SAMLL_SIZE}px;
+	margin: 0;
+}
 `;
 
 const progress = keyframes`
