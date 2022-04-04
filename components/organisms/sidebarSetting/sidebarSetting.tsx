@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, {useCallback,useMemo} from "react";
+import React, {useCallback,useEffect,useMemo} from "react";
 import * as S from "./sidebarSetting.styled";
 import {Chip} from "components/atoms/chip";
 import {IconSetting} from "components/moleculs/iconSetting"
@@ -19,6 +19,7 @@ export const SidebarSetting = ({
     data: loggedInUserData,
   } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
   const {
+    fetch: getGoalsFetch,
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
@@ -31,6 +32,10 @@ export const SidebarSetting = ({
   const handleFriendClick = useCallback(()=>{
     //
   },[]);
+
+  useEffect(()=>{
+    getGoalsFetch({})
+  },[getGoalsFetch])
 
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
