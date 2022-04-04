@@ -1,5 +1,6 @@
 import type {NextPage} from "next"
-import React, {useMemo} from "react"
+import {useRouter} from "next/router";
+import React, {useEffect, useMemo} from "react"
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {wrapper} from "stores";
 import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
@@ -7,9 +8,14 @@ import {waitDuringLoading} from "stores/data/ssr";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestSsrPage: NextPage = ({}) => {
+  const router = useRouter()
   const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
   const {data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
 
+  useEffect(()=>{
+    console.log("getPublicTasksData: ", getPublicTasksData?.length); // TODO: remove 
+  },[getPublicTasksData])
+  
   const publicTasksAndGoals = useMemo(()=>{
     if(!getPublicTasksData || !getGoalsByIdsData) return;
 
@@ -26,6 +32,7 @@ const TestSsrPage: NextPage = ({}) => {
 
   return (
     <LayoutNavigation>
+      <div onClick={()=>router.push("/test/user")}>go to test/user</div>
       <S.ListTask>
         {(publicTasksAndGoals || []).map(item => (
           <S.ListItemTask key={item.task.id}>

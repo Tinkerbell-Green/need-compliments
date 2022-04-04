@@ -1,4 +1,4 @@
-import merge from "deepmerge"
+import merge, {Options as MergeOptions} from "deepmerge"
 import {HYDRATE} from "next-redux-wrapper";
 import {combineReducers} from "redux";
 import {dataReducer, State as DataState, initialState as dataInitialState} from "./data";
@@ -19,12 +19,29 @@ const initialRootState: RootState = {
   navigation: navigationInitialState
 }
 
+const combineMerge: MergeOptions["arrayMerge"] = (previousArray, incomingArray, options) => {
+  const resultArray: typeof previousArray = [...previousArray]
+
+  incomingArray.forEach((incomingItem) => {
+    const prevItemIndex = previousArray.findIndex(previousItem => previousItem.id)
+    if (prevItemIndex !== -1){
+      resultArray[prevItemIndex] = merge(resultArray[prevItemIndex], incomingItem, options)
+    }
+    else {
+      resultArray.push(incomingItem)
+    }
+  })
+  return resultArray
+}
+
 const rootReducer = (state = initialRootState, action: any) => {
   if (action.type === HYDRATE) {
-    const incomingState = action.payload as RootState
+    const incomingServerSideState = action.payload as RootState
 
-    const nextState: RootState = merge(state, incomingState)
-
+    const nextState: RootState = {
+      navigation: state.navigation,
+      data: merge(state.data, incomingServerSideState.data, {arrayMerge: combineMerge})
+    }
     return nextState;
   } else {
     return combinedReducer(state, action);
