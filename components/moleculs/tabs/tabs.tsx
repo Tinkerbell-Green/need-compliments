@@ -11,14 +11,14 @@ export const Tabs = ({children}:TabsProps)=>{
   const router = useRouter();
 
   useEffect(()=>{
-    router.push({
+    router.replace({
       query: {tab: 0}
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const handleTabClick = useCallback((index:number, value:string)=>{
-    router.push({
+    router.replace({
       query: {tab: index}
     });
   },[router])
