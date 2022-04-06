@@ -2,7 +2,8 @@ import {QueryConstraint, where} from "firebase/firestore";
 import {call, getContext, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
-import {DataSagaStatus, TaskDocument} from "../types"; 
+import {ComplimentData, DataSagaStatus, TaskDocument} from "../types"; 
+import {getTasksComplimentsMap} from "./utils";
 import {RootState} from "stores/reducers";
 import {Repository, GetDocumentsData} from "utils/firebase";
 
@@ -38,9 +39,19 @@ export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PU
       }
     );
 
+    // get compliments of each task
+    const tasksComplimentsMap: Map<string, ComplimentData[]> = yield call(
+      getTasksComplimentsMap,
+      {
+        tasks: tasksResponse.docs.map(item=>item.id) || [],
+        repository,
+      }
+    );
+
     const incomingData: State[typeof sagaDataActionType][string]["data"] = tasksResponse.docs.map(item => ({
       id: item.id,
-      ...item.data()
+      ...item.data(),
+      compliments: tasksComplimentsMap.get(item.id) || [],
     }))
 
     const existingData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])

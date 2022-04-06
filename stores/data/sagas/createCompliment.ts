@@ -1,12 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, GoalDocument} from "../types"; 
+import {DataSagaStatus, ComplimentDocument} from "../types";
 import {Repository, CreateDocumentData} from "utils/firebase";
 
-export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOAL>) {
+export function* createCompliment(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_GOAL
+  const sagaDataActionType = DataActionType.CREATE_COMPLIMENT
 
   const repository: Repository = yield getContext("repository");
 
@@ -19,18 +19,18 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
   );
 
   try {
-    const document = {
-      ...payload.data, 
+    const complimentDocument = {
+      ...payload.data,
       author: payload.author,
       updatedAt: new Date().getTime(),
       createdAt: new Date().getTime(),
     }
 
-    const response: CreateDocumentData<GoalDocument> = yield call(
+    const createComplimentResponse: CreateDocumentData<ComplimentDocument> = yield call(
       [repository, repository.createDocument],
       {
-        path: "goals",
-        data: document
+        path: "compliments",
+        data: complimentDocument
       }
     );
 
@@ -39,8 +39,8 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
         type: sagaDataActionType,
         key: sagaKey,
         data: {
-          id: response.id,
-          ...document
+          id: createComplimentResponse.id,
+          ...complimentDocument
         }
       })
     ); 

@@ -1,6 +1,6 @@
 import {Action, handleActions} from "redux-actions";
 import {DataActionPayload, DataActionType} from "./actions";
-import {DataSagaState, GoalData, TaskData, UserData} from "./types";
+import {ComplimentData, DataSagaState, GoalData, TaskData, UserData} from "./types";
 
 export type State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Record<string, DataSagaState & {data: UserData | null, payload:DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]}>,
@@ -16,6 +16,8 @@ export type State = {
   [DataActionType.UPDATE_GOAL]: Record<string, DataSagaState & {data: GoalData | null, payload:DataActionPayload[DataActionType.UPDATE_GOAL]}>,
   [DataActionType.DELETE_GOAL]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_GOAL]}>,
   [DataActionType.DELETE_USER]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_USER]}>,
+  [DataActionType.CREATE_COMPLIMENT]: Record<string, DataSagaState & {data: ComplimentData | null, payload:DataActionPayload[DataActionType.CREATE_COMPLIMENT]}>,
+  [DataActionType.DELETE_COMPLIMENT]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_COMPLIMENT]}>,
 }
 
 export const initialState: State = {
@@ -32,6 +34,8 @@ export const initialState: State = {
   [DataActionType.UPDATE_GOAL]: {},
   [DataActionType.DELETE_GOAL]: {},
   [DataActionType.DELETE_USER]: {},
+  [DataActionType.CREATE_COMPLIMENT]: {},
+  [DataActionType.DELETE_COMPLIMENT]: {},
 };
 
 export const dataReducer = handleActions<State, any>(

@@ -100,7 +100,7 @@ export type GetDocumentsData<DocumentType> = Awaited<GetDocumentsReturn<Document
 
 export type CreateDocumentArguments<DocumentType> = {
   path: string
-  data: WithFieldValue<DocumentType>
+  data: DocumentType
 }
 export type UpdateDocumentArguments<DocumentType> = {
   path: string
@@ -110,7 +110,7 @@ export type UpdateDocumentArguments<DocumentType> = {
 export type SetDocumentArguments<DocumentType> = {
   path: string
   pathSegments:string[]
-  data: PartialWithFieldValue<DocumentType>
+  data: Partial<DocumentType>
   options?: SetOptions
 }
 export type DeleteDocumentArguments = {

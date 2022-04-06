@@ -22,7 +22,6 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
     const document = {
       ...payload.data,
       author: payload.author,
-      compliments: [],
       updatedAt: new Date().getTime(),
       createdAt: new Date().getTime(),
     }
@@ -41,7 +40,8 @@ export function* createTask(action: DataActionInstance<DataActionType.CREATE_TAS
         key: sagaKey,
         data: {
           id: response.id,
-          ...document
+          ...document,
+          compliments: []
         }
       })
     ); 
