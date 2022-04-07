@@ -3,7 +3,11 @@
 <p align="center">일상을 칭찬으로 기록하고 공유하는 칭찬 커뮤니티</p>
 
 ### <p align="center">✨칭찬이 필요해✨</p>
-
+> ## 한눈에 보기  
+> [서비스 소개](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#서비스-소개)  
+> [주요 기능](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#주요-기능)  
+> [역할](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#역할)  
+> [배포 히스토리](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#배포-히스토리)
 ## 서비스 소개
 [칭찬이 필요해 바로 사용해보기🏃🏻‍♀️](https://need-compliments.vercel.app/)
 
@@ -58,17 +62,22 @@
 <br>
 
 ### 목표 관리하기
-(작성 중)
+<img width="1256" alt="스크린샷 2022-04-01 오전 3 19 22" src="https://user-images.githubusercontent.com/65804460/162264592-0f6b136c-ddfa-45a2-8de9-cfa52eadc9f5.png">
+- 목표 페이지에서 나의 목표를 수정,추가할 수 있습니다.
 
 <br>
 
 ### 목표 수정하기
-(작성 중)
+<img width="1381" alt="목표상세관리 페이지" src="https://user-images.githubusercontent.com/65804460/162264914-43fe19d3-ad91-47b2-80d7-a7c750c0fbd1.png">
+- 해당 목표를 수정, 삭제하거나 새로운 목표를 만들 수 있습니다.
+- 목표설정 시, 공개범위를 설정할 수 있습니다. 전체공개로 설정한 목표에 속한 나의 칭찬들만 전체글 페이지에 표시됩니다.
 
 <br>
 
 ### 설정 페이지
-(작성 중)
+<img width="1363" alt="설정페이지" src="https://user-images.githubusercontent.com/65804460/162265267-540ed8e0-0412-436b-8765-1000348ada75.png">
+- 로그인한 사용자가 로그아웃, 탈퇴할 수 있습니다.
+- 연동된 이메일과 이름을 확인할 수 있습니다.
 
 <br>
 
@@ -90,8 +99,12 @@
 ### 성은지
 - (작성중)
 
-### 이홍빈
-- (작성중)
+### 이홍빈 
+- 와이어프레임, 일정 조율, 배포
+- 전체공개 글을 모두 보여주는 전체글 페이지
+- 캘린더와 기록 추가,삭제,수정이 가능한 내 피드 페이지 구현
+- redux saga를 이용한 deleteUser, getGoalsByIds saga 작성
+- 서비스 전반의 웹 접근성 개선
 
 ### 박재현 
 - 전역 상태관리, 데이터 통신에 대한 전반적인 작업 
@@ -101,8 +114,21 @@
 - authentication, authorization 관련 provider 
 
 ## 배포 히스토리
-v1.0.0  
-v2.0.0 ✔latest  
-v2.1.0 be planned  
+### v1.0.0(22.03.24)
+- 개인사용자 위주의 기능 배포
+   - 유저 회원가입(로그인,로그아웃, 탈퇴)
+   - 목표(추가,수정,삭제)
+   - 내피드(기록 추가,수정,삭제)  
+   
+   
+### v2.0.0(22.04.04) ✅latest
+- 사용성 개선, 전체글 페이지 추가 
+  - Global Navigation Bar 추가
+  - 전체글 페이지(비회원도 읽을 수 있는 컨텐츠) 추가
+  - safari애서 svg안보임 현상 수정
+
+
+### v2.1.0 ✔️be planned
+- SEO를 고려한 SSR처리, 리액션 기능 추가 
 
 <br>
