@@ -4,10 +4,10 @@
 
 ### <p align="center">✨칭찬이 필요해✨</p>
 > ## 한눈에 보기  
-> [서비스 소개](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#서비스-소개)  
-> [주요 기능](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#주요-기능)  
-> [역할](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#역할)  
-> [배포 히스토리](https://github.com/Tinkerbell-Green/need-compliments/edit/master/README.md#배포-히스토리)
+> [서비스 소개](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#서비스-소개)  
+> [주요 기능](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#주요-기능)  
+> [역할](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#역할)  
+> [배포 히스토리](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#배포-히스토리)
 ## 서비스 소개
 [칭찬이 필요해 바로 사용해보기🏃🏻‍♀️](https://need-compliments.vercel.app/)
 
