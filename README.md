@@ -82,6 +82,24 @@
 
 <br>
 
+## 역할
+### 공통
+- 각종 컨벤션 의논
+  - 변수이름, 폴더구조 (Atomic Design), Git 플로우, Git 커밋 메시지 등 
+
+### 성은지
+- (작성중)
+
+### 이홍빈
+- (작성중)
+
+### 박재현 
+- 전역 상태관리, 데이터 통신에 대한 전반적인 작업 
+  - redux saga 로 firestore 와 데이터 통신
+  - 데이터 통신 작업을 위한 hook 작성 (React Query 를 흉내)
+  - redux 를 이용한 서버사이드에서의 데이터 통신과 SSR 구현
+- authentication, authorization 관련 provider 
+
 ## 배포 히스토리
 v1.0.0  
 v2.0.0 ✔latest  
