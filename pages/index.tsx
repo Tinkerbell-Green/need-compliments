@@ -1,6 +1,6 @@
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React, {useState, useEffect,useMemo} from "react";
+import React, {useState,useMemo} from "react";
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Tabs} from "components/moleculs/tabs";
@@ -91,8 +91,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
   })
 
   await waitDuringLoading(store, {actionType: DataActionType.GET_GOALS_BY_IDS, key: GET_GOALS_BY_IDS_KEY})
-
-  const fetchedGoals = store.getState().data[DataActionType.GET_GOALS_BY_IDS][GET_GOALS_BY_IDS_KEY].data?.length
 
   return ({
     props: {}
