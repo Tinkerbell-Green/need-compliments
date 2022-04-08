@@ -3,7 +3,8 @@
 <p align="center">일상을 칭찬으로 기록하고 공유하는 칭찬 커뮤니티</p>
 
 ### <p align="center">✨칭찬이 필요해✨</p>
-> ## 한눈에 보기  
+> ## 한눈에 보기
+> 리드미 작성자 :   
 > [서비스 소개](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#서비스-소개)  
 > [주요 기능](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#주요-기능)  
 > [역할](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#역할)  
