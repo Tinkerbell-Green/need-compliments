@@ -37,9 +37,11 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
         </S.Info>
       </S.Item>
     </li>
-    <IconHeart 
+    {isClicked && <IconHeart 
+      key={Math.random()}
       isVisible={isClicked}
       emoji={clickedEmoji}
-      onHide={()=>setIsClicked(false)}></IconHeart>
+      color={goal.color}
+      onHide={()=>setIsClicked(false)}></IconHeart>}
   </>);
 };

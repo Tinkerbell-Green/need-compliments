@@ -4,12 +4,14 @@ import {HandThumbsUpFill,HeartFill} from "@styled-icons/bootstrap";
 import {Celebration} from "@styled-icons/material-rounded";
 import {ReactNode, useEffect} from "react";
 import * as S from "./iconHeartBeat.styled"
+import {GoalData} from "stores/data";
 import {ComplimentData} from "stores/data/types"
 
 type IconHeartProps = {
   isVisible: boolean;
   emoji:ComplimentData["type"],
   onHide: ()=>void,
+  color: GoalData["color"]
 }
 
 const emojiMap: Record<ComplimentData["type"],ReactNode> = {
@@ -22,13 +24,14 @@ const emojiMap: Record<ComplimentData["type"],ReactNode> = {
 export const IconHeart = ({
   isVisible=false,
   emoji,
-  onHide
+  onHide,
+  color
 }:IconHeartProps) => {
   useEffect(()=>{
-    setTimeout(onHide, 800);
-  },[onHide,isVisible])
+    setTimeout(onHide, 1000);
+  },[onHide])
   return (
-    <S.Icon isVisible={isVisible} color={"#ff6f6f"}>
+    <S.Icon isVisible={isVisible} color={color}>
       {emojiMap[emoji]}
     </S.Icon>
   );
