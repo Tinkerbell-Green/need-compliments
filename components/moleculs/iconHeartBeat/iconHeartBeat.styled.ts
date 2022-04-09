@@ -24,7 +24,7 @@ const heartBeatStyled = css`
 animation: ${heartBeat} 800ms linear;
 `;
 
-export const Icon = styled.span<{isVisible:boolean}>`
+export const Icon = styled.span<{isVisible:boolean,color:string}>`
 position: fixed;
 top:50%;
 left:50%;
@@ -32,7 +32,7 @@ width: 150px;
 height: 150px;
 font-size: 150px;
 z-index: 2;
-color: #FF3638;
+color: ${props => props.color};
 visibility: hidden;
 ${props => props.isVisible && css`
   ${heartBeatStyled};
