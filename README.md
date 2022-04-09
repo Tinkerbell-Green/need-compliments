@@ -54,6 +54,7 @@
 ![QuickTime movie](https://user-images.githubusercontent.com/65804460/162006923-386a92bb-173e-42b9-a679-409e124d807a.gif)
 - 캘린더 형식으로 내가 작성한 칭찬기록을 효과적으로 시각화하였습니다.
 - 캘린더의 날짜를 클릭하여 해당 날의 기록을 추가할 수 있습니다.
+- 기록이 성공적으로 수정되면, 스낵바 알림으로 확인할 수 있습니다. 실패 시, error스낵바가 나타납니다.
 - 내가 한 일을 떠올리며 스스로 기록을 추가하는 컨셉에 맞춰 미래날짜를 클릭하면 추가버튼이 비활성화됩니다.  
 
 2. 기록 수정, 삭제하기
@@ -63,20 +64,23 @@
 <br>
 
 ### 목표 관리하기
-<img width="1256" alt="스크린샷 2022-04-01 오전 3 19 22" src="https://user-images.githubusercontent.com/65804460/162264592-0f6b136c-ddfa-45a2-8de9-cfa52eadc9f5.png">
+<img width="1256" alt="스크린샷 2022-04-01 오전 3 19 22" src="https://user-images.githubusercontent.com/65804460/162264592-0f6b136c-ddfa-45a2-8de9-cfa52eadc9f5.png"/>
+
 - 목표 페이지에서 나의 목표를 수정,추가할 수 있습니다.
 
 <br>
 
 ### 목표 수정하기
-<img width="1381" alt="목표상세관리 페이지" src="https://user-images.githubusercontent.com/65804460/162264914-43fe19d3-ad91-47b2-80d7-a7c750c0fbd1.png">
+<img width="1381" alt="목표상세관리 페이지" src="https://user-images.githubusercontent.com/65804460/162264914-43fe19d3-ad91-47b2-80d7-a7c750c0fbd1.png"/>
+
 - 해당 목표를 수정, 삭제하거나 새로운 목표를 만들 수 있습니다.
 - 목표설정 시, 공개범위를 설정할 수 있습니다. 전체공개로 설정한 목표에 속한 나의 칭찬들만 전체글 페이지에 표시됩니다.
 
 <br>
 
 ### 설정 페이지
-<img width="1363" alt="설정페이지" src="https://user-images.githubusercontent.com/65804460/162265267-540ed8e0-0412-436b-8765-1000348ada75.png">
+<img width="1363" alt="설정페이지" src="https://user-images.githubusercontent.com/65804460/162265267-540ed8e0-0412-436b-8765-1000348ada75.png"/>
+
 - 로그인한 사용자가 로그아웃, 탈퇴할 수 있습니다.
 - 연동된 이메일과 이름을 확인할 수 있습니다.
 
