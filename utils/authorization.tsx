@@ -23,7 +23,7 @@ export const AuthorizationProvider = ({
   useEffect(() => {
     if (status === "unauthenticated") {
       if (PUBLIC_PAGE_PATHNAMES.indexOf(router.pathname) === -1){
-        router.push("/");
+        router.replace("/");
       }
       dispatch(navigationActionCreators[NavigationActionType.SET_INITIALIZED]({
         initialized: true

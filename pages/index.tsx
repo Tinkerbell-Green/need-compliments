@@ -11,26 +11,13 @@ import {LayoutMain} from "components/templates/layout-main"
 import {wrapper} from "stores";
 import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
 import {waitDuringLoading} from "stores/data/ssr";
-import {SnackbarType} from "stores/data/types";
 import * as S from "styles/pages/index.styled";
-
-type SnackbarProps = {
-  visible: boolean,
-  message: string,
-  type: SnackbarType
-  duration?:number,
-}
 
 const Home: NextPage = () => {
   const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
   const {data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
   const router = useRouter();
-  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
-    visible: false,
-    message: "",
-    type: "information",
-    duration:1000,
-  });
+  
   const tabIndex = useMemo(()=>{
     return router.query.tab;
   },[router.query.tab])
@@ -52,9 +39,6 @@ const Home: NextPage = () => {
   return (
     <LayoutMain>
       <Seo title={"전체 글"}></Seo>
-      <Snackbar
-        {...snackbarProps}
-        onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <Tabs/>
       {tabIndex==="0" && <FeedPublic tasksAndGoals={publicTasksAndGoals || []}/>}
       {tabIndex==="1" && <FeedNotice/>}
