@@ -1,8 +1,9 @@
+import {useSession} from "next-auth/react"
 import React,{useCallback, useState} from "react";
 import * as S from "./feedItem.styled";
 import {Chip} from "components/atoms/chip";
 import {IconHeart} from "components/moleculs/iconHeartBeat";
-import {GoalData, TaskData} from "stores/data";
+import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
 import {ComplimentData} from "stores/data/types"
 import {Dayjs} from "utils/dayjs"
 
@@ -12,13 +13,23 @@ type FeedItemProps = {
 }
 
 export const FeedItem = ({task, goal}: FeedItemProps) => {
+  const {status} = useSession()
+  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT)
   const [isClicked, setIsClicked] = useState(false);
   const [clickedEmoji, setClickedEmoji] = useState<ComplimentData["type"]>("red-heart");
 
   const handleClickedEmoji = useCallback((emoji:ComplimentData["type"])=>{
+    if(status==="unauthenticated") return;
+
     setIsClicked(true)
     setClickedEmoji(emoji);
-  },[])  
+    createComplimentFetch({
+      data: {
+        task: task.id,
+        type: emoji,
+      }
+    })
+  },[createComplimentFetch,task.id,status])  
 
   return (<>
     <li>
