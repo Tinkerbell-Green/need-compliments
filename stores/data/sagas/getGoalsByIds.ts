@@ -1,5 +1,4 @@
 import {QueryConstraint, where, documentId} from "firebase/firestore";
-import {chunk} from "lodash";
 import {call, getContext, put,select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
@@ -25,9 +24,7 @@ export function* getGoalsByIds(action: DataActionInstance<DataActionType.GET_GOA
   try {
     const queryConstraints: QueryConstraint[] = []
 
-    chunk(payload.ids,10).forEach(value => {
-      queryConstraints.push(where(documentId(), "in", [...value]));
-    })
+    queryConstraints.push(where(documentId(), "in", [...payload.ids]));
 
     const response: GetDocumentsData<GoalDocument> = yield call(
       [repository, repository.getDocuments],

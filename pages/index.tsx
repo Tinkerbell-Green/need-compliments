@@ -1,3 +1,4 @@
+import {chunk} from "lodash";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useState,useMemo} from "react";
@@ -77,16 +78,13 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
 
   const goals = Array.from(new Set(tasksGoal))
 
-  const goalGroups = []
-  while (goals.length > 0){
-    goalGroups.push(goals.splice(0, 9))
-  }
+  const goalGroups = chunk(goals,10);
 
-  goalGroups.map(item => {
+  goalGroups.forEach(goals => {
     store.dispatch(dataActionCreators[DataActionType.GET_GOALS_BY_IDS]({
       author: undefined,
       key: GET_GOALS_BY_IDS_KEY,
-      ids: item,
+      ids: goals,
     }))
   })
 
