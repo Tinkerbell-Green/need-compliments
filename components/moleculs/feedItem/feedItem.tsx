@@ -100,7 +100,6 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     {isClicked && <IconHeart
       isVisible={isClicked}
       emoji={clickedEmoji}
-      color={goal.color}
       onHide={()=>setIsClicked(false)}></IconHeart>}
   </>);
 };
