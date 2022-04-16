@@ -13,8 +13,16 @@ type FeedItemProps = {
 }
 
 export const FeedItem = ({task, goal}: FeedItemProps) => {
-  const {status} = useSession()
-  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT)
+  const {status} = useSession()  
+  const {fetch:getPublicTasksFetch} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
+  const onSucceed = useCallback(()=>{
+    getPublicTasksFetch({
+      startTime: new Date("1999-11-11"),
+      endTime: new Date("2222-11-11"),
+    })
+  },[getPublicTasksFetch])
+
+  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {additionalKeys: [task.id],onSucceed})
   const [isClicked, setIsClicked] = useState(false);
   const [clickedEmoji, setClickedEmoji] = useState<ComplimentData["type"]>("red-heart");
 

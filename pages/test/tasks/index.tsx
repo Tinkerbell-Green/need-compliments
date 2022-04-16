@@ -13,10 +13,6 @@ const TestTasksPage: NextPage = () => {
   const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
 
   useEffect(()=>{
-    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
-  },[loggedInUserData])
-
-  useEffect(()=>{
     getTasksByDaysFetch({
       startDay: new Date("1999-11-11"),
       endDay: new Date("2222-11-11"),
