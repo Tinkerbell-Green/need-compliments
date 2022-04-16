@@ -12,7 +12,7 @@ padding: 3px;
 overflow:hidden;
 cursor: pointer;
 transition: all 0.2s;
-&:hover, &:focus{
+&:hover{
   transform: translateY(-5%) scale(1.1);
 }
 border: ${props => props.isPickedDate && "1.5px solid gray"};
