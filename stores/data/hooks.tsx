@@ -8,7 +8,7 @@ import {RootState} from "stores/reducers"
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   actionType: DataSagaActionType,
   options: {
-    additionalKeys?: (keyof DataActionPayload[DataSagaActionTypeT])[]
+    additionalKeys?: string[]
     onSucceed?: (data?: RootState["data"][DataSagaActionTypeT][string]["data"]) => void
     onFail?: () => void
   } = {}

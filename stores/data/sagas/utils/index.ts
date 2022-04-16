@@ -12,7 +12,7 @@ export const getTasksComplimentsMap = async ({
   const map = new Map<string, ComplimentData[]>()
 
   try {
-    tasks.forEach(async (task)=>{
+    await Promise.all(tasks.map(async (task)=>{
       const queryConstraints: QueryConstraint[] = []
       queryConstraints.push(where("task", "==", task))
 
@@ -27,7 +27,7 @@ export const getTasksComplimentsMap = async ({
       }))
 
       map.set(task, complimentData)
-    })
+    }))
 
     return map
   }
