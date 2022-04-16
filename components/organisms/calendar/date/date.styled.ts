@@ -13,10 +13,9 @@ overflow:hidden;
 cursor: pointer;
 transition: all 0.2s;
 &:hover, &:focus{
-  border: ${props => props.isPickedDate && "1px solid gray"};
-  border-radius: 3px;
+  transform: translateY(-5%) scale(1.1);
 }
-border: ${props => props.isPickedDate && "1px solid gray"};
+border: ${props => props.isPickedDate && "1.5px solid gray"};
 border-radius: 3px;
 @media (max-width: ${props => props.theme.media.md}px){
   height:80px;
