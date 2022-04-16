@@ -10,7 +10,7 @@ margin-top: 5px;
 border-radius: 5px;
 cursor: pointer;
 &:hover, &:focus{
-  background:  #444444;
+  background:  #1a1a1a;
 }
 
 @media screen and (max-width: ${props => props.theme.media.md}px){
@@ -49,7 +49,7 @@ display:flex;
 align-items: center;
 `;
 
-export const Reaction = styled.li`
+export const Reaction = styled.li<{complimented:boolean}>`
 padding: 5px;
 border-radius: 5px;
 font-size: 1.25rem;
@@ -57,6 +57,7 @@ cursor: pointer;
 &:hover, &:focus{
   background-color: gray;
 }
+background-color: ${props => props.complimented && "#575757"};
 `;
 
 export const Li = styled.li`
@@ -66,6 +67,7 @@ align-items: center;
 margin-left: 10px;
 `;
 export const Count = styled.div`
+width:25px;
 font-size: 0.8rem;
   margin-left: 12px;
 `;
