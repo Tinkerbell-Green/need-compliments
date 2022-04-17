@@ -1,5 +1,4 @@
 import styled,{keyframes,css} from "styled-components";
-import {GoalData} from "stores/data";
 
 const heartBeat = keyframes`
 	0% {
@@ -25,15 +24,15 @@ const heartBeatStyled = css`
 animation: ${heartBeat} 1000ms linear;
 `;
 
-export const Icon = styled.span<{isVisible:boolean,color:GoalData["color"]}>`
+export const Icon = styled.span<{isVisible:boolean}>`
 position: fixed;
 top:50%;
 left:50%;
-width: 150px;
-height: 150px;
-font-size: 150px;
+width: 120px;
+height: 120px;
+font-size: 120px;
 z-index: 2;
-color: ${props => props.theme.colors.goals[props.color]};
+color: white;
 visibility: hidden;
 /* ${props => props.isVisible && css`
   ${heartBeatStyled};

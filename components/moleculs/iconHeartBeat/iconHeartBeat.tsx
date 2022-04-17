@@ -1,4 +1,4 @@
-import {faHandsClapping} from "@fortawesome/free-solid-svg-icons";
+import {faHandsClapping,faHeart,faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {HandThumbsUpFill,HeartFill} from "@styled-icons/bootstrap";
 import {Celebration} from "@styled-icons/material-rounded";
@@ -11,27 +11,25 @@ type IconHeartProps = {
   isVisible: boolean;
   emoji:ComplimentData["type"],
   onHide: ()=>void,
-  color: GoalData["color"]
 }
 
 const emojiMap: Record<ComplimentData["type"],ReactNode> = {
   "clapping-hands":<FontAwesomeIcon icon={faHandsClapping}/>,
   "party-popper":<Celebration/>,
-  "red-heart":<HeartFill/>,
-  "thumbs-up":<HandThumbsUpFill/>,
+  "red-heart":<FontAwesomeIcon icon={faHeart}/>,
+  "thumbs-up":<FontAwesomeIcon icon={faThumbsUp}/>,
 }
 
 export const IconHeart = ({
   isVisible=false,
   emoji,
   onHide,
-  color
 }:IconHeartProps) => {
   useEffect(()=>{
     setTimeout(onHide, 1000);
   },[onHide])
   return (
-    <S.Icon isVisible={isVisible} color={color}>
+    <S.Icon isVisible={isVisible}>
       {emojiMap[emoji]}
     </S.Icon>
   );
