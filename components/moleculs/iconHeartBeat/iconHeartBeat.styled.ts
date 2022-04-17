@@ -21,20 +21,21 @@ const heartBeat = keyframes`
 	}
 `
 const heartBeatStyled = css`
-animation: ${heartBeat} 800ms linear;
+animation: ${heartBeat} 1000ms linear;
 `;
 
 export const Icon = styled.span<{isVisible:boolean}>`
 position: fixed;
 top:50%;
 left:50%;
-width: 150px;
-height: 150px;
-font-size: 150px;
+width: 120px;
+height: 120px;
+font-size: 120px;
 z-index: 2;
-color: #FF3638;
+color: white;
 visibility: hidden;
-${props => props.isVisible && css`
+/* ${props => props.isVisible && css`
   ${heartBeatStyled};
-`};
+`}; */
+${heartBeatStyled}
 `;

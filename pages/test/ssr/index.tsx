@@ -1,5 +1,6 @@
 import type {NextPage} from "next"
-import React, {useMemo} from "react"
+import {useRouter} from "next/router";
+import React, {useEffect, useMemo} from "react"
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {wrapper} from "stores";
 import {useDataSaga, DataActionType,TaskData,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
@@ -7,6 +8,7 @@ import {waitDuringLoading} from "stores/data/ssr";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestSsrPage: NextPage = ({}) => {
+  const router = useRouter()
   const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
   const {data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
 
@@ -26,6 +28,7 @@ const TestSsrPage: NextPage = ({}) => {
 
   return (
     <LayoutNavigation>
+      <div onClick={()=>router.push("/test/user")}>go to test/user</div>
       <S.ListTask>
         {(publicTasksAndGoals || []).map(item => (
           <S.ListItemTask key={item.task.id}>
@@ -55,10 +58,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
 
   const tasksGoal = store.getState().data[DataActionType.GET_PUBLIC_TASKS][GET_PUBLIC_TASKS_KEY].data?.map(item => item.goal)
 
-  console.log("tasksGoal: ", tasksGoal?.length); // TODO: remove
-
   const goals = Array.from(new Set(tasksGoal))
-  console.log("goals: ", goals); // TODO: remove
 
   const goalGroups = []
   while (goals.length > 0){
@@ -76,7 +76,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
   await waitDuringLoading(store, {actionType: DataActionType.GET_GOALS_BY_IDS, key: GET_GOALS_BY_IDS_KEY})
 
   const fetchedGoals = store.getState().data[DataActionType.GET_GOALS_BY_IDS][GET_GOALS_BY_IDS_KEY].data?.length
-  console.log("fetchedGoals: ", fetchedGoals); // TODO: remove
 
   return ({
     props: {}

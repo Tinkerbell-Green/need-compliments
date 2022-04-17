@@ -3,6 +3,8 @@ import {call, getContext, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
 import {DataSagaStatus, TaskDocument} from "../types"; 
+import {ComplimentDocument, ComplimentData} from "./../types";
+import {getTasksComplimentsMap} from "./utils";
 import {RootState} from "stores/reducers";
 import {Repository, GetDocumentsData} from "utils/firebase";
 
@@ -22,6 +24,7 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
   );
 
   try {
+    // get tasks
     const queryConstraints: QueryConstraint[] = []
     queryConstraints.push(where("author", "==", payload.author))
 
@@ -38,9 +41,19 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
       }
     );
 
+    // get compliments of each task
+    const tasksComplimentsMap: Map<string, ComplimentData[]> = yield call(
+      getTasksComplimentsMap,
+      {
+        tasks: response.docs.map(item=>item.id) || [],
+        repository,
+      }
+    );
+
     const incomingData: State[typeof sagaDataActionType][string]["data"] = response.docs.map(item => ({
       id: item.id,
-      ...item.data()
+      ...item.data(),
+      compliments: tasksComplimentsMap.get(item.id) || [],
     }))
 
     const existingData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])
@@ -78,3 +91,4 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
     );
   }
 }
+

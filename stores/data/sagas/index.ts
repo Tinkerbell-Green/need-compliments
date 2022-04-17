@@ -1,17 +1,19 @@
-import {takeEvery} from "redux-saga/effects";
+import {takeEvery} from "redux-saga/effects"
 import {DataActionType} from "../actions"
-import {createGoal} from "./createGoal";
-import {createTask} from "./createTask";
-import {deleteGoal} from "./deleteGoal";
+import {createCompliment} from "./createCompliment"
+import {createGoal} from "./createGoal"
+import {createTask} from "./createTask"
+import {deleteCompliment} from "./deleteCompliment"
+import {deleteGoal} from "./deleteGoal"
 import {deleteTask} from "./deleteTask"
 import {deleteUser} from "./deleteUser"
-import {getGoals} from "./getGoals";
-import {getGoalsByIds} from "./getGoalsByIds";
+import {getGoals} from "./getGoals"
+import {getGoalsByIds} from "./getGoalsByIds"
 import {getLoggedInUserData} from "./getLoggedInUserData"
 import {getPublicTasks} from "./getPublicTasks"
 import {getTasksByDays} from "./getTasksByDays"
-import {updateGoal} from "./updateGoal";
-import {updateTask} from "./updateTask";
+import {updateGoal} from "./updateGoal"
+import {updateTask} from "./updateTask"
 import {updateUser} from "./updateUser"
 
 export function* dataSaga() {
@@ -28,4 +30,6 @@ export function* dataSaga() {
   yield takeEvery(DataActionType.UPDATE_GOAL, updateGoal)
   yield takeEvery(DataActionType.DELETE_GOAL, deleteGoal)
   yield takeEvery(DataActionType.DELETE_USER, deleteUser)
+  yield takeEvery(DataActionType.CREATE_COMPLIMENT, createCompliment)
+  yield takeEvery(DataActionType.DELETE_COMPLIMENT, deleteCompliment)
 }

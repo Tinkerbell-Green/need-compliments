@@ -11,7 +11,7 @@ type AuthorizationProviderProps = {
   children: ReactNode
 }
 
-const PUBLIC_PAGE_PATHNAMES = ["/auth/signin","/"]
+const PUBLIC_PAGE_PATHNAMES = ["/auth/signin","/","/test"]
 
 export const AuthorizationProvider = ({
   children
@@ -22,10 +22,9 @@ export const AuthorizationProvider = ({
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      // const SIGN_IN_PATHNAME = "/auth/signin"
-      // if (router.pathname !== SIGN_IN_PATHNAME){
-      //   router.push(SIGN_IN_PATHNAME);
-      // }
+      if (!PUBLIC_PAGE_PATHNAMES.filter(path => router.pathname.includes(path))){
+        router.replace("/");
+      }
       dispatch(navigationActionCreators[NavigationActionType.SET_INITIALIZED]({
         initialized: true
       }))   

@@ -1,4 +1,4 @@
-import {Star,MoonStarsFill} from "@styled-icons/bootstrap";
+import {MoonStarsFill} from "@styled-icons/bootstrap";
 import {StarOfLife} from "@styled-icons/fa-solid/StarOfLife"
 import React from "react"
 import * as S from "./date.styled";

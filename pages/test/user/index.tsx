@@ -1,5 +1,4 @@
 import type {NextPage} from "next"
-import {useSession} from "next-auth/react"
 import {signOut} from "next-auth/react"
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react"
@@ -10,6 +9,7 @@ import {RootState} from "stores/reducers";
 import * as S from "styles/pages/test/user.styled";
 
 const TestUserPage: NextPage = () => {
+  const router = useRouter();
   const loggedInUserId = useSelector((state: RootState)=>state.navigation.loggedInUserId)
   const {data: loggedInUserData, refetch: getLoggedInUserDataRefetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
 
@@ -47,6 +47,7 @@ const TestUserPage: NextPage = () => {
 
   return (
     <LayoutNavigation>
+      <div onClick={()=>router.push("/test/ssr")}>go to test/ssr</div>
       <S.Button onClick={handleUpdate}>UPDATE NAME</S.Button>
       <S.Button onClick={handleDelete}>DELETE</S.Button>
 

@@ -10,6 +10,9 @@
     "ts-check": "tsc --project ./tsconfig.json"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
     "@styled-icons/bootstrap": "^10.34.0",
     "@styled-icons/boxicons-regular": "^10.38.0",
     "@styled-icons/evaicons-outline": "^10.34.0",

@@ -1,12 +1,12 @@
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, GoalDocument} from "../types"; 
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {DataSagaStatus} from "stores/data/types"; 
+import {Repository, DeleteDocumentData} from "utils/firebase";
 
-export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOAL>) {
+export function* deleteCompliment(action: DataActionInstance<DataActionType.DELETE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
-  const sagaDataActionType = DataActionType.CREATE_GOAL
+  const sagaDataActionType = DataActionType.DELETE_COMPLIMENT
 
   const repository: Repository = yield getContext("repository");
 
@@ -19,31 +19,13 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
   );
 
   try {
-    const document = {
-      ...payload.data, 
-      author: payload.author,
-      updatedAt: new Date().getTime(),
-      createdAt: new Date().getTime(),
-    }
-
-    const response: CreateDocumentData<GoalDocument> = yield call(
-      [repository, repository.createDocument],
+    const deleteComplimentResponse: DeleteDocumentData = yield call(
+      [repository, repository.deleteDocument],
       {
-        path: "goals",
-        data: document
+        path: "compliments",
+        pathSegments: payload.pathSegments
       }
     );
-
-    yield put(
-      dataActionCreators[DataActionType.SET_DATA_DATA]({
-        type: sagaDataActionType,
-        key: sagaKey,
-        data: {
-          id: response.id,
-          ...document
-        }
-      })
-    ); 
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_STATUS]({
