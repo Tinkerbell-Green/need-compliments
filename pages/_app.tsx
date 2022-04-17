@@ -21,7 +21,7 @@ const DEFAULT_SEO = {
     site_name: "칭찬이 필요해",
     images: [
       {
-        url:"public/image.png",
+        url:"https://www.canva.com/design/DAE8MQOClkw/view?utm_content=DAE8MQOClkw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
         width: 160,
         height: 80,
         alt: "칭찬이필요해 이미지"
