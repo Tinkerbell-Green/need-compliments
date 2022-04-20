@@ -10,7 +10,7 @@
 > [역할](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#역할)  
 > [배포 히스토리](https://github.com/Tinkerbell-Green/need-compliments/blob/master/README.md#배포-히스토리)
 ## 서비스 소개
-[칭찬이 필요해 바로 사용해보기🏃🏻‍♀️](https://need-compliments.vercel.app/)
+[칭찬이 필요해 바로 사용해보기🏃🏻‍♀️](https://need-compliments-sandy.vercel.app/)
 
 ### 탄생 배경
 👥👥 : **"너무 당연한 일이라 그닥 칭찬받을만한지 모르겠네요"**  
