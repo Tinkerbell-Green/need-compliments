@@ -5,7 +5,7 @@ import * as S from "./tabs.styled";
 type TabsProps = {
   children?: React.ReactNode
 }
-const TAB_CONTENTS=["전체 글", "📍 공지"];
+const TAB_CONTENTS=["전체 글", "공지"];
 
 export const Tabs = ({children}:TabsProps)=>{
   const router = useRouter();

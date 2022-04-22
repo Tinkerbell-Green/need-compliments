@@ -116,12 +116,14 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   },[onFail, state?.status])
 
-  return ({
-    key: keyRef.current,
+  const result = useMemo(()=>({
+    keyRef: keyRef,
     fetch,
     refetch,
     state,
     data: state?.data as RootState["data"][DataSagaActionTypeT][string]["data"] | null,
     status: state?.status as RootState["data"][DataSagaActionTypeT][string]["status"] | null,
-  }) 
+  }),[fetch, refetch, state])
+
+  return result
 }
