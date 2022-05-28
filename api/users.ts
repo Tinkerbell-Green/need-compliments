@@ -1,4 +1,5 @@
 import {AxiosInstance} from "axios";
+import {Optional} from "utility-types";
 import {apiAxios} from "api"
 
 export class UsersService {
@@ -16,6 +17,10 @@ export class UsersService {
     return this.axiosInstance.get<GetUserDate>(`/users/${id}`)
   }
 
+  updateUser(input: UpdateUserInput) {
+    return this.axiosInstance.post<UpdateUserData>("/users", input)
+  }
+
   deleteUser(id: string) {
     return this.axiosInstance.delete(`/users/${id}`)
   }
@@ -27,25 +32,29 @@ export type UserData = {
   email: string
   followers: string[]
   followings: string[]
-  image: string
+  image?: string
   name: string
   updatedAt: number
   userId: number
 }
 
-type CreateUserInput = {
-  userId: string
-  name: string
-  email: string
-  image?: string
-}
-
+type CreateUserInput = Omit<
+  UserData, 
+  "_id" | "createdAt" | "followers" | "followings" | "updatedAt"
+>
 type CreateUserData = UserData
+
+type UpdateUserInput = Optional<Omit<
+  UserData, 
+  "followings" | "updatedAt"
+>>
+type UpdateUserData = UserData
 
 type GetUserDate = UserData
 
 export const {
   createUser,
   getUser,
+  updateUser,
   deleteUser,
 } = new UsersService(apiAxios)
