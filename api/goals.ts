@@ -1,6 +1,6 @@
 import {AxiosInstance} from "axios";
 import {Optional} from "utility-types";
-import {apiAxios} from "api"
+import {apiAxios} from "./axios"
 import {Theme} from "styles/theme";
 
 export class GoalsService {
@@ -23,7 +23,7 @@ export class GoalsService {
   }
 
   updateGoal(id: string, input: UpdateGoalInput) {
-    return this.axiosInstance.patch<UpdateGoalData>(`/goals/${id}`, )
+    return this.axiosInstance.patch<UpdateGoalData>(`/goals/${id}`, input)
   }
 
   deleteGoal(id: string) {

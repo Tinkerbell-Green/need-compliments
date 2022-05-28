@@ -1,28 +1,21 @@
-import {AxiosInstance} from "axios";
 import {Optional} from "utility-types";
-import {apiAxios} from "api"
+import {apiAxios} from "./axios"
 
 export class UsersService {
-  axiosInstance: AxiosInstance
-
-  constructor(axiosInstance: AxiosInstance) {
-    this.axiosInstance = axiosInstance
-  }
-
   createUser(input: CreateUserInput) {
-    return this.axiosInstance.post<CreateUserData>("/users", input)
+    return apiAxios.post<CreateUserData>("/users", input)
   }
 
   getUser(id: string) {
-    return this.axiosInstance.get<GetUserDate>(`/users/${id}`)
+    return apiAxios.get<GetUserDate>(`/users/${id}`)
   }
 
-  updateUser(input: UpdateUserInput) {
-    return this.axiosInstance.post<UpdateUserData>("/users", input)
+  updateUser(id: string, input: UpdateUserInput) {
+    return apiAxios.post<UpdateUserData>(`/users/${id}`, input)
   }
 
   deleteUser(id: string) {
-    return this.axiosInstance.delete(`/users/${id}`)
+    return apiAxios.delete(`/users/${id}`)
   }
 }
 
@@ -35,26 +28,27 @@ export type UserData = {
   image?: string
   name: string
   updatedAt: number
-  userId: number
+  userId: string
 }
 
-type CreateUserInput = Omit<
+export type CreateUserInput = Omit<
   UserData, 
   "_id" | "createdAt" | "followers" | "followings" | "updatedAt"
 >
-type CreateUserData = UserData
+export type CreateUserData = {
+  user: UserData
+}
 
-type UpdateUserInput = Optional<Omit<
+export type UpdateUserInput = Optional<Omit<
   UserData, 
   "followings" | "updatedAt"
 >>
-type UpdateUserData = UserData
+export type UpdateUserData = {
+  user: UserData
+}
 
-type GetUserDate = UserData
+export type GetUserDate = {
+  user: UserData
+}
 
-export const {
-  createUser,
-  getUser,
-  updateUser,
-  deleteUser,
-} = new UsersService(apiAxios)
+export const usersService = new UsersService()

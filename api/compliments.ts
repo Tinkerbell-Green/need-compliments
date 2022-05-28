@@ -1,5 +1,5 @@
 import {AxiosInstance} from "axios";
-import {apiAxios} from "api"
+import {apiAxios} from "./axios"
 
 export class ComplimentsService {
   axiosInstance: AxiosInstance

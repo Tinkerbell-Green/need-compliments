@@ -23,6 +23,10 @@ export const SidebarSetting = ({
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
 
+  useEffect(()=>{
+    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
+  },[loggedInUserData])
+  
   const goals = useMemo(() => {
     const newGoals = getGoalsData || [];
     newGoals.sort((a, b) => a.createdAt - b.createdAt);
@@ -45,8 +49,8 @@ export const SidebarSetting = ({
         </Link>
       </S.Header>
       <S.Profile>
-        <S.Name>{loggedInUserData?.name}</S.Name>
-        <S.Email>{loggedInUserData?.email}</S.Email>
+        <S.Name>{loggedInUserData?.user?.name}</S.Name>
+        <S.Email>{loggedInUserData?.user?.email}</S.Email>
         {/* <S.FriendList onClick={handleFriendClick}>
           <S.Friend>{`${follwersCount} 팔로워`}</S.Friend>
           <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>

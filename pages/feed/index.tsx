@@ -2,12 +2,13 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
+import {UserData} from "api"
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
+import {useDataSaga, DataActionType, DataSagaStatus, TaskData,GoalData} from "stores/data";
 import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
@@ -235,7 +236,7 @@ const Feed: NextPage = () => {
 
   return (
     <LayoutMain>
-      <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
+      <Seo title={`${loggedInUserData?.user?.name || ""} 피드`}></Seo>
       <Snackbar 
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>

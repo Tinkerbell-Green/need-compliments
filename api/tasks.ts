@@ -1,8 +1,8 @@
 import {AxiosInstance} from "axios";
 import {Optional} from "utility-types";
+import {apiAxios} from "./axios"
 import {ComplimentData} from "./compliments";
 import {GoalData} from "./goals";
-import {apiAxios} from "api"
 
 export class TasksService {
   axiosInstance: AxiosInstance
@@ -37,7 +37,7 @@ export class TasksService {
   }
 
   updateTask(id: string, input: UpdateTaskInput) {
-    return this.axiosInstance.patch<UpdateTaskData>(`/tasks/${id}`, )
+    return this.axiosInstance.patch<UpdateTaskData>(`/tasks/${id}`, input)
   }
 
   deleteTask(id: string) {

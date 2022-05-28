@@ -57,7 +57,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   })
 
   // fetch
-  type FetchPartialPayload = Omit<Optional<DataActionPayload[DataSagaActionTypeT], "author">, "key">
+  type FetchPartialPayload = Omit<Omit<DataActionPayload[DataSagaActionTypeT], "author"> & { author?: undefined | string }, "key">
 
   const payloadRef = useRef(state?.payload)
   useEffect(()=>{

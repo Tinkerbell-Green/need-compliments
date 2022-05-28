@@ -39,18 +39,18 @@ export type ComplimentData = ComplimentDocument & {
   id: string
 }
 
-export type UserDocument = {
-  email: string
-  name: string
-  image: string
-  followers: string[]
-  followings: string[]
-  createdAt: number
-  updatedAt: number
-}
-export type UserData = UserDocument & {
-  id: string
-}
+// export type UserDocument = {
+//   email: string
+//   name: string
+//   image: string
+//   followers: string[]
+//   followings: string[]
+//   createdAt: number
+//   updatedAt: number
+// }
+// export type UserData = UserDocument & {
+//   id: string
+// }
 
 export enum DataSagaStatus {
   LOADING = "loading",

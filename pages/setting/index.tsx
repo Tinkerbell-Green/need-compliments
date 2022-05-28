@@ -33,8 +33,8 @@ const SettingPage: NextPage = () => {
       if (!loggedInUserId) return;
 
       updateUserFetch({
-        pathSegments: [loggedInUserId],
-        data: {
+        id: loggedInUserId,
+        input: {
           name,
         },
       });
@@ -46,7 +46,7 @@ const SettingPage: NextPage = () => {
     if (!loggedInUserId) return;
 
     deleteUserFetch({
-      pathSegments: [loggedInUserId],
+      id: loggedInUserId
     });
   }, [loggedInUserId, deleteUserFetch]);
 
@@ -67,7 +67,7 @@ const SettingPage: NextPage = () => {
       <Seo title={"설정"}></Seo>
       {loggedInUserData && (
         <Setting
-          loggedInUser={loggedInUserData}
+          loggedInUser={loggedInUserData.user}
           onUpdate={handleUpdate}
           onDelete={handleDelete}
         />

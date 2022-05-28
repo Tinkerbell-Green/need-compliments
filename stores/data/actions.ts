@@ -1,4 +1,5 @@
-import {ComplimentDocument, DataSagaStatus, GoalDocument, TaskDocument, UserDocument} from "./types";
+import {ComplimentDocument, DataSagaStatus, GoalDocument, TaskDocument} from "./types";
+import {CreateUserInput, UpdateUserInput} from "api";
 import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
@@ -100,15 +101,9 @@ export type DataActionPayload = {
     payload: any
   }
   // sagas
-  [DataActionType.GET_LOGGED_IN_USER_DATA]: SagaDataActionDefaultPayload & {
-    id: string
-    email: string | undefined
-    name: string | undefined
-    image: string | undefined
-  }
-  [DataActionType.UPDATE_USER]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<UserDocument, "createdAt" | "updatedAt" | "email">>, "path"> & {
-    }
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: Omit<SagaDataActionDefaultPayload, "author"> & { input: CreateUserInput }
+  [DataActionType.UPDATE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string, input: UpdateUserInput }
+  [DataActionType.DELETE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string }
   [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
@@ -143,9 +138,6 @@ export type DataActionPayload = {
     }
   [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
-    }
-  [DataActionType.DELETE_USER]: SagaDataActionDefaultPayload & 
-  Omit<DeleteDocumentArguments, "path"> & {
     }
   [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<ComplimentDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
