@@ -1,19 +1,14 @@
-import {QueryConstraint, where} from "firebase/firestore";
-import {call, getContext, put, select} from "redux-saga/effects";
+import {call, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
-import {DataSagaStatus, TaskDocument} from "../types"; 
-import {ComplimentDocument, ComplimentData} from "./../types";
-import {getTasksComplimentsMap} from "./utils";
+import {DataSagaStatus} from "../types"; 
+import {GetTasksInput, tasksService} from "api";
 import {RootState} from "stores/reducers";
-import {Repository, GetDocumentsData} from "utils/firebase";
 
 export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TASKS_BY_DAYS>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.GET_TASKS_BY_DAYS
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -24,51 +19,36 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
   );
 
   try {
-    // get tasks
-    const queryConstraints: QueryConstraint[] = []
-    queryConstraints.push(where("author", "==", payload.author))
-
-    const startDayTime = payload.startDay.getTime()
-    const endDayTime = payload.endDay.getTime()
-    queryConstraints.push(where("doneAt", ">=", startDayTime))
-    queryConstraints.push(where("doneAt", "<=", endDayTime))
-
-    const response: GetDocumentsData<TaskDocument> = yield call(
-      [repository, repository.getDocuments],
-      {
-        path: "tasks",
-        queryConstraints,
-      }
+    const input: GetTasksInput = {
+      readPermission: "everyone",
+      start: payload.startDay.getTime(),
+      end: payload.endDay.getTime(),
+      combined: true
+    }
+    const response: Awaited<ReturnType<typeof tasksService.getTasks>> = yield call(
+      tasksService.getTasks,
+      input
     );
 
     // get compliments of each task
-    const tasksComplimentsMap: Map<string, ComplimentData[]> = yield call(
-      getTasksComplimentsMap,
-      {
-        tasks: response.docs.map(item=>item.id) || [],
-        repository,
-      }
-    );
-
-    const incomingData: State[typeof sagaDataActionType][string]["data"] = response.docs.map(item => ({
-      id: item.id,
-      ...item.data(),
-      compliments: tasksComplimentsMap.get(item.id) || [],
-    }))
-
-    const existingData: State[typeof sagaDataActionType][string]["data"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"])
-    const filteredPrevData = (existingData || []).filter(existingItem => {
-      const duplicateIncomingIndex = incomingData.findIndex(incomingItem => incomingItem.id === existingItem.id)
+    const incomingTasks: NonNullable<State[typeof sagaDataActionType][string]["data"]>["tasks"] = response.data.tasks
+    const existingTasks: NonNullable<State[typeof sagaDataActionType][string]["data"]>["tasks"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"]?.tasks || [])
+    
+    const filteredPrevExistingTasks = (existingTasks || []).filter(existingItem => {
+      const duplicateIncomingIndex = incomingTasks.findIndex(incomingItem => incomingItem._id === existingItem._id)
       return (duplicateIncomingIndex === -1)
     })
 
-    const newData = payload.merge ? [...filteredPrevData, ...incomingData] : incomingData
+    const newTasks = payload.merge ? [...filteredPrevExistingTasks, ...incomingTasks] : incomingTasks
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data: newData
+        data: {
+          ...response.data,
+          tasks: newTasks
+        }
       })
     ); 
 

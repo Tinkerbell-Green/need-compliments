@@ -1,5 +1,5 @@
-import {ComplimentDocument, DataSagaStatus, GoalDocument, TaskDocument} from "./types";
-import {CreateUserInput, UpdateUserInput} from "api";
+import {ComplimentDocument, DataSagaStatus, GoalDocument} from "./types";
+import {CreateTaskInput, CreateUserInput, UpdateTaskInput, UpdateUserInput} from "api";
 import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
 
 export enum DataActionType {
@@ -104,26 +104,22 @@ export type DataActionPayload = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Omit<SagaDataActionDefaultPayload, "author"> & { input: CreateUserInput }
   [DataActionType.UPDATE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string, input: UpdateUserInput }
   [DataActionType.DELETE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string }
+
   [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
     merge?: Boolean
   }
   [DataActionType.GET_PUBLIC_TASKS]: Omit<SagaDataActionDefaultPayload, "author"> & {
-    author: undefined,
+    // author: undefined
     startTime: Date
     endTime: Date
     merge?: Boolean
   }
-  [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<DeleteDocumentArguments, "path"> & {
-    }
+  [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & { input: CreateTaskInput }
+  [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & { id: string, input: UpdateTaskInput }
+  [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & { id: string }
+  
   [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
     }
   [DataActionType.GET_GOALS_BY_IDS]: Omit<SagaDataActionDefaultPayload, "author"> & {
@@ -139,6 +135,7 @@ export type DataActionPayload = {
   [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
     Omit<DeleteDocumentArguments, "path"> & {
     }
+
   [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & 
     Omit<CreateDocumentArguments<Omit<ComplimentDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
     }

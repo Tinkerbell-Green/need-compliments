@@ -1,19 +1,19 @@
 import React from "react";
 import * as S from "./feedPublic.styled";
+import {GetTasksData, TaskData} from "api"
 import {FeedItem} from "components/moleculs/feedItem"
-import {GoalData, TaskData} from "stores/data";
 
 type FeedPublicProps = {
-  tasksAndGoals: {task: TaskData, goal: GoalData}[];
+  tasks: GetTasksData["tasks"];
 };
 
 export const FeedPublic = ({
-  tasksAndGoals,
+  tasks,
 }: FeedPublicProps) => {
   return (
     <S.Feed>
-      {(tasksAndGoals).map(item => (
-        <FeedItem key={item.task.id} task={item.task} goal={item.goal}></FeedItem>
+      {(tasks || []).map(item => (
+        <FeedItem key={item._id} task={item} goal={item.goalData}></FeedItem>
       ))}
     </S.Feed>
   );

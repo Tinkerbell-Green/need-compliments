@@ -36,18 +36,18 @@ export type GoalData = {
   updatedAt: number
 }
 
-type GetGoalsByUserData = {
+export type GetGoalsByUserData = {
   goals: GoalData[]
 }
 
-type GetGoalsData = {
+export type GetGoalsData = {
   goals: GoalData[]
 }
 
-type CreateGoalInput = Omit<GoalData, "_id" | "createdAt" | "updatedAt">
-type CreateGoalData = GoalData
+export type CreateGoalInput = Omit<GoalData, "_id" | "createdAt" | "updatedAt">
+export type CreateGoalData = GoalData
 
-type UpdateGoalInput = Optional<Omit<GoalData, "_id" | "createdAt" | "updatedAt">>
-type UpdateGoalData = GoalData
+export type UpdateGoalInput = Optional<Omit<GoalData, "_id" | "createdAt" | "updatedAt">>
+export type UpdateGoalData = GoalData
 
 export const goalsService = new GoalsService()

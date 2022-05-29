@@ -2,16 +2,17 @@ import {useSession} from "next-auth/react"
 import React,{useCallback, useState,useMemo} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./feedItem.styled";
+import {TaskData} from "api"
 import {Chip} from "components/atoms/chip";
 import {IconHeart} from "components/moleculs/iconHeartBeat";
-import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
+import {useDataSaga, DataActionType,GoalData} from "stores/data";
 import {ComplimentData} from "stores/data/types"
 import {RootState} from "stores/reducers"
 import {Dayjs} from "utils/dayjs"
 
 type FeedItemProps = {
   task: TaskData,
-  goal: GoalData
+  goal?: GoalData
 }
 
 export const FeedItem = ({task, goal}: FeedItemProps) => {
@@ -24,7 +25,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
       endTime: new Date("2222-11-11"),
     })
   },[getPublicTasksFetch])
-  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {additionalKeys: [task.id],onSucceed})
+  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {additionalKeys: [task._id],onSucceed})
   const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT,{onSucceed})
 
   const [isClicked, setIsClicked] = useState(false);
@@ -39,7 +40,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     if(!complimented) return;
 
     deleteComplimentFetch({
-      pathSegments: [complimented.id]
+      pathSegments: [complimented._id]
     })
   },[deleteComplimentFetch,complimented])
 
@@ -58,16 +59,16 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     setClickedEmoji(emoji);
     createComplimentFetch({
       data: {
-        task: task.id,
+        task: task._id,
         type: emoji,
       }
     })
-  },[createComplimentFetch,handleDelete,task.id,status,complimented])  
+  },[createComplimentFetch,handleDelete,task._id,status,complimented])  
 
   return (<>
     <li>
       <S.Item onDoubleClick={()=>handleClickedEmoji("red-heart")}>
-        <S.Goal><Chip label={goal.name} color={goal.color}></Chip></S.Goal>
+        <S.Goal><Chip label={goal?.name || ""} color={goal?.color}></Chip></S.Goal>
         <S.Task>{task.title}</S.Task>
         <S.Info>
           <S.ReactionList>

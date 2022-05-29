@@ -31,7 +31,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
       return pageAuthorId
     }
     else {
-      return ""
+      return undefined // "" 
     }
   },[actionType, loggedInUserId, pageAuthorId])
 

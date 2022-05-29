@@ -1,7 +1,7 @@
 import {QueryConstraint, where} from "firebase/firestore";
 import {call, getContext, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, TaskDocument} from "stores/data/types"; 
+import {DataSagaStatus} from "stores/data/types"; 
 import {Repository, DeleteDocumentData, GetDocumentData, GetDocumentsData} from "utils/firebase";
 
 export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOAL>) {
@@ -25,7 +25,7 @@ export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOA
     const goalId = payload.pathSegments[0]
     queryConstraints.push(where("goal", "==", goalId))
   
-    const getTasksResponse: GetDocumentsData<TaskDocument> = yield call(
+    const getTasksResponse: GetDocumentsData<any> = yield call(
       [repository, repository.getDocuments],
       {
         path: "tasks",

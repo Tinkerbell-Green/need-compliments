@@ -45,11 +45,11 @@ const TestTasksPage: NextPage = () => {
   return (
     <LayoutNavigation>
       <S.ListTask>
-        {(getTasksByDaysData || []).map(item => (
-          <S.ListItemTask key={item.id}>
-            <S.IdTask>{item.id}</S.IdTask>
+        {(getTasksByDaysData?.tasks || []).map(item => (
+          <S.ListItemTask key={item._id}>
+            <S.IdTask>{item._id}</S.IdTask>
             <S.TitleTask>{item.title}</S.TitleTask>
-            <button onClick={()=>handleCreate(item.id)}>create compliment</button>
+            <button onClick={()=>handleCreate(item._id)}>create compliment</button>
             {createdComplimentId && <button onClick={()=>handleDelete()}>delete compliment</button> }
           </S.ListItemTask>
         ))}

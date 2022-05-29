@@ -2,10 +2,11 @@ import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React,{useMemo} from "react";
 import * as S from "./feedPersonal.styled";
+import {TaskData} from "api"
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon"
 import {TaskInput} from "components/moleculs/taskInput"
-import {TaskData,GoalData} from "stores/data";
+import {GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
 
 type FeedPersonalProps = {
@@ -51,10 +52,10 @@ export const FeedPersonal = ({
                 onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
               ></Chip>
               <ul>
-                {goalTasks[goal.id].map(({id,title})=>(
+                {goalTasks[goal.id].map(({_id,title})=>(
                   <TaskInput 
-                    key={id} 
-                    id={id} 
+                    key={_id} 
+                    id={_id} 
                     color={goal.color} 
                     title={title} 
                     onTaskDelete={onTaskDelete}

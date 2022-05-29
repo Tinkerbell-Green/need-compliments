@@ -18,15 +18,12 @@ export class TasksService {
       .map(entry => entry.map(encodeURIComponent).join("="))
       .join("&");
     
+    console.log("`/tasks?${params}`: ", `/tasks?${params}`); // TODO: remove
     return apiAxios.get<GetTasksData>(`/tasks?${params}`)
   }
 
   getTaskData(id: string) {
     return apiAxios.get<GetTaskData>(`/tasks/${id}`)
-  }
-
-  getTasksByUserId(userId: string) {
-    return apiAxios.get<GetTasksByUserData>(`/users/${userId}/tasks`)
   }
 
   updateTask(id: string, input: UpdateTaskInput) {
@@ -41,6 +38,7 @@ export class TasksService {
 export type TaskData = {
   _id: string
   author: string
+  compliments: ComplimentData[]
   createdAt: number
   doneAt: number
   goal: string
@@ -49,28 +47,32 @@ export type TaskData = {
   updatedAt: number
 }
 
-type CreateTaskInput = Omit<TaskData, "_id" | "createdAt" | "updatedAt">
-type CreateTaskData = TaskData
+export type CreateTaskInput = Omit<TaskData, "_id" | "createdAt" | "updatedAt" | "compliments">
+export type CreateTaskData = {
+  task: TaskData
+}
 
-type GetTasksInput = {
+export type GetTasksInput = {
   readPermission: TaskData["readPermission"]
   combined: boolean
   page?: number
+  start?: number
+  end?: number
+  userId?: string
 }
-type GetTasksData = {
-  tasks: TaskData & {
-    goalData?: GoalData
-    compliments?: ComplimentData[]
-  }[]
+export type GetTasksData = {
+  tasks: (
+    TaskData & {
+      goalData?: GoalData
+    }
+  )[]
 }
 
-type GetTasksByUserData = {
-  tasks: TaskData[]
+export type GetTaskData = TaskData
+
+export type UpdateTaskInput = Optional<Omit<TaskData, "_id" | "createdAt" | "updatedAt">>
+export type UpdateTaskData = {
+  task: TaskData
 }
-
-type GetTaskData = TaskData
-
-type UpdateTaskInput = Optional<Omit<TaskData, "_id" | "createdAt" | "updatedAt">>
-type UpdateTaskData = TaskData
 
 export const tasksService = new TasksService()
