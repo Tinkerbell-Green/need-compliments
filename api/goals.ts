@@ -7,12 +7,16 @@ export class GoalsService {
     return apiAxios.post<CreateGoalData>("/goals", input)
   }
 
-  getGoals(id: string) {
-    return apiAxios.get<GetGoalsData>(`/goals/${id}`)
+  getGoalsByIds(ids: string[]) {
+    return apiAxios.get<GetGoalsByIdsData>(`/goals/${ids.map(item=>encodeURIComponent(item)).join(",")}`)
   }
 
-  getGoalsByUserId(userId: string) {
-    return apiAxios.get<GetGoalsByUserData>(`/users/${userId}/goals`)
+  getGoals(input: GetGoalsInput) {
+    const params = Object.entries(input)
+      .map(entry => entry.map(encodeURIComponent).join("="))
+      .join("&");
+
+    return apiAxios.get<GetGoalsData>(`/goals?${params}`)
   }
 
   updateGoal(id: string, input: UpdateGoalInput) {
@@ -36,10 +40,13 @@ export type GoalData = {
   updatedAt: number
 }
 
-export type GetGoalsByUserData = {
+export type GetGoalsByIdsData = {
   goals: GoalData[]
 }
 
+export type GetGoalsInput = {
+  author?: string
+}
 export type GetGoalsData = {
   goals: GoalData[]
 }

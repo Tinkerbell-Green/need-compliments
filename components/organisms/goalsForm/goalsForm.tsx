@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import * as S from "./goalsForm.styled";
+import {GoalColor, GoalData} from "api";
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
 import {ListRadio, ListRadioProps} from "components/moleculs/listRadio";
-import {GoalColor, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {

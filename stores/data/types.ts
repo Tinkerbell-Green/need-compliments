@@ -1,5 +1,4 @@
 import {DataActionType} from "./actions"
-import {Theme} from "styles/theme"
 
 // export type TaskDocument = {
 //   title: string
@@ -15,18 +14,18 @@ import {Theme} from "styles/theme"
 //   compliments: ComplimentData[]
 // }
 
-export type GoalColor = keyof Theme["colors"]["goals"]
-export type GoalDocument = {
-  name: string
-  color: GoalColor
-  readPermission: "everyone" | "me" | "none"
-  author: string
-  createdAt: number
-  updatedAt: number
-}
-export type GoalData = GoalDocument & {
-  id: string
-}
+// export type GoalColor = keyof Theme["colors"]["goals"]
+// export type GoalDocument = {
+//   name: string
+//   color: GoalColor
+//   readPermission: "everyone" | "me" | "none"
+//   author: string
+//   createdAt: number
+//   updatedAt: number
+// }
+// export type GoalData = GoalDocument & {
+//   id: string
+// }
 
 // export type ComplimentDocument = {
 //   type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"

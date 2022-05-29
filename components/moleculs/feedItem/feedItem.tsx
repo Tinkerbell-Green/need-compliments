@@ -3,10 +3,10 @@ import React,{useCallback, useState,useMemo} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./feedItem.styled";
 import {TaskData} from "api"
-import {ComplimentData} from "api"
+import {ComplimentData, GoalData} from "api"
 import {Chip} from "components/atoms/chip";
 import {IconHeart} from "components/moleculs/iconHeartBeat";
-import {useDataSaga, DataActionType,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 import {RootState} from "stores/reducers"
 import {Dayjs} from "utils/dayjs"
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {GoalColor} from "stores/data/types";
+import {GoalColor} from "api";
 
 const MARGIN = 4;
 const ICON_SIZE = 18;

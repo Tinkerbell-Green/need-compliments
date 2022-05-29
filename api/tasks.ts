@@ -68,7 +68,9 @@ export type GetTasksData = {
   )[]
 }
 
-export type GetTaskData = TaskData
+export type GetTaskData = {
+  tasks: TaskData
+}
 
 export type UpdateTaskInput = Optional<Omit<TaskData, "_id" | "createdAt" | "updatedAt">>
 export type UpdateTaskData = {

@@ -1,23 +1,31 @@
 import Link from "next/link";
 import React, {useEffect, useMemo, useState} from "react";
+import {useSelector} from "react-redux";
 import * as S from "./goals.styled";
+import {GoalData} from "api"
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
-import {useDataSaga, DataActionType, GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
+import {RootState} from "stores/reducers";
 
 export const Goals = () => {
+  const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
+
   const {fetch: getGoalsFetch, data: getGoalsData} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-  // const [goals, setGoals] = useState<ReducedGoalData[]>([]);
 
   useEffect(() => {
-    getGoalsFetch({});
-  }, [getGoalsFetch]);
+    if (!loggedInUserId) return;
+
+    getGoalsFetch({
+      input: {
+        author: loggedInUserId
+      }
+    });
+  }, [getGoalsFetch, loggedInUserId]);
 
   const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
+    return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
   return (
@@ -28,9 +36,9 @@ export const Goals = () => {
 
       <S.FeedContents>
         {goals.map((goal) => (
-          <S.ChipContainer key={goal.id}>
+          <S.ChipContainer key={goal._id}>
             <Chip label={goal.name} color={goal.color}></Chip>
-            <Link href={{pathname: "/goals/form", query: {id: goal.id}}} passHref>
+            <Link href={{pathname: "/goals/form", query: {id: goal._id}}} passHref>
               <a>
                 <SubHeadingSpan>수정하기</SubHeadingSpan>
               </a>

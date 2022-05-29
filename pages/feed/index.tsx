@@ -3,14 +3,14 @@ import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
 import {UserData} from "api"
-import {TaskData} from "api"
+import {TaskData, GoalData, GoalColor} from "api"
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, DataSagaStatus,GoalData} from "stores/data";
-import {SnackbarType,GoalColor} from "stores/data/types";
+import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
+import {SnackbarType} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
@@ -128,9 +128,7 @@ const Feed: NextPage = () => {
   },[])
 
   const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
+    return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
   const tasksByDate = useMemo(()=>{
@@ -138,7 +136,7 @@ const Feed: NextPage = () => {
 
     tasks.forEach((taskItem)=>{
       goals.forEach((goal)=>{
-        if(taskItem.goal !== goal.id) return;
+        if(taskItem.goal !== goal._id) return;
 
         const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
   
@@ -154,8 +152,8 @@ const Feed: NextPage = () => {
     const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
 
     goals.forEach(goal=>{
-      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
+      newGoalTasksAtPickedDate[goal._id] = tasks.filter(taskItem => 
+        taskItem.goal === goal._id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
 
     return newGoalTasksAtPickedDate;
   },[goals,tasks,pickedDate])
@@ -174,8 +172,14 @@ const Feed: NextPage = () => {
   },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
+    if (!loggedInUserData?.user._id) return;
+
+    getGoalsFetch({
+      input: {
+        author: loggedInUserData?.user._id
+      }
+    })
+  },[getGoalsFetch, loggedInUserData?.user._id])
 
   useEffect(() => {
     setTasks(getTasksByDaysData?.tasks || []);

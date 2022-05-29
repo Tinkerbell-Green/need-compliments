@@ -2,11 +2,10 @@ import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React,{useMemo} from "react";
 import * as S from "./feedPersonal.styled";
-import {TaskData} from "api"
+import {TaskData, GoalData} from "api"
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon"
 import {TaskInput} from "components/moleculs/taskInput"
-import {GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
 
 type FeedPersonalProps = {
@@ -36,7 +35,7 @@ export const FeedPersonal = ({
       <S.FeedContents>
         {isAddable
           ? goals.map((goal) => (
-            <S.GoalAndInput key={goal.id}>
+            <S.GoalAndInput key={goal._id}>
               <Chip
                 label={goal.name}
                 color={goal.color}
@@ -44,15 +43,15 @@ export const FeedPersonal = ({
               ></Chip>
             </S.GoalAndInput>))
           : goals.map((goal) => (
-            <S.GoalAndInput key={goal.id}>
+            <S.GoalAndInput key={goal._id}>
               <Chip
                 label={goal.name}
                 color={goal.color}
                 icon={<Icon size={18}  color="gray" aria-label={"personal image"}><BookClose /></Icon>}
-                onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
+                onAdd={()=>onTaskCreate(goal._id, goal.readPermission)}
               ></Chip>
               <ul>
-                {goalTasks[goal.id].map(({_id,title})=>(
+                {goalTasks[goal._id].map(({_id,title})=>(
                   <TaskInput 
                     key={_id} 
                     id={_id} 

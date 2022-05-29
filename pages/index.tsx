@@ -2,13 +2,13 @@ import {chunk} from "lodash";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useMemo, useEffect} from "react";
-import {TaskData} from "api"
+import {GoalData} from "api"
 import {Seo} from "components/atoms/seo";
 import {Tabs} from "components/moleculs/tabs";
 import {FeedNotice} from "components/organisms/feedNotice";
 import {FeedPublic} from "components/organisms/feedPublic";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 
 const Home: NextPage = () => {
   const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)

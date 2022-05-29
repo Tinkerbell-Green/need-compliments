@@ -1,7 +1,7 @@
 import {PlusSm} from "@styled-icons/heroicons-outline";
 import React,{useState,useCallback} from "react";
 import * as S from "./chip.styled";
-import {GoalColor} from "stores/data/types";
+import {GoalColor} from "api";
 
 type ChipProps = {
   children?: React.ReactNode;

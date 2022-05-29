@@ -1,10 +1,10 @@
 import type {NextPage} from "next"
 import {useRouter} from "next/router";
 import React, {useEffect, useMemo} from "react"
-import {TaskData} from "api"
+import {TaskData, GoalData} from "api"
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {wrapper} from "stores";
-import {useDataSaga, DataActionType,GoalData, dataActionCreators, DataSagaStatus} from "stores/data";
+import {useDataSaga, DataActionType,dataActionCreators, DataSagaStatus} from "stores/data";
 import {waitDuringLoading} from "stores/data/ssr";
 import * as S from "styles/pages/test/feed-public.styled";
 
@@ -19,7 +19,7 @@ const TestSsrPage: NextPage = ({}) => {
     const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
 
     getPublicTasksData.tasks.forEach(task => {
-      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
+      const goal = getGoalsByIdsData.goals.find(goal => task.goal === goal._id);
       // Filter out tasks whose goal was already removed.
       if(goal) publicTasksAndGoals.push({task,goal});
     });
@@ -68,7 +68,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
 
   goalGroups.map(item => {
     store.dispatch(dataActionCreators[DataActionType.GET_GOALS_BY_IDS]({
-      author: undefined,
+      // author: undefined, // WIP:
       key: GET_GOALS_BY_IDS_KEY,
       ids: item,
     }))

@@ -2,11 +2,12 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
+import {GoalData, GoalColor} from "api"
 import {Seo} from "components/atoms/seo";
 import {GoalsForm} from "components/organisms/goalsForm";
 import * as S from "components/organisms/goalsForm/goalsForm.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType, GoalData, GoalColor} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 
 const GoalsFormPage: NextPage = () => {
   const {fetch: getGoalsFetch, data: goals} =
@@ -61,7 +62,7 @@ const GoalsFormPage: NextPage = () => {
     (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
       goal &&
         updateGoalFetch({
-          pathSegments: [goal.id],
+          pathSegments: [goal._id],
           data: {
             name: name,
             color,
@@ -119,7 +120,7 @@ const GoalsFormPage: NextPage = () => {
 
   const onDelete = useCallback(() => {
     router.push("/goals");
-    goal && onDeleteGoal(goal.id);
+    goal && onDeleteGoal(goal._id);
   }, [goal, onDeleteGoal, router]);
 
   return (

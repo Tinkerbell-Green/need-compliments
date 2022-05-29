@@ -1,6 +1,6 @@
-import {DataSagaStatus, GoalDocument} from "./types";
-import {CreateComplimentInput, CreateTaskInput, CreateUserInput, UpdateTaskInput, UpdateUserInput} from "api";
-import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
+import {GetGoalsInput} from "./../../api/goals";
+import {DataSagaStatus} from "./types";
+import {CreateComplimentInput, CreateGoalInput, CreateTaskInput, CreateUserInput, UpdateGoalInput, UpdateTaskInput, UpdateUserInput} from "api";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
@@ -126,21 +126,13 @@ export type DataActionPayload = {
   [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & { id: string, input: UpdateTaskInput }
   [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & { id: string }
   
-  [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
-    }
+  [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & { input: GetGoalsInput }
   [DataActionType.GET_GOALS_BY_IDS]: Omit<SagaDataActionDefaultPayload, "author"> & {
-    author: undefined,
     ids: string[],
   }
-  [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.UPDATE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<DeleteDocumentArguments, "path"> & {
-    }
+  [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & { input: CreateGoalInput }
+  [DataActionType.UPDATE_GOAL]: SagaDataActionDefaultPayload & { id: string, input: UpdateGoalInput }
+  [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & { id: string }
 
   [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & { input: CreateComplimentInput }
   [DataActionType.DELETE_COMPLIMENT]: SagaDataActionDefaultPayload & { id: string }

@@ -1,8 +1,8 @@
 import type {NextPage} from "next"
 import React, {useEffect, useMemo} from "react"
-import {TaskData} from "api"
+import {TaskData, GoalData} from "api"
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestFeedPublicPage: NextPage = () => {
@@ -20,7 +20,7 @@ const TestFeedPublicPage: NextPage = () => {
     const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
 
     getPublicTasksData.tasks.forEach(task => {
-      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
+      const goal = getGoalsByIdsData.goals.find(goal => task.goal === goal._id);
       // Filter out tasks whose goal was already removed.
       if(goal) publicTasksAndGoals.push({task,goal});
     });

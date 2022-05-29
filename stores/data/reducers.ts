@@ -1,7 +1,7 @@
 import {Action, handleActions} from "redux-actions";
 import {DataActionPayload, DataActionType} from "./actions";
-import {DataSagaState, GoalData} from "./types";
-import {tasksService, usersService, ComplimentData} from "api"
+import {DataSagaState} from "./types";
+import {tasksService, usersService, ComplimentData, goalsService} from "api"
 
 export type State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof usersService.getUser>>["data"] | null, payload:DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]}>,
@@ -14,10 +14,10 @@ export type State = {
   [DataActionType.UPDATE_TASK]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof tasksService.updateTask>>["data"] | null, payload:DataActionPayload[DataActionType.UPDATE_TASK]}>,
   [DataActionType.DELETE_TASK]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_TASK]}>,
   //
-  [DataActionType.GET_GOALS]: Record<string, DataSagaState & {data: GoalData[] | null, payload:DataActionPayload[DataActionType.GET_GOALS]}>,
-  [DataActionType.GET_GOALS_BY_IDS]: Record<string, DataSagaState & {data: GoalData[] | null, payload:DataActionPayload[DataActionType.GET_GOALS]}>,
-  [DataActionType.CREATE_GOAL]: Record<string, DataSagaState & {data: GoalData | null, payload:DataActionPayload[DataActionType.CREATE_GOAL]}>,
-  [DataActionType.UPDATE_GOAL]: Record<string, DataSagaState & {data: GoalData | null, payload:DataActionPayload[DataActionType.UPDATE_GOAL]}>,
+  [DataActionType.GET_GOALS]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof goalsService.getGoals>>["data"] | null, payload:DataActionPayload[DataActionType.GET_GOALS]}>,
+  [DataActionType.GET_GOALS_BY_IDS]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof goalsService.getGoals>>["data"] | null, payload:DataActionPayload[DataActionType.GET_GOALS]}>,
+  [DataActionType.CREATE_GOAL]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof goalsService.createGoal>>["data"] | null, payload:DataActionPayload[DataActionType.CREATE_GOAL]}>,
+  [DataActionType.UPDATE_GOAL]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof goalsService.updateGoal>>["data"] | null, payload:DataActionPayload[DataActionType.UPDATE_GOAL]}>,
   [DataActionType.DELETE_GOAL]: Record<string, DataSagaState & {data: null, payload:DataActionPayload[DataActionType.DELETE_GOAL]}>,
   //
   [DataActionType.CREATE_COMPLIMENT]: Record<string, DataSagaState & {data: ComplimentData | null, payload:DataActionPayload[DataActionType.CREATE_COMPLIMENT]}>,

@@ -2,8 +2,8 @@ import {PatchCheck} from "@styled-icons/bootstrap";
 import {MoreHorizontalOutline} from "@styled-icons/evaicons-outline";
 import React, {useCallback, useRef, useState} from "react";
 import * as S from "./taskInput.styled";
+import {GoalColor} from "api";
 import {ModalTaskAction} from "components/organisms/modalTaskAction";
-import {GoalColor} from "stores/data/types";
 
 type TaskInputProps = {
 	id: string;
