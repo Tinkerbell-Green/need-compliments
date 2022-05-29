@@ -31,11 +31,11 @@ export type ComplimentData = {
   updatedAt: number
 }
 
-type CreateComplimentInput = Omit<ComplimentData, "_id" | "createdAt" | "updatedAt">
-type CreateComplimentData = ComplimentData
+export type CreateComplimentInput = Omit<ComplimentData, "_id" | "createdAt" | "updatedAt">
+export type CreateComplimentData = ComplimentData
 
-type GetComplimentsByTaskIdData = Record<string, ComplimentData[]>
+export type GetComplimentsByTaskIdData = Record<string, ComplimentData[]>
 
-type GetComplimentsByTaskIdsData = Record<string, ComplimentData[]>
+export type GetComplimentsByTaskIdsData = Record<string, ComplimentData[]>
 
 export const complimentsService = new ComplimentsService()

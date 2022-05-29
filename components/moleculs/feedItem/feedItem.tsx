@@ -3,10 +3,10 @@ import React,{useCallback, useState,useMemo} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./feedItem.styled";
 import {TaskData} from "api"
+import {ComplimentData} from "api"
 import {Chip} from "components/atoms/chip";
 import {IconHeart} from "components/moleculs/iconHeartBeat";
 import {useDataSaga, DataActionType,GoalData} from "stores/data";
-import {ComplimentData} from "stores/data/types"
 import {RootState} from "stores/reducers"
 import {Dayjs} from "utils/dayjs"
 
@@ -40,7 +40,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     if(!complimented) return;
 
     deleteComplimentFetch({
-      pathSegments: [complimented._id]
+      id: complimented._id
     })
   },[deleteComplimentFetch,complimented])
 
@@ -57,13 +57,17 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
 
     setIsClicked(true)
     setClickedEmoji(emoji);
+
+    if (!loggedInUserId) return;
+
     createComplimentFetch({
-      data: {
+      input: {
+        author: loggedInUserId,
         task: task._id,
         type: emoji,
       }
     })
-  },[createComplimentFetch,handleDelete,task._id,status,complimented])  
+  },[status, complimented, loggedInUserId, createComplimentFetch, task._id, handleDelete])  
 
   return (<>
     <li>

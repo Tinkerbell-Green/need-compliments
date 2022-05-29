@@ -28,16 +28,16 @@ export type GoalData = GoalDocument & {
   id: string
 }
 
-export type ComplimentDocument = {
-  type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"
-  task: string
-  author: string
-  createdAt: number
-  updatedAt: number
-}
-export type ComplimentData = ComplimentDocument & {
-  id: string
-}
+// export type ComplimentDocument = {
+//   type: "party-popper" | "thumbs-up" | "clapping-hands" | "red-heart"
+//   task: string
+//   author: string
+//   createdAt: number
+//   updatedAt: number
+// }
+// export type ComplimentData = ComplimentDocument & {
+//   id: string
+// }
 
 // export type UserDocument = {
 //   email: string

@@ -1,6 +1,6 @@
 import React from "react";
 import * as S from "./feedPublic.styled";
-import {GetTasksData, TaskData} from "api"
+import {GetTasksData} from "api"
 import {FeedItem} from "components/moleculs/feedItem"
 
 type FeedPublicProps = {
