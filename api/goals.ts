@@ -1,33 +1,26 @@
-import {AxiosInstance} from "axios";
 import {Optional} from "utility-types";
 import {apiAxios} from "./axios"
 import {Theme} from "styles/theme";
 
 export class GoalsService {
-  axiosInstance: AxiosInstance
-
-  constructor(axiosInstance: AxiosInstance) {
-    this.axiosInstance = axiosInstance
-  }
-
   createGoal(input: CreateGoalInput) {
-    return this.axiosInstance.post<CreateGoalData>("/goals", input)
+    return apiAxios.post<CreateGoalData>("/goals", input)
   }
 
   getGoals(id: string) {
-    return this.axiosInstance.get<GetGoalsData>(`/goals/${id}`)
+    return apiAxios.get<GetGoalsData>(`/goals/${id}`)
   }
 
   getGoalsByUserId(userId: string) {
-    return this.axiosInstance.get<GetGoalsByUserData>(`/users/${userId}/goals`)
+    return apiAxios.get<GetGoalsByUserData>(`/users/${userId}/goals`)
   }
 
   updateGoal(id: string, input: UpdateGoalInput) {
-    return this.axiosInstance.patch<UpdateGoalData>(`/goals/${id}`, input)
+    return apiAxios.patch<UpdateGoalData>(`/goals/${id}`, input)
   }
 
   deleteGoal(id: string) {
-    return this.axiosInstance.delete(`/goals/${id}`)
+    return apiAxios.delete(`/goals/${id}`)
   }
 }
 
@@ -57,10 +50,4 @@ type CreateGoalData = GoalData
 type UpdateGoalInput = Optional<Omit<GoalData, "_id" | "createdAt" | "updatedAt">>
 type UpdateGoalData = GoalData
 
-export const {
-  getGoalsByUserId,
-  getGoals,
-  createGoal,
-  deleteGoal,
-  updateGoal,
-} = new GoalsService(apiAxios)
+export const goalsService = new GoalsService()

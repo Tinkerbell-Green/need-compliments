@@ -1,29 +1,22 @@
-import {AxiosInstance} from "axios";
 import {apiAxios} from "./axios"
 
 export class ComplimentsService {
-  axiosInstance: AxiosInstance
-
-  constructor(axiosInstance: AxiosInstance) {
-    this.axiosInstance = axiosInstance
-  }
-
   createCompliment(input: CreateComplimentInput) {
-    return this.axiosInstance.post<CreateComplimentData>("/compliments", input)
+    return apiAxios.post<CreateComplimentData>("/compliments", input)
   }
 
   getComplimentsByTaskId(taskId: string) {
-    return this.axiosInstance.get<GetComplimentsByTaskIdData>(`/tasks/${taskId}/compliments`)
+    return apiAxios.get<GetComplimentsByTaskIdData>(`/tasks/${taskId}/compliments`)
   }
 
   getComplimentsByTaskIds(taskIds: string[]) {
     const joinedTaskIds = taskIds.map(item => encodeURIComponent(item)).join(",") 
 
-    return this.axiosInstance.get<GetComplimentsByTaskIdsData>(`/tasks/${joinedTaskIds}/compliments`)
+    return apiAxios.get<GetComplimentsByTaskIdsData>(`/tasks/${joinedTaskIds}/compliments`)
   }
 
   deleteCompliment(id: string) {
-    return this.axiosInstance.delete(`/compliments/${id}`)
+    return apiAxios.delete(`/compliments/${id}`)
   }
 }
 
@@ -45,9 +38,4 @@ type GetComplimentsByTaskIdData = Record<string, ComplimentData[]>
 
 type GetComplimentsByTaskIdsData = Record<string, ComplimentData[]>
 
-export const {
-  createCompliment,
-  getComplimentsByTaskId,
-  getComplimentsByTaskIds,
-  deleteCompliment,
-} = new ComplimentsService(apiAxios)
+export const complimentsService = new ComplimentsService()

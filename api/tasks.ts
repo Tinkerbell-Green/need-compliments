@@ -1,18 +1,11 @@
-import {AxiosInstance} from "axios";
 import {Optional} from "utility-types";
 import {apiAxios} from "./axios"
 import {ComplimentData} from "./compliments";
 import {GoalData} from "./goals";
 
 export class TasksService {
-  axiosInstance: AxiosInstance
-
-  constructor(axiosInstance: AxiosInstance) {
-    this.axiosInstance = axiosInstance
-  }
-
   createTask(input: CreateTaskInput) {
-    return this.axiosInstance.post<CreateTaskData>("/tasks", input)
+    return apiAxios.post<CreateTaskData>("/tasks", input)
   }
 
   getTasks(input: GetTasksInput) {
@@ -25,23 +18,23 @@ export class TasksService {
       .map(entry => entry.map(encodeURIComponent).join("="))
       .join("&");
     
-    return this.axiosInstance.get<GetTasksData>(`/tasks?${params}`)
+    return apiAxios.get<GetTasksData>(`/tasks?${params}`)
   }
 
   getTaskData(id: string) {
-    return this.axiosInstance.get<GetTaskData>(`/tasks/${id}`)
+    return apiAxios.get<GetTaskData>(`/tasks/${id}`)
   }
 
   getTasksByUserId(userId: string) {
-    return this.axiosInstance.get<GetTasksByUserData>(`/users/${userId}/tasks`)
+    return apiAxios.get<GetTasksByUserData>(`/users/${userId}/tasks`)
   }
 
   updateTask(id: string, input: UpdateTaskInput) {
-    return this.axiosInstance.patch<UpdateTaskData>(`/tasks/${id}`, input)
+    return apiAxios.patch<UpdateTaskData>(`/tasks/${id}`, input)
   }
 
   deleteTask(id: string) {
-    return this.axiosInstance.delete(`/tasks/${id}`)
+    return apiAxios.delete(`/tasks/${id}`)
   }
 }
 
@@ -80,10 +73,4 @@ type GetTaskData = TaskData
 type UpdateTaskInput = Optional<Omit<TaskData, "_id" | "createdAt" | "updatedAt">>
 type UpdateTaskData = TaskData
 
-export const {
-  getTasksByUserId,
-  getTasks,
-  createTask,
-  deleteTask,
-  updateTask,
-} = new TasksService(apiAxios)
+export const tasksService = new TasksService()
