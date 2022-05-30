@@ -1,11 +1,13 @@
 import type {NextPage} from "next"
 import React, {useCallback, useEffect} from "react"
+import {useSelector} from "react-redux";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType} from "stores/data";
+import {RootState} from "stores/reducers";
 import * as S from "styles/pages/test/goals.styled";
 
 const TestGoalsPage: NextPage = () => {
-  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
+  const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
   const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS)
 
   const onSucceed = useCallback(()=>{
@@ -17,23 +19,26 @@ const TestGoalsPage: NextPage = () => {
   const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
 
   useEffect(()=>{
-    getGoalsFetch({})
+    getGoalsFetch({input:{}})
   },[getGoalsFetch])
 
   const handleCreate = useCallback(()=>{
+    if (!loggedInUserId) return;
+
     createGoalFetch({
-      data: {
+      input: {
+        author: loggedInUserId,
         name: "new goal",
         color: "white",
         readPermission: "everyone"
       }
     })
-  },[createGoalFetch])
+  },[createGoalFetch, loggedInUserId])
 
   const handleUpdate = useCallback((id: string)=>{
     updateGoalFetch({
-      pathSegments: [id],
-      data: {
+      id,
+      input: {
         name: "updated goal",
         color:"yellow",
         readPermission: "everyone"
@@ -43,7 +48,7 @@ const TestGoalsPage: NextPage = () => {
 
   const handleDelete = useCallback((id: string)=>{
     deleteGoalFetch({
-      pathSegments: [id]
+      id,
     })
   },[deleteGoalFetch])
 
@@ -52,12 +57,12 @@ const TestGoalsPage: NextPage = () => {
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListGoal>
-        {(getGoalsData || []).map(item => (
-          <S.ListItemGoal key={item.id}>
-            <S.IdGoal>{item.id}</S.IdGoal>
+        {(getGoalsData?.goals || []).map(item => (
+          <S.ListItemGoal key={item._id}>
+            <S.IdGoal>{item._id}</S.IdGoal>
             <S.NameGoal>{item.name}</S.NameGoal>
-            <button onClick={()=>handleDelete(item.id)}>삭제</button>
-            <button onClick={()=>handleUpdate(item.id)}>업데이트</button>
+            <button onClick={()=>handleDelete(item._id)}>삭제</button>
+            <button onClick={()=>handleUpdate(item._id)}>업데이트</button>
           </S.ListItemGoal>
         ))}
       </S.ListGoal>

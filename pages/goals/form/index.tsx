@@ -2,14 +2,17 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
+import {useSelector} from "react-redux";
 import {GoalData, GoalColor} from "api"
 import {Seo} from "components/atoms/seo";
 import {GoalsForm} from "components/organisms/goalsForm";
 import * as S from "components/organisms/goalsForm/goalsForm.styled";
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {useDataSaga, DataActionType} from "stores/data";
+import {RootState} from "stores/reducers";
 
 const GoalsFormPage: NextPage = () => {
+  const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
   const {fetch: getGoalsFetch, data: goals} =
     useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
   const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
@@ -41,29 +44,32 @@ const GoalsFormPage: NextPage = () => {
   };
 
   useEffect(() => {
-    getGoalsFetch({});
+    getGoalsFetch({input:{}});
   }, [getGoalsFetch]);
 
 
   const onCreateGoal = useCallback(
     (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
+      if (!loggedInUserId) return;
+      
       createGoalFetch({
-        data: {
+        input: {
+          author: loggedInUserId,
           name,
           color,
           readPermission
         },
       });
     },
-    [createGoalFetch]
+    [createGoalFetch, loggedInUserId]
   );
 
   const onUpdateGoal = useCallback(
     (name: string, color: GoalColor, readPermission: GoalData["readPermission"]) => {
       goal &&
         updateGoalFetch({
-          pathSegments: [goal._id],
-          data: {
+          id: goal._id,
+          input: {
             name: name,
             color,
             readPermission
@@ -76,7 +82,7 @@ const GoalsFormPage: NextPage = () => {
   const onDeleteGoal = useCallback(
     (id: string) => {
       deleteGoalFetch({
-        pathSegments: [id],
+        id,
       });
     },
     [deleteGoalFetch]
@@ -91,7 +97,7 @@ const GoalsFormPage: NextPage = () => {
   }, [goal, onUpdateGoal, goalName, goalColor, goalPrivacy, onCreateGoal]);
 
   useEffect(() => {
-    goals && setGoal(goals.filter((goal) => goal.id === router.query.id)[0]);
+    goals && setGoal((goals.goals || []).filter((goal) => goal._id === router.query.id)[0]);
 
     if (goal) {
       setGoalName(goal?.name);

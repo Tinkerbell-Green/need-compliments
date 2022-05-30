@@ -28,9 +28,7 @@ export const SidebarSetting = ({
   },[loggedInUserData])
   
   const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
+    return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
   const handleFriendClick = useCallback(()=>{
@@ -38,7 +36,9 @@ export const SidebarSetting = ({
   },[]);
 
   useEffect(()=>{
-    getGoalsFetch({})
+    getGoalsFetch({
+      input: {}
+    })
   },[getGoalsFetch])
 
   return (
@@ -66,7 +66,7 @@ export const SidebarSetting = ({
         <S.GoalsContents>
           {goals.map((value)=>(
             <Chip 
-              key={value.id}
+              key={value._id}
               label={value.name}
               color={value.color}>
             </Chip>

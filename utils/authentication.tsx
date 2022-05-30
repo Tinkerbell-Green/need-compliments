@@ -18,18 +18,18 @@ export const AuthenticationProvider = ({
 }: AuthenticationProviderProps) => {
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
-  const {fetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
+  const {fetch, data} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
 
   const sessionUserId = getSessionUserId(session)
 
   useEffect(()=>{
-    if (status === "authenticated" && sessionUserId){
+    if (status === "authenticated" && data?.user._id){
       dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
         key: "loggedInUserId",
-        userId: sessionUserId
+        userId: data?.user._id
       }))
     }
-  }, [dispatch, sessionUserId, status])
+  }, [data?.user._id, dispatch, status])
   
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){

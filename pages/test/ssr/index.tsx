@@ -1,10 +1,10 @@
 import type {NextPage} from "next"
 import {useRouter} from "next/router";
-import React, {useEffect, useMemo} from "react"
+import React, {useMemo} from "react"
 import {TaskData, GoalData} from "api"
 import {LayoutNavigation} from "components/templates/layout-navigation";
 import {wrapper} from "stores";
-import {useDataSaga, DataActionType,dataActionCreators, DataSagaStatus} from "stores/data";
+import {useDataSaga, DataActionType,dataActionCreators} from "stores/data";
 import {waitDuringLoading} from "stores/data/ssr";
 import * as S from "styles/pages/test/feed-public.styled";
 
@@ -76,7 +76,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
 
   await waitDuringLoading(store, {actionType: DataActionType.GET_GOALS_BY_IDS, key: GET_GOALS_BY_IDS_KEY})
 
-  const fetchedGoals = store.getState().data[DataActionType.GET_GOALS_BY_IDS][GET_GOALS_BY_IDS_KEY].data?.length
+  const fetchedGoals = store.getState().data[DataActionType.GET_GOALS_BY_IDS][GET_GOALS_BY_IDS_KEY].data?.goals.length
 
   return ({
     props: {}
