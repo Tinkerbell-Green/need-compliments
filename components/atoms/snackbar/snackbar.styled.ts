@@ -15,7 +15,7 @@ align-items: center;
 padding: 15px 10px;
 transition: all 0.3s ease-out;
 width:fit-content;
-visibility: ${props=>props.isVisible ? "visible" : "hidden"};
+/* visibility: ${props=>props.isVisible ? "visible" : "hidden"}; */
 transform: ${props=>props.isVisible ? "translate(-50%, 0%);" : "translate(-50%, -300%);"};
 :focus-visible{
   outline: none;

@@ -238,7 +238,7 @@ const Feed: NextPage = () => {
       <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
       <Snackbar 
         {...snackbarProps}
-        onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
+        onCloseClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <S.Visible>
         <Calendar
           pickedDate={pickedDate}

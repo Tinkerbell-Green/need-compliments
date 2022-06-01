@@ -10,9 +10,9 @@ type SnackbarProps = {
   children?: React.ReactNode,
   visible:boolean,
   type?: SnackbarType,
-  message: string,
+  message?: string,
   duration?:number,
-  onClose: ()=>void,
+  onCloseClose: ()=>void,
 }
 
 type Property = {
@@ -43,17 +43,15 @@ export const Snackbar = ({
   children,
   type="information",
   visible,
-  message,
+  message="This is a snackbar!",
   duration=3000,
-  onClose,
+  onCloseClose,
 }:SnackbarProps)=>{
   const dialogRef = useRef<HTMLButtonElement>(null);
   useEffect(()=>{
     if(visible) dialogRef?.current?.focus();
     else dialogRef?.current?.blur();
-    
-    visible && setTimeout(onClose,duration);
-  },[duration,visible,onClose])
+  },[duration,visible,onCloseClose])
 
   return (
     <S.Container 
@@ -67,7 +65,7 @@ export const Snackbar = ({
         {TYPE_MAP[type].icon}
       </S.Icon>
       <S.Label>{message}</S.Label>
-      <S.Button onClick={onClose}>
+      <S.Button onClick={onCloseClose}>
         <CloseOutline></CloseOutline>
       </S.Button>
       {children}
