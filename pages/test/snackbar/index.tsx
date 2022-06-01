@@ -1,25 +1,11 @@
 import {NextPage} from "next";
 import {useCallback} from "react";
-import {Snackbar} from "components/atoms/snackbar";
-import {SnackbarType} from "stores/data/types";
-import {useSnackbar} from "utils/snackbarHook";
-
-type SnackbarProps = {
-  visible: boolean,
-  message?: string,
-  type?: SnackbarType
-  duration?:number,
-}
+import {Snackbar,SnackbarProps} from "components/atoms/snackbar";
+import {SnackbarAnimation} from "components/moleculs/snackbarAnimation";
+import {useSnackbar} from "utils/snackbarify/snackbarHook";
 
 const SnackbarTestPage: NextPage = ()=>{
-  const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar(false);
-
-  // const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
-  //   visible: false,
-  //   message: "",
-  //   type: "information",
-  //   duration:1000,
-  // });
+  const {isSnackbarVisible, setIsSnackbarVisible, snackbarDuration} = useSnackbar();
 
   const onSnackbarShowClick = useCallback(()=>{
     setIsSnackbarVisible(true);
@@ -29,15 +15,20 @@ const SnackbarTestPage: NextPage = ()=>{
     setIsSnackbarVisible(false)
   },[setIsSnackbarVisible])
 
+  const snackbarProps:SnackbarProps = {
+    message: "This is snackbar!",
+    type: "information",
+    duration: snackbarDuration,
+    onCloseClick: onSnackbarHideClick
+  }
 
   return (
     <div style={{margin: "auto"}}>
       <button style={{padding: "50px"}} onClick={onSnackbarShowClick}>SHOW SNACKBAR</button>
       <button style={{padding: "50px"}} onClick={onSnackbarHideClick}>HIDE SNACKBAR</button>
-      <Snackbar
-        key={Math.random()}
+      <SnackbarAnimation
         visible={isSnackbarVisible}
-        onCloseClose={onSnackbarHideClick}></Snackbar>
+        Snackbar={()=><Snackbar {...snackbarProps}></Snackbar>}></SnackbarAnimation>
     </div>
   );
 }

@@ -3,23 +3,16 @@ import styled,{keyframes, css} from "styled-components";
 const ICON_NOTMAL_SIZE = 22;
 const ICON_SAMLL_SIZE = 16;
 
-export const Container = styled.button<{color:string,isVisible:boolean}>`
-z-index:10;
-position: fixed;
-top: 8%;
-left: 50%;
+export const Container = styled.button<{color:string}>`
 display: flex;
 background-color: ${props => props.color};
 border-radius: 4px;
 align-items: center;
 padding: 15px 10px;
-transition: all 0.3s ease-out;
 width:fit-content;
-/* visibility: ${props=>props.isVisible ? "visible" : "hidden"}; */
-transform: ${props=>props.isVisible ? "translate(-50%, 0%);" : "translate(-50%, -300%);"};
 :focus-visible{
   outline: none;
-  }
+}
 `;
 
 export const Icon = styled.div`
@@ -77,13 +70,13 @@ height: 3px;
 overflow: hidden;
 `;
 
-export const Bar = styled.div<{visible:boolean, duration:number}>`
+export const Bar = styled.div<{duration:number}>`
 width:100%;
 height: 100%;
 border-top-left-radius: 4px;
 border-top-right-radius: 4px;
 background-color: ${props => props.theme.colors["gray-100"]};
-${props => props.visible && progressStyled}
+${progressStyled};
 animation-duration: ${props => props.duration}ms;
 `;
 

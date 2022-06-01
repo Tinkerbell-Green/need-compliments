@@ -6,13 +6,12 @@ import {ReactNode, useEffect,useRef} from "react";
 import * as S from "./snackbar.styled";
 import {SnackbarType} from "stores/data/types";
 
-type SnackbarProps = {
+export type SnackbarProps = {
   children?: React.ReactNode,
-  visible:boolean,
-  type?: SnackbarType,
-  message?: string,
-  duration?:number,
-  onCloseClose: ()=>void,
+  type: SnackbarType,
+  message: string,
+  duration:number,
+  onCloseClick: ()=>void,
 }
 
 type Property = {
@@ -42,35 +41,33 @@ const TYPE_MAP:Record<SnackbarType,Property> = {
 export const Snackbar = ({
   children,
   type="information",
-  visible,
-  message="This is a snackbar!",
-  duration=3000,
-  onCloseClose,
+  message="",
+  duration,
+  onCloseClick,
 }:SnackbarProps)=>{
   const dialogRef = useRef<HTMLButtonElement>(null);
+
   useEffect(()=>{
-    if(visible) dialogRef?.current?.focus();
-    else dialogRef?.current?.blur();
-  },[duration,visible,onCloseClose])
+    dialogRef?.current?.focus();
+  },[])
 
   return (
     <S.Container 
       role="dialog"
       ref={dialogRef}
       tabIndex={-1}
-      isVisible={visible}
       color={TYPE_MAP[type].color}
       aria-label={message}>
       <S.Icon>
         {TYPE_MAP[type].icon}
       </S.Icon>
       <S.Label>{message}</S.Label>
-      <S.Button onClick={onCloseClose}>
+      <S.Button onClick={onCloseClick}>
         <CloseOutline></CloseOutline>
       </S.Button>
       {children}
       <S.Progess>
-        <S.Bar visible={visible} duration={duration}></S.Bar>
+        <S.Bar duration={duration}></S.Bar>
       </S.Progess>
     </S.Container>
     
