@@ -8,11 +8,11 @@ const SnackbarTestPage: NextPage = ()=>{
   const {isSnackbarVisible, setIsSnackbarVisible, snackbarDuration} = useSnackbar();
 
   const onSnackbarShowClick = useCallback(()=>{
-    setIsSnackbarVisible(true);
+    setIsSnackbarVisible({visible:true});
   },[setIsSnackbarVisible])
 
   const onSnackbarHideClick = useCallback(()=>{
-    setIsSnackbarVisible(false)
+    setIsSnackbarVisible({visible:false})
   },[setIsSnackbarVisible])
 
   const snackbarProps:SnackbarProps = {
@@ -24,8 +24,8 @@ const SnackbarTestPage: NextPage = ()=>{
 
   return (
     <div style={{margin: "auto"}}>
-      <button style={{padding: "50px"}} onClick={onSnackbarShowClick}>SHOW SNACKBAR</button>
-      <button style={{padding: "50px"}} onClick={onSnackbarHideClick}>HIDE SNACKBAR</button>
+      <button style={{margin: "150px 20px"}} onClick={onSnackbarShowClick}>SHOW SNACKBAR</button>
+      <button style={{margin: "150px 20px"}} onClick={onSnackbarHideClick}>HIDE SNACKBAR</button>
       <SnackbarAnimation
         visible={isSnackbarVisible}
         Snackbar={()=><Snackbar {...snackbarProps}></Snackbar>}></SnackbarAnimation>
