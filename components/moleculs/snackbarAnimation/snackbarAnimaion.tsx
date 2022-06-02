@@ -17,11 +17,12 @@ export const SnackbarAnimation = ({visible,Snackbar}:SnackbarAnimationProps)=>{
     if(timer.current){
       clearTimeout(timer.current);
     }
-
-    timer.current = setTimeout(()=>{
-      console.log(snackbarDuration,"end timer!")
-      setIsSnackbarVisible({visible:false})
-    },snackbarDuration);
+    
+    timer.current = visible.visible 
+      ? setTimeout(()=>{
+        setIsSnackbarVisible({visible:false})
+      },snackbarDuration) 
+      : undefined;
   },[snackbarDuration,setIsSnackbarVisible,visible])
   
   return (

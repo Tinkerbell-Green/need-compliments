@@ -23,13 +23,13 @@ const SnackbarTestPage: NextPage = ()=>{
   }
 
   return (
-    <div style={{margin: "auto"}}>
-      <button style={{margin: "150px 20px"}} onClick={onSnackbarShowClick}>SHOW SNACKBAR</button>
-      <button style={{margin: "150px 20px"}} onClick={onSnackbarHideClick}>HIDE SNACKBAR</button>
+    <>
       <SnackbarAnimation
         visible={isSnackbarVisible}
-        Snackbar={()=><Snackbar {...snackbarProps}></Snackbar>}></SnackbarAnimation>
-    </div>
+        Snackbar={()=><Snackbar {...snackbarProps}></Snackbar>}></SnackbarAnimation>  
+      <button style={{margin: "150px 20px"}} onClick={onSnackbarShowClick}>SHOW SNACKBAR</button>
+      <button style={{margin: "150px 20px"}} onClick={onSnackbarHideClick}>HIDE SNACKBAR</button>
+    </>
   );
 }
 

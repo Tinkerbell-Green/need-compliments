@@ -10,7 +10,7 @@ export type SnackbarProps = {
   children?: React.ReactNode,
   type: SnackbarType,
   message: string,
-  duration:number,
+  duration?:number,
   onCloseClick: ()=>void,
 }
 
@@ -66,9 +66,9 @@ export const Snackbar = ({
         <CloseOutline></CloseOutline>
       </S.Button>
       {children}
-      <S.Progess>
+      {duration && <S.Progess>
         <S.Bar duration={duration}></S.Bar>
-      </S.Progess>
+      </S.Progess>}
     </S.Container>
     
   )

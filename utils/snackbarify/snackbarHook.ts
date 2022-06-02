@@ -1,4 +1,4 @@
-import {useState,useEffect,useRef} from "react";
+import {useState} from "react";
 
 export const useSnackbar = (duration?:number)=>{
   const [isSnackbarVisible,setIsSnackbarVisible] = useState({visible:false});
