@@ -2,7 +2,7 @@ import {PatchCheckFill} from "@styled-icons/bootstrap";
 import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {InfoOutline} from "@styled-icons/evaicons-outline";
 import {Warning} from "@styled-icons/fluentui-system-filled"
-import {ReactNode, useEffect,useRef} from "react";
+import {ReactNode} from "react";
 import * as S from "./snackbar.styled";
 import {SnackbarType} from "stores/data/types";
 
@@ -11,7 +11,7 @@ export type SnackbarProps = {
   type: SnackbarType,
   message: string,
   duration?:number,
-  onCloseClick: ()=>void,
+  onCloseClick?: ()=>void,
 }
 
 type Property = {
@@ -45,31 +45,24 @@ export const Snackbar = ({
   duration,
   onCloseClick,
 }:SnackbarProps)=>{
-  const dialogRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(()=>{
-    dialogRef?.current?.focus();
-  },[])
 
   return (
-    <S.Container 
-      role="dialog"
-      ref={dialogRef}
-      tabIndex={-1}
-      color={TYPE_MAP[type].color}
-      aria-label={message}>
-      <S.Icon>
-        {TYPE_MAP[type].icon}
-      </S.Icon>
-      <S.Label>{message}</S.Label>
-      <S.Button onClick={onCloseClick}>
+    <S.Container
+      role="alert"
+      color={TYPE_MAP[type].color}>
+      <div>
+        <S.Icon>
+          {TYPE_MAP[type].icon}
+        </S.Icon>
+        <S.Label>{message}</S.Label>
+      </div>
+      {onCloseClick && <S.CloseButton onClick={onCloseClick}>
         <CloseOutline></CloseOutline>
-      </S.Button>
+      </S.CloseButton>}
       {children}
       {duration && <S.Progess>
         <S.Bar duration={duration}></S.Bar>
       </S.Progess>}
     </S.Container>
-    
   )
 }
