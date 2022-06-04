@@ -40,13 +40,15 @@ export const Snackbarify = ({
       : undefined;
   },[snackbarDuration,setIsSnackbarVisible,visible])
   
-  return <SnackbarifyPortal selector="#root-snackbarify">
-    <S.Snackbarify
-      isVisible={isSnackbarVisible.value}
-      transitionDuration={transitionDuration.current}>
-      {isSnackbarMount && <Snackbar
-        key={Math.random()}
-        aria-label={"snackbar"}></Snackbar>}
-    </S.Snackbarify>
-  </SnackbarifyPortal>
+  return (
+    <SnackbarifyPortal>
+      <S.Snackbarify
+        isVisible={isSnackbarVisible.value}
+        transitionDuration={transitionDuration.current}>
+        {isSnackbarMount && <Snackbar
+          key={Math.random()}
+          aria-label={"snackbar"}></Snackbar>}
+      </S.Snackbarify>
+    </SnackbarifyPortal>
+  )
 }
