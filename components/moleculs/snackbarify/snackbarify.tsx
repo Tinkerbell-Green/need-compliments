@@ -1,5 +1,6 @@
 import {useEffect, useRef,useState} from "react";
 import * as S from "./snackbarify.styled";
+import SnackbarifyPortal from "utils/portal";
 import {useSnackbar,useSnackbarDuration,visibleState} from "utils/snackbarify";
 
 export type SnackbarifyProps = {
@@ -12,11 +13,11 @@ export const Snackbarify = ({
   Snackbar
 }:SnackbarifyProps)=>{
   const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
-  const [snackbarDuration, setSnackbarDuration] = useSnackbarDuration();
+  const [snackbarDuration] = useSnackbarDuration();
+  const [isSnackbarMount, setIsSnackbarMount] = useState(false);
 
   const timer = useRef<NodeJS.Timeout>();
   const transitionDuration = useRef<number>(400);
-  const [isSnackbarMount, setIsSnackbarMount] = useState(false);
 
   useEffect(()=>{
     if(isSnackbarVisible.value){
@@ -39,14 +40,13 @@ export const Snackbarify = ({
       : undefined;
   },[snackbarDuration,setIsSnackbarVisible,visible])
   
-  return (
+  return <SnackbarifyPortal selector="#root-snackbarify">
     <S.Snackbarify
       isVisible={isSnackbarVisible.value}
       transitionDuration={transitionDuration.current}>
       {isSnackbarMount && <Snackbar
         key={Math.random()}
-        aria-label={"snackbar"}
-        tabIndex={isSnackbarMount ? 0 : -1}></Snackbar>}
+        aria-label={"snackbar"}></Snackbar>}
     </S.Snackbarify>
-  )
+  </SnackbarifyPortal>
 }
