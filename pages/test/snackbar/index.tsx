@@ -10,25 +10,25 @@ const SnackbarTestPage: NextPage = () => {
     <Snackbar
       message="Snackbarify 🍫"
       duration={4000}
-      onCloseClick={onSnackbarHideClick}
+      onCloseClick={handleSnackbarHideClick}
     />
   )
 
-  const onSnackbarShowClick = useCallback(() => {
+  const handleSnackbarShowClick = useCallback(() => {
     setIsSnackbarVisible({value: true});
   }, [setIsSnackbarVisible]);
 
-  const onSnackbarHideClick = useCallback(() => {
+  const handleSnackbarHideClick = useCallback(() => {
     setIsSnackbarVisible({value: false});
   }, [setIsSnackbarVisible]);
 
   return (
     <div>
       {snackbar()}
-      <button style={{margin: "150px 20px"}} onClick={onSnackbarShowClick}>
+      <button style={{margin: "150px 20px"}} onClick={handleSnackbarShowClick}>
 				SHOW SNACKBAR
       </button>
-      <button style={{margin: "150px 20px"}} onClick={onSnackbarHideClick}>
+      <button style={{margin: "150px 20px"}} onClick={handleSnackbarHideClick}>
 				HIDE SNACKBAR
       </button>
       <SnackbarifyContainer

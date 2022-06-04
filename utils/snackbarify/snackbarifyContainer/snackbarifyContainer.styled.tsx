@@ -5,7 +5,7 @@ z-index:10;
 position: fixed;
 top: 5%;
 left: 50%;
-transition: all ${props=>props.transitionDuration}ms ease-out;
+transition: all ${props=>props.transitionDuration}ms ease-in-out;
 ${props => props.isVisible 
     ? css`
     opacity: 1;

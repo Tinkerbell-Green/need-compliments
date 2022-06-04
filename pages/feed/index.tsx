@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
 import {Seo} from "components/atoms/seo";
-import {Snackbar} from "components/atoms/snackbar";
+import {Snackbar,SnackbarProps} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
 import {LayoutMain} from "components/templates/layout-main"
@@ -12,6 +12,8 @@ import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
+import {useSnackbar} from "utils/snackbarify/snackbarHooks";
+import {SnackbarifyContainer} from "utils/snackbarify/snackbarifyContainer";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -20,13 +22,6 @@ export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 
 export type ExpandedTaskData = TaskData & {
   color?: GoalColor
-}
-
-type SnackbarProps = {
-  visible: boolean,
-  message: string,
-  type: SnackbarType
-  duration?:number,
 }
 
 const LOGIN_ERROR = "일시적인 오류로 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요."
@@ -69,14 +64,18 @@ const Feed: NextPage = () => {
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
-  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
-    visible: false,
-    message: "",
-    type: "information",
-    duration:1000,
-  });
+  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({message:""});
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
+  const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
+
+  const handleSnackbarShowClick = useCallback(() => {
+    setIsSnackbarVisible({value: true});
+  }, [setIsSnackbarVisible]);
+
+  const handleSnackbarHideClick = useCallback(() => {
+    setIsSnackbarVisible({value: false});
+  }, [setIsSnackbarVisible]);
 
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
@@ -110,15 +109,6 @@ const Feed: NextPage = () => {
         title,
       }});
   },[updateTaskFetch])
-
-  const handleSnackbarShow = useCallback(()=>{
-    setSnackbarProps({
-      visible:true,
-      message:NEXT_FEATURE,
-      type:"information",
-      duration:5000,
-    })
-  },[])
 
   const goals = useMemo(() => {
     const newGoals = getGoalsData || [];
@@ -192,53 +182,56 @@ const Feed: NextPage = () => {
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
-        visible: true,
         message: LOGIN_ERROR,
         type: "error",
       })
+      handleSnackbarShowClick();
     }
-  },[loggedInUserStatus])
+  },[loggedInUserStatus,handleSnackbarShowClick])
 
   useEffect(()=>{
     if(getTasksByDaysStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
-        visible: true,
         message: GET_TASKS_ERROR,
         type: "error",
       })
+      handleSnackbarShowClick()
     }
-  },[getTasksByDaysStatus])
+  },[getTasksByDaysStatus,handleSnackbarShowClick])
 
   useEffect(()=>{
     if(createTaskStatus===DataSagaStatus.FAILED 
       || updateTaskStatus===DataSagaStatus.FAILED 
       || deleteTaskStatus===DataSagaStatus.FAILED){
       setSnackbarProps({
-        visible: true,
         message: MODIFY_TASKS_ERROR,
         type: "error",
-        duration:2000,
       })
+      handleSnackbarShowClick()
     }
-  },[createTaskStatus,updateTaskStatus,deleteTaskStatus])
+  },[createTaskStatus,updateTaskStatus,deleteTaskStatus,handleSnackbarShowClick])
 
   useEffect(()=>{
     if(updateTaskStatus===DataSagaStatus.SUCCEEDED){
       setSnackbarProps({
-        visible: true,
         message: UPDATE_TASKS_SUCCESS,
         type: "success",
-        duration:2000,
       })
+      handleSnackbarShowClick()
     }
-  },[updateTaskStatus])
+  },[updateTaskStatus,handleSnackbarShowClick])
 
   return (
     <LayoutMain>
+      <SnackbarifyContainer
+        visible={isSnackbarVisible}
+        duration={4000}
+        Snackbar={()=>(<Snackbar
+          message={snackbarProps.message}
+          type={snackbarProps?.type}
+          onCloseClick={handleSnackbarHideClick}/>)}
+      ></SnackbarifyContainer>
       <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
-      <Snackbar 
-        {...snackbarProps}
-        onCloseClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>
       <S.Visible>
         <Calendar
           pickedDate={pickedDate}

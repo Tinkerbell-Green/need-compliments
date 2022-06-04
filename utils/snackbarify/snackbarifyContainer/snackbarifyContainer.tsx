@@ -11,7 +11,7 @@ export type SnackbarifyContainerProps = {
 
 export const SnackbarifyContainer = ({
   visible,
-  duration=3000,
+  duration=2500,
   Snackbar
 }:SnackbarifyContainerProps)=>{
   const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
