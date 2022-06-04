@@ -18,7 +18,6 @@ export class TasksService {
       .map(entry => entry.map(encodeURIComponent).join("="))
       .join("&");
     
-    console.log("`/tasks?${params}`: ", `/tasks?${params}`); // TODO: remove
     return apiAxios.get<GetTasksData>(`/tasks?${params}`)
   }
 

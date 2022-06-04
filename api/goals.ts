@@ -12,11 +12,7 @@ export class GoalsService {
   }
 
   getGoals(input: GetGoalsInput) {
-    const params = Object.entries(input)
-      .map(entry => entry.map(encodeURIComponent).join("="))
-      .join("&");
-
-    return apiAxios.get<GetGoalsData>(`/goals?${params}`)
+    return apiAxios.get<GetGoalsData>(`/users/${input.author}/goals`)
   }
 
   updateGoal(id: string, input: UpdateGoalInput) {
@@ -45,7 +41,7 @@ export type GetGoalsByIdsData = {
 }
 
 export type GetGoalsInput = {
-  author?: string
+  author: string
 }
 export type GetGoalsData = {
   goals: GoalData[]

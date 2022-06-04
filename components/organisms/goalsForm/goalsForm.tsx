@@ -28,12 +28,6 @@ export const GoalsForm = ({
       title: "전체공개",
       publicBookIcon: "public",
     },
-    // WIP: revert when friend feature is ready
-    // {
-    //   id: 1,
-    //   title: "일부공개",
-    //   publicBookIcon: "protected",
-    // },
     {
       value: "me",
       title: "나만보기",

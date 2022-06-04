@@ -117,7 +117,6 @@ export type DataActionPayload = {
     merge?: Boolean
   }
   [DataActionType.GET_PUBLIC_TASKS]: Omit<SagaDataActionDefaultPayload, "author"> & {
-    // author: undefined
     startTime: Date
     endTime: Date
     merge?: Boolean

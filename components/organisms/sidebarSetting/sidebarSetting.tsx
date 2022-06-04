@@ -22,10 +22,6 @@ export const SidebarSetting = ({
     fetch: getGoalsFetch,
     data: getGoalsData,
   } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-
-  useEffect(()=>{
-    console.log("loggedInUserData: ", loggedInUserData); // TODO: remove 
-  },[loggedInUserData])
   
   const goals = useMemo(() => {
     return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
