@@ -17,6 +17,10 @@ width:fit-content;
 height:fit-content;
 `;
 
+export const Contents = styled.div`
+align-items: center;
+`;
+
 export const Icon = styled.div`
 width: ${ICON_NOTMAL_SIZE}px;
 height:${ICON_NOTMAL_SIZE}px;

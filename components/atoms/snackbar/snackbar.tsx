@@ -8,7 +8,7 @@ import {SnackbarType} from "stores/data/types";
 
 export type SnackbarProps = {
   children?: React.ReactNode,
-  type: SnackbarType,
+  type?: SnackbarType,
   message: string,
   duration?:number,
   onCloseClick?: ()=>void,
@@ -50,12 +50,12 @@ export const Snackbar = ({
     <S.Container
       role="alert"
       color={TYPE_MAP[type].color}>
-      <div>
+      <S.Contents>
         <S.Icon>
           {TYPE_MAP[type].icon}
         </S.Icon>
         <S.Label>{message}</S.Label>
-      </div>
+      </S.Contents>
       {onCloseClick && <S.CloseButton onClick={onCloseClick}>
         <CloseOutline></CloseOutline>
       </S.CloseButton>}
