@@ -32,12 +32,12 @@ export const SnackbarifyContainer = ({
   },[isSnackbarVisible])
 
   useEffect(()=>{
-    setIsSnackbarVisible(visible);
+    setIsSnackbarVisible(visible.value);
     timer.current && clearTimeout(timer.current);
 
     timer.current = visible.value
       ? setTimeout(()=>{
-        setIsSnackbarVisible({value:false})
+        setIsSnackbarVisible(false)
       },snackbarDuration.current)
       : undefined;
   },[snackbarDuration,setIsSnackbarVisible,visible])
@@ -49,7 +49,9 @@ export const SnackbarifyContainer = ({
         transitionDuration={transitionDuration.current}>
         {isSnackbarMount && <Snackbar
           key={Math.random()}
-          aria-label={"snackbar"}></Snackbar>}
+          role="alert"
+          aria-label={"snackbar"}
+          tabIndex={0}></Snackbar>}
       </S.SnackbarifyContainer>
     </SnackbarifyPortal>
   )

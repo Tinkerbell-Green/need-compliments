@@ -6,21 +6,22 @@ import {SnackbarifyContainer} from "utils/snackbarify/snackbarifyContainer";
 
 const SnackbarTestPage: NextPage = () => {
   const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
-  const snackbar = () => (
+  
+  const handleSnackbarShowClick = useCallback(() => {
+    setIsSnackbarVisible(true);
+  }, [setIsSnackbarVisible]);
+
+  const handleSnackbarHideClick = useCallback(() => {
+    setIsSnackbarVisible(false);
+  }, [setIsSnackbarVisible]);
+
+  const snackbar = useCallback(() => (
     <Snackbar
       message="Snackbarify 🍫"
       duration={4000}
       onCloseClick={handleSnackbarHideClick}
     />
-  )
-
-  const handleSnackbarShowClick = useCallback(() => {
-    setIsSnackbarVisible({value: true});
-  }, [setIsSnackbarVisible]);
-
-  const handleSnackbarHideClick = useCallback(() => {
-    setIsSnackbarVisible({value: false});
-  }, [setIsSnackbarVisible]);
+  ),[handleSnackbarHideClick])
 
   return (
     <div>

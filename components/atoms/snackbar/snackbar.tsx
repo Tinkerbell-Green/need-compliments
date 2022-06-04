@@ -45,11 +45,8 @@ export const Snackbar = ({
   duration,
   onCloseClick,
 }:SnackbarProps)=>{
-
   return (
-    <S.Container
-      role="alert"
-      color={TYPE_MAP[type].color}>
+    <S.Container color={TYPE_MAP[type].color}>
       <S.Contents>
         <S.Icon>
           {TYPE_MAP[type].icon}

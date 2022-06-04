@@ -70,11 +70,11 @@ const Feed: NextPage = () => {
   const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
 
   const handleSnackbarShowClick = useCallback(() => {
-    setIsSnackbarVisible({value: true});
+    setIsSnackbarVisible(true);
   }, [setIsSnackbarVisible]);
 
   const handleSnackbarHideClick = useCallback(() => {
-    setIsSnackbarVisible({value: false});
+    setIsSnackbarVisible(false);
   }, [setIsSnackbarVisible]);
 
   const handleDateClick = useCallback((date:string)=>{
@@ -221,15 +221,21 @@ const Feed: NextPage = () => {
     }
   },[updateTaskStatus,handleSnackbarShowClick])
 
+  const snackbar = useCallback(() => (
+    <Snackbar
+      message={snackbarProps.message}
+      type={snackbarProps?.type}
+      duration={4000}
+      onCloseClick={handleSnackbarHideClick}
+    />
+  ),[handleSnackbarHideClick,snackbarProps.message, snackbarProps.type])
+
   return (
     <LayoutMain>
       <SnackbarifyContainer
         visible={isSnackbarVisible}
         duration={4000}
-        Snackbar={()=>(<Snackbar
-          message={snackbarProps.message}
-          type={snackbarProps?.type}
-          onCloseClick={handleSnackbarHideClick}/>)}
+        Snackbar={snackbar}
       ></SnackbarifyContainer>
       <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
       <S.Visible>
