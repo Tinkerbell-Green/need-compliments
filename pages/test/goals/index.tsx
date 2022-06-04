@@ -19,8 +19,12 @@ const TestGoalsPage: NextPage = () => {
   const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
 
   useEffect(()=>{
-    getGoalsFetch({input:{}})
-  },[getGoalsFetch])
+    if (!loggedInUserId) return;
+
+    getGoalsFetch({input:{
+      author: loggedInUserId
+    }})
+  },[getGoalsFetch, loggedInUserId])
 
   const handleCreate = useCallback(()=>{
     if (!loggedInUserId) return;

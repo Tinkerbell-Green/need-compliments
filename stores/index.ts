@@ -5,7 +5,6 @@ import createSagaMiddleware, {Task} from "redux-saga";
 
 import rootReducer, {RootState} from "./reducers";
 import rootSaga from "./sagas";
-import {repository} from "utils/firebase";
 
 // ref: https://github.com/vercel/next.js/tree/canary/examples/with-redux-saga
 // ref: https://github.com/kirill-konshin/next-redux-wrapper#usage-with-redux-saga
@@ -24,11 +23,7 @@ const bindMiddleware = (middlewares: Middleware<any, any, any>[]) => {
 const logger = createLogger();
 
 export const makeStore = (context: Context) => {
-  const sagaMiddleware = createSagaMiddleware({
-    context: {
-      repository,
-    }
-  })
+  const sagaMiddleware = createSagaMiddleware()
   const store = createStore(rootReducer, bindMiddleware([sagaMiddleware, logger])) as SagaStore
 
   store.sagaTask = sagaMiddleware.run(rootSaga)

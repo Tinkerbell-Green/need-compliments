@@ -27,15 +27,15 @@ export const SidebarSetting = ({
     return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
-  const handleFriendClick = useCallback(()=>{
-    //
-  },[]);
-
   useEffect(()=>{
+    if (!loggedInUserData?.user._id) return;
+
     getGoalsFetch({
-      input: {}
+      input: {
+        author: loggedInUserData.user._id
+      }
     })
-  },[getGoalsFetch])
+  },[getGoalsFetch, loggedInUserData?.user._id])
 
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>

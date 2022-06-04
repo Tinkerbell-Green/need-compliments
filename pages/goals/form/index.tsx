@@ -44,8 +44,12 @@ const GoalsFormPage: NextPage = () => {
   };
 
   useEffect(() => {
-    getGoalsFetch({input:{}});
-  }, [getGoalsFetch]);
+    if (!loggedInUserId) return;
+
+    getGoalsFetch({input:{
+      author: loggedInUserId
+    }});
+  }, [getGoalsFetch, loggedInUserId]);
 
 
   const onCreateGoal = useCallback(
