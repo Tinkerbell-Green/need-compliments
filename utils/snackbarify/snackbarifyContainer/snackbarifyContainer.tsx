@@ -43,7 +43,7 @@ export const SnackbarifyContainer = ({
   },[snackbarDuration,setIsSnackbarVisible,visible])
   
   return (
-    <SnackbarifyPortal>
+    <SnackbarifyPortal seletorId="root-snackbar">
       <S.SnackbarifyContainer
         isVisible={isSnackbarVisible.value}
         transitionDuration={transitionDuration.current}>

@@ -3,17 +3,26 @@ import {createPortal} from "react-dom";
 
 export type PortalProps= {
   children: ReactNode,
+  seletorId:string
 }
 
-const Portal = ({children}:PortalProps) => {
-  const [mounted, setMounted] = useState(false)
+const Portal = ({children,seletorId}:PortalProps) => {
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  useEffect(()=>{
+    if(document.getElementById(seletorId)) return;
+
+    const $rootPortal = document.createElement("div");
+    $rootPortal.id=seletorId;
+    document.querySelector("body")!.insertAdjacentElement("afterbegin",$rootPortal);
+    // appendChild($rootPortal);
+
     setMounted(true);
-  }, [setMounted]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   
   return mounted
-    ? createPortal(children, document.querySelector("body")!)
+    ? createPortal(children, document.getElementById(seletorId)!)
     : null;
 };
 
