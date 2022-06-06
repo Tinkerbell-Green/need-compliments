@@ -28,10 +28,9 @@ export const SnackbarifyContainer = ({
   },[])
 
   useEffect(()=>{
-    if(visible.value){
-      setIsSnackbarVisible(visible.value);
-      setIsSnackbarMount(true);
-    }
+    setIsSnackbarVisible(visible.value);
+    
+    if(visible.value) setIsSnackbarMount(true);
 
     timer.current && clearTimeout(timer.current);
     timer.current = visible.value
