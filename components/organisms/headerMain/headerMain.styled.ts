@@ -10,7 +10,6 @@ padding:10px 0;
 background-color: ${props => props.theme.colors.black};
 position: sticky; 
 top:0;
-z-index: 1;
 `;
 
 export const NavPart = styled.div`
