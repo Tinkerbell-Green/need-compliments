@@ -34,17 +34,17 @@ export const AuthorizationProvider = ({
   }, [router,status,dispatch]);
 
   useEffect(()=>{
-    if (status === "authenticated" && data?.user._id){
+    if (status === "authenticated" && data?.user.userId){
       dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
         key: "pageAuthorId",
-        userId: data?.user._id
+        userId: data?.user.userId
       }))
 
       dispatch(navigationActionCreators[NavigationActionType.SET_INITIALIZED]({
         initialized: true
       }))      
     }
-  }, [data?.user._id, dispatch, session, status])
+  }, [data?.user.userId, dispatch, session, status])
 
   return (
     <>{children}</>

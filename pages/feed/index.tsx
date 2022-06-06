@@ -93,11 +93,11 @@ const Feed: NextPage = () => {
 
   const handleTaskCreate = useCallback(
     (id: string, readPermission: GoalData["readPermission"]) => {
-      if (!loggedInUserData?.user._id) return;
+      if (!loggedInUserData?.user.userId) return;
 
       createTaskFetch({
         input: {
-          author: loggedInUserData?.user._id,
+          author: loggedInUserData?.user.userId,
           title: "",
           goal:id,
           doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
@@ -105,18 +105,18 @@ const Feed: NextPage = () => {
         },
       });
     },
-    [createTaskFetch, loggedInUserData?.user._id, pickedDate]
+    [createTaskFetch, loggedInUserData?.user.userId, pickedDate]
   );
 
   const handleTaskUpdate = useCallback((id:string,title:string)=>{
-    if (!loggedInUserData?.user._id) return;
+    if (!loggedInUserData?.user.userId) return;
 
     updateTaskFetch({
       id,
       input: {
         title,
       }});
-  },[loggedInUserData?.user._id, updateTaskFetch])
+  },[loggedInUserData?.user.userId, updateTaskFetch])
 
   const handleSnackbarShow = useCallback(()=>{
     setSnackbarProps({
@@ -172,14 +172,14 @@ const Feed: NextPage = () => {
   },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
-    if (!loggedInUserData?.user._id) return;
+    if (!loggedInUserData?.user.userId) return;
 
     getGoalsFetch({
       input: {
-        author: loggedInUserData?.user._id
+        author: loggedInUserData?.user.userId
       }
     })
-  },[getGoalsFetch, loggedInUserData?.user._id])
+  },[getGoalsFetch, loggedInUserData?.user.userId])
 
   useEffect(() => {
     setTasks(getTasksByDaysData?.tasks || []);

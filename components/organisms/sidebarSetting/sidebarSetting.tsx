@@ -28,14 +28,14 @@ export const SidebarSetting = ({
   }, [getGoalsData]);
 
   useEffect(()=>{
-    if (!loggedInUserData?.user._id) return;
+    if (!loggedInUserData?.user.userId) return;
 
     getGoalsFetch({
       input: {
-        author: loggedInUserData.user._id
+        author: loggedInUserData.user.userId
       }
     })
-  },[getGoalsFetch, loggedInUserData?.user._id])
+  },[getGoalsFetch, loggedInUserData?.user.userId])
 
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>

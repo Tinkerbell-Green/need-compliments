@@ -24,16 +24,13 @@ export function* getGoals(action: DataActionInstance<DataActionType.GET_GOALS>) 
       payload.input
     );
 
-    const goals: GoalData[] = response.data.goals
-    const previousGoals: NonNullable<State[typeof sagaDataActionType][string]["data"]>["goals"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"]?.["goals"] || [])
-
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
         data : {
           ...response.data,
-          goals: [...previousGoals, ...goals]
+          goals: response.data.goals
         },
       })
     ); 

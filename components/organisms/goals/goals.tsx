@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, {useEffect, useMemo, useState} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./goals.styled";
-import {GoalData} from "api"
 import {Chip} from "components/atoms/chip";
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
 import {useDataSaga, DataActionType} from "stores/data";
