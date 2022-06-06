@@ -11,7 +11,6 @@ export class TasksService {
   getTasks(input: GetTasksInput) {
     const filledInput = {
       ...input,
-      page: input.page || 1,
     }
 
     const params = Object.entries(filledInput)
