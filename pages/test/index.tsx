@@ -18,18 +18,18 @@ const TestPage: NextPage = () => {
   },[getTasksByDaysFetch])
 
   const handleCreate = useCallback(()=>{
-    if (!loggedInUserData?.user._id) return;
+    if (!loggedInUserData?.user.userId) return;
     
     createTaskFetch({
       input: {
-        author: loggedInUserData?.user._id,
+        author: loggedInUserData?.user.userId,
         title: "new task",
         goal: "goal1",
         doneAt: new Date().getTime(),
         readPermission: "everyone"
       },
     });
-  },[createTaskFetch, loggedInUserData?.user._id])
+  },[createTaskFetch, loggedInUserData?.user.userId])
 
   const handleDelete = useCallback((id: string)=>{
     deleteTaskFetch({

@@ -23,13 +23,13 @@ export const AuthenticationProvider = ({
   const sessionUserId = getSessionUserId(session)
 
   useEffect(()=>{
-    if (status === "authenticated" && data?.user._id){
+    if (status === "authenticated" && sessionUserId){
       dispatch(navigationActionCreators[NavigationActionType.SET_USER_ID]({
         key: "loggedInUserId",
-        userId: data?.user._id
+        userId: sessionUserId
       }))
     }
-  }, [data?.user._id, dispatch, status])
+  }, [sessionUserId, dispatch, status])
   
   useEffect(()=>{
     if (status === "authenticated" && sessionUserId){

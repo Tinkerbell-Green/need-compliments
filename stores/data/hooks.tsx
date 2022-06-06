@@ -35,6 +35,11 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     }
   },[actionType, loggedInUserId, pageAuthorId])
 
+  const defaultFetchAuthorRef = useRef<typeof defaultFetchAuthor>(defaultFetchAuthor)
+  useEffect(()=>{
+    defaultFetchAuthorRef.current = defaultFetchAuthor
+  },[defaultFetchAuthor])
+
   // key
   const key = useMemo(()=>{
     return [defaultFetchAuthor || "", ...(additionalKeys || [])].sort().join()
@@ -68,35 +73,35 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
     if (actionType === DataActionType.GET_LOGGED_IN_USER_DATA){
       dispatch(dataActionCreators[actionType]({
         ...partialPayload,
-        key,
+        key: keyRef.current,
       } as any))
   
       dispatch(
         dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
           type: actionType,
-          key,
+          key: keyRef.current,
           payload: partialPayload
         })
       )
     }
     else if (isNavigationInitialized){
-      const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
+      const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthorRef.current;
 
       dispatch(dataActionCreators[actionType]({
         ...partialPayload,
         author,
-        key,
+        key: keyRef.current,
       } as any))
   
       dispatch(
         dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
           type: actionType,
-          key,
+          key: keyRef.current,
           payload: partialPayload
         })
       )
     }
-  },[actionType, defaultFetchAuthor, dispatch, isNavigationInitialized, key])
+  },[actionType, dispatch, isNavigationInitialized])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
     if (!payloadRef.current) return;
