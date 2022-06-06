@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
   body{
     background-color: ${props => props.theme.colors.black};
     width:100%;
-    overflow-x:hidden;
+    overflow-x:clip;
   }
 
   html {
@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     scroll-behavior: smooth;
     width:100%;
-    overflow-x:hidden;
+    overflow-x:clip;
   }
 
   div, section, header, footer {
