@@ -47,15 +47,15 @@ export const Snackbar = ({
 }:SnackbarProps)=>{
   return (
     <S.Container color={TYPE_MAP[type].color}>
+      {onCloseClick && <S.CloseButton onClick={onCloseClick}>
+        <CloseOutline></CloseOutline>
+      </S.CloseButton>}
       <S.Contents>
         <S.Icon>
           {TYPE_MAP[type].icon}
         </S.Icon>
         <S.Label>{message}</S.Label>
       </S.Contents>
-      {onCloseClick && <S.CloseButton onClick={onCloseClick}>
-        <CloseOutline></CloseOutline>
-      </S.CloseButton>}
       {children}
       {duration && <S.Progess>
         <S.Bar duration={duration}></S.Bar>

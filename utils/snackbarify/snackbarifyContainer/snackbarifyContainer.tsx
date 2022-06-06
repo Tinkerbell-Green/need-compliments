@@ -1,4 +1,4 @@
-import {useEffect, useRef,useState} from "react";
+import {useCallback, useEffect, useRef,useState} from "react";
 import * as S from "./snackbarifyContainer.styled";
 import SnackbarifyPortal from "utils/portal";
 import {useSnackbar,visibleState} from "utils/snackbarify";
@@ -21,37 +21,38 @@ export const SnackbarifyContainer = ({
   const transitionDuration = useRef<number>(400);
   const snackbarDuration = useRef<number>(duration);
 
+  const handleUnmount = useCallback(()=>{
+    setTimeout(()=>{
+      setIsSnackbarMount(false);
+    },transitionDuration.current)
+  },[])
+
   useEffect(()=>{
-    if(isSnackbarVisible.value){
+    if(visible.value){
+      setIsSnackbarVisible(visible.value);
       setIsSnackbarMount(true);
-    }else{
-      setTimeout(()=>{
-        setIsSnackbarMount(false);
-      },transitionDuration.current)
     }
-  },[isSnackbarVisible])
 
-  useEffect(()=>{
-    setIsSnackbarVisible(visible.value);
     timer.current && clearTimeout(timer.current);
-
     timer.current = visible.value
       ? setTimeout(()=>{
-        setIsSnackbarVisible(false)
+        setIsSnackbarVisible(false);
+        handleUnmount();
       },snackbarDuration.current)
       : undefined;
-  },[snackbarDuration,setIsSnackbarVisible,visible])
+  },[setIsSnackbarVisible,visible,handleUnmount])
   
   return (
     <SnackbarifyPortal seletorId="root-snackbar">
       <S.SnackbarifyContainer
         isVisible={isSnackbarVisible.value}
-        transitionDuration={transitionDuration.current}>
+        transitionDuration={transitionDuration.current}
+        role="alert">
         {isSnackbarMount && <Snackbar
           key={Math.random()}
-          role="alert"
-          aria-label={"snackbar"}
-          tabIndex={0}></Snackbar>}
+          aria-live="assertive"
+          aria-atomic={true}
+        ></Snackbar>}
       </S.SnackbarifyContainer>
     </SnackbarifyPortal>
   )

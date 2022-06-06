@@ -1,7 +1,6 @@
 import styled,{css} from "styled-components";
 
 export const SnackbarifyContainer = styled.div<{isVisible:boolean, transitionDuration:number}>`
-z-index:10;
 position: fixed;
 top: 5%;
 left: 50%;

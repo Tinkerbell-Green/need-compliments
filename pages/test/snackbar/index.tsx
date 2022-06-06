@@ -17,7 +17,7 @@ const SnackbarTestPage: NextPage = () => {
 
   const snackbar = useCallback(() => (
     <Snackbar
-      message="Snackbarify 🍫"
+      message="데이터가 초콜릿입니다."
       duration={4000}
       onCloseClick={handleSnackbarHideClick}
     />
