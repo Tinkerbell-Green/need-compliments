@@ -14,8 +14,7 @@ const Portal = ({children,seletorId}:PortalProps) => {
 
     const $rootPortal = document.createElement("div");
     $rootPortal.id=seletorId;
-    document.querySelector("body")!.insertAdjacentElement("afterbegin",$rootPortal);
-    // appendChild($rootPortal);
+    document.querySelector("body")!.appendChild($rootPortal);
 
     setMounted(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps

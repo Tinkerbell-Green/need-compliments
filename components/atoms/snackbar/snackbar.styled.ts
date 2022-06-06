@@ -15,6 +15,10 @@ align-items: center;
 padding: 15px 30px;
 width:fit-content;
 height:fit-content;
+
+:focus-visible{
+	outline: 3px dotted #833AFC;
+}
 `;
 
 export const Contents = styled.div`
