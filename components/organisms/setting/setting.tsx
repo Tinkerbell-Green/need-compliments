@@ -2,10 +2,10 @@ import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 import React, {useCallback} from "react";
 import * as S from "./setting.styled";
+import {UserData} from "api";
 import {SliderSwitch} from "components/atoms/sliderSwitch";
 import {SubHeadingButton} from "components/atoms/subHeadingButton";
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
-import {UserData} from "stores/data";
 
 type SettingProps = {
   loggedInUser: UserData;

@@ -2,13 +2,15 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
+import {UserData} from "api"
+import {TaskData, GoalData, GoalColor} from "api"
 import {Seo} from "components/atoms/seo";
 import {Snackbar} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"
 import {FeedPersonal} from "components/organisms/feedPersonal";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType, DataSagaStatus, UserData, TaskData,GoalData} from "stores/data";
-import {SnackbarType,GoalColor} from "stores/data/types";
+import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
+import {SnackbarType} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
@@ -67,7 +69,7 @@ const Feed: NextPage = () => {
     (state: RootState) => state.navigation.pageAuthorId
   );
 
-  const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
+  const [tasks, setTasks] = useState<NonNullable<typeof getTasksByDaysData>["tasks"]>(getTasksByDaysData?.tasks || [] );
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({
     visible: false,
@@ -85,14 +87,17 @@ const Feed: NextPage = () => {
 
   const handleTaskDelete = useCallback((id: string)=>{
     deleteTaskFetch({
-      pathSegments: [id]
+      id,
     })
   },[deleteTaskFetch])
 
   const handleTaskCreate = useCallback(
     (id: string, readPermission: GoalData["readPermission"]) => {
+      if (!loggedInUserData?.user._id) return;
+
       createTaskFetch({
-        data: {
+        input: {
+          author: loggedInUserData?.user._id,
           title: "",
           goal:id,
           doneAt: Dayjs(pickedDate,"DDMMYYYY").toDate().getTime(),
@@ -100,16 +105,18 @@ const Feed: NextPage = () => {
         },
       });
     },
-    [createTaskFetch,pickedDate]
+    [createTaskFetch, loggedInUserData?.user._id, pickedDate]
   );
 
   const handleTaskUpdate = useCallback((id:string,title:string)=>{
+    if (!loggedInUserData?.user._id) return;
+
     updateTaskFetch({
-      pathSegments: [id],
-      data: {
+      id,
+      input: {
         title,
       }});
-  },[updateTaskFetch])
+  },[loggedInUserData?.user._id, updateTaskFetch])
 
   const handleSnackbarShow = useCallback(()=>{
     setSnackbarProps({
@@ -121,9 +128,7 @@ const Feed: NextPage = () => {
   },[])
 
   const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
+    return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
   const tasksByDate = useMemo(()=>{
@@ -131,7 +136,7 @@ const Feed: NextPage = () => {
 
     tasks.forEach((taskItem)=>{
       goals.forEach((goal)=>{
-        if(taskItem.goal !== goal.id) return;
+        if(taskItem.goal !== goal._id) return;
 
         const curDate = Dayjs(taskItem.doneAt).format("DDMMYYYY");
   
@@ -147,8 +152,8 @@ const Feed: NextPage = () => {
     const newGoalTasksAtPickedDate: Record<string, TaskData[]> = {};
 
     goals.forEach(goal=>{
-      newGoalTasksAtPickedDate[goal.id] = tasks.filter(taskItem => 
-        taskItem.goal === goal.id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
+      newGoalTasksAtPickedDate[goal._id] = tasks.filter(taskItem => 
+        taskItem.goal === goal._id && Dayjs(taskItem.doneAt).format("DDMMYYYY") === pickedDate)})
 
     return newGoalTasksAtPickedDate;
   },[goals,tasks,pickedDate])
@@ -167,11 +172,17 @@ const Feed: NextPage = () => {
   },[pickedDate,pageAuthorId])
   
   useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
+    if (!loggedInUserData?.user._id) return;
+
+    getGoalsFetch({
+      input: {
+        author: loggedInUserData?.user._id
+      }
+    })
+  },[getGoalsFetch, loggedInUserData?.user._id])
 
   useEffect(() => {
-    setTasks(getTasksByDaysData || []);
+    setTasks(getTasksByDaysData?.tasks || []);
   }, [getTasksByDaysData]);
 
   useEffect(() => {
@@ -235,7 +246,7 @@ const Feed: NextPage = () => {
 
   return (
     <LayoutMain>
-      <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
+      <Seo title={`${loggedInUserData?.user?.name || ""} 피드`}></Seo>
       <Snackbar 
         {...snackbarProps}
         onClose={()=>setSnackbarProps({...snackbarProps, visible:false})}></Snackbar>

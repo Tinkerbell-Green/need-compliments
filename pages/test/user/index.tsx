@@ -23,8 +23,8 @@ const TestUserPage: NextPage = () => {
     if (!loggedInUserId) return;
 
     updateUserFetch({
-      pathSegments: [loggedInUserId],
-      data: {
+      id: loggedInUserId,
+      input: {
         name: new Date().getSeconds().toString(),
       }
     })
@@ -34,7 +34,7 @@ const TestUserPage: NextPage = () => {
     if (!loggedInUserId) return;
 
     deleteUserFetch({
-      pathSegments: [loggedInUserId],
+      id: loggedInUserId,
     })
     
   },[loggedInUserId, deleteUserFetch])
@@ -52,7 +52,7 @@ const TestUserPage: NextPage = () => {
       <S.Button onClick={handleDelete}>DELETE</S.Button>
 
       <div>
-        <div>{loggedInUserData?.name}</div>
+        <div>{loggedInUserData?.user?.name}</div>
       </div>
     </LayoutNavigation>   
   )

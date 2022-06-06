@@ -20,20 +20,23 @@ const TestTasksPage: NextPage = () => {
   },[getTasksByDaysFetch])
 
   const handleCreate = useCallback(()=>{
+    if (!loggedInUserData?.user._id) return;
+    
     createTaskFetch({
-      data: {
+      input: {
+        author: loggedInUserData?.user._id,
         title: "new task",
         goal: "goal1",
         doneAt: new Date().getTime(),
         readPermission: "everyone"
-      }
-    })
-  },[createTaskFetch])
+      },
+    });
+  },[createTaskFetch, loggedInUserData?.user._id])
 
   const handleUpdate = useCallback((id: string)=>{
     updateTaskFetch({
-      pathSegments: [id],
-      data: {
+      id,
+      input: {
         title: "updated task",
       }
     })
@@ -41,7 +44,7 @@ const TestTasksPage: NextPage = () => {
 
   const handleDelete = useCallback((id: string)=>{
     deleteTaskFetch({
-      pathSegments: [id]
+      id
     })
   },[deleteTaskFetch])
 
@@ -68,12 +71,12 @@ const TestTasksPage: NextPage = () => {
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListTask>
-        {(getTasksByDaysData || []).map(item => (
-          <S.ListItemTask key={item.id}>
-            <S.IdTask>{item.id}</S.IdTask>
+        {(getTasksByDaysData?.tasks || []).map(item => (
+          <S.ListItemTask key={item._id}>
+            <S.IdTask>{item._id}</S.IdTask>
             <S.TitleTask>{item.title}</S.TitleTask>
-            <button onClick={()=>handleDelete(item.id)}>삭제</button>
-            <button onClick={()=>handleUpdate(item.id)}>업데이트</button>
+            <button onClick={()=>handleDelete(item._id)}>삭제</button>
+            <button onClick={()=>handleUpdate(item._id)}>업데이트</button>
           </S.ListItemTask>
         ))}
       </S.ListTask>

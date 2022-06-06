@@ -5,6 +5,7 @@ import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 import * as S from "styles/pages/test.styled";
 
 const TestPage: NextPage = () => {
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
   const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
   const {fetch: createTaskFetch, data: createTaskData, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
   const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
@@ -17,19 +18,22 @@ const TestPage: NextPage = () => {
   },[getTasksByDaysFetch])
 
   const handleCreate = useCallback(()=>{
+    if (!loggedInUserData?.user._id) return;
+    
     createTaskFetch({
-      data: {
+      input: {
+        author: loggedInUserData?.user._id,
         title: "new task",
         goal: "goal1",
         doneAt: new Date().getTime(),
         readPermission: "everyone"
-      }
-    })
-  },[createTaskFetch])
+      },
+    });
+  },[createTaskFetch, loggedInUserData?.user._id])
 
   const handleDelete = useCallback((id: string)=>{
     deleteTaskFetch({
-      pathSegments: [id]
+      id
     })
   },[deleteTaskFetch])
 
@@ -50,10 +54,10 @@ const TestPage: NextPage = () => {
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListTask>
-        {(getTasksByDaysData || []).map(item => (
-          <S.ListItemTask key={item.id}>
-            <div>{`task id: ${item.id}`}</div>
-            <button onClick={()=>handleDelete(item.id)}>삭제</button>
+        {(getTasksByDaysData?.tasks || []).map(item => (
+          <S.ListItemTask key={item._id}>
+            <div>{`task id: ${item._id}`}</div>
+            <button onClick={()=>handleDelete(item._id)}>삭제</button>
           </S.ListItemTask>
         ))}
       </S.ListTask>

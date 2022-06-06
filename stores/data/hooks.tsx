@@ -31,7 +31,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
       return pageAuthorId
     }
     else {
-      return ""
+      return undefined
     }
   },[actionType, loggedInUserId, pageAuthorId])
 
@@ -57,7 +57,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   })
 
   // fetch
-  type FetchPartialPayload = Omit<Optional<DataActionPayload[DataSagaActionTypeT], "author">, "key">
+  type FetchPartialPayload = Omit<Omit<DataActionPayload[DataSagaActionTypeT], "author"> & { author?: undefined | string }, "key">
 
   const payloadRef = useRef(state?.payload)
   useEffect(()=>{
@@ -65,23 +65,37 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
-    if (!isNavigationInitialized) return;
-
-    const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
-
-    dispatch(dataActionCreators[actionType]({
-      ...partialPayload,
-      author,
-      key,
-    } as any))
-
-    dispatch(
-      dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
-        type: actionType,
+    if (actionType === DataActionType.GET_LOGGED_IN_USER_DATA){
+      dispatch(dataActionCreators[actionType]({
+        ...partialPayload,
         key,
-        payload: partialPayload
-      })
-    )
+      } as any))
+  
+      dispatch(
+        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+          type: actionType,
+          key,
+          payload: partialPayload
+        })
+      )
+    }
+    else if (isNavigationInitialized){
+      const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
+
+      dispatch(dataActionCreators[actionType]({
+        ...partialPayload,
+        author,
+        key,
+      } as any))
+  
+      dispatch(
+        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+          type: actionType,
+          key,
+          payload: partialPayload
+        })
+      )
+    }
   },[actionType, defaultFetchAuthor, dispatch, isNavigationInitialized, key])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{

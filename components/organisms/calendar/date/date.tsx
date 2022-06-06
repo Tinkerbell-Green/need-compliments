@@ -30,7 +30,7 @@ export const Date = ({
       <S.EmojiList>
         {tasks.map((taskItem,index)=>(
           <S.Emoji
-            key={taskItem.id}
+            key={taskItem._id}
             color={taskItem.color ? taskItem.color : "white"}>
             {index===4 ? <MoonStarsFill/> : <StarOfLife/>}
           </S.Emoji>

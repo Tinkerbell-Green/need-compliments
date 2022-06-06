@@ -1,16 +1,14 @@
-import {QueryConstraint, where} from "firebase/firestore";
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
-import {DataSagaStatus, GoalDocument} from "../types"; 
-import {Repository, GetDocumentsData} from "utils/firebase";
+import {DataSagaStatus} from "../types"; 
+import {GoalData, goalsService} from "api";
+import {RootState} from "stores/reducers";
 
 export function* getGoals(action: DataActionInstance<DataActionType.GET_GOALS>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.GET_GOALS
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -21,27 +19,22 @@ export function* getGoals(action: DataActionInstance<DataActionType.GET_GOALS>) 
   );
 
   try {
-    const queryConstraints: QueryConstraint[] = []
-    queryConstraints.push(where("author", "==", payload.author))
-
-    const response: GetDocumentsData<GoalDocument> = yield call(
-      [repository, repository.getDocuments],
-      {
-        path: "goals",
-        queryConstraints,
-      }
+    const response: Awaited<ReturnType<typeof goalsService.getGoals>>  = yield call(
+      goalsService.getGoals,
+      payload.input
     );
 
-    const data: State[typeof sagaDataActionType][string]["data"] = response.docs.map(item => ({
-      id: item.id,
-      ...item.data()
-    }))
+    const goals: GoalData[] = response.data.goals
+    const previousGoals: NonNullable<State[typeof sagaDataActionType][string]["data"]>["goals"] = yield select((state: RootState)=> state.data[sagaDataActionType][sagaKey]["data"]?.["goals"] || [])
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data,
+        data : {
+          ...response.data,
+          goals: [...previousGoals, ...goals]
+        },
       })
     ); 
 
