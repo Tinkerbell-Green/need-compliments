@@ -7,14 +7,14 @@ import {RootState} from "stores/reducers"
 
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   actionType: DataSagaActionType,
+  keys: string[],
   options: {
-    additionalKeys?: string[]
     onSucceed?: (data?: RootState["data"][DataSagaActionTypeT][string]["data"]) => void
     onFail?: () => void
   } = {}
 ) => { 
   const dispatch = useDispatch()
-  const {additionalKeys, onSucceed, onFail} = options
+  const {onSucceed, onFail} = options
 
   // pageAuthorId
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
@@ -42,8 +42,8 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
 
   // key
   const key = useMemo(()=>{
-    return [defaultFetchAuthor || "", ...(additionalKeys || [])].sort().join()
-  },[additionalKeys, defaultFetchAuthor])
+    return [defaultFetchAuthor || "", ...(keys || [])].sort().join()
+  },[keys, defaultFetchAuthor])
 
   const keyRef = useRef<typeof key>(key)
   useEffect(()=>{

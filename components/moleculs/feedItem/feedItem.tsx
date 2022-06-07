@@ -18,15 +18,15 @@ type FeedItemProps = {
 export const FeedItem = ({task, goal}: FeedItemProps) => {
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
   const {status} = useSession()  
-  const {fetch:getPublicTasksFetch} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
+  const {fetch:getPublicTasksFetch} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
   const onSucceed = useCallback(()=>{
     getPublicTasksFetch({
       startTime: new Date("1999-11-11"),
       endTime: new Date("2222-11-11"),
     })
   },[getPublicTasksFetch])
-  const {fetch:createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, {additionalKeys: [task._id],onSucceed})
-  const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT,{onSucceed})
+  const {fetch: createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, [task._id], {onSucceed})
+  const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT, [task._id], {onSucceed})
 
   const [isClicked, setIsClicked] = useState(false);
   const [clickedEmoji, setClickedEmoji] = useState<ComplimentData["type"]>("red-heart");
@@ -35,12 +35,11 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     return task.compliments.find(compliment => compliment.author === loggedInUserId);
   },[loggedInUserId,task.compliments])
 
-
   const handleDelete = useCallback(()=>{
     if(!complimented) return;
 
     deleteComplimentFetch({
-      id: complimented._id
+      id: complimented._id,
     })
   },[deleteComplimentFetch,complimented])
 

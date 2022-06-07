@@ -14,15 +14,18 @@ import {RootState} from "stores/reducers";
 const GoalsFormPage: NextPage = () => {
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
   const {fetch: getGoalsFetch, data: goals} =
-    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, []);
   const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(
-    DataActionType.CREATE_GOAL
+    DataActionType.CREATE_GOAL,
+    []
   );
   const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(
-    DataActionType.UPDATE_GOAL
+    DataActionType.UPDATE_GOAL,
+    []
   );
   const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(
-    DataActionType.DELETE_GOAL
+    DataActionType.DELETE_GOAL,
+    []
   );
 
   const [goal, setGoal] = useState<GoalData>();

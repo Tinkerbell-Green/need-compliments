@@ -8,15 +8,15 @@ import * as S from "styles/pages/test/goals.styled";
 
 const TestGoalsPage: NextPage = () => {
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
-  const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS)
+  const {fetch: getGoalsFetch, data: getGoalsData, refetch: getGoalsRefetch} = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, [])
 
   const onSucceed = useCallback(()=>{
     getGoalsRefetch()
   },[getGoalsRefetch])
 
-  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, {onSucceed: ()=>getGoalsRefetch()})
-  const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(DataActionType.UPDATE_GOAL, {onSucceed})
-  const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, {onSucceed})
+  const {fetch: createGoalFetch} = useDataSaga<DataActionType.CREATE_GOAL>(DataActionType.CREATE_GOAL, [], {onSucceed: ()=>getGoalsRefetch()})
+  const {fetch: updateGoalFetch} = useDataSaga<DataActionType.UPDATE_GOAL>(DataActionType.UPDATE_GOAL, [], {onSucceed})
+  const {fetch: deleteGoalFetch} = useDataSaga<DataActionType.DELETE_GOAL>(DataActionType.DELETE_GOAL, [], {onSucceed})
 
   useEffect(()=>{
     if (!loggedInUserId) return;

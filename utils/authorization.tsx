@@ -20,7 +20,7 @@ export const AuthorizationProvider = ({
   const router = useRouter();
   const {status, data: session} = useSession()
   const dispatch = useDispatch()
-  const {data} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
+  const {data} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
 
   useEffect(() => {
     if (status === "unauthenticated") {

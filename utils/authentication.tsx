@@ -18,7 +18,7 @@ export const AuthenticationProvider = ({
 }: AuthenticationProviderProps) => {
   const dispatch = useDispatch()
   const {data: session, status} = useSession()
-  const {fetch, data} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
+  const {fetch, data} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
 
   const sessionUserId = getSessionUserId(session)
 

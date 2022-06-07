@@ -6,8 +6,8 @@ import {useDataSaga, DataActionType} from "stores/data";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestFeedPublicPage: NextPage = () => {
-  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
-  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
+  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
+  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS, [])
 
   const taskGoalIdList = useMemo(()=>{
     const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.tasks?.map(item => item.goal));
