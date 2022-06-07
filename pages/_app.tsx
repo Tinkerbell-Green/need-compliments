@@ -8,6 +8,7 @@ import {themes} from "styles/theme";
 import {AuthenticationProvider} from "utils/authentication";
 import {AuthorizationProvider} from "utils/authorization";
 import "utils/firebase"; 
+import {SnackbarifyContainer} from "utils/snackbarify/snackbarifyContainer";
 
 const DEFAULT_SEO = {
   title: "칭찬이 필요해 | 나의 일상이 칭찬거리가 되는 선순환 커뮤니티",
@@ -39,6 +40,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
           <AuthorizationProvider>
             <DefaultSeo  {...DEFAULT_SEO}/>
             <Component {...pageProps}/>
+            <SnackbarifyContainer/>
           </AuthorizationProvider>
         </ThemeProvider>
       </AuthenticationProvider>

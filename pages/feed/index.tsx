@@ -67,7 +67,16 @@ const Feed: NextPage = () => {
   const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({message:""});
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
-  const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
+
+  // const snackbar = useCallback(() => (
+  //   <Snackbar
+  //     message={snackbarProps.message}
+  //     type={snackbarProps?.type}
+  //     duration={4000}
+  //   />
+  // ),[snackbarProps.message, snackbarProps.type])
+
+  const {isSnackbarVisible, setIsSnackbarVisible} = useSnackbar(Snackbar,snackbarProps);
 
   const handleSnackbarShowClick = useCallback(() => {
     setIsSnackbarVisible(true);
@@ -221,22 +230,13 @@ const Feed: NextPage = () => {
     }
   },[updateTaskStatus,handleSnackbarShowClick])
 
-  const snackbar = useCallback(() => (
-    <Snackbar
-      message={snackbarProps.message}
-      type={snackbarProps?.type}
-      duration={4000}
-      onCloseClick={handleSnackbarHideClick}
-    />
-  ),[handleSnackbarHideClick,snackbarProps.message, snackbarProps.type])
-
   return (
     <LayoutMain>
-      <SnackbarifyContainer
+      {/* <SnackbarifyContainer
         visible={isSnackbarVisible}
         duration={4000}
         Snackbar={snackbar}
-      ></SnackbarifyContainer>
+      ></SnackbarifyContainer> */}
       <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
       <S.Visible>
         <Calendar
