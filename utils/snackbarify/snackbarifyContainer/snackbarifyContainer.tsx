@@ -4,9 +4,9 @@ import SnackbarifyPortal from "utils/portal";
 import {useSnackbar,visibleState} from "utils/snackbarify";
 
 export type SnackbarifyContainerProps = {
-  visible: visibleState,
+  visible?: visibleState,
   duration?:number,
-  Snackbar: React.ElementType
+  Snackbar?: React.ElementType
 }
 
 export const SnackbarifyContainer = ({
@@ -14,7 +14,7 @@ export const SnackbarifyContainer = ({
   duration=2500,
   Snackbar
 }:SnackbarifyContainerProps)=>{
-  const [isSnackbarVisible, setIsSnackbarVisible] = useSnackbar();
+  const {isSnackbarVisible, setIsSnackbarVisible} = useSnackbar();
   const [isSnackbarMount, setIsSnackbarMount] = useState(false);
 
   const timer = useRef<NodeJS.Timeout>();
@@ -28,18 +28,18 @@ export const SnackbarifyContainer = ({
   },[])
 
   useEffect(()=>{
-    setIsSnackbarVisible(visible.value);
+    // setIsSnackbarVisible(visible.value);
     
-    if(visible.value) setIsSnackbarMount(true);
+    if(isSnackbarVisible.value) setIsSnackbarMount(true);
 
     timer.current && clearTimeout(timer.current);
-    timer.current = visible.value
+    timer.current = isSnackbarVisible.value
       ? setTimeout(()=>{
-        setIsSnackbarVisible(false);
+        // setIsSnackbarVisible(false);
         handleUnmount();
       },snackbarDuration.current)
       : undefined;
-  },[setIsSnackbarVisible,visible,handleUnmount])
+  },[setIsSnackbarVisible,isSnackbarVisible,handleUnmount])
   
   return (
     <SnackbarifyPortal seletorId="root-snackbar">

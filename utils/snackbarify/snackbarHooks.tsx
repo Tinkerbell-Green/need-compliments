@@ -20,5 +20,5 @@ export const useSnackbar = (snackbar?:ElementType, options?:options)=>{
     }
   },[])
 
-  return [isSnackbarVisible, setIsSnackbarVisible] as const;
+  return {isSnackbarVisible, setIsSnackbarVisible};
 }
