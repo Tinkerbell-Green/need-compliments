@@ -40,7 +40,6 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
           <AuthorizationProvider>
             <DefaultSeo  {...DEFAULT_SEO}/>
             <Component {...pageProps}/>
-            <SnackbarifyContainer/>
           </AuthorizationProvider>
         </ThemeProvider>
       </AuthenticationProvider>
