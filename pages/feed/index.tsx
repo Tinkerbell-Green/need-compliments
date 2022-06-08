@@ -64,20 +64,23 @@ const Feed: NextPage = () => {
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
-  const [snackbarProps, setSnackbarProps] = useState<SnackbarProps>({message:""});
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
 
-  const {isSnackbarVisible, setIsSnackbarVisible, snackbarifyContainer} = useSnackbar(Snackbar,snackbarProps);
-
-  const handleSnackbarShowClick = useCallback(() => {
-    setIsSnackbarVisible(true);
-  }, [setIsSnackbarVisible]);
-
+  const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({message:"", isVisible: false})
+  const snackbarComponent = useCallback(()=> <Snackbar {...snackbarProps}></Snackbar>,[snackbarProps])
+  const {setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 2500);
+  
   const handleSnackbarHideClick = useCallback(() => {
-    setIsSnackbarVisible(false);
-  }, [setIsSnackbarVisible]);
-
+    setSnackbarProps((state)=>({...state, isVisible: false}))
+    setIsSnackbarVisible(false)
+  }, [setSnackbarProps,setIsSnackbarVisible]);
+  
+  const handleSnackbarChange = useCallback((newProps) => {
+    setSnackbarProps({...newProps, isVisible: true, onCloseClick:handleSnackbarHideClick})
+    setIsSnackbarVisible(true);
+  }, [setSnackbarProps,handleSnackbarHideClick,setIsSnackbarVisible]);
+  
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
     feedRef?.current?.scrollIntoView();
@@ -182,45 +185,41 @@ const Feed: NextPage = () => {
   
   useEffect(()=>{
     if(loggedInUserStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
+      handleSnackbarChange({
         message: LOGIN_ERROR,
         type: "error",
       })
-      handleSnackbarShowClick();
     }
-  },[loggedInUserStatus,handleSnackbarShowClick])
+  },[loggedInUserStatus,handleSnackbarChange])
 
   useEffect(()=>{
     if(getTasksByDaysStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
+      handleSnackbarChange({
         message: GET_TASKS_ERROR,
         type: "error",
       })
-      handleSnackbarShowClick()
     }
-  },[getTasksByDaysStatus,handleSnackbarShowClick])
+  },[getTasksByDaysStatus,handleSnackbarChange])
 
   useEffect(()=>{
     if(createTaskStatus===DataSagaStatus.FAILED 
       || updateTaskStatus===DataSagaStatus.FAILED 
       || deleteTaskStatus===DataSagaStatus.FAILED){
-      setSnackbarProps({
+      handleSnackbarChange({
         message: MODIFY_TASKS_ERROR,
         type: "error",
       })
-      handleSnackbarShowClick()
     }
-  },[createTaskStatus,updateTaskStatus,deleteTaskStatus,handleSnackbarShowClick])
+  },[createTaskStatus,updateTaskStatus,deleteTaskStatus,handleSnackbarChange])
 
   useEffect(()=>{
     if(updateTaskStatus===DataSagaStatus.SUCCEEDED){
-      setSnackbarProps({
+      handleSnackbarChange({
         message: UPDATE_TASKS_SUCCESS,
         type: "success",
       })
-      handleSnackbarShowClick()
     }
-  },[updateTaskStatus,handleSnackbarShowClick])
+  },[updateTaskStatus,handleSnackbarChange])
 
   return (
     <LayoutMain>

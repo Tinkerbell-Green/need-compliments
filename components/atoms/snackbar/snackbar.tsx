@@ -8,6 +8,7 @@ import {SnackbarType} from "stores/data/types";
 
 export type SnackbarProps = {
   children?: React.ReactNode,
+  isVisible:boolean,
   type?: SnackbarType,
   message: string,
   duration?:number,
@@ -40,6 +41,7 @@ const TYPE_MAP:Record<SnackbarType,Property> = {
 
 export const Snackbar = ({
   children,
+  isVisible,
   type="information",
   message="",
   duration,
@@ -58,7 +60,7 @@ export const Snackbar = ({
       </S.Contents>
       {children}
       {duration && <S.Progess>
-        <S.Bar duration={duration}></S.Bar>
+        <S.Bar duration={duration} isVisible={isVisible}></S.Bar>
       </S.Progess>}
     </S.Container>
   )

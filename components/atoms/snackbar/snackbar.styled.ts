@@ -12,13 +12,9 @@ justify-content: space-between;
 background-color: ${props => props.color};
 border-radius: ${BORDER_RADIUS};
 align-items: center;
-padding: 15px 30px;
+padding: 20px 13px;
 width:fit-content;
 height:fit-content;
-
-:focus-visible{
-	outline: 3px dotted #833AFC;
-}
 `;
 
 export const Contents = styled.div`
@@ -86,11 +82,12 @@ border-bottom-right-radius: ${BORDER_RADIUS};
 overflow: hidden;
 `;
 
-export const Bar = styled.div<{duration:number}>`
+export const Bar = styled.div<{duration:number,isVisible:boolean}>`
 width:100%;
 height: 100%;
 background-color: ${props => props.theme.colors["gray-100"]};
 ${progressStyled};
+animation-play-state: ${props => props.isVisible ? "running" : "paused"};
 animation-duration: ${props => props.duration}ms;
 `;
 

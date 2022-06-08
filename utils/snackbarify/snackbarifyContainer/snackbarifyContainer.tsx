@@ -22,8 +22,9 @@ export const SnackbarifyContainer = ({
         setIsSnackbarMount(false);
       },transitionDuration.current)
     }
-
-  },[visible])
+  },[visible.value])
+  // Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+  //   at SnackbarifyContainer (webpack-internal:///./utils/snackbarify/snackbarifyContainer/snackbarifyContainer.tsx:23:23)
   
   return (
     <SnackbarifyPortal seletorId="root-snackbar">
