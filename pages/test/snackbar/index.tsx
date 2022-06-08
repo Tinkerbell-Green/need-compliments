@@ -1,16 +1,16 @@
 import {NextPage} from "next";
-import {useCallback,useState} from "react";
+import {useCallback,useState,useEffect} from "react";
 import {Snackbar,SnackbarProps} from "components/atoms/snackbar";
 import {useSnackbar} from "utils/snackbarify/snackbarHooks";
 
 const SnackbarTestPage: NextPage = () => {
-  const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({message:"", isVisible: false})
+  const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({message:"", isVisible: false,duration: 3000})
 
-  const snackbarComponent = useCallback(()=>
-    (<Snackbar {...snackbarProps}></Snackbar>)
+  const snackbarComponent = useCallback(()=>{
+    return (<Snackbar {...snackbarProps}></Snackbar>)}
   ,[snackbarProps]);
   
-  const {setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 2500);
+  const {isSnackbarVisible, setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 3000);
 
   const handleSnackbarHideClick = useCallback(() => {
     setSnackbarProps((state)=>({...state, isVisible: false}))
@@ -18,10 +18,18 @@ const SnackbarTestPage: NextPage = () => {
   }, [setSnackbarProps,setIsSnackbarVisible]);
   
   const handleSnackbarChange = useCallback((newProps) => {
-    setSnackbarProps({...newProps, isVisible: true, onCloseClick:handleSnackbarHideClick})
+    setSnackbarProps((state)=>({...state,...newProps, isVisible: true, onCloseClick:handleSnackbarHideClick}))
     setIsSnackbarVisible(true);
   }, [setSnackbarProps,handleSnackbarHideClick,setIsSnackbarVisible]);
+
+  useEffect(() => {
+    if(!isSnackbarVisible.value){
+      handleSnackbarHideClick();
+    }
+  }, [isSnackbarVisible.value,handleSnackbarHideClick])
   
+
+
   return (
     <div style={{flexDirection:"column"}}>
       {snackbarifyContainer}
