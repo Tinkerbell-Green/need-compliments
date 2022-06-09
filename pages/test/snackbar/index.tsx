@@ -26,9 +26,15 @@ const SnackbarTestPage: NextPage = () => {
     setIsSnackbarVisible(true);
   }, [setSnackbarProps,handleSnackbarHideClick,setIsSnackbarVisible]);
 
-  return (
+  useEffect(()=>{
+    if(!isSnackbarVisible.value){
+      handleSnackbarHideClick();
+    }
+  },[isSnackbarVisible.value,handleSnackbarHideClick])
+
+  return (<>
+    {snackbarifyContainer}
     <div style={{flexDirection:"column"}}>
-      {snackbarifyContainer}
       <button style={{padding: "20px", textAlign: "left"}} 
         onClick={()=>handleSnackbarChange({message: "데이터가 성공적으로 저장저장 완료완료",type:"success"})}>
         ✅ Show Success
@@ -48,8 +54,8 @@ const SnackbarTestPage: NextPage = () => {
       <button style={{padding: "20px", textAlign: "left"}} onClick={handleSnackbarHideClick}>
 				Hide
       </button>
-      {snackbarifyContainer}
     </div>
+  </>
   );
 };
 
