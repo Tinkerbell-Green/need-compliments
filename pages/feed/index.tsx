@@ -13,7 +13,6 @@ import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
 import {useSnackbar} from "utils/snackbarify/snackbarHooks";
-import {SnackbarifyContainer} from "utils/snackbarify/snackbarifyContainer";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -69,7 +68,7 @@ const Feed: NextPage = () => {
 
   const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({message:"", isVisible: false})
   const snackbarComponent = useCallback(()=> <Snackbar {...snackbarProps}></Snackbar>,[snackbarProps])
-  const {setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 2500);
+  const {isSnackbarVisible, setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 2500);
   
   const handleSnackbarHideClick = useCallback(() => {
     setSnackbarProps((state)=>({...state, isVisible: false}))
@@ -80,6 +79,12 @@ const Feed: NextPage = () => {
     setSnackbarProps({...newProps, isVisible: true, onCloseClick:handleSnackbarHideClick})
     setIsSnackbarVisible(true);
   }, [setSnackbarProps,handleSnackbarHideClick,setIsSnackbarVisible]);
+
+  useEffect(()=>{
+    if(!isSnackbarVisible.value){
+      handleSnackbarHideClick();
+    }
+  },[isSnackbarVisible.value,handleSnackbarHideClick])
   
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
