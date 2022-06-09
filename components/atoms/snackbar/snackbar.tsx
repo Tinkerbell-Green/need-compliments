@@ -59,7 +59,7 @@ export const Snackbar = ({
         <S.Label>{message}</S.Label>
       </S.Contents>
       {children}
-      {duration && isVisible && 
+      {duration &&
       <S.Progess>
         <S.Bar duration={duration} isVisible={isVisible}></S.Bar>
       </S.Progess>}
