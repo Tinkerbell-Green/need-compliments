@@ -7,8 +7,8 @@ import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
 import {AuthenticationProvider} from "utils/authentication";
 import {AuthorizationProvider} from "utils/authorization";
+import {SnackbarifyProvider} from "utils/snackbarify/snackbarifyProvider"
 import "utils/firebase"; 
-import {SnackbarifyContainer} from "utils/snackbarify/snackbarifyContainer";
 
 const DEFAULT_SEO = {
   title: "칭찬이 필요해 | 나의 일상이 칭찬거리가 되는 선순환 커뮤니티",
@@ -34,15 +34,17 @@ const DEFAULT_SEO = {
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
     <SessionProvider session={session}>
-      <AuthenticationProvider>
-        <ThemeProvider theme={themes.dark}>
-          <GlobalStyle />
-          <AuthorizationProvider>
-            <DefaultSeo  {...DEFAULT_SEO}/>
-            <Component {...pageProps}/>
-          </AuthorizationProvider>
-        </ThemeProvider>
-      </AuthenticationProvider>
+      <SnackbarifyProvider>
+        <AuthenticationProvider>
+          <ThemeProvider theme={themes.dark}>
+            <GlobalStyle />
+            <AuthorizationProvider>
+              <DefaultSeo {...DEFAULT_SEO}/>
+              <Component {...pageProps}/>
+            </AuthorizationProvider>
+          </ThemeProvider>
+        </AuthenticationProvider>
+      </SnackbarifyProvider>
     </SessionProvider>
   );
 }

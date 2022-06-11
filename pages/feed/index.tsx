@@ -12,7 +12,7 @@ import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
-import {useSnackbar} from "utils/snackbarify/snackbarHooks";
+import {useSnackbar} from "utils/snackbarify/hook";
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;

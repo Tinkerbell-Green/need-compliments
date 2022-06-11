@@ -6,7 +6,7 @@ export type PortalProps= {
   seletorId:string
 }
 
-const Portal = ({children,seletorId}:PortalProps) => {
+export const Portal = ({children,seletorId}:PortalProps) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(()=>{
@@ -22,7 +22,5 @@ const Portal = ({children,seletorId}:PortalProps) => {
   
   return mounted
     ? createPortal(children, document.getElementById(seletorId)!)
-    : null;
+    : <></>;
 };
-
-export default Portal;

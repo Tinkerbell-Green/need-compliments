@@ -1,7 +1,7 @@
 import {NextPage} from "next";
 import {useCallback,useState,useEffect} from "react";
 import {Snackbar,SnackbarProps} from "components/atoms/snackbar";
-import {useSnackbar} from "utils/snackbarify/snackbarHooks";
+import {useSnackbar} from "utils/snackbarify/hook";
 
 const SnackbarTestPage: NextPage = () => {
   const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({

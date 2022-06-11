@@ -8,7 +8,7 @@ import {SnackbarType} from "stores/data/types";
 
 export type SnackbarProps = {
   children?: React.ReactNode,
-  isVisible:boolean,
+  isVisible?:boolean,
   type?: SnackbarType,
   message: string,
   duration?:number,
@@ -41,20 +41,20 @@ const TYPE_MAP:Record<SnackbarType,Property> = {
 
 export const Snackbar = ({
   children,
-  isVisible,
+  isVisible=false,
   type="information",
   message="",
   duration,
   onCloseClick,
 }:SnackbarProps)=>{
   return (
-    <S.Container color={TYPE_MAP[type].color}>
+    <S.Container color={TYPE_MAP[type]?.color}>
       {onCloseClick && <S.CloseButton onClick={onCloseClick}>
         <CloseOutline></CloseOutline>
       </S.CloseButton>}
       <S.Contents>
         <S.Icon>
-          {TYPE_MAP[type].icon}
+          {TYPE_MAP[type]?.icon}
         </S.Icon>
         <S.Label>{message}</S.Label>
       </S.Contents>
