@@ -60,13 +60,12 @@ const Feed: NextPage = () => {
   const pageAuthorId = useSelector(
     (state: RootState) => state.navigation.pageAuthorId
   );
+  const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
 
   const [tasks, setTasks] = useState<TaskData[]>(getTasksByDaysData || []);
   const [pickedDate,setPickedDate]=useState(Dayjs().format("DDMMYYYY"))
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
-
-  const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
   
   const handleSnackbarChange = useCallback((newProps?) => {
     setSnackbarProps((state)=>{

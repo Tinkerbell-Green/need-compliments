@@ -3,11 +3,13 @@ import React,{useCallback, useState,useMemo} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./feedItem.styled";
 import {Chip} from "components/atoms/chip";
+import {SnackbarProps} from "components/atoms/snackbar";
 import {IconHeart} from "components/moleculs/iconHeartBeat";
 import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
 import {ComplimentData} from "stores/data/types"
 import {RootState} from "stores/reducers"
 import {Dayjs} from "utils/dayjs"
+import {useSnackbarifyState} from "utils/snackbarify"
 
 type FeedItemProps = {
   task: TaskData,
@@ -15,6 +17,7 @@ type FeedItemProps = {
 }
 
 export const FeedItem = ({task, goal}: FeedItemProps) => {
+  const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
   const {status} = useSession()  
   const {fetch:getPublicTasksFetch} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
@@ -45,7 +48,9 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
 
   const handleClickedEmoji = useCallback((emoji:ComplimentData["type"])=>{
     if(status==="unauthenticated") {
-      alert("로그인하시면 칭찬을 표현할 수 있어요!")
+      const newProps:SnackbarProps = {message: "로그인 후 칭찬할 수 있습니다.",type:"information"};
+      setSnackbarProps(newProps);
+      setIsSnackbarVisible(true) ;
       return;
     }
 
@@ -62,7 +67,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
         type: emoji,
       }
     })
-  },[createComplimentFetch,handleDelete,task.id,status,complimented])  
+  },[createComplimentFetch,handleDelete,task.id,status,complimented,setSnackbarProps,setIsSnackbarVisible])  
 
   return (<>
     <li>
