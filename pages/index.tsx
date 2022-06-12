@@ -11,7 +11,7 @@ import {LayoutMain} from "components/templates/layout-main"
 import {useDataSaga, DataActionType} from "stores/data";
 
 const Home: NextPage = () => {
-  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
+  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
   const router = useRouter();
 
   useEffect(()=>{

@@ -10,8 +10,8 @@ import * as S from "styles/pages/test/feed-public.styled";
 
 const TestSsrPage: NextPage = ({}) => {
   const router = useRouter()
-  const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
-  const {data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
+  const {data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
+  const {data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS, [])
 
   const publicTasksAndGoals = useMemo(()=>{
     if(!getPublicTasksData || !getGoalsByIdsData) return;

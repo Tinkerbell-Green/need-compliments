@@ -17,11 +17,11 @@ export const SidebarSetting = ({
 }:SidebarSettingProps) => {
   const {
     data: loggedInUserData,
-  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, []);
   const {
     fetch: getGoalsFetch,
     data: getGoalsData,
-  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, []);
   
   const goals = useMemo(() => {
     return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);

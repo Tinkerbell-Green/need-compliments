@@ -11,7 +11,7 @@ export const Goals = () => {
   const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
 
   const {fetch: getGoalsFetch, data: getGoalsData} =
-    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+    useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, []);
 
   useEffect(() => {
     if (!loggedInUserId) return;

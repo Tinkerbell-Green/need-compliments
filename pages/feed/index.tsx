@@ -41,30 +41,30 @@ const Feed: NextPage = () => {
   const {
     data: loggedInUserData,
     status: loggedInUserStatus
-  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, []);
   const {
     fetch: getTasksByDaysFetch,
     status: getTasksByDaysStatus,
     data: getTasksByDaysData,
     refetch: getTasksByDaysRefetch,
-  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS);
+  } = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS, []);
   const {
     fetch: createTaskFetch, 
     status: createTaskStatus
-  } = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK);
+  } = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK, []);
   const {
     fetch: deleteTaskFetch, 
     status: deleteTaskStatus
-  } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK);
+  } = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK, []);
   const {
     fetch: updateTaskFetch, 
     status: updateTaskStatus
-  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK);
+  } = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK, []);
   const {
     fetch: getGoalsFetch, 
     data: getGoalsData,
     status: getGoalssStatus
-  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
+  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, []);
   const pageAuthorId = useSelector(
     (state: RootState) => state.navigation.pageAuthorId
   );
