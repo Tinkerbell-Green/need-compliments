@@ -58,7 +58,7 @@ export const ListItemRadio = <ValueType extends string>({
         )}
         <S.Label htmlFor={inputId}>{title}</S.Label>
       </S.RadioIconAndLabel>
-      <S.Input type="radio" id={inputId} name={name} value={value} checked={checked}/>
+      <S.Input type="radio" id={inputId} name={name} value={value} defaultChecked={checked}/>
     </S.RadioContainer>
   );
 };
