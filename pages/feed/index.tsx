@@ -12,7 +12,7 @@ import {SnackbarType,GoalColor} from "stores/data/types";
 import {RootState} from "stores/reducers";
 import * as S from "styles/pages/feed.styled";
 import {Dayjs} from "utils/dayjs";
-import {useSnackbar} from "utils/snackbarify/hook";
+import {useSnackbarifyState,Snackbarify} from "utils/snackbarify"
 
 export type ExpandedUserData = Pick<UserData, "name" | "email"> & {
 	follwersCount: number;
@@ -66,25 +66,17 @@ const Feed: NextPage = () => {
   const feedRef = useRef<HTMLElement>(null);
   const router = useRouter();
 
-  const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({message:"", isVisible: false})
-  const snackbarComponent = useCallback(()=> <Snackbar {...snackbarProps}></Snackbar>,[snackbarProps])
-  const {isSnackbarVisible, setIsSnackbarVisible,snackbarifyContainer} = useSnackbar(snackbarComponent, 2500);
+  const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
   
-  const handleSnackbarHideClick = useCallback(() => {
-    setSnackbarProps((state)=>({...state, isVisible: false}))
-    setIsSnackbarVisible(false)
-  }, [setSnackbarProps,setIsSnackbarVisible]);
-  
-  const handleSnackbarChange = useCallback((newProps) => {
-    setSnackbarProps({...newProps, isVisible: true, onCloseClick:handleSnackbarHideClick})
+  const handleSnackbarChange = useCallback((newProps?) => {
+    setSnackbarProps((state)=>{
+      const newState:SnackbarProps = state 
+        ? {...state,...newProps, onCloseClick: () => setIsSnackbarVisible(false)} 
+        : newProps;
+      return newState;
+    });
     setIsSnackbarVisible(true);
-  }, [setSnackbarProps,handleSnackbarHideClick,setIsSnackbarVisible]);
-
-  useEffect(()=>{
-    if(!isSnackbarVisible.value){
-      handleSnackbarHideClick();
-    }
-  },[isSnackbarVisible.value,handleSnackbarHideClick])
+  }, [setSnackbarProps,setIsSnackbarVisible]);
   
   const handleDateClick = useCallback((date:string)=>{
     setPickedDate(date);
@@ -228,7 +220,7 @@ const Feed: NextPage = () => {
 
   return (
     <LayoutMain>
-      {snackbarifyContainer}
+      <Snackbarify Snackbar={Snackbar}/>
       <Seo title={`${loggedInUserData?.name || ""} 피드`}></Seo>
       <S.Visible>
         <Calendar

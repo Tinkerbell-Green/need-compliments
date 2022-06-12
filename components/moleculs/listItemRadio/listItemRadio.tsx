@@ -1,9 +1,10 @@
 import {Book, BookHalf} from "@styled-icons/bootstrap";
-import {Book as BookClosed} from "@styled-icons/fa-solid";
+import {Book as BookClosed,BookDead} from "@styled-icons/fa-solid";
 import React, {useCallback} from "react";
 import * as S from "./listItemRadio.styled";
+import {GoalData} from "stores/data";
 
-export type PublicBookIcon = "public" | "protected" | "private" | null;
+export type PublicBookIcon = GoalData["readPermission"] | null;
 
 export type ListItemRadioProps<ValueType = string> = {
   name: string;
@@ -26,14 +27,14 @@ export const ListItemRadio = <ValueType extends string>({
     publicBookIcon: PublicBookIcon
   ): React.ReactNode | null => {
     switch (publicBookIcon) {
-    case "public": {
+    case "everyone": {
       return <Book />;
     }
-    case "protected": {
-      return <BookHalf />;
-    }
-    case "private": {
+    case "me": {
       return <BookClosed />;
+    }
+    case "none": {
+      return <BookDead />;
     }
     default: {
       return null;
