@@ -1,13 +1,13 @@
-import {useState,useCallback, ElementType} from "react";
+import {useState,useCallback} from "react";
 
 export type visibleState = {
   value: boolean
 }
 
-export const useSnackbarHooks = ()=>{
-  const [isSnackbarVisible,setIsVisible] = useState({value:false});
-  const [SnackbarComponent,setSnackbar] = useState<ElementType | undefined>();
-  const [snackbarDuration,setSnackbarDuration] = useState(2500);
+export const useSnackbarHooks = <snackbarPropsType extends {}>()=>{
+  const [isSnackbarVisible,setIsVisible] = useState<visibleState>({value:false});
+  const [snackbarDuration,setSnackbarDuration] = useState<number>(2500);
+  const [snackbarProps,setSnackbarProps] = useState<snackbarPropsType>();
 
   const setIsSnackbarVisible = useCallback((value?: boolean)=>{
     if(value){
@@ -19,8 +19,8 @@ export const useSnackbarHooks = ()=>{
 
   return {
     isSnackbarVisible, setIsSnackbarVisible,
-    snackbarDuration, setSnackbarDuration,
-    SnackbarComponent,setSnackbar,
+    snackbarDuration,setSnackbarDuration,
+    snackbarProps,setSnackbarProps,
   };
 }
 

@@ -1,28 +1,21 @@
 import {NextPage} from "next";
-import {useCallback,useState,useEffect,useContext} from "react";
+import {useCallback} from "react";
 import {Snackbar,SnackbarProps} from "components/atoms/snackbar"
-import {SnackbarifyContext,snackbarifyType,Snackbarify} from "utils/snackbarify";
+import {useSnackbarifyState,Snackbarify} from "utils/snackbarify";
 
 const SnackbarContextTestPage: NextPage = () => {
-  const {setIsSnackbarVisible, setSnackbar} = useContext(SnackbarifyContext) as snackbarifyType;
-
-  const [snackbarProps,setSnackbarProps] = useState<SnackbarProps>({
-    message:"처음정보정보", 
-    type: "information"
-  })
-
-  useEffect(()=>{
-    setSnackbar(()=><Snackbar {...snackbarProps}/>);
-  },[snackbarProps,setSnackbar,setIsSnackbarVisible]);
+  const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
   
-  const handleSnackbarChange = useCallback((newProps) => {
-    setSnackbarProps((state)=>({...state,...newProps}));
+  const handleSnackbarChange = useCallback((newProps?) => {
+    setSnackbarProps((state)=>{
+      const newState:SnackbarProps = state ? {...state,...newProps} : newProps;
+      return newState;
+    });
     setIsSnackbarVisible(true);
   }, [setSnackbarProps,setIsSnackbarVisible]);
 
   return (<>
-    <Snackbarify/>
-    {/* {Snackbarify()} */}
+    <Snackbarify Snackbar={Snackbar}/>
     <div style={{flexDirection:"column"}}>
       <button style={{padding: "20px", textAlign: "left"}} 
         onClick={()=>handleSnackbarChange({message: "데이터가 성공적으로 저장저장 완료완료",type:"success"})}>

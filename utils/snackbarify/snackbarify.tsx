@@ -1,7 +1,7 @@
-import {useState,useRef,useEffect,useContext, useCallback} from "react";
+import {useState,useRef,useEffect, useCallback,ElementType} from "react";
 import styled,{css} from "styled-components";
 import {Portal} from "utils/portal";
-import {SnackbarifyContext,snackbarifyType} from "utils/snackbarify"
+import {useSnackbarifyState} from "utils/snackbarify"
 
 const SnackbarifyStyled = styled.div<{isVisible:boolean, transitionDuration:number}>`
 position: fixed;
@@ -12,19 +12,22 @@ transition: all ${props=>props.transitionDuration}ms ease-in-out;
 ${props => props.isVisible 
     ? css`
     opacity: 1;
-    background-color: aqua;
     `
     : css`
     opacity: 0;
     `
 };`
 
-export const Snackbarify = ()=>{
-  const {isSnackbarVisible, 
-    setIsSnackbarVisible, 
-    snackbarDuration, 
-    SnackbarComponent
-  } = useContext(SnackbarifyContext) as snackbarifyType;
+type SnackbarifyProps = {
+  Snackbar: ElementType
+}
+
+export const Snackbarify = ({Snackbar}:SnackbarifyProps)=>{
+  const {
+    isSnackbarVisible, setIsSnackbarVisible,
+    snackbarDuration,
+    snackbarProps,
+  } = useSnackbarifyState();
   const [isSnackbarMount, setIsSnackbarMount] = useState(false);
   
   const transitionDuration = useRef<number>(500);
@@ -37,13 +40,12 @@ export const Snackbarify = ()=>{
         setIsSnackbarMount(false);
       },transitionDuration.current)
     }
-    console.log(show)
   },[])
 
   useEffect(()=>{
-    timer.current && clearTimeout(timer.current);
-    console.log(snackbarDuration)
     if(isSnackbarVisible.value) handleMount(true);
+    
+    timer.current && clearTimeout(timer.current);
     timer.current = isSnackbarVisible.value
       ? setTimeout(()=>{
         setIsSnackbarVisible(false);
@@ -58,13 +60,13 @@ export const Snackbarify = ()=>{
         isVisible={isSnackbarVisible.value}
         transitionDuration={transitionDuration.current}
         role="alert">
-        {isSnackbarMount &&
-        <div style={{backgroundColor:  "gold"}}>snackbarrrrr</div>
-          // <SnackbarComponent
-          //   key={Math.random()}
-          //   aria-live="assertive"
-          //   aria-atomic={true}
-          // ></SnackbarComponent>
+        {isSnackbarMount && Snackbar &&
+        <Snackbar
+          key={Math.random()}
+          aria-live="assertive"
+          aria-atomic={true}
+          {...snackbarProps}
+        ></Snackbar>
         }
       </SnackbarifyStyled>
     </Portal>
