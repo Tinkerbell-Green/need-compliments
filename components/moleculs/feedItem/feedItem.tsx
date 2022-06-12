@@ -48,7 +48,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
 
   const handleClickedEmoji = useCallback((emoji:ComplimentData["type"])=>{
     if(status==="unauthenticated") {
-      const newProps:SnackbarProps = {message: "로그인 후 칭찬할 수 있습니다.",type:"information"};
+      const newProps:SnackbarProps = {message: `로그인 후 "${task.title}" 를 칭찬할 수 있습니다.`,type:"information"};
       setSnackbarProps(newProps);
       setIsSnackbarVisible(true) ;
       return;
