@@ -26,17 +26,17 @@ export const GoalsForm = ({
     {
       value: "everyone",
       title: "전체공개",
-      publicBookIcon: "public",
+      publicBookIcon: "everyone",
     },
     {
       value: "me",
       title: "나만보기",
-      publicBookIcon: "private",
+      publicBookIcon: "me",
     },
     {
       value: "none",
       title: "숨기기",
-      publicBookIcon: "private",
+      publicBookIcon: "none",
     },
   ],[]);
 

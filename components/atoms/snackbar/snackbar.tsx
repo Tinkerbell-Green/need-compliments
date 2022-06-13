@@ -2,17 +2,17 @@ import {PatchCheckFill} from "@styled-icons/bootstrap";
 import {CloseOutline} from "@styled-icons/evaicons-outline";
 import {InfoOutline} from "@styled-icons/evaicons-outline";
 import {Warning} from "@styled-icons/fluentui-system-filled"
-import {ReactNode, useEffect,useRef} from "react";
+import {ReactNode} from "react";
 import * as S from "./snackbar.styled";
 import {SnackbarType} from "stores/data/types";
 
-type SnackbarProps = {
+export type SnackbarProps = {
   children?: React.ReactNode,
-  visible:boolean,
+  isVisible?:boolean,
   type?: SnackbarType,
   message: string,
   duration?:number,
-  onClose: ()=>void,
+  onCloseClick?: ()=>void,
 }
 
 type Property = {
@@ -41,40 +41,28 @@ const TYPE_MAP:Record<SnackbarType,Property> = {
 
 export const Snackbar = ({
   children,
+  isVisible=false,
   type="information",
-  visible,
-  message,
-  duration=3000,
-  onClose,
+  message="",
+  duration,
+  onCloseClick,
 }:SnackbarProps)=>{
-  const dialogRef = useRef<HTMLButtonElement>(null);
-  useEffect(()=>{
-    if(visible) dialogRef?.current?.focus();
-    else dialogRef?.current?.blur();
-    
-    visible && setTimeout(onClose,duration);
-  },[duration,visible,onClose])
-
   return (
-    <S.Container 
-      role="dialog"
-      ref={dialogRef}
-      tabIndex={-1}
-      isVisible={visible}
-      color={TYPE_MAP[type].color}
-      aria-label={message}>
-      <S.Icon>
-        {TYPE_MAP[type].icon}
-      </S.Icon>
-      <S.Label>{message}</S.Label>
-      <S.Button onClick={onClose}>
+    <S.Container color={TYPE_MAP[type]?.color}>
+      {onCloseClick && <S.CloseButton onClick={onCloseClick}>
         <CloseOutline></CloseOutline>
-      </S.Button>
+      </S.CloseButton>}
+      <S.Contents>
+        <S.Icon>
+          {TYPE_MAP[type]?.icon}
+        </S.Icon>
+        <S.Label>{message}</S.Label>
+      </S.Contents>
       {children}
+      {duration &&
       <S.Progess>
-        <S.Bar visible={visible} duration={duration}></S.Bar>
-      </S.Progess>
+        <S.Bar duration={duration} isVisible={isVisible}></S.Bar>
+      </S.Progess>}
     </S.Container>
-    
   )
 }

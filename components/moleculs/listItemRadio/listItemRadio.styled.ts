@@ -17,7 +17,7 @@ align-items: center;
 `
 
 export const PublicBookIconContainer = styled.div`
-width: 2rem;
+width: 1.5rem;
 padding: 0.2rem;
 margin-right: 0.5rem;
 `

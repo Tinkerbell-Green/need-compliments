@@ -7,6 +7,7 @@ import {GlobalStyle} from "styles/GlobalStyle";
 import {themes} from "styles/theme";
 import {AuthenticationProvider} from "utils/authentication";
 import {AuthorizationProvider} from "utils/authorization";
+import {SnackbarifyProvider} from "utils/snackbarify/snackbarifyProvider"
 import "utils/firebase"; 
 
 const DEFAULT_SEO = {
@@ -33,15 +34,17 @@ const DEFAULT_SEO = {
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
     <SessionProvider session={session}>
-      <AuthenticationProvider>
-        <ThemeProvider theme={themes.dark}>
-          <GlobalStyle />
-          <AuthorizationProvider>
-            <DefaultSeo  {...DEFAULT_SEO}/>
-            <Component {...pageProps}/>
-          </AuthorizationProvider>
-        </ThemeProvider>
-      </AuthenticationProvider>
+      <SnackbarifyProvider>
+        <AuthenticationProvider>
+          <ThemeProvider theme={themes.dark}>
+            <GlobalStyle />
+            <AuthorizationProvider>
+              <DefaultSeo {...DEFAULT_SEO}/>
+              <Component {...pageProps}/>
+            </AuthorizationProvider>
+          </ThemeProvider>
+        </AuthenticationProvider>
+      </SnackbarifyProvider>
     </SessionProvider>
   );
 }

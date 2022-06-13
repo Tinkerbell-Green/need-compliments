@@ -28,7 +28,6 @@ line-height: ${TODAY_CIRCLE_SIZE}rem;
 
 &.todayHighligh{
   justify-content: center;
-  position: sticky;
   border-radius: 50%;
   background-color: ${props => props.theme.colors["gray-700"]};
   }
