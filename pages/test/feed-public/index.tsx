@@ -1,15 +1,16 @@
 import type {NextPage} from "next"
 import React, {useEffect, useMemo} from "react"
+import {TaskData, GoalData} from "api"
 import {LayoutNavigation} from "components/templates/layout-navigation";
-import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 import * as S from "styles/pages/test/feed-public.styled";
 
 const TestFeedPublicPage: NextPage = () => {
-  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
-  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
+  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
+  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS, [])
 
   const taskGoalIdList = useMemo(()=>{
-    const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.map(item => item.goal));
+    const taskGoalIdList:Set<string> = new Set(getPublicTasksData?.tasks?.map(item => item.goal));
     return Array.from(taskGoalIdList);
   },[getPublicTasksData]);
 
@@ -18,8 +19,8 @@ const TestFeedPublicPage: NextPage = () => {
 
     const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
 
-    getPublicTasksData.forEach(task => {
-      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
+    getPublicTasksData.tasks.forEach(task => {
+      const goal = getGoalsByIdsData.goals.find(goal => task.goal === goal._id);
       // Filter out tasks whose goal was already removed.
       if(goal) publicTasksAndGoals.push({task,goal});
     });
@@ -61,7 +62,7 @@ const TestFeedPublicPage: NextPage = () => {
     <LayoutNavigation>
       <S.ListTask>
         {(publicTasksAndGoals || []).map(item => (
-          <S.ListItemTask key={item.task.id}>
+          <S.ListItemTask key={item.task._id}>
             <S.TitleTask>goal name: {item.goal?.name}</S.TitleTask>
             <S.IdTask>goal color: {item.goal?.color}</S.IdTask>
             <S.TitleTask>{item.task.title}</S.TitleTask>

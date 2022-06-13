@@ -1,14 +1,12 @@
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, ComplimentDocument} from "../types";
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {DataSagaStatus} from "../types";
+import {complimentsService} from "api";
 
 export function* createCompliment(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.CREATE_COMPLIMENT
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -19,29 +17,16 @@ export function* createCompliment(action: DataActionInstance<DataActionType.CREA
   );
 
   try {
-    const complimentDocument = {
-      ...payload.data,
-      author: payload.author,
-      updatedAt: new Date().getTime(),
-      createdAt: new Date().getTime(),
-    }
-
-    const createComplimentResponse: CreateDocumentData<ComplimentDocument> = yield call(
-      [repository, repository.createDocument],
-      {
-        path: "compliments",
-        data: complimentDocument
-      }
+    const response: Awaited<ReturnType<typeof complimentsService.createCompliment>> = yield call(
+      complimentsService.createCompliment,
+      payload.input
     );
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data: {
-          id: createComplimentResponse.id,
-          ...complimentDocument
-        }
+        data: response.data
       })
     ); 
 

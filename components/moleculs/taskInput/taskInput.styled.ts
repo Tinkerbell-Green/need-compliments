@@ -1,6 +1,6 @@
 import styled from "styled-components";
+import {GoalColor} from "api";
 import {Input as InputUnderline} from "components/atoms/inputUnderline/inputUnderline.styled";
-import {GoalColor} from "stores/data";
 
 export const FormContainer = styled.li`
 width:100%;

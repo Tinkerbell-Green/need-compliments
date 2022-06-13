@@ -5,12 +5,12 @@ import {useDataSaga, DataActionType, DataSagaStatus} from "stores/data";
 import * as S from "styles/pages/test/tasks.styled";
 
 const TestTasksPage: NextPage = () => {
-  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
-  const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS)
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
+  const {fetch: getTasksByDaysFetch, data: getTasksByDaysData, refetch: getTasksByDaysRefetch} = useDataSaga<DataActionType.GET_TASKS_BY_DAYS>(DataActionType.GET_TASKS_BY_DAYS, [])
   
-  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK)
-  const {fetch: updateTaskFetch, status: updateTaskStatus} = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK)
-  const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK)
+  const {fetch: createTaskFetch, status: createTaskStatus} = useDataSaga<DataActionType.CREATE_TASK>(DataActionType.CREATE_TASK, [])
+  const {fetch: updateTaskFetch, status: updateTaskStatus} = useDataSaga<DataActionType.UPDATE_TASK>(DataActionType.UPDATE_TASK, [])
+  const {fetch: deleteTaskFetch, status: deleteTaskStatus} = useDataSaga<DataActionType.DELETE_TASK>(DataActionType.DELETE_TASK, [])
 
   useEffect(()=>{
     getTasksByDaysFetch({
@@ -20,20 +20,23 @@ const TestTasksPage: NextPage = () => {
   },[getTasksByDaysFetch])
 
   const handleCreate = useCallback(()=>{
+    if (!loggedInUserData?.user.userId) return;
+    
     createTaskFetch({
-      data: {
+      input: {
+        author: loggedInUserData?.user.userId,
         title: "new task",
         goal: "goal1",
         doneAt: new Date().getTime(),
         readPermission: "everyone"
-      }
-    })
-  },[createTaskFetch])
+      },
+    });
+  },[createTaskFetch, loggedInUserData?.user.userId])
 
   const handleUpdate = useCallback((id: string)=>{
     updateTaskFetch({
-      pathSegments: [id],
-      data: {
+      id,
+      input: {
         title: "updated task",
       }
     })
@@ -41,7 +44,7 @@ const TestTasksPage: NextPage = () => {
 
   const handleDelete = useCallback((id: string)=>{
     deleteTaskFetch({
-      pathSegments: [id]
+      id
     })
   },[deleteTaskFetch])
 
@@ -68,12 +71,12 @@ const TestTasksPage: NextPage = () => {
       <S.Button onClick={handleCreate}>CREATE</S.Button>
 
       <S.ListTask>
-        {(getTasksByDaysData || []).map(item => (
-          <S.ListItemTask key={item.id}>
-            <S.IdTask>{item.id}</S.IdTask>
+        {(getTasksByDaysData?.tasks || []).map(item => (
+          <S.ListItemTask key={item._id}>
+            <S.IdTask>{item._id}</S.IdTask>
             <S.TitleTask>{item.title}</S.TitleTask>
-            <button onClick={()=>handleDelete(item.id)}>삭제</button>
-            <button onClick={()=>handleUpdate(item.id)}>업데이트</button>
+            <button onClick={()=>handleDelete(item._id)}>삭제</button>
+            <button onClick={()=>handleUpdate(item._id)}>업데이트</button>
           </S.ListItemTask>
         ))}
       </S.ListTask>

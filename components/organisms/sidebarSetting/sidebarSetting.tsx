@@ -17,25 +17,25 @@ export const SidebarSetting = ({
 }:SidebarSettingProps) => {
   const {
     data: loggedInUserData,
-  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA);
+  } = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, []);
   const {
     fetch: getGoalsFetch,
     data: getGoalsData,
-  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS);
-
+  } = useDataSaga<DataActionType.GET_GOALS>(DataActionType.GET_GOALS, []);
+  
   const goals = useMemo(() => {
-    const newGoals = getGoalsData || [];
-    newGoals.sort((a, b) => a.createdAt - b.createdAt);
-    return newGoals;
+    return (getGoalsData?.goals || []).sort((a, b) => a.createdAt - b.createdAt);
   }, [getGoalsData]);
 
-  const handleFriendClick = useCallback(()=>{
-    //
-  },[]);
-
   useEffect(()=>{
-    getGoalsFetch({})
-  },[getGoalsFetch])
+    if (!loggedInUserData?.user.userId) return;
+
+    getGoalsFetch({
+      input: {
+        author: loggedInUserData.user.userId
+      }
+    })
+  },[getGoalsFetch, loggedInUserData?.user.userId])
 
   return (
     <Sidebar onClose={onCloseMenu} isOpen={isMenuOpen}>
@@ -45,8 +45,8 @@ export const SidebarSetting = ({
         </Link>
       </S.Header>
       <S.Profile>
-        <S.Name>{loggedInUserData?.name}</S.Name>
-        <S.Email>{loggedInUserData?.email}</S.Email>
+        <S.Name>{loggedInUserData?.user?.name}</S.Name>
+        <S.Email>{loggedInUserData?.user?.email}</S.Email>
         {/* <S.FriendList onClick={handleFriendClick}>
           <S.Friend>{`${follwersCount} 팔로워`}</S.Friend>
           <S.Friend>{`${follwingsCount} 팔로워`}</S.Friend>
@@ -62,7 +62,7 @@ export const SidebarSetting = ({
         <S.GoalsContents>
           {goals.map((value)=>(
             <Chip 
-              key={value.id}
+              key={value._id}
               label={value.name}
               color={value.color}>
             </Chip>

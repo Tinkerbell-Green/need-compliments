@@ -4,8 +4,7 @@ import {HandThumbsUpFill,HeartFill} from "@styled-icons/bootstrap";
 import {Celebration} from "@styled-icons/material-rounded";
 import {ReactNode, useEffect} from "react";
 import * as S from "./iconHeartBeat.styled"
-import {GoalData} from "stores/data";
-import {ComplimentData} from "stores/data/types"
+import {ComplimentData} from "api"
 
 type IconHeartProps = {
   isVisible: boolean;

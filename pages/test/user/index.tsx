@@ -11,20 +11,20 @@ import * as S from "styles/pages/test/user.styled";
 const TestUserPage: NextPage = () => {
   const router = useRouter();
   const loggedInUserId = useSelector((state: RootState)=>state.navigation.loggedInUserId)
-  const {data: loggedInUserData, refetch: getLoggedInUserDataRefetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA)
+  const {data: loggedInUserData, refetch: getLoggedInUserDataRefetch} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
 
   const onSucceed = useCallback(()=>{
     getLoggedInUserDataRefetch()
   },[getLoggedInUserDataRefetch])
-  const {fetch: updateUserFetch, status: updateUserStatus} = useDataSaga<DataActionType.UPDATE_USER>(DataActionType.UPDATE_USER, {onSucceed})
-  const {fetch: deleteUserFetch, status: deleteUserStatus} = useDataSaga<DataActionType.DELETE_USER>(DataActionType.DELETE_USER)
+  const {fetch: updateUserFetch, status: updateUserStatus} = useDataSaga<DataActionType.UPDATE_USER>(DataActionType.UPDATE_USER, [], {onSucceed})
+  const {fetch: deleteUserFetch, status: deleteUserStatus} = useDataSaga<DataActionType.DELETE_USER>(DataActionType.DELETE_USER, [])
 
   const handleUpdate = useCallback(()=>{
     if (!loggedInUserId) return;
 
     updateUserFetch({
-      pathSegments: [loggedInUserId],
-      data: {
+      id: loggedInUserId,
+      input: {
         name: new Date().getSeconds().toString(),
       }
     })
@@ -34,7 +34,7 @@ const TestUserPage: NextPage = () => {
     if (!loggedInUserId) return;
 
     deleteUserFetch({
-      pathSegments: [loggedInUserId],
+      id: loggedInUserId,
     })
     
   },[loggedInUserId, deleteUserFetch])
@@ -52,7 +52,7 @@ const TestUserPage: NextPage = () => {
       <S.Button onClick={handleDelete}>DELETE</S.Button>
 
       <div>
-        <div>{loggedInUserData?.name}</div>
+        <div>{loggedInUserData?.user?.name}</div>
       </div>
     </LayoutNavigation>   
   )
