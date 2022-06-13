@@ -75,7 +75,7 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
         type: emoji,
       }
     })
-  },[createComplimentFetch,handleDelete,task,status,complimented,setSnackbarProps,setIsSnackbarVisible])  
+  },[createComplimentFetch,handleDelete,task,status,complimented,setSnackbarProps,setIsSnackbarVisible,loggedInUserId])  
 
   return (<>
     <li>

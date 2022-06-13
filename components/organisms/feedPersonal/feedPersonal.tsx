@@ -64,7 +64,7 @@ export const FeedPersonal = ({
                 label={goal.name}
                 color={goal.color}
                 icon={<Icon size={18}  color="gray" aria-label={"personal image"}>{ICON_MAP[goal.readPermission] || <BookDead/>}</Icon>}
-                onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
+                onAdd={()=>onTaskCreate(goal._id, goal.readPermission)}
               ></Chip>
               <ul>
                 {goalTasks[goal._id].map(({_id,title})=>(

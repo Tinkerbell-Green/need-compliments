@@ -9,7 +9,7 @@ import {Tabs} from "components/moleculs/tabs";
 import {FeedNotice} from "components/organisms/feedNotice";
 import {FeedPublic} from "components/organisms/feedPublic";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
 import {Snackbarify} from "utils/snackbarify"
 
 const Home: NextPage = () => {
