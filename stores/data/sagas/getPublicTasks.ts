@@ -25,6 +25,7 @@ export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PU
       end: payload.endTime.getTime(),
       combined: true
     }
+    if(payload.page) input.page = payload.page;
 
     const response: Awaited<ReturnType<typeof tasksService.getTasks>>  = yield call(
       tasksService.getTasks,

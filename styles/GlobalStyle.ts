@@ -48,6 +48,7 @@ export const GlobalStyle = createGlobalStyle`
     :focus-visible{
       outline: none;
     }
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   svg, path{

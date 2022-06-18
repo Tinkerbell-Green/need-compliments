@@ -231,7 +231,7 @@ const Feed: NextPage = () => {
   return (
     <LayoutMain>
       <Snackbarify Snackbar={Snackbar}/>
-      <Seo title={`${loggedInUserData?.user || ""} 피드`}></Seo>
+      <Seo title={`${loggedInUserData?.user.name || ""} 피드`}></Seo>
       <S.Visible>
         <Calendar
           pickedDate={pickedDate}

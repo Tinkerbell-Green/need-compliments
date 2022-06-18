@@ -119,6 +119,7 @@ export type DataActionPayload = {
   [DataActionType.GET_PUBLIC_TASKS]: Omit<SagaDataActionDefaultPayload, "author"> & {
     startTime: Date
     endTime: Date
+    page?:number
     merge?: Boolean
   }
   [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & { input: CreateTaskInput }
