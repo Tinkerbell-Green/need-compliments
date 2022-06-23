@@ -77,6 +77,8 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     })
   },[createComplimentFetch,handleDelete,task,status,complimented,setSnackbarProps,setIsSnackbarVisible,loggedInUserId])  
 
+  const handleAnimationHide = useCallback(()=>setIsClicked(false),[setIsClicked]);
+
   return (<>
     <li>
       <S.Item onDoubleClick={()=>handleClickedEmoji("red-heart")}>
@@ -113,6 +115,6 @@ export const FeedItem = ({task, goal}: FeedItemProps) => {
     {isClicked && <IconHeart
       isVisible={isClicked}
       emoji={clickedEmoji}
-      onHide={()=>setIsClicked(false)}></IconHeart>}
+      onHide={handleAnimationHide}></IconHeart>}
   </>);
 };
