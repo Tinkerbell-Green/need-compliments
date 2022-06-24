@@ -1,2 +1,2 @@
-export * as "./reactionButton"
-export * as "./reactionButton.styled"
+export * from "./reactionButton"
+export * from "./reactionButton.styled"
