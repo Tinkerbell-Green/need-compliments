@@ -1,120 +1,91 @@
 import {useSession} from "next-auth/react"
-import React,{useCallback, useState,useMemo} from "react";
+import React,{useCallback, useState,useMemo, useRef, memo} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./feedItem.styled";
 import {TaskData} from "api"
-import {ComplimentData, GoalData} from "api"
-import {Chip} from "components/atoms/chip";
+import {ComplimentData, GoalData,ComplimentType} from "api"
 import {SnackbarProps} from "components/atoms/snackbar";
-import {IconHeart} from "components/moleculs/iconHeartBeat";
-import {useDataSaga, DataActionType} from "stores/data";
-import {RootState} from "stores/reducers"
-import {Dayjs} from "utils/dayjs"
+import {FeedItemGoal} from "components/moleculs/feedItemGoal";
+import {FeedItemReactionList} from "components/moleculs/feedItemReactionList";
+import {FeedItemTask} from "components/moleculs/feedItemTask";
+import {FeedItemTime} from "components/moleculs/feedItemTime";
 import {useSnackbarifyState} from "utils/snackbarify"
 
 type FeedItemProps = {
   task: TaskData,
-  goal?: GoalData
+  goal?: GoalData,
+  loggedInUserId:string | null,
+  onComplimentCreate: (emoji: ComplimentType, taskId:string)=>void,
+  onComplimentDelete: (complimentId:string)=>void,
+  onAnimationShow:()=>void
 }
 
-export const FeedItem = ({task, goal}: FeedItemProps) => {
+const FeedItem = ({
+  task,
+  goal,
+  loggedInUserId,
+  onComplimentCreate,
+  onComplimentDelete,
+  onAnimationShow}: FeedItemProps) => {
   const {setIsSnackbarVisible,setSnackbarProps} = useSnackbarifyState();
-  const loggedInUserId = useSelector((state:RootState)=>state.navigation.loggedInUserId)
-  const {status} = useSession()  
-  const {fetch:getPublicTasksFetch} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
-  const onSucceed = useCallback(()=>{
-    getPublicTasksFetch({
-      startTime: new Date("1999-11-11"),
-      endTime: new Date("2222-11-11"),
-    })
-  },[getPublicTasksFetch])
-  const {fetch: createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, [task._id], {onSucceed})
-  const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT, [task._id], {onSucceed})
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [clickedEmoji, setClickedEmoji] = useState<ComplimentData["type"]>("red-heart");
-
-  const complimented = useMemo(()=>{
+  const clicked = useMemo(()=>{
     return task.compliments.find(compliment => compliment.author === loggedInUserId);
-  },[loggedInUserId,task.compliments])
+  },[task.compliments,loggedInUserId])
 
-  const handleDelete = useCallback(()=>{
-    if(!complimented) return;
-
-    deleteComplimentFetch({
-      id: complimented._id,
-    })
-  },[deleteComplimentFetch,complimented])
+  const handleSnackbarShow = useCallback(()=>{
+    setIsSnackbarVisible(true)
+  },[setIsSnackbarVisible])
 
   const handleClickedEmoji = useCallback((emoji:ComplimentData["type"])=>{
-    if(status==="unauthenticated") {
+    if(!loggedInUserId) {
       const newProps:SnackbarProps = {
         message: `로그인 후 "${task.title}" 를 칭찬할 수 있습니다.`,
         type:"information",
-        onCloseClick: () => setIsSnackbarVisible(false)
       };
       setSnackbarProps(newProps);
-      setIsSnackbarVisible(true) ;
+      handleSnackbarShow();
       return;
     }
 
-    if(complimented) {
-      handleDelete();
-      if(complimented.type === emoji) return;
+    if(clicked) {
+      onComplimentDelete(clicked._id);
+      if(clicked.type === emoji) return;
     }
 
-    setIsClicked(true)
-    setClickedEmoji(emoji);
-
-    if (!loggedInUserId) return;
-
-    createComplimentFetch({
-      input: {
-        author: loggedInUserId,
-        task: task._id,
-        type: emoji,
-      }
-    })
-  },[createComplimentFetch,handleDelete,task,status,complimented,setSnackbarProps,setIsSnackbarVisible,loggedInUserId])  
-
-  const handleAnimationHide = useCallback(()=>setIsClicked(false),[setIsClicked]);
+    onAnimationShow()
+    onComplimentCreate(emoji,task._id);
+    
+  },[onComplimentDelete,task,clicked,setSnackbarProps,handleSnackbarShow,onComplimentCreate,loggedInUserId,onAnimationShow])  
 
   return (<>
     <li>
-      <S.Item onDoubleClick={()=>handleClickedEmoji("red-heart")}>
-        <S.Goal><Chip label={goal?.name || ""} color={goal?.color}></Chip></S.Goal>
-        <S.Task>{task.title}</S.Task>
+      <S.Item>
+        <FeedItemGoal label={goal?.name || ""} color={goal?.color || "white"}></FeedItemGoal>
+        <FeedItemTask title={task.title}></FeedItemTask>
         <S.Info>
-          <S.ReactionList>
-            <S.Reaction 
-              onClick={()=>handleClickedEmoji("thumbs-up")} 
-              complimented={complimented?.type==="thumbs-up"}>
-              {"👍🏻"}
-            </S.Reaction>
-            <S.Reaction 
-              onClick={()=>handleClickedEmoji("clapping-hands")} 
-              complimented={complimented?.type==="clapping-hands"}>
-              {"👏🏻"}
-            </S.Reaction>
-            <S.Reaction 
-              onClick={()=>handleClickedEmoji("party-popper")} 
-              complimented={complimented?.type==="party-popper"}>
-              {"🎉"}
-            </S.Reaction>
-            <S.Reaction 
-              onClick={()=>handleClickedEmoji("red-heart")} 
-              complimented={complimented?.type==="red-heart"}>
-              {"❤️"}
-            </S.Reaction>
-            <S.Count>{task.compliments.length}</S.Count>
-          </S.ReactionList>
-          <S.Li>{Dayjs(task.createdAt).format("MM/DD HH:mm")}</S.Li>
+          <FeedItemReactionList
+            onEmojiClick={handleClickedEmoji}  
+            complimentsNumber={task.compliments.length}
+            clickedType={clicked ? clicked.type : null}
+          ></FeedItemReactionList>
+          <FeedItemTime time={task.createdAt}></FeedItemTime>
         </S.Info>
       </S.Item>
     </li>
-    {isClicked && <IconHeart
-      isVisible={isClicked}
-      emoji={clickedEmoji}
-      onHide={handleAnimationHide}></IconHeart>}
   </>);
 };
+
+FeedItem.displayName="FeedItem"
+
+const areEqual = (prevProps:FeedItemProps,nextProps:FeedItemProps)=>{
+  if(prevProps.loggedInUserId !== nextProps.loggedInUserId) return false;
+
+  const {loggedInUserId}=nextProps;
+  if(prevProps.task.compliments.find(compliment => compliment.author === loggedInUserId)?.type === nextProps.task.compliments.find(compliment => compliment.author === loggedInUserId)?.type){
+    return true;
+  }
+  return false;
+}
+
+export default memo(FeedItem,areEqual)

@@ -8,7 +8,6 @@ align-items: center;
 padding: 10px 5px;
 margin-top: 5px;
 border-radius: 5px;
-cursor: pointer;
 &:hover, &:focus{
   background:  #1a1a1a;
 }
