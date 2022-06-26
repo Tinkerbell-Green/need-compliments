@@ -1,11 +1,12 @@
+import {TaskData} from "api"
 import * as S from "components/moleculs/feedItem/feedItem.styled";
 
 type FeedItemTaskProps = {
-  title:string,
+  task: TaskData
 }
 
-export const FeedItemTask = ({title}:FeedItemTaskProps) => {
+export const FeedItemTask = ({task}:FeedItemTaskProps) => {
   return (
-    <S.Task>{title}</S.Task>
+    <S.Task>{task.title}</S.Task>
   )
 }
