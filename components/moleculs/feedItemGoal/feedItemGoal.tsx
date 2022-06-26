@@ -3,12 +3,11 @@ import {Chip} from "components/atoms/chip";
 import * as S from "components/moleculs/feedItem/feedItem.styled";
 
 type FeedItemGoalProps = {
-  label: string,
-  color: GoalData["color"]
+  goal: GoalData,
 }
 
-export const FeedItemGoal = ({label, color}:FeedItemGoalProps) => {
+export const FeedItemGoal = ({goal}:FeedItemGoalProps) => {
   return (
-    <S.Goal><Chip label={label} color={color}></Chip></S.Goal>
+    <S.Goal><Chip label={goal.name || ""} color={goal.color || "white"}></Chip></S.Goal>
   )
 }
