@@ -41,6 +41,10 @@ export const Info = styled.div`
 width:fit-content;
 justify-content: space-between;
 align-items: baseline;
+
+@media screen and (max-width: ${props => props.theme.media.md}px){
+  width: 100%;
+}
 `;
 
 export const ReactionList = styled.ul`
