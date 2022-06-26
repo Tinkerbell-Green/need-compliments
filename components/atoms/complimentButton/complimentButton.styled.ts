@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Reaction = styled.button<{clicked:boolean}>`
+export const Compliment = styled.button<{clicked:boolean}>`
 padding: 5px;
 border-radius: 5px;
 font-size: 1.25rem;

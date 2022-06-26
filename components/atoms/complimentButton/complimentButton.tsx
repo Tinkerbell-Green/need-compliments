@@ -1,11 +1,11 @@
 import React, {useCallback} from "react"
-import * as S from "./reactionButton.styled";
+import * as S from "./complimentButton.styled";
 import {ComplimentData} from "api"
 
-type ReactionButtonProps = {
+type ComplimentButtonProps = {
   type: ComplimentData["type"],
   clicked: boolean,
-  onClickEmoji: (emoji: ComplimentData["type"]) => void;
+  onClick: (type: ComplimentData["type"]) => void;
 }
 
 const COMPLIMENTS_ICON_MAP:Record<ComplimentData["type"],string>={
@@ -15,17 +15,17 @@ const COMPLIMENTS_ICON_MAP:Record<ComplimentData["type"],string>={
   "red-heart": "❤️"
 }
 
-export const ReactionButton = ({type,clicked,onClickEmoji}:ReactionButtonProps) => {
+export const ComplimentButton = ({type,clicked,onClick}:ComplimentButtonProps) => {
 
   const handleClickedEmoji=useCallback(()=>{
-    onClickEmoji(type);
-  },[onClickEmoji,type])
+    onClick(type);
+  },[onClick,type])
 
   return (
-    <S.Reaction
+    <S.Compliment
       onClick={handleClickedEmoji} 
       clicked={clicked}>
       {COMPLIMENTS_ICON_MAP[type]}
-    </S.Reaction>
+    </S.Compliment>
   )
 }
