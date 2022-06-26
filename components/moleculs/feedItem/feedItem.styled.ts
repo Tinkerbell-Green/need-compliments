@@ -47,12 +47,12 @@ align-items: baseline;
 }
 `;
 
-export const ReactionList = styled.ul`
+export const ComplimentList = styled.ul`
 display:flex;
 align-items: center;
 `;
 
-export const Reaction = styled.li<{complimented:boolean}>`
+export const Compliment = styled.li<{complimented:boolean}>`
 padding: 5px;
 border-radius: 5px;
 font-size: 1.25rem;
