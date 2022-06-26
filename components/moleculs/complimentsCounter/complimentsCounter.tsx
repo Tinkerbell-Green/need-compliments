@@ -1,12 +1,11 @@
-import {ComplimentData} from "api"
 import * as S from "components/moleculs/feedItem/feedItem.styled";
 
 type ComplimentsCounterProps = {
-  compliments: ComplimentData[],
+  complimentsCount: number,
 }
 
-export const ComplimentsCounter = ({compliments}:ComplimentsCounterProps) => {
+export const ComplimentsCounter = ({complimentsCount}:ComplimentsCounterProps) => {
   return (
-    <S.Count>{compliments.length}</S.Count>
+    <S.Count>{complimentsCount}</S.Count>
   )
 }
