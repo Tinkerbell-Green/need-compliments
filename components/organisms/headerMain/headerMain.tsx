@@ -1,16 +1,17 @@
 import {Menu} from "@styled-icons/boxicons-regular";
-import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useState,useCallback} from "react";
+import {useState,useCallback, memo,useMemo} from "react";
 import * as S from "./headerMain.styled";
 import {Icon} from "components/atoms/icon";
 import {Logo} from "components/atoms/logo";
 import {SidebarSetting} from "components/organisms/sidebarSetting";
+import {useDataSaga, DataActionType} from "stores/data";
 
-export const HeaderMain = () => {
+const HeaderMain = () => {
   const router = useRouter();
-  const {status} = useSession()
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
+  const loggedInUserId = useMemo(()=>loggedInUserData?.user.userId,[loggedInUserData]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleOpenMenu: React.MouseEventHandler = useCallback(() => {
     setIsMenuOpen(true);
@@ -26,8 +27,10 @@ export const HeaderMain = () => {
     <S.Header>
       <Logo/>
       <S.Nav>
-        <S.NavPart></S.NavPart>
-        {status==="authenticated" ? <S.NavPart>
+        <Link href={"/"} passHref>
+          <S.NavItem className={router.pathname==="/" ? "active" : ""}>홈</S.NavItem>
+        </Link>
+        {loggedInUserId ? <S.NavPart>
           <S.More>
             <Link href={"/feed"} passHref>
               <S.NavItem className={router.pathname.includes("/feed") ? "active" : ""}>내 피드</S.NavItem>
@@ -52,3 +55,6 @@ export const HeaderMain = () => {
     </S.Header>
   )
 };
+
+HeaderMain.displayName="HeaderMain"
+export default memo(HeaderMain)

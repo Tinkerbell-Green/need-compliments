@@ -3,32 +3,33 @@ import React,{useCallback, useEffect, useState} from "react";
 import * as S from "./tabs.styled";
 
 type TabsProps = {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  TAB_CONTENTS:string[],
 }
-const TAB_CONTENTS=["전체 글", "공지"];
 
-export const Tabs = ({children}:TabsProps)=>{
+export const Tabs = ({children,TAB_CONTENTS}:TabsProps)=>{
   const router = useRouter();
 
   useEffect(()=>{
     router.push({
-      query: {tab: 0}
-    });
+      query: {tab: TAB_CONTENTS[0]}
+    },undefined, {shallow: true});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const handleTabClick = useCallback((index:number, value:string)=>{
     router.push({
-      query: {tab: index}
-    });
-  },[router])
+      query: {tab: value}
+    },undefined, {shallow: true});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   return (
     <S.Tabs>
       {TAB_CONTENTS.map((value,index)=>
-        <S.Tab 
+        <S.Tab
           key={value}
-          clicked={router.query.tab === index.toString()}
+          clicked={router.query.tab === value}
           onClick={()=>handleTabClick(index,value)}>{value}
         </S.Tab>)}
       {children}

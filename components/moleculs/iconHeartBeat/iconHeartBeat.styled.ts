@@ -32,10 +32,7 @@ width: 120px;
 height: 120px;
 font-size: 120px;
 z-index: 2;
-color: white;
+color: #774ce0;
 visibility: hidden;
-/* ${props => props.isVisible && css`
-  ${heartBeatStyled};
-`}; */
 ${heartBeatStyled}
 `;
