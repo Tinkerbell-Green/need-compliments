@@ -151,7 +151,7 @@ const Feed: NextPage = () => {
   useEffect(()=>{
     if(!pageAuthorId) return;
     
-    router.push({
+    router.replace({
       query : {
         id:pageAuthorId,
         date:`${pickedDate}`,
