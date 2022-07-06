@@ -7,14 +7,14 @@ import {RootState} from "stores/reducers"
 
 export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   actionType: DataSagaActionType,
+  keys: string[],
   options: {
-    additionalKeys?: string[]
     onSucceed?: (data?: RootState["data"][DataSagaActionTypeT][string]["data"]) => void
     onFail?: () => void
   } = {}
 ) => { 
   const dispatch = useDispatch()
-  const {additionalKeys, onSucceed, onFail} = options
+  const {onSucceed, onFail} = options
 
   // pageAuthorId
   const pageAuthorId = useSelector((state:RootState)=>state.navigation.pageAuthorId)
@@ -31,14 +31,19 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
       return pageAuthorId
     }
     else {
-      return ""
+      return undefined
     }
   },[actionType, loggedInUserId, pageAuthorId])
 
+  const defaultFetchAuthorRef = useRef<typeof defaultFetchAuthor>(defaultFetchAuthor)
+  useEffect(()=>{
+    defaultFetchAuthorRef.current = defaultFetchAuthor
+  },[defaultFetchAuthor])
+
   // key
   const key = useMemo(()=>{
-    return [defaultFetchAuthor || "", ...(additionalKeys || [])].sort().join()
-  },[additionalKeys, defaultFetchAuthor])
+    return [defaultFetchAuthor || "", ...(keys || [])].sort().join()
+  },[keys, defaultFetchAuthor])
 
   const keyRef = useRef<typeof key>(key)
   useEffect(()=>{
@@ -57,7 +62,7 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   })
 
   // fetch
-  type FetchPartialPayload = Omit<Optional<DataActionPayload[DataSagaActionTypeT], "author">, "key">
+  type FetchPartialPayload = Omit<Omit<DataActionPayload[DataSagaActionTypeT], "author"> & { author?: undefined | string }, "key">
 
   const payloadRef = useRef(state?.payload)
   useEffect(()=>{
@@ -65,24 +70,38 @@ export const useDataSaga = <DataSagaActionTypeT extends DataSagaActionType>(
   },[state?.payload])
 
   const fetch = useCallback((partialPayload: FetchPartialPayload)=>{
-    if (!isNavigationInitialized) return;
+    if (actionType === DataActionType.GET_LOGGED_IN_USER_DATA){
+      dispatch(dataActionCreators[actionType]({
+        ...partialPayload,
+        key: keyRef.current,
+      } as any))
+  
+      dispatch(
+        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+          type: actionType,
+          key: keyRef.current,
+          payload: partialPayload
+        })
+      )
+    }
+    else if (isNavigationInitialized){
+      const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthorRef.current;
 
-    const author = partialPayload.author !== undefined ? partialPayload.author : defaultFetchAuthor;
-
-    dispatch(dataActionCreators[actionType]({
-      ...partialPayload,
-      author,
-      key,
-    } as any))
-
-    dispatch(
-      dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
-        type: actionType,
-        key,
-        payload: partialPayload
-      })
-    )
-  },[actionType, defaultFetchAuthor, dispatch, isNavigationInitialized, key])
+      dispatch(dataActionCreators[actionType]({
+        ...partialPayload,
+        author,
+        key: keyRef.current,
+      } as any))
+  
+      dispatch(
+        dataActionCreators[DataActionType.SET_DATA_PAYLOAD]({
+          type: actionType,
+          key: keyRef.current,
+          payload: partialPayload
+        })
+      )
+    }
+  },[actionType, dispatch, isNavigationInitialized])
 
   const refetch = useCallback((partialPartialPayload?: Partial<FetchPartialPayload>)=>{
     if (!payloadRef.current) return;

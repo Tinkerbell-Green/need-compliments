@@ -1,14 +1,12 @@
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {DataSagaStatus, GoalDocument} from "../types"; 
-import {Repository, CreateDocumentData} from "utils/firebase";
+import {DataSagaStatus} from "../types"; 
+import {goalsService} from "api";
 
 export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOAL>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.CREATE_GOAL
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -19,18 +17,11 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
   );
 
   try {
-    const document = {
-      ...payload.data, 
-      author: payload.author,
-      updatedAt: new Date().getTime(),
-      createdAt: new Date().getTime(),
-    }
-
-    const response: CreateDocumentData<GoalDocument> = yield call(
-      [repository, repository.createDocument],
+    const response: Awaited<ReturnType<typeof goalsService.createGoal>> = yield call(
+      goalsService.createGoal,
       {
-        path: "goals",
-        data: document
+        ...payload.input,
+        author: payload.author,
       }
     );
 
@@ -38,10 +29,7 @@ export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOA
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data: {
-          id: response.id,
-          ...document
-        }
+        data: response.data
       })
     ); 
 

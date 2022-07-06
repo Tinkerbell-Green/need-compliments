@@ -1,14 +1,12 @@
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
+import {complimentsService} from "api";
 import {DataSagaStatus} from "stores/data/types"; 
-import {Repository, DeleteDocumentData} from "utils/firebase";
 
 export function* deleteCompliment(action: DataActionInstance<DataActionType.DELETE_COMPLIMENT>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.DELETE_COMPLIMENT
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -19,12 +17,9 @@ export function* deleteCompliment(action: DataActionInstance<DataActionType.DELE
   );
 
   try {
-    const deleteComplimentResponse: DeleteDocumentData = yield call(
-      [repository, repository.deleteDocument],
-      {
-        path: "compliments",
-        pathSegments: payload.pathSegments
-      }
+    const response: Awaited<ReturnType<typeof complimentsService.deleteCompliment>> = yield call(
+      complimentsService.deleteCompliment,
+      payload.id
     );
 
     yield put(

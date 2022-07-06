@@ -1,7 +1,6 @@
 import styled,{css} from "styled-components";
 
 export const MenuOverlay = styled.div<{isVisible:boolean}>`
-  z-index: 10;
   position: fixed;
   top:0;
   left: 0;

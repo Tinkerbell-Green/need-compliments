@@ -1,20 +1,42 @@
-import React from "react";
-import * as S from "./feedPublic.styled";
+import React,{useCallback, useState} from "react";
+import {GetTasksData,ComplimentType} from "api"
 import {FeedItem} from "components/moleculs/feedItem"
-import {GoalData, TaskData} from "stores/data";
+import {IconHeart} from "components/moleculs/iconHeartBeat";
 
 type FeedPublicProps = {
-  tasksAndGoals: {task: TaskData, goal: GoalData}[];
+  tasks: GetTasksData["tasks"];
+  loggedInUserId:string | null,
+  onComplimentCreate: (emoji: ComplimentType, taskId:string)=>void,
+  onComplimentDelete: (complimentId:string)=>void,
 };
 
 export const FeedPublic = ({
-  tasksAndGoals,
+  tasks,
+  loggedInUserId,
+  onComplimentCreate,
+  onComplimentDelete
 }: FeedPublicProps) => {
+  const [isClicked, setIsClicked] = useState(false);
+  const handleAnimationHide = useCallback(()=>setIsClicked(false),[setIsClicked]);
+  const handleAnimationShow = useCallback(()=>setIsClicked(true),[setIsClicked]);
   return (
-    <S.Feed>
-      {(tasksAndGoals).map(item => (
-        <FeedItem key={item.task.id} task={item.task} goal={item.goal}></FeedItem>
-      ))}
-    </S.Feed>
+    <>
+      <ul>
+        {(tasks || []).map(item => (
+          <FeedItem 
+            key={item._id} 
+            task={item} 
+            goal={item.goalData}
+            loggedInUserId={loggedInUserId}
+            onComplimentCreate={onComplimentCreate}
+            onComplimentDelete={onComplimentDelete}
+            onAnimationShow={handleAnimationShow}
+          ></FeedItem>
+        ))}
+      </ul>
+      {isClicked && <IconHeart
+        isVisible={isClicked}
+        onHide={handleAnimationHide}></IconHeart>}
+    </>
   );
 };

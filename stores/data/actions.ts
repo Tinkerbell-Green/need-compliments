@@ -1,5 +1,6 @@
-import {ComplimentDocument, DataSagaStatus, GoalDocument, TaskDocument, UserDocument} from "./types";
-import {CreateDocumentArguments, DeleteDocumentArguments, UpdateDocumentArguments} from "utils/firebase";
+import {GetGoalsInput} from "./../../api/goals";
+import {DataSagaStatus} from "./types";
+import {CreateComplimentInput, CreateGoalInput, CreateTaskInput, CreateUserInput, UpdateGoalInput, UpdateTaskInput, UpdateUserInput} from "api";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",
@@ -51,34 +52,40 @@ export enum Authority {
 export const dataSagaAuthority:Record<DataSagaActionType, Authority> = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Authority.UNKNOWN,
   [DataActionType.UPDATE_USER]: Authority.AUTHOR,
+  [DataActionType.DELETE_USER]: Authority.AUTHOR,
+
   [DataActionType.GET_TASKS_BY_DAYS]: Authority.VIEWER,
   [DataActionType.GET_PUBLIC_TASKS]: Authority.UNKNOWN,
   [DataActionType.CREATE_TASK]: Authority.AUTHOR,
   [DataActionType.UPDATE_TASK]: Authority.AUTHOR,
   [DataActionType.DELETE_TASK]: Authority.AUTHOR,
+
   [DataActionType.GET_GOALS]: Authority.VIEWER,
   [DataActionType.GET_GOALS_BY_IDS]: Authority.UNKNOWN,
   [DataActionType.CREATE_GOAL]: Authority.AUTHOR,
   [DataActionType.UPDATE_GOAL]: Authority.AUTHOR,
   [DataActionType.DELETE_GOAL]: Authority.AUTHOR,
-  [DataActionType.DELETE_USER]: Authority.AUTHOR,
+  
   [DataActionType.CREATE_COMPLIMENT]: Authority.AUTHOR,
   [DataActionType.DELETE_COMPLIMENT]: Authority.AUTHOR,
 }
 export const dataSagaDefaultAuthor:Record<DataSagaActionType, "pageAuthor" | "loggedInUser" | "none" > = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: "none",
   [DataActionType.UPDATE_USER]: "loggedInUser",
+  [DataActionType.DELETE_USER]: "loggedInUser",
+
   [DataActionType.GET_TASKS_BY_DAYS]: "pageAuthor",
   [DataActionType.GET_PUBLIC_TASKS]: "none",
   [DataActionType.CREATE_TASK]: "loggedInUser",
   [DataActionType.UPDATE_TASK]: "loggedInUser",
   [DataActionType.DELETE_TASK]: "loggedInUser",
+
   [DataActionType.GET_GOALS]: "pageAuthor",
   [DataActionType.GET_GOALS_BY_IDS]: "none",
   [DataActionType.CREATE_GOAL]: "loggedInUser",
   [DataActionType.UPDATE_GOAL]: "loggedInUser",
   [DataActionType.DELETE_GOAL]: "loggedInUser",
-  [DataActionType.DELETE_USER]: "loggedInUser",
+
   [DataActionType.CREATE_COMPLIMENT]: "loggedInUser",
   [DataActionType.DELETE_COMPLIMENT]: "loggedInUser",
 }
@@ -100,59 +107,35 @@ export type DataActionPayload = {
     payload: any
   }
   // sagas
-  [DataActionType.GET_LOGGED_IN_USER_DATA]: SagaDataActionDefaultPayload & {
-    id: string
-    email: string | undefined
-    name: string | undefined
-    image: string | undefined
-  }
-  [DataActionType.UPDATE_USER]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<UserDocument, "createdAt" | "updatedAt" | "email">>, "path"> & {
-    }
+  [DataActionType.GET_LOGGED_IN_USER_DATA]: Omit<SagaDataActionDefaultPayload, "author"> & { input: CreateUserInput }
+  [DataActionType.UPDATE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string, input: UpdateUserInput }
+  [DataActionType.DELETE_USER]: Omit<SagaDataActionDefaultPayload, "author"> & { id: string }
+
   [DataActionType.GET_TASKS_BY_DAYS]: SagaDataActionDefaultPayload & {
     startDay: Date
     endDay: Date
     merge?: Boolean
   }
   [DataActionType.GET_PUBLIC_TASKS]: Omit<SagaDataActionDefaultPayload, "author"> & {
-    author: undefined,
     startTime: Date
     endTime: Date
+    page?:number
     merge?: Boolean
   }
-  [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<TaskDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & 
-    Omit<DeleteDocumentArguments, "path"> & {
-    }
-  [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & {
-    }
+  [DataActionType.CREATE_TASK]: SagaDataActionDefaultPayload & { input: CreateTaskInput }
+  [DataActionType.UPDATE_TASK]: SagaDataActionDefaultPayload & { id: string, input: UpdateTaskInput }
+  [DataActionType.DELETE_TASK]: SagaDataActionDefaultPayload & { id: string }
+  
+  [DataActionType.GET_GOALS]: SagaDataActionDefaultPayload & { input: GetGoalsInput }
   [DataActionType.GET_GOALS_BY_IDS]: Omit<SagaDataActionDefaultPayload, "author"> & {
-    author: undefined,
     ids: string[],
   }
-  [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.UPDATE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<UpdateDocumentArguments<Omit<GoalDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & 
-    Omit<DeleteDocumentArguments, "path"> & {
-    }
-  [DataActionType.DELETE_USER]: SagaDataActionDefaultPayload & 
-  Omit<DeleteDocumentArguments, "path"> & {
-    }
-  [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & 
-    Omit<CreateDocumentArguments<Omit<ComplimentDocument, "createdAt" | "updatedAt" | "author">>, "path"> & {
-    }
-  [DataActionType.DELETE_COMPLIMENT]: SagaDataActionDefaultPayload & 
-    Omit<DeleteDocumentArguments, "path"> & {
-    }
+  [DataActionType.CREATE_GOAL]: SagaDataActionDefaultPayload & { input: CreateGoalInput }
+  [DataActionType.UPDATE_GOAL]: SagaDataActionDefaultPayload & { id: string, input: UpdateGoalInput }
+  [DataActionType.DELETE_GOAL]: SagaDataActionDefaultPayload & { id: string }
+
+  [DataActionType.CREATE_COMPLIMENT]: SagaDataActionDefaultPayload & { input: CreateComplimentInput }
+  [DataActionType.DELETE_COMPLIMENT]: SagaDataActionDefaultPayload & { id: string }
 }
 
 export type SagaDataActionDefaultPayload = {
@@ -167,17 +150,20 @@ export const dataActionCreators = {
   // sagas
   [DataActionType.GET_LOGGED_IN_USER_DATA]: (payload: DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]) => ({type: DataActionType.GET_LOGGED_IN_USER_DATA, payload}), 
   [DataActionType.UPDATE_USER]: (payload: DataActionPayload[DataActionType.UPDATE_USER]) => ({type: DataActionType.UPDATE_USER, payload}),
+  [DataActionType.DELETE_USER]: (payload: DataActionPayload[DataActionType.DELETE_USER]) => ({type: DataActionType.DELETE_USER, payload}),
+
   [DataActionType.GET_TASKS_BY_DAYS]: (payload: DataActionPayload[DataActionType.GET_TASKS_BY_DAYS]) => ({type: DataActionType.GET_TASKS_BY_DAYS, payload}),
   [DataActionType.GET_PUBLIC_TASKS]: (payload: DataActionPayload[DataActionType.GET_PUBLIC_TASKS]) => ({type: DataActionType.GET_PUBLIC_TASKS, payload}),
   [DataActionType.CREATE_TASK]: (payload: DataActionPayload[DataActionType.CREATE_TASK]) => ({type: DataActionType.CREATE_TASK, payload}),
   [DataActionType.UPDATE_TASK]: (payload: DataActionPayload[DataActionType.UPDATE_TASK]) => ({type: DataActionType.UPDATE_TASK, payload}),
   [DataActionType.DELETE_TASK]: (payload: DataActionPayload[DataActionType.DELETE_TASK]) => ({type: DataActionType.DELETE_TASK, payload}),
+
   [DataActionType.GET_GOALS]: (payload: DataActionPayload[DataActionType.GET_GOALS]) => ({type: DataActionType.GET_GOALS, payload}),
   [DataActionType.GET_GOALS_BY_IDS]: (payload: DataActionPayload[DataActionType.GET_GOALS_BY_IDS]) => ({type: DataActionType.GET_GOALS_BY_IDS, payload}),
   [DataActionType.CREATE_GOAL]: (payload: DataActionPayload[DataActionType.CREATE_GOAL]) => ({type: DataActionType.CREATE_GOAL, payload}),
   [DataActionType.UPDATE_GOAL]: (payload: DataActionPayload[DataActionType.UPDATE_GOAL]) => ({type: DataActionType.UPDATE_GOAL, payload}),
   [DataActionType.DELETE_GOAL]: (payload: DataActionPayload[DataActionType.DELETE_GOAL]) => ({type: DataActionType.DELETE_GOAL, payload}),
-  [DataActionType.DELETE_USER]: (payload: DataActionPayload[DataActionType.DELETE_USER]) => ({type: DataActionType.DELETE_USER, payload}),
+  
   [DataActionType.CREATE_COMPLIMENT]: (payload: DataActionPayload[DataActionType.CREATE_COMPLIMENT]) => ({type: DataActionType.CREATE_COMPLIMENT, payload}),
   [DataActionType.DELETE_COMPLIMENT]: (payload: DataActionPayload[DataActionType.DELETE_COMPLIMENT]) => ({type: DataActionType.DELETE_COMPLIMENT, payload}),
 }

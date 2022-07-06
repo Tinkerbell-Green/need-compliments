@@ -1,12 +1,13 @@
 import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
-import React,{useMemo} from "react";
+import React,{useEffect, useMemo,ReactNode} from "react";
 import * as S from "./feedPersonal.styled";
+import {TaskData, GoalData} from "api"
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon"
 import {TaskInput} from "components/moleculs/taskInput"
-import {TaskData,GoalData} from "stores/data";
 import {Dayjs} from "utils/dayjs";
+import {useSnackbarifyState} from "utils/snackbarify"
 
 type FeedPersonalProps = {
   pickedDate:string,
@@ -17,6 +18,12 @@ type FeedPersonalProps = {
   onTaskUpdate:(id:string, text:string)=>void,
 };
 
+const ICON_MAP:Record<GoalData["readPermission"], ReactNode> = {
+  "everyone": <BookOpen/>,
+  "me": <BookClose/>,
+  "none":<BookDead/>
+}
+
 export const FeedPersonal = ({
   pickedDate,
   goalTasks,
@@ -25,7 +32,16 @@ export const FeedPersonal = ({
   onTaskCreate,
   onTaskUpdate
 }: FeedPersonalProps) => {
+  const {setSnackbarProps,setIsSnackbarVisible,setSnackbarDuration} = useSnackbarifyState();
   const isAddable = useMemo(()=>Dayjs(pickedDate,"DDMMYYYY").toNow().match(/전/g),[pickedDate]);
+
+  useEffect(() => {
+    if(!isAddable) return;
+
+    setSnackbarProps({message: "미래에 할 일 대신, 한 일을 기록해보세요!"});
+    setIsSnackbarVisible(true);
+    setSnackbarDuration(3500)
+  }, [setIsSnackbarVisible,setSnackbarProps,setSnackbarDuration,isAddable]);
 
   return (
     <S.Feed>
@@ -35,26 +51,26 @@ export const FeedPersonal = ({
       <S.FeedContents>
         {isAddable
           ? goals.map((goal) => (
-            <S.GoalAndInput key={goal.id}>
+            <S.GoalAndInput key={goal._id}>
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<Icon size={18} color="gray" aria-label={"personal image"}><BookClose /></Icon>}
+                icon={<Icon size={18} color="gray" aria-label={"personal image"}>{ICON_MAP[goal.readPermission] || <BookDead/>}</Icon>}
               ></Chip>
             </S.GoalAndInput>))
           : goals.map((goal) => (
-            <S.GoalAndInput key={goal.id}>
+            <S.GoalAndInput key={goal._id}>
               <Chip
                 label={goal.name}
                 color={goal.color}
-                icon={<Icon size={18}  color="gray" aria-label={"personal image"}><BookClose /></Icon>}
-                onAdd={()=>onTaskCreate(goal.id, goal.readPermission)}
+                icon={<Icon size={18}  color="gray" aria-label={"personal image"}>{ICON_MAP[goal.readPermission] || <BookDead/>}</Icon>}
+                onAdd={()=>onTaskCreate(goal._id, goal.readPermission)}
               ></Chip>
               <ul>
-                {goalTasks[goal.id].map(({id,title})=>(
+                {goalTasks[goal._id].map(({_id,title})=>(
                   <TaskInput 
-                    key={id} 
-                    id={id} 
+                    key={_id} 
+                    id={_id} 
                     color={goal.color} 
                     title={title} 
                     onTaskDelete={onTaskDelete}

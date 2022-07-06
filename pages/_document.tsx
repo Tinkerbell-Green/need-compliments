@@ -2,7 +2,15 @@ import Document, {Html, Head, Main, NextScript, DocumentContext} from "next/docu
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    const initialProps = await Document.getInitialProps(ctx)
+    const originalRenderPage = ctx.renderPage;
+    
+    ctx.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: (App) => App,
+        enhanceComponent: (Component) => Component,
+      })
+    
+    const initialProps = await Document.getInitialProps(ctx);
 
     return initialProps
   }
@@ -11,9 +19,9 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com"/> 
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={"true"}/> 
-          <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
+          <link rel="preconnect" href="//fonts.googleapis.com"/> 
+          <link rel="preconnect" href="//fonts.gstatic.com" crossOrigin={"true"}/> 
+          <link href="//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="prefetch" as="font" type="font/woff2" crossOrigin={"true"}/>
         </Head>
         <body>
           <Main />

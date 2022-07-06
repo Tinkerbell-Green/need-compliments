@@ -1,14 +1,12 @@
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types"; 
-import {Repository, DeleteDocumentData} from "utils/firebase";
+import {tasksService} from "api";
 
 export function* deleteTask(action: DataActionInstance<DataActionType.DELETE_TASK>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.DELETE_TASK
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -19,12 +17,9 @@ export function* deleteTask(action: DataActionInstance<DataActionType.DELETE_TAS
   );
 
   try {
-    const response: DeleteDocumentData = yield call(
-      [repository, repository.deleteDocument],
-      {
-        path: "tasks",
-        pathSegments: payload.pathSegments
-      }
+    const response: Awaited<ReturnType<typeof tasksService.deleteTask>> = yield call(
+      tasksService.deleteTask,
+      payload.id
     );
 
     yield put(

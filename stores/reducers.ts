@@ -23,7 +23,7 @@ const arrayMerge: MergeOptions["arrayMerge"] = (previousArray, incomingArray, op
   const resultArray: typeof previousArray = [...previousArray]
 
   incomingArray.forEach((incomingItem) => {
-    const prevItemIndex = previousArray.findIndex(previousItem => previousItem.id === incomingItem.id)
+    const prevItemIndex = previousArray.findIndex(previousItem => previousItem._id === incomingItem._id)
     if (prevItemIndex !== -1){
       resultArray[prevItemIndex] = merge(resultArray[prevItemIndex], incomingItem, options)
     }

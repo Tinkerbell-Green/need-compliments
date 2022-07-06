@@ -8,7 +8,6 @@ align-items: center;
 padding: 10px 5px;
 margin-top: 5px;
 border-radius: 5px;
-cursor: pointer;
 &:hover, &:focus{
   background:  #1a1a1a;
 }
@@ -42,14 +41,18 @@ export const Info = styled.div`
 width:fit-content;
 justify-content: space-between;
 align-items: baseline;
+
+@media screen and (max-width: ${props => props.theme.media.md}px){
+  width: 100%;
+}
 `;
 
-export const ReactionList = styled.ul`
+export const ComplimentList = styled.ul`
 display:flex;
 align-items: center;
 `;
 
-export const Reaction = styled.li<{complimented:boolean}>`
+export const Compliment = styled.li<{complimented:boolean}>`
 padding: 5px;
 border-radius: 5px;
 font-size: 1.25rem;

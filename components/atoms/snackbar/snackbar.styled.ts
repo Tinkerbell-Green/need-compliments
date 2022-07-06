@@ -2,24 +2,23 @@ import styled,{keyframes, css} from "styled-components";
 
 const ICON_NOTMAL_SIZE = 22;
 const ICON_SAMLL_SIZE = 16;
+const PROGRESS_HEIGHT="3px";
+const BORDER_RADIUS="4px";
 
-export const Container = styled.button<{color:string,isVisible:boolean}>`
-z-index:10;
-position: fixed;
-top: 8%;
-left: 50%;
+export const Container = styled.div<{color:string}>`
+position: relative;
 display: flex;
+justify-content: space-between;
 background-color: ${props => props.color};
-border-radius: 4px;
+border-radius: ${BORDER_RADIUS};
 align-items: center;
-padding: 15px 10px;
-transition: all 0.3s ease-out;
+padding: 20px 13px;
 width:fit-content;
-visibility: ${props=>props.isVisible ? "visible" : "hidden"};
-transform: ${props=>props.isVisible ? "translate(-50%, -50%);" : "translate(-50%, -300%);"};
-:focus-visible{
-  outline: none;
-  }
+height:fit-content;
+`;
+
+export const Contents = styled.div`
+align-items: center;
 `;
 
 export const Icon = styled.div`
@@ -42,13 +41,16 @@ font-size: 14px;
 }
 `;
 
-export const Button = styled.div`
+export const CloseButton = styled.button`
 width: ${ICON_NOTMAL_SIZE}px;
 height:${ICON_NOTMAL_SIZE}px;
+position: absolute;
+top: 3px;
+right: 3px;
 padding:0;
-margin: 0 5px;
 border-radius: 50%;
 cursor: pointer;
+
 @media (max-width: ${props => props.theme.media.md}px) {
 	width: ${ICON_NOTMAL_SIZE}px;
 	height:${ICON_SAMLL_SIZE}px;
@@ -70,20 +72,22 @@ animation: ${progress} linear;
 
 export const Progess = styled.div`
 position: absolute;
-top:0;
+top:100%;
 left:0;
 width:100%;
-height: 3px;
+transform: translateY(-${PROGRESS_HEIGHT});
+height: ${PROGRESS_HEIGHT};
+border-bottom-left-radius: ${BORDER_RADIUS};
+border-bottom-right-radius: ${BORDER_RADIUS};
 overflow: hidden;
 `;
 
-export const Bar = styled.div<{visible:boolean, duration:number}>`
+export const Bar = styled.div<{duration:number,isVisible:boolean}>`
 width:100%;
 height: 100%;
-border-top-left-radius: 4px;
-border-top-right-radius: 4px;
 background-color: ${props => props.theme.colors["gray-100"]};
-${props => props.visible && progressStyled}
+${progressStyled};
+animation-play-state: ${props => props.isVisible ? "running" : "paused"};
 animation-duration: ${props => props.duration}ms;
 `;
 

@@ -1,18 +1,49 @@
-import {chunk} from "lodash";
 import type {NextPage} from "next";
 import {useRouter} from "next/router";
-import React, {useMemo, useEffect} from "react";
+import React, {useMemo, useEffect,useCallback} from "react";
 import {Seo} from "components/atoms/seo";
+import {Snackbar} from "components/atoms/snackbar";
 import {Tabs} from "components/moleculs/tabs";
 import {FeedNotice} from "components/organisms/feedNotice";
 import {FeedPublic} from "components/organisms/feedPublic";
 import {LayoutMain} from "components/templates/layout-main"
-import {useDataSaga, DataActionType,TaskData,GoalData} from "stores/data";
+import {useDataSaga, DataActionType} from "stores/data";
+import {Snackbarify} from "utils/snackbarify"
+
+const TAB_CONTENTS=["All", "Notice"];
 
 const Home: NextPage = () => {
-  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS)
-  const {fetch: getGoalsByIdsFetch, data: getGoalsByIdsData} = useDataSaga<DataActionType.GET_GOALS_BY_IDS>(DataActionType.GET_GOALS_BY_IDS)
+  const {data: loggedInUserData} = useDataSaga<DataActionType.GET_LOGGED_IN_USER_DATA>(DataActionType.GET_LOGGED_IN_USER_DATA, [])
+  const loggedInUserId = useMemo(()=>loggedInUserData?.user.userId,[loggedInUserData]);
+
+  const {fetch: getPublicTasksFetch, data: getPublicTasksData} = useDataSaga<DataActionType.GET_PUBLIC_TASKS>(DataActionType.GET_PUBLIC_TASKS, [])
+  const onSucceed = useCallback(()=>{
+    getPublicTasksFetch({
+      startTime: new Date("1999-11-11"),
+      endTime: new Date("2222-11-11"),
+    })
+  },[getPublicTasksFetch])
+  const {fetch: createComplimentFetch} = useDataSaga<DataActionType.CREATE_COMPLIMENT>(DataActionType.CREATE_COMPLIMENT, [], {onSucceed})
+  const {fetch: deleteComplimentFetch} = useDataSaga<DataActionType.DELETE_COMPLIMENT>(DataActionType.DELETE_COMPLIMENT, [], {onSucceed})
   const router = useRouter();
+
+  const handleComplimentDelete = useCallback((taskId)=>{
+    deleteComplimentFetch({
+      id: taskId,
+    })
+  },[deleteComplimentFetch])
+
+  const handleComplimentCreate = useCallback((emoji,taskId)=>{
+    if (!loggedInUserId) return;
+
+    createComplimentFetch({
+      input: {
+        author: loggedInUserId,
+        task: taskId,
+        type: emoji,
+      }
+    })
+  },[createComplimentFetch,loggedInUserId])
 
   useEffect(()=>{
     getPublicTasksFetch({
@@ -21,44 +52,24 @@ const Home: NextPage = () => {
     })
   },[getPublicTasksFetch])
 
-  useEffect(()=>{
-    const tasksGoal = (getPublicTasksData || []).map(item => item.goal)
-
-    const goals = Array.from(new Set(tasksGoal))
-    const goalGroups = chunk(goals,10);
-
-    goalGroups.forEach(goals => {
-      getGoalsByIdsFetch({
-        ids: goals,
-      })
-    })
-  },[getGoalsByIdsFetch, getPublicTasksData])
-  
-  const tabIndex = useMemo(()=>{
+  const tabQuery = useMemo(()=>{
     return router.query.tab;
   },[router.query.tab])
 
-  const publicTasksAndGoals = useMemo(()=>{
-    if(!getPublicTasksData || !getGoalsByIdsData) return;
-
-    const publicTasksAndGoals:{task: TaskData, goal: GoalData}[] = [];
-
-    getPublicTasksData.forEach(task => {
-      const goal = getGoalsByIdsData.find(goal => task.goal === goal.id);
-      // Filter out tasks whose goal was already removed.
-      if(goal) publicTasksAndGoals.push({task,goal});
-    });
-
-    return publicTasksAndGoals.sort((a,b)=> b.task.createdAt - a.task.createdAt);
-  },[getPublicTasksData,getGoalsByIdsData]);
-
-  return (
+  return (<>
+    <Snackbarify Snackbar={Snackbar}/>
+    <Seo title={"칭찬 모아보기"}></Seo>
     <LayoutMain>
-      <Seo title={"전체 글"}></Seo>
-      <Tabs/>
-      {tabIndex==="0" && <FeedPublic tasksAndGoals={publicTasksAndGoals || []}/>}
-      {tabIndex==="1" && <FeedNotice/>}
+      <Tabs TAB_CONTENTS={TAB_CONTENTS}/>
+      {tabQuery===TAB_CONTENTS[0] 
+      && <FeedPublic 
+        tasks={getPublicTasksData?.tasks || []} 
+        loggedInUserId={loggedInUserId || null}
+        onComplimentCreate={handleComplimentCreate}
+        onComplimentDelete={handleComplimentDelete}/>}
+      {tabQuery===TAB_CONTENTS[1] && <FeedNotice/>}
     </LayoutMain>
+  </>
   );
 };
 

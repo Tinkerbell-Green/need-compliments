@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import * as S from "./goalsForm.styled";
+import {GoalColor, GoalData} from "api";
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";
 import {ListRadio, ListRadioProps} from "components/moleculs/listRadio";
-import {GoalColor, GoalData} from "stores/data";
 import {themes as T} from "styles/theme";
 
 type GoalsFormProps = {
@@ -26,23 +26,17 @@ export const GoalsForm = ({
     {
       value: "everyone",
       title: "전체공개",
-      publicBookIcon: "public",
+      publicBookIcon: "everyone",
     },
-    // WIP: revert when friend feature is ready
-    // {
-    //   id: 1,
-    //   title: "일부공개",
-    //   publicBookIcon: "protected",
-    // },
     {
       value: "me",
       title: "나만보기",
-      publicBookIcon: "private",
+      publicBookIcon: "me",
     },
     {
       value: "none",
       title: "숨기기",
-      publicBookIcon: "private",
+      publicBookIcon: "none",
     },
   ],[]);
 

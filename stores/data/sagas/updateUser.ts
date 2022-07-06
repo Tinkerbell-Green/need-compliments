@@ -1,14 +1,12 @@
-import {call, getContext, put} from "redux-saga/effects";
+import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types"; 
-import {Repository, UpdateDocumentData} from "utils/firebase";
+import {usersService} from "api";
 
 export function* updateUser(action: DataActionInstance<DataActionType.UPDATE_USER>) {
   const payload = action.payload  
   const sagaKey = payload.key
   const sagaDataActionType = DataActionType.UPDATE_USER
-
-  const repository: Repository = yield getContext("repository");
 
   yield put(
     dataActionCreators[DataActionType.SET_DATA_STATUS]({
@@ -19,29 +17,17 @@ export function* updateUser(action: DataActionInstance<DataActionType.UPDATE_USE
   );
 
   try {
-    const document = {
-      ...payload.data,
-      author: payload.author,
-      updatedAt: new Date().getTime(),
-    }
-    
-    const response: UpdateDocumentData = yield call(
-      [repository, repository.updateDocument],
-      {
-        path: "users",
-        pathSegments: payload.pathSegments,
-        data: document,
-      }
+    const response: Awaited<ReturnType<typeof usersService.updateUser>> = yield call(
+      usersService.updateUser,
+      payload.id,
+      payload.input
     );
 
     yield put(
       dataActionCreators[DataActionType.SET_DATA_DATA]({
         type: sagaDataActionType,
         key: sagaKey,
-        data: {
-          id: payload.pathSegments[0],
-          ...document
-        },
+        data: response.data
       })
     ); 
 
