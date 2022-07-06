@@ -51,7 +51,7 @@ export type CreateTaskData = {
 }
 
 export type GetTasksInput = {
-  readPermission: TaskData["readPermission"]
+  readPermission?: TaskData["readPermission"]
   combined: boolean
   page?: number
   start?: number

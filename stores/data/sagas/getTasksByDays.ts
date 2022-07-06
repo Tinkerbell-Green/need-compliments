@@ -20,7 +20,6 @@ export function* getTasksByDays(action: DataActionInstance<DataActionType.GET_TA
 
   try {
     const input: GetTasksInput = {
-      readPermission: "everyone",
       start: payload.startDay.getTime(),
       end: payload.endDay.getTime(),
       combined: true
