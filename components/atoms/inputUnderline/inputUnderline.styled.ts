@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {GoalColor} from "api";
+import {GoalColor} from "apis";
 
 export const Input = styled.input<{isUnderline:boolean,color:GoalColor}>`
 border-bottom: 1.5px solid transparent;

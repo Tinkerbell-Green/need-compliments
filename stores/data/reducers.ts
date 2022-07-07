@@ -1,7 +1,7 @@
 import {Action, handleActions} from "redux-actions";
 import {DataActionPayload, DataActionType} from "./actions";
 import {DataSagaState} from "./types";
-import {tasksService, usersService, ComplimentData, goalsService} from "api"
+import {tasksService, usersService, ComplimentData, goalsService} from "apis"
 
 export type State = {
   [DataActionType.GET_LOGGED_IN_USER_DATA]: Record<string, DataSagaState & {data: Awaited<ReturnType<typeof usersService.getUser>>["data"] | null, payload:DataActionPayload[DataActionType.GET_LOGGED_IN_USER_DATA]}>,

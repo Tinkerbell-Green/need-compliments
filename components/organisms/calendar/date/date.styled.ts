@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {GoalColor} from "api";
+import {GoalColor} from "apis";
 
 const TODAY_CIRCLE_SIZE = 1.8;
 const EMOJI_SIZE=14;

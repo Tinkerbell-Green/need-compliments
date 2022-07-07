@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {GoalColor} from "api";
+import {GoalColor} from "apis";
 import {Input as InputUnderline} from "components/atoms/inputUnderline/inputUnderline.styled";
 
 export const ButtonContainer = styled.div`

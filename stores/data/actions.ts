@@ -1,6 +1,6 @@
-import {GetGoalsInput} from "./../../api/goals";
+import {GetGoalsInput} from "../../apis/goals";
 import {DataSagaStatus} from "./types";
-import {CreateComplimentInput, CreateGoalInput, CreateTaskInput, CreateUserInput, UpdateGoalInput, UpdateTaskInput, UpdateUserInput} from "api";
+import {CreateComplimentInput, CreateGoalInput, CreateTaskInput, CreateUserInput, UpdateGoalInput, UpdateTaskInput, UpdateUserInput} from "apis";
 
 export enum DataActionType {
   SET_DATA_STATUS = "query/SET_DATA_STATUS",

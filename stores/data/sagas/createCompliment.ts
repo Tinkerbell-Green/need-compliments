@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types";
-import {complimentsService} from "api";
+import {complimentsService} from "apis";
 
 export function* createCompliment(action: DataActionInstance<DataActionType.CREATE_COMPLIMENT>) {
   const payload = action.payload  

@@ -1,7 +1,7 @@
 import React,{useCallback, memo} from "react";
 import * as S from "./feedItem.styled";
-import {TaskData} from "api"
-import {ComplimentData, GoalData,ComplimentType} from "api"
+import {TaskData} from "apis"
+import {ComplimentData, GoalData,ComplimentType} from "apis"
 import {FeedItemCompliment} from "components/moleculs/feedItemCompliment";
 import {FeedItemGoal} from "components/moleculs/feedItemGoal";
 import {FeedItemTask} from "components/moleculs/feedItemTask";

@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types";
-import {usersService} from "api"
+import {usersService} from "apis"
 
 export function* getLoggedInUserData(action: DataActionInstance<DataActionType.GET_LOGGED_IN_USER_DATA>) {
   const payload = action.payload  

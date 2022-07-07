@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import React, {useCallback, useEffect} from "react";
 import {useState} from "react";
 import {useSelector} from "react-redux";
-import {GoalData, GoalColor} from "api"
+import {GoalData, GoalColor} from "apis"
 import {Seo} from "components/atoms/seo";
 import {GoalsForm} from "components/organisms/goalsForm";
 import * as S from "components/organisms/goalsForm/goalsForm.styled";

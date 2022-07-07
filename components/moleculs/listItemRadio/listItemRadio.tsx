@@ -2,7 +2,7 @@ import {Book, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClosed,BookDead} from "@styled-icons/fa-solid";
 import React, {useCallback} from "react";
 import * as S from "./listItemRadio.styled";
-import {GoalData} from "api";
+import {GoalData} from "apis";
 
 export type PublicBookIcon = GoalData["readPermission"] | null;
 

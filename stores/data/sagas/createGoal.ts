@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types"; 
-import {goalsService} from "api";
+import {goalsService} from "apis";
 
 export function* createGoal(action: DataActionInstance<DataActionType.CREATE_GOAL>) {
   const payload = action.payload  

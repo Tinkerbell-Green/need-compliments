@@ -1,4 +1,4 @@
-import {GoalData} from "api"
+import {GoalData} from "apis"
 import {Chip} from "components/atoms/chip";
 import * as S from "components/moleculs/feedItem/feedItem.styled";
 

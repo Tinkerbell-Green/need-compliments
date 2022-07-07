@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {complimentsService} from "api";
+import {complimentsService} from "apis";
 import {DataSagaStatus} from "stores/data/types"; 
 
 export function* deleteCompliment(action: DataActionInstance<DataActionType.DELETE_COMPLIMENT>) {

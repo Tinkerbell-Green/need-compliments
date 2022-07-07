@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, {useEffect, useMemo, useState,ReactNode} from "react";
 import {useSelector} from "react-redux";
 import * as S from "./goals.styled";
-import {GoalData} from "api"
+import {GoalData} from "apis"
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon"
 import {SubHeadingSpan} from "components/atoms/subHeadingSpan";

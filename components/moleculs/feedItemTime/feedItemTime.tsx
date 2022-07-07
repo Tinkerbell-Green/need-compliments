@@ -1,4 +1,4 @@
-import {TaskData} from "api"
+import {TaskData} from "apis"
 import * as S from "components/moleculs/feedItem/feedItem.styled";
 import {Dayjs} from "utils/dayjs"
 

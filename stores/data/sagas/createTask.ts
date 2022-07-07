@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types"; 
-import {tasksService} from "api";
+import {tasksService} from "apis";
 
 export function* createTask(action: DataActionInstance<DataActionType.CREATE_TASK>) {
   const payload = action.payload  

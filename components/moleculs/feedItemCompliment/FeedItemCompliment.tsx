@@ -1,5 +1,5 @@
 import React,{useCallback, useState,useMemo} from "react";
-import {ComplimentData,ComplimentType} from "api"
+import {ComplimentData,ComplimentType} from "apis"
 import {ComplimentButton} from "components/atoms/complimentButton";
 import {SnackbarProps} from "components/atoms/snackbar";
 import {ComplimentsCounter} from "components/moleculs/complimentsCounter";

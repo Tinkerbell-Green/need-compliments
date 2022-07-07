@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
-import {goalsService} from "api";
+import {goalsService} from "apis";
 import {DataSagaStatus} from "stores/data/types"; 
 
 export function* deleteGoal(action: DataActionInstance<DataActionType.DELETE_GOAL>) {

@@ -1,5 +1,5 @@
 import React,{useCallback, useState} from "react";
-import {GetTasksData,ComplimentType} from "api"
+import {GetTasksData,ComplimentType} from "apis"
 import {FeedItem} from "components/moleculs/feedItem"
 import {IconHeart} from "components/moleculs/iconHeartBeat";
 

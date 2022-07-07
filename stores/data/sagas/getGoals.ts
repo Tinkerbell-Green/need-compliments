@@ -2,7 +2,7 @@ import {call, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
 import {DataSagaStatus} from "../types"; 
-import {GoalData, goalsService} from "api";
+import {GoalData, goalsService} from "apis";
 import {RootState} from "stores/reducers";
 
 export function* getGoals(action: DataActionInstance<DataActionType.GET_GOALS>) {

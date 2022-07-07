@@ -2,8 +2,8 @@ import type {NextPage} from "next";
 import {useRouter} from "next/router";
 import React, {useCallback, useState, useEffect,useMemo, useRef} from "react";
 import {useSelector} from "react-redux";
-import {UserData} from "api"
-import {TaskData, GoalData, GoalColor} from "api"
+import {UserData} from "apis"
+import {TaskData, GoalData, GoalColor} from "apis"
 import {Seo} from "components/atoms/seo";
 import {Snackbar,SnackbarProps} from "components/atoms/snackbar";
 import {Calendar} from "components/organisms/calendar"

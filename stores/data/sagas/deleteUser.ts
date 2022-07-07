@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {DataSagaStatus} from "../types";
-import {usersService} from "api";
+import {usersService} from "apis";
 
 export function* deleteUser(
   action:DataActionInstance<DataActionType.DELETE_USER>){

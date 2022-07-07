@@ -2,7 +2,7 @@ import {call, put, select} from "redux-saga/effects";
 import {dataActionCreators, DataActionInstance, DataActionType} from "../actions";
 import {State} from "../reducers";
 import {DataSagaStatus} from "../types"; 
-import {GetTasksInput, tasksService} from "api";
+import {GetTasksInput, tasksService} from "apis";
 import {RootState} from "stores/reducers";
 
 export function* getPublicTasks(action: DataActionInstance<DataActionType.GET_PUBLIC_TASKS>) {

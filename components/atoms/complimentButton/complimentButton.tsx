@@ -1,6 +1,6 @@
 import React, {useCallback} from "react"
 import * as S from "./complimentButton.styled";
-import {ComplimentData} from "api"
+import {ComplimentData} from "apis"
 
 type ComplimentButtonProps = {
   type: ComplimentData["type"],

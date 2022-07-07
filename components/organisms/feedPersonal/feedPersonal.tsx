@@ -2,7 +2,7 @@ import {Book as BookOpen, BookHalf} from "@styled-icons/bootstrap";
 import {Book as BookClose, BookDead} from "@styled-icons/fa-solid";
 import React,{useEffect, useMemo,ReactNode} from "react";
 import * as S from "./feedPersonal.styled";
-import {TaskData, GoalData} from "api"
+import {TaskData, GoalData} from "apis"
 import {Chip} from "components/atoms/chip";
 import {Icon} from "components/atoms/icon"
 import {TaskInput} from "components/moleculs/taskInput"
